@@ -1,0 +1,144 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backend.fullname" . }}
+  labels:
+    {{- include "backend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "backend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.backend.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "backend.labels" . | nindent 8 }}
+        {{- with .Values.backend.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.backend.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.backend.securityContext | nindent 12 }}
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            # Database
+            - name: "POSTGRES_SERVER"
+              value: {{ .Values.backend.postgresServer }}
+            - name: "POSTGRES_DB"
+              value: {{ .Values.backend.postgresDatabase }}
+            - name: "ANALYTICS_DB"
+              value: {{ .Values.analyticDatabase.name }}
+            - name: "ANALYTICS_SERVER"
+              value: {{ .Values.analyticDatabase.server }}
+            - name: "POSTGRES_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "backend.fullname" . }}
+                  key: postgres-user
+            - name: "POSTGRES_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "backend.fullname" . }}
+                  key: postgres-password
+            - name: "ANALYTICS_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "backend.fullname" . }}
+                  key: analytic-database-user
+            - name: "ANALYTICS_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "backend.fullname" . }}
+                  key: analytic-database-password
+            # Oauth
+            - name: "OAUTH_CLIENT_ID"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "backend.fullname" . }}
+                  key: oauth-client-id
+            - name: "OAUTH_CLIENT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "backend.fullname" . }}
+                  key: oauth-client-secret
+            - name: "OAUTH_DOMAIN"
+              value: {{ .Values.oauth.domain }}
+            - name: "OAUTH_AUDIENCE"
+              value: {{ .Values.backend.oauthAudience }}
+            - name: "OAUTH_JWKS_URL"
+              value: {{ .Values.oauth.jwksUrl }}
+            # Auth0
+            - name: "AUTH0_DATABASE_CONNECTION"
+              value: {{ .Values.backend.auth0DatabaseConnection }}
+            # Platform Services
+            - name: "TENANT_REGISTRY_URL"
+              value: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"
+            # Misc
+            - name: "ENV"
+              value: "prod"
+            - name: "SERVER_PORT"
+              value: "8080"
+            - name: "FORWARDED_ALLOW_IPS"
+              value: "*"
+            - name: "PROJECT_NAME"
+              value: "Backend"
+            - name: "DEVELOPMENT_MODE"
+              value: "false"
+            - name: "OPENAPI_URL_ENABLED"
+              value: "false"
+            {{- if .Values.backend.rootPath }}
+            - name: "ROOT_PATH"
+              value: {{ .Values.backend.rootPath }}
+            {{- end }}
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+          {{- with .Values.backend.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.backend.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.backend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.backend.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.backend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,169 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ingestionWorker.fullname" . }}
+  labels:
+    {{- include "ingestionWorker.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.ingestionWorker.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ingestionWorker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.ingestionWorker.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "ingestionWorker.labels" . | nindent 8 }}
+        {{- with .Values.ingestionWorker.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.ingestionWorker.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.ingestionWorker.securityContext | nindent 12 }}
+          image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.ingestionWorker.service.port }}
+              protocol: TCP
+          env:
+            # Database
+            - name: "POSTGRES_SERVER"
+              value: {{ .Values.analyticDatabase.server }}
+            - name: "POSTGRES_DB"
+              value: {{ .Values.analyticDatabase.name }}
+            - name: "POSTGRES_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ingestionWorker.fullname" . }}
+                  key: analytic-database-user
+            - name: "POSTGRES_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ingestionWorker.fullname" . }}
+                  key: analytic-database-password
+            # Oauth
+            - name: "OAUTH_DOMAIN"
+              value: {{ .Values.oauth.domain }}
+            - name: "OAUTH_CLIENT_ID"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ingestionWorker.fullname" . }}
+                  key: oauth-client-id
+            - name: "OAUTH_CLIENT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ingestionWorker.fullname" . }}
+                  key: oauth-client-secret
+            - name: "OAUTH_AUDIENCE"
+              value: {{ .Values.backend.oauthAudience }}
+            # Workers Settings
+            - name: "NUMBER_OF_WORKERS_INTERACTIONS"
+              value: {{ .Values.ingestionWorker.numWorkersInteractions | quote }}
+            - name: "NUMBER_OF_WORKERS_ACTIONS"
+              value: {{ .Values.ingestionWorker.numWorkersActions | quote }}
+            - name: "NUMBER_OF_WORKERS_FEEDBACK_ACTIONS"
+              value: {{ .Values.ingestionWorker.numWorkersFeedbackActions | quote }}
+            # Kafka Settings
+            - name: "KAFKA_BOOTSTRAP_SERVERS"
+              value: {{ .Values.kafka.bootstrapServers }}
+            - name: "KAFKA_SASL_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ingestionWorker.fullname" . }}
+                  key: kafka-sasl-password
+            - name: "KAFKA_SASL_USERNAME"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ingestionWorker.fullname" . }}
+                  key: kafka-sasl-username
+            - name: "SSL_CA_PATH"
+              value: "/etc/ssl/certs/ca-certificates.crt"
+            - name: "KAFKA_SOCKET_KEEPALIVE_ENABLED"
+              value: {{ .Values.kafka.socketKeepAliveEnabled | quote }}
+            # Kafka Topics
+            - name: "KAFKA_TOPIC_EVENTS_MAIN"
+              value: {{ .Values.kafka.topicEventsMain }}
+            - name: "KAFKA_TOPIC_EVENTS_RETRY_1"
+              value: {{ .Values.kafka.topicEventsRetry1 }}
+            - name: "KAFKA_TOPIC_EVENTS_RETRY_2"
+              value: {{ .Values.kafka.topicEventsRetry2 }}
+            - name: "KAFKA_TOPIC_EVENTS_RETRY_3"
+              value: {{ .Values.kafka.topicEventsRetry3 }}
+            - name: "KAFKA_TOPIC_EVENTS_DLQ"
+              value: {{ .Values.kafka.topicEventsDlq }}
+            # Kafka Consumer Groups
+            - name: "KAFKA_CONSUMER_GROUP_INTERACTIONS"
+              value: {{ .Values.kafka.consumerGroupInteractions }}
+            - name: "KAFKA_CONSUMER_GROUP_FEEDBACK_ACTIONS"
+              value: {{ .Values.kafka.consumerGroupFeedbackActions }}
+            - name: "KAFKA_CONSUMER_GROUP_ACTIONS"
+              value: {{ .Values.kafka.consumerGroupActions }}
+            - name: "KAFKA_CONSUMER_GROUP_TOPICS"
+              value: {{ .Values.kafka.consumerGroupTopics }}
+            # Platform Services
+            - name: "TENANT_REGISTRY_URL"
+              value: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"
+            # OpenAI
+            - name: "OPENAI_ORGANIZATION_ID"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ingestionWorker.fullname" . }}
+                  key: openai-organization-id
+            - name: "OPENAI_API_KEY"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ingestionWorker.fullname" . }}
+                  key: openai-api-key
+            # Misc
+            - name: "ENV"
+              value: "prod"
+            - name: "PROJECT_NAME"
+              value: "Ingestion Worker"
+            - name: "DEVELOPMENT_MODE"
+              value: "false"
+            - name: "TOUCH_EVERY_SECONDS"
+              value: "10"
+
+          livenessProbe:
+            exec:
+              command:
+                - python
+                - app/health_check.py
+                - "60" # max allowed stale seconds
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          resources:
+            {{- toYaml .Values.ingestionWorker.resources | nindent 12 }}
+          {{- with .Values.ingestionWorker.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.ingestionWorker.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.ingestionWorker.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.ingestionWorker.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.ingestionWorker.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

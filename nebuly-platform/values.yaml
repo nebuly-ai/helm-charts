@@ -1,0 +1,467 @@
+backend:
+  # -- The host of the PostgreSQL database used to store service's data.
+  postgresServer: ""
+  # -- The name of the PostgreSQL database used to store backend data (projects, settings, etc.).
+  postgresDatabase: "backend"
+  # -- The user for connecting to the database.
+  postgresUser: ""
+  # -- The password for the database user.
+  postgresPassword: ""
+
+  # -- The Client ID of the OAuth application linked with the Backend identity.
+  oauthClientId: ""
+  # -- The Client Secret of the OAuth application linked with the Backend identity.
+  oauthClientSecret: ""
+  # -- The audience of the OAuth application linked with the Backend identity.
+  oauthAudience: ""
+
+  # -- The name of the Auth0 Database Connection storing the users of the platform.
+  auth0DatabaseConnection: ""
+
+  # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
+  rootPath: ""
+
+  nameOverride: ""
+  fullnameOverride: ""
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-backend
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  podAnnotations: { }
+  podLabels: { }
+
+  podSecurityContext:
+    runAsNonRoot: true
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  # readOnlyRootFilesystem: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # Additional volumes on the output Deployment definition.
+  volumes: [ ]
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: [ ]
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    { }
+  #    limits:
+  #      memory: 256Mi
+  #    requests:
+  #      cpu: 100m
+  #      memory: 128Mi
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations:
+      { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: [ ]
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+
+
+frontend:
+  nameOverride: ""
+  fullnameOverride: ""
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-frontend
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  podAnnotations: { }
+  podLabels: { }
+
+  podSecurityContext:
+    { }
+  # fsGroup: 2000
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  # readOnlyRootFilesystem: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # Additional volumes on the output Deployment definition.
+  volumes: [ ]
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: [ ]
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    { }
+  #    limits:
+  #      memory: 256Mi
+  #    requests:
+  #      cpu: 100m
+  #      memory: 128Mi
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations:
+      { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: [ ]
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+
+
+eventIngestion:
+  # -- The Client ID of the OAuth application linked with the Backend identity.
+  oauthClientId: ""
+  # -- The Client Secret of the OAuth application linked with the Backend identity.
+  oauthClientSecret: ""
+
+  # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
+  rootPath: ""
+
+  nameOverride: ""
+  fullnameOverride: ""
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  podAnnotations: { }
+  podLabels: { }
+
+  podSecurityContext:
+    { }
+  # fsGroup: 2000
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  # readOnlyRootFilesystem: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # Additional volumes on the output Deployment definition.
+  volumes: [ ]
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: [ ]
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    { }
+  #    limits:
+  #      memory: 256Mi
+  #    requests:
+  #      cpu: 100m
+  #      memory: 128Mi
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations:
+      { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: [ ]
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+
+
+ingestionWorker:
+  # -- The Client ID of the OAuth application linked with the Backend identity.
+  oauthClientId: ""
+  # -- The Client Secret of the OAuth application linked with the Backend identity.
+  oauthClientSecret: ""
+
+  # -- The number of workers (e.g. coroutines) used to process interactions.
+  numWorkersInteractions: 20
+  # -- The number of workers (e.g. coroutines) used to process actions.
+  numWorkersActions: 10
+  # -- The number of workers (e.g. coroutines) used to process feedback actions.
+  numWorkersFeedbackActions: 10
+
+  nameOverride: ""
+  fullnameOverride: ""
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  podAnnotations: { }
+  podLabels: { }
+
+  podSecurityContext:
+    { }
+  # fsGroup: 2000
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  # readOnlyRootFilesystem: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # Additional volumes on the output Deployment definition.
+  volumes: [ ]
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: [ ]
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    { }
+  #    limits:
+  #      memory: 1512Mi
+  #    requests:
+  #      cpu: 500m
+  #      memory: 1024Mi
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+
+
+tenantRegistry:
+  # -- The host of the PostgreSQL database used to store service's data.
+  postgresServer: ""
+  # -- The name of the PostgreSQL database used to store service's data.
+  postgresDatabase: "tenant-registry"
+  # -- The user for connecting to the database.
+  postgresUser: ""
+  # -- The password for the database user.
+  postgresPassword: ""
+
+
+  nameOverride: ""
+  fullnameOverride: ""
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  podAnnotations: { }
+  podLabels: { }
+
+  podSecurityContext:
+    { }
+  # fsGroup: 2000
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  # readOnlyRootFilesystem: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # Additional volumes on the output Deployment definition.
+  volumes: [ ]
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: [ ]
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    { }
+  #    limits:
+  #      memory: 256Mi
+  #    requests:
+  #      cpu: 100m
+  #      memory: 128Mi
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
+
+
+
+nameOverride: ""
+
+imagePullSecrets: [ ]
+# - name: my-secret-name
+
+secretsStore:
+  # -- The kind of Secret Store used to store the secrets.
+  # -- Supported values: "database", "azure_keyvault"
+  kind: "database"
+  # Azure Secret Store configuration. Required only if kind is "azure_keyvault".
+  azure:
+    # -- The URL of the Azure Key Vault storing the Tenant Registry secrets.
+    keyVaultUrl: ""
+    # -- The Application ID of the Azure AD application used to access the Azure Key Vault.
+    clientId: ""
+    # -- The Application Secret of the Azure AD application used to access the Azure Key Vault.
+    clientSecret: ""
+    # -- The ID of the Azure Tenant where the Azure Key Vault is located.
+    tenantId: ""
+
+analyticDatabase:
+  # -- The host of the database used to store analytic data.
+  server: ""
+  # -- The name of the database used to store analytic data (interactions, actions, etc.).
+  name: "analytics"
+  # -- The user for connecting to the database.
+  user: ""
+  # -- The password for the database user.
+  password: ""
+
+kafka:
+  # -- Comma separated list of Kafka brokers.
+  bootstrapServers: ""
+  # -- The username for connecting to the Kafka cluster with the method SASL/PLAIN.
+  saslUsername: ""
+  # -- The password for connecting to the Kafka cluster with the method SASL/PLAIN.
+  saslPassword: ""
+  # -- If true, the Kafka clients will use the keep alive feature.
+  socketKeepAliveEnabled: true
+  # -- The name of the main Kafka topic used to store events (e.g. interactions)
+  topicEventsMain: "events-main"
+  # -- The name of the Kafka topic used to retry events that failed processing.
+  topicEventsRetry1: "events-retry-1"
+  # -- The name of the Kafka topic used to retry events that failed processing (backoff 2).
+  topicEventsRetry2: "events-retry-2"
+  # -- The name of the Kafka topic used to retry events that failed processing (backoff 3).
+  topicEventsRetry3: "events-retry-3"
+  # -- The name of the Kafka topic used as dead letter queue.
+  topicEventsDlq: "events-dlq"
+  # -- The name of the main Kafka consumer group processing interactions.
+  consumerGroupInteractions: "interactions-worker"
+  # -- The name of the main Kafka consumer group processing feedback actions.
+  consumerGroupFeedbackActions: "feedback-actions-worker"
+  # -- The name of the main Kafka consumer group processing actions.
+  consumerGroupActions: "actions-worker"
+  # -- The name of the main Kafka consumer group processing topics.
+  consumerGroupTopics: "topics-worker"
+
+
+oauth:
+  # -- The OAuth domain name
+  domain: ""
+  # -- The URL for fetching the keys for validating the JWT tokens.
+  jwksUrl: ""
+
+openai:
+  # -- The OpenAI organization ID.
+  organizationId: ""
+  # -- The OpenAI API key.
+  apiKey: ""

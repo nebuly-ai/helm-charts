@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "eventIngestion.fullname" . }}
+  labels:
+    {{- include "eventIngestion.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.eventIngestion.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "eventIngestion.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.eventIngestion.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "eventIngestion.labels" . | nindent 8 }}
+        {{- with .Values.eventIngestion.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.eventIngestion.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.eventIngestion.securityContext | nindent 12 }}
+          image: "{{ .Values.eventIngestion.image.repository }}:{{ .Values.eventIngestion.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.eventIngestion.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            # Kafka settings
+            - name: "KAFKA_BOOTSTRAP_SERVERS"
+              value: {{ .Values.kafka.bootstrapServers }}
+            - name: "KAFKA_SASL_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "eventIngestion.fullname" . }}
+                  key: kafka-sasl-password
+            - name: "KAFKA_SASL_USERNAME"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "eventIngestion.fullname" . }}
+                  key: kafka-sasl-username
+            - name: "SSL_CA_PATH"
+              value: "/etc/ssl/certs/ca-certificates.crt"
+            - name: "KAFKA_SOCKET_KEEPALIVE_ENABLED"
+              value: {{ .Values.kafka.socketKeepAliveEnabled  | quote }}
+            # Kafka topics
+            - name: "KAFKA_TOPIC_EVENTS_MAIN"
+              value: {{ .Values.kafka.topicEventsMain }}
+            # Identity
+            - name: "OAUTH_DOMAIN"
+              value: {{ .Values.oauth.domain }}
+            - name: "OAUTH_AUDIENCE"
+              value: {{ .Values.backend.oauthAudience }}
+            - name: "OAUTH_CLIENT_ID"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "eventIngestion.fullname" . }}
+                  key: oauth-client-id
+            - name: "OAUTH_CLIENT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "eventIngestion.fullname" . }}
+                  key: oauth-client-secret
+            # Platform Services
+            - name: "TENANT_REGISTRY_URL"
+              value: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"
+            # Misc
+            - name: "ENV"
+              value: "prod"
+            - name: "SERVER_PORT"
+              value: "8080"
+            - name: "FORWARDED_ALLOW_IPS"
+              value: "*"
+            - name: "PROJECT_NAME"
+              value: "Event Ingestion"
+            - name: "DEVELOPMENT_MODE"
+              value: "false"
+            {{- if .Values.eventIngestion.rootPath }}
+            - name: "ROOT_PATH"
+              value: {{ .Values.eventIngestion.rootPath }}
+            {{- end }}
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.eventIngestion.resources | nindent 12 }}
+          {{- with .Values.eventIngestion.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.eventIngestion.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.eventIngestion.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.eventIngestion.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.eventIngestion.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

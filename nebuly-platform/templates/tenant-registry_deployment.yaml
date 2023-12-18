@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tenantRegistry.fullname" . }}
+  labels:
+    {{- include "tenantRegistry.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.tenantRegistry.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "tenantRegistry.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.tenantRegistry.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "tenantRegistry.labels" . | nindent 8 }}
+        {{- with .Values.tenantRegistry.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.tenantRegistry.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.tenantRegistry.securityContext | nindent 12 }}
+          image: "{{ .Values.tenantRegistry.image.repository }}:{{ .Values.tenantRegistry.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.tenantRegistry.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            # Database
+            - name: "POSTGRES_SERVER"
+              value: {{ .Values.tenantRegistry.postgresServer }}
+            - name: "POSTGRES_DB"
+              value: {{ .Values.tenantRegistry.postgresDatabase }}
+            - name: "POSTGRES_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tenantRegistry.fullname" . }}
+                  key: postgres-user
+            - name: "POSTGRES_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tenantRegistry.fullname" . }}
+                  key: postgres-password
+            # Secrets Store
+            - name: "SECRETS_STORE_KIND"
+              value: {{ .Values.secretsStore.kind }}
+            - name: "AZURE_CLIENT_ID"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tenantRegistry.fullname" . }}
+                  key: azure-client-id
+            - name: "AZURE_CLIENT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tenantRegistry.fullname" . }}
+                  key: azure-client-secret
+            - name: "AZURE_TENANT_ID"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tenantRegistry.fullname" . }}
+                  key: azure-tenant-id
+            - name: "AZURE_KEYVAULT_URL"
+              value: {{ .Values.secretsStore.azure.keyVaultUrl }}
+            # Misc
+            - name: "ENV"
+              value: "prod"
+            - name: "SERVER_PORT"
+              value: "8080"
+            - name: "FORWARDED_ALLOW_IPS"
+              value: "*"
+            - name: "PROJECT_NAME"
+              value: "Tenant Registry"
+            - name: "DEVELOPMENT_MODE"
+              value: "false"
+            - name: "STRIPE_ENABLED"
+              value: "false"
+
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.tenantRegistry.resources | nindent 12 }}
+          {{- with .Values.tenantRegistry.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.tenantRegistry.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tenantRegistry.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tenantRegistry.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tenantRegistry.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
