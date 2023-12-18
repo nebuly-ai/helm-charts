@@ -1,0 +1,236 @@
+imagePullSecrets:
+  - name: dockerconfig-5gk4kc5hth
+
+secretsStore:
+  kind: "azure_keyvault"
+  azure:
+    keyVaultUrl: "https://nbllabplatformkv.vault.azure.net"
+    tenantId: "4e16af92-dd38-417c-bf9d-a24f891a7987"
+
+#    # -- Use an existing secret for the Azure Key Vault authentication.
+    existingSecret:
+      # -- Name of the secret. Can be templated.
+      name: "tenant-registry-credentials"
+      clientIdKey: "azure-client-id"
+      clientSecretKey: "azure-client-secret"
+
+backend:
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+    enabled: true
+    className: "nginx"
+    tls:
+      - hosts:
+          - helmtest.internal.nebuly.com
+        secretName: tls-secret-backend-helmtest
+    hosts:
+      - host: helmtest.internal.nebuly.com
+        paths:
+          - path: /backend(/|$)(.*)
+            pathType: Prefix
+
+  volumeMounts:
+    - name: secrets-store
+      mountPath: /mnt/secrets-store
+      readOnly: true
+  volumes:
+    - name: secrets-store
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: backend
+
+  image:
+    pullPolicy: Always
+
+  tolerations:
+    - key: "kubernetes.azure.com/scalesetpriority"
+      operator: "Equal"
+      value: "spot"
+      effect: "NoSchedule"
+
+
+eventIngestion:
+  rootPath: "/event-ingestion"
+  image:
+    pullPolicy: Always
+
+
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+    enabled: true
+    className: "nginx"
+    tls:
+      - hosts:
+          - helmtest.internal.nebuly.com
+        secretName: tls-secret-backend-helmtest
+    hosts:
+      - host: helmtest.internal.nebuly.com
+        paths:
+          - path: /event-ingestion(/|$)(.*)
+            pathType: Prefix
+
+  tolerations:
+    - key: "kubernetes.azure.com/scalesetpriority"
+      operator: "Equal"
+      value: "spot"
+      effect: "NoSchedule"
+
+
+
+ingestionWorker:
+  image:
+    pullPolicy: Always
+
+  volumeMounts:
+    - name: secrets-store
+      mountPath: /mnt/secrets-store
+      readOnly: true
+  volumes:
+    - name: secrets-store
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: ingestion-worker
+
+  tolerations:
+    - key: "kubernetes.azure.com/scalesetpriority"
+      operator: "Equal"
+      value: "spot"
+      effect: "NoSchedule"
+
+
+kafka:
+  bootstrapServers: "nbllabselfdeployhubns.servicebus.windows.net:9093"
+  saslUsername: "$ConnectionString"
+  saslPassword: "Endpoint=sb://nbllabselfdeployhubns.servicebus.windows.net/;SharedAccessKeyName=send-listen;SharedAccessKey=rloGx3KhknufuFQb7Um2DYIHoz6iRItlk+AEhBSYUL4="
+
+#  existingSecret:
+#    name: ingestion-worker-credentials
+#    saslPasswordKey: kafka-sasl-password
+#    saslUsernameKey: kafka-sasl-username
+
+analyticDatabase:
+  server: "nbllabplatformservicesnorth.postgres.database.azure.com"
+  name: "analytics-dev"
+  existingSecret:
+    name:  backend-credentials
+    userKey: postgres-user
+    passwordKey: postgres-password
+
+auth:
+  postgresServer: "nbllabplatformservicesnorth.postgres.database.azure.com"
+  postgresDatabase: "tenant-registry-dev"
+  existingSecret:
+    name: tenant-registry-credentials
+    userKey: postgres-user
+    passwordKey: postgres-password
+    jwtSigningKey: jwt-key
+
+  image:
+    pullPolicy: Always
+
+  microsoft:
+    enabled: true
+    redirectUri: https://helmtest.internal.nebuly.com/backend/auth/oauth/microsoft/callback
+    tenantId: "4e16af92-dd38-417c-bf9d-a24f891a7987"
+    existingSecret:
+      name: tenant-registry-credentials
+      clientIdKey: microsoft-oauth-client-id
+      clientSecretKey: microsoft-oauth-client-secret
+
+  volumeMounts:
+    - name: secrets-store
+      mountPath: /mnt/secrets-store
+      readOnly: true
+  volumes:
+    - name: secrets-store
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: tenant-registry
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/rewrite-target: "/auth/$2"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    enabled: true
+    className: "nginx"
+    tls:
+      - hosts:
+          - helmtest.internal.nebuly.com
+        secretName: tls-secret-backend-helmtest
+    hosts:
+      - host: helmtest.internal.nebuly.com
+        paths:
+          - path: "/backend/auth(/|$)(.*)"
+            pathType: Prefix
+
+  tolerations:
+    - key: "kubernetes.azure.com/scalesetpriority"
+      operator: "Equal"
+      value: "spot"
+      effect: "NoSchedule"
+
+
+
+frontend:
+  rootUrl: "https://helmtest.internal.nebuly.com"
+  backendApiUrl: "https://helmtest.internal.nebuly.com/backend"
+  authApiUrl: "https://helmtest.internal.nebuly.com/backend/auth"
+  image:
+    pullPolicy: Always
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+    enabled: true
+    className: "nginx"
+    tls:
+      - hosts:
+          - helmtest.internal.nebuly.com
+        secretName: tls-secret-backend-helmtest
+    hosts:
+      - host: helmtest.internal.nebuly.com
+        paths:
+          - path: /
+            pathType: Prefix
+
+
+  tolerations:
+    - key: "kubernetes.azure.com/scalesetpriority"
+      operator: "Equal"
+      value: "spot"
+      effect: "NoSchedule"
+
+
+azureOpenAi:
+  enabled: true
+  insightsGeneratorDeployment: "gpt-4-turbo"
+  textEmbeddingsDeployment: "text-embedding"
+  frustrationDetectionDeployment: "gpt-4-0125-preview"
+  chatCompletionDeployment: "gpt-3.5-turbo"
+  endpoint: "https://nbllabopenaisweden.openai.azure.com"
+
+  existingSecret:
+    name: "backend-credentials"
+    apiKey: "azure-openai-api-key"
+
+azureml:
+  enabled: true
+  tenantId: "4e16af92-dd38-417c-bf9d-a24f891a7987"
+  subscriptionId: "eb83146c-b587-4e78-8455-dc83af309e2c"
+  resourceGroup: "rg-ml-eastus"
+  workspace: "nbllab-aml-eastus"
+  batchEndpoint: "os-model-batch"
+
+  existingSecret:
+    name: "ingestion-worker-credentials"
+    clientIdKey: "azure-client-id"
+    clientSecretKey: "azure-client-secret"

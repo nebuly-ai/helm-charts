@@ -1,0 +1,31 @@
+name: CI Pipeline
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - ".github/**"
+      - "*.md"
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  Lint:
+    uses: ./.github/workflows/lint.yaml
+
+  CheckDocumentation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Check if docs are up to date
+        working-directory: nebuly-platform
+        run: |
+          make helm-doc
+          if ! git diff --exit-code; then
+              echo "Documentation not up to date. Please run helm-docs and commit changes!" >&2
+              exit 1
+          fi

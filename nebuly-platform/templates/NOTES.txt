@@ -1,0 +1,19 @@
+{{- if not .Values.auth.ingress.enabled -}}
+[WARNING] Auth ingress is not enabled, login endpoints won't be accessible from outside the cluster.
+You can enable it by setting the value `auth.ingress.enabled` to `true`.
+{{ end }}
+
+{{- if not .Values.frontend.ingress.enabled -}}
+[WARNING] Frontend ingress is not enabled, the UI won't be accessible from outside the cluster.
+You can enable it by setting the value `frontend.ingress.enabled` to `true`.
+{{ end }}
+
+{{- if not .Values.backend.ingress.enabled -}}
+[WARNING] Backend ingress is not enabled, the backend APIs used by the Frontend Application won't be accessible from outside the cluster.
+You can enable it by setting the value `backend.ingress.enabled` to `true`.
+{{ end }}
+
+{{- if not .Values.eventIngestion.ingress.enabled -}}
+[WARNING] Event Ingestion ingress is not enabled, the event ingestion APIs won't be accessible from outside the cluster.
+You can enable it by setting the value `eventIngestion.ingress.enabled` to `true`.
+{{ end }}

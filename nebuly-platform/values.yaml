@@ -1,0 +1,596 @@
+backend:
+  # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
+  # -- Example: "/backend-service"
+  rootPath: ""
+
+  fullnameOverride: ""
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-backend
+    pullPolicy: IfNotPresent
+    tag: "v1.13.1"
+
+  podAnnotations: {}
+  podLabels: {}
+
+  podSecurityContext:
+    runAsNonRoot: true
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  # readOnlyRootFilesystem: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # Additional volumes on the output Deployment definition.
+  volumes: []
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: []
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 384Mi
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+frontend:
+  fullnameOverride: ""
+
+  # -- The full public facing url you use in browser, used for redirects.
+  rootUrl: ""
+  # -- The URL of the Backend API to which Frontend will make requests.
+  backendApiUrl: ""
+  # -- The URL of the API used for authentication (login, SSO, etc.).
+  authApiUrl: ""
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-frontend
+    pullPolicy: IfNotPresent
+    tag: "v1.10.2"
+
+  podAnnotations: {}
+  podLabels: {}
+
+  podSecurityContext:
+    runAsNonRoot: true
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  # readOnlyRootFilesystem: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # Additional volumes on the output Deployment definition.
+  volumes: []
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: []
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+eventIngestion:
+  # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
+  # -- Example: "/backend-service"
+  rootPath: ""
+
+  fullnameOverride: ""
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
+    pullPolicy: IfNotPresent
+    tag: "v1.4.1"
+
+  podAnnotations: {}
+  podLabels: {}
+
+  podSecurityContext:
+    runAsNonRoot: true
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  # readOnlyRootFilesystem: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # Additional volumes on the output Deployment definition.
+  volumes: []
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: []
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+ingestionWorker:
+  # -- The number of workers (e.g. coroutines) used to process interactions.
+  numWorkersInteractions: 20
+  # -- The number of workers (e.g. coroutines) used to process actions.
+  numWorkersActions: 10
+  # -- The number of workers (e.g. coroutines) used to process feedback actions.
+  numWorkersFeedbackActions: 10
+
+  fullnameOverride: ""
+
+  # -- Settings related to the CronJob for clustering topics.
+  # @default -- -
+  topicsClustering:
+    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+    schedule: "@daily"
+    resources:
+      limits:
+        cpu: 1
+        memory: 5024Mi
+      requests:
+        cpu: 1
+        memory: 5024Mi
+
+  # -- Settings related to the CronJob for processing the actions of the collected interactions.
+  # @default -- -
+  actionsProcessing:
+    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+    schedule: "@daily"
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        cpu: 500m
+        memory: 256Mi
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
+    pullPolicy: IfNotPresent
+    tag: "v1.4.1"
+
+  podAnnotations: {}
+  podLabels: {}
+
+  podSecurityContext:
+    runAsNonRoot: true
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  # readOnlyRootFilesystem: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # Additional volumes on the output Deployment definition.
+  volumes: []
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: []
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    limits:
+      memory: 1512Mi
+    requests:
+      cpu: 500m
+      memory: 1024Mi
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+imagePullSecrets: []
+# - name: my-secret-name
+
+secretsStore:
+  # -- The kind of Secret Store used to store the secrets.
+  # -- Supported values: "database", "azure_keyvault"
+  kind: "database"
+  # Azure Secret Store configuration. Required only if kind is "azure_keyvault".
+  azure:
+    # -- The URL of the Azure Key Vault storing the secrets.
+    keyVaultUrl: ""
+    # -- The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only
+    # when not using an existing secret (see azure.existingSecret value below).
+    clientId: ""
+    # -- The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided
+    # only when not using an existing secret (see azure.existingSecret value below).
+    clientSecret: ""
+    # -- The ID of the Azure Tenant where the Azure Key Vault is located. To be provided only when not using an
+    # existing secret (see azure.existingSecret value below).
+    tenantId: ""
+
+    # -- Use an existing secret for the Azure Key Vault authentication.
+    # @default -- -
+    existingSecret:
+      # -- Name of the secret. Can be templated.
+      name: ""
+      clientIdKey: ""
+      clientSecretKey: ""
+
+# -- Optional configuration for the Azure Machine Learning integration.
+# If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to
+# process the collected data.
+# @default -- -
+azureml:
+  # -- If true, enable the Azure OpenAI integration.
+  enabled: true
+  # -- The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace.
+  # To be provided only when not using an existing secret (see azureml.existingSecret value below).
+  clientId: ""
+  # -- The client secret of the Azure AD application used to access the Azure Machine Learning Workspace.
+  clientSecret: ""
+  # -- The ID of the Azure Tenant where the Azure Machine Learning Workspace is located.
+  # To be provided only when not using an existing secret (see azureml.existingSecret value below).
+  tenantId: ""
+  # -- The subscription ID of the Azure Machine Learning Workspace.
+  subscriptionId: ""
+  # -- The name of the Azure resource group containing the Azure Machine Learning Workspace.
+  resourceGroup: ""
+  # -- The name of the Azure Machine Learning Workspace used to process the collected data.
+  workspace: ""
+  # -- The name of the Azure Machine Learning Workspace used to process the collected data.
+  batchEndpoint: ""
+
+  # -- Use an existing secret for the AzureML authentication.
+  # @default -- -
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    clientIdKey: ""
+    clientSecretKey: ""
+
+# -- Optional configuration for the Azure OpenAI integration.
+# If enabled, the specified models on the Azure OpenAI resource will be used to
+# process the collected data.
+# @default -- -
+azureOpenAi:
+  # -- If true, enable the Azure OpenAI integration.
+  enabled: true
+  # -- The name of the Azure OpenAI Deployment used to generate insights.
+  insightsGeneratorDeployment: ""
+  # -- The name of the Azure OpenAI Deployment used to generate text embeddings.
+  textEmbeddingsDeployment: ""
+  # -- The name of the Azure OpenAI Deployment used to detect frustration.
+  frustrationDetectionDeployment: ""
+  # -- The name of the Azure OpenAI Deployment used to complete chat messages.
+  chatCompletionDeployment: ""
+  # -- The endpoint of the Azure OpenAI resource.
+  endpoint: ""
+  # -- The primary API Key of the Azure OpenAI resource, used for authentication.
+  # To be provided only when not using an existing secret (see azureOpenAi.existingSecret value below).
+  apiKey: ""
+  # -- The version of the APIs to use
+  apiVersion: "2024-02-15-preview"
+
+  # -- Use an existing secret for the Azure OpenAI authentication.
+  # @default -- -
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    apiKey: ""
+
+# @default -- -
+analyticDatabase:
+  # -- The host of the database used to store analytic data.
+  server: ""
+  # -- The name of the database used to store analytic data (interactions, actions, etc.). To be provided only
+  # when not using an existing secret (see analyticDatabase.existingSecret value below).
+  name: "analytics"
+  # -- The user for connecting to the database.
+  user: ""
+  # -- The password for the database user. To be provided only when not using an existing secret
+  # (see analyticDatabase.existingSecret value below).
+  password: ""
+  # -- Use an existing secret for the database authentication.
+  # @default -- -
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    userKey: ""
+    passwordKey: ""
+
+# @default -- -
+kafka:
+  # -- Comma separated list of Kafka brokers.
+  bootstrapServers: ""
+  # -- The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
+  # when not using an existing secret (see kafka.existingSecret value below).
+  saslUsername: ""
+  # -- The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
+  # when not using an existing secret (see kafka.existingSecret value below).
+  saslPassword: ""
+
+  # -- Use an existing secret for Kafka authentication.
+  # @default -- -
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    saslUsernameKey: ""
+    saslPasswordKey: ""
+
+  # -- If true, the Kafka clients will use the keep alive feature.
+  socketKeepAliveEnabled: true
+  # -- The name of the main Kafka topic used to store events (e.g. interactions)
+  topicEventsMain: "events-main"
+  # -- The name of the Kafka topic used to retry events that failed processing.
+  topicEventsRetry1: "events-retry-1"
+  # -- The name of the Kafka topic used to retry events that failed processing (backoff 2).
+  topicEventsRetry2: "events-retry-2"
+  # -- The name of the Kafka topic used to retry events that failed processing (backoff 3).
+  topicEventsRetry3: "events-retry-3"
+  # -- The name of the Kafka topic used as dead letter queue.
+  topicEventsDlq: "events-dlq"
+
+# @default -- -
+otel:
+  # -- If True, enable OpenTelemetry instrumentation of the platform services.
+  # When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the
+  # OpenTelemetry Collector endpoints specified below.
+  enabled: false
+  # -- The endpoint of the OpenTelemetry Collector used to collect traces.
+  exporterOtlpTracesEndpoint: "http://contrib-collector.otel:4317"
+  # -- The endpoint of the OpenTelemetry Collector used to collect metrics.
+  exporterOtlpMetricsEndpoint: "http://contrib-collector.otel:4317"
+
+# @default -- -
+auth:
+  # -- If true, an initial admin user with username/password login will be created.
+  adminUserEnabled: false
+  # -- The username of the initial admin user.
+  adminUserUsername: "admin@nebuly.ai"
+  # -- The password of the initial admin user.
+  adminUserPassword: "admin"
+
+  # -- Ingress configuration for the login endpoints.
+  # @default -- -
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /auth
+            pathType: ImplementationSpecific
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  # -- Private RSA Key used for signing JWT tokens. Required only if not using an existing secret
+  # (see auth.existingSecret value below).
+  jwtSigningKey: ""
+
+  # -- The host of the PostgreSQL database used to store user data.
+  postgresServer: ""
+  # -- The name of the PostgreSQL database used to store user data.
+  postgresDatabase: "auth-service"
+  # -- The user for connecting to the database. Required only if not using an existing secret
+  # (see auth.existingSecret value below).
+  postgresUser: ""
+  # -- The password for the database user. Required only if not using an existing secret
+  # (see auth.existingSecret value below).
+  postgresPassword: ""
+
+  # -- Use an existing secret for the database authentication.
+  # @default -- -
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    postgresUserKey: ""
+    postgresPasswordKey: ""
+    jwtSigningKey: ""
+
+  fullnameOverride: ""
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
+    pullPolicy: IfNotPresent
+    tag: "v1.4.1"
+
+  podAnnotations: {}
+  podLabels: {}
+
+  podSecurityContext:
+    runAsNonRoot: true
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  # readOnlyRootFilesystem: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # Additional volumes on the output Deployment definition.
+  volumes: []
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: []
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  # -- Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft".
+  # @default -- -
+  microsoft:
+    # -- If true, enable Microsoft Entra ID SSO authentication.
+    enabled: false
+    # -- The callback URI of the SSO flow. Must be the same as the redirect URI configured for the
+    # Microsoft Entra ID application. Must be in the following format:
+    # "https://<backend-domain>/auth/oauth/microsoft/callback"
+    # Where <backend-domain> is the domain defined in `backend.ingress`.
+    redirectUri: ""
+    # -- The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when
+    # not using an existing secret (see microsoft.existingSecret value below).
+    clientId: ""
+    # -- The Client Secret of the Microsoft Entra ID application. To be provided only when not using an
+    # existing secret (see microsoft.existingSecret value below).
+    clientSecret: ""
+    # -- The ID of the Azure Tenant where the Microsoft Entra ID application is located. To be provided only
+    # when not using an existing secret (see microsoft.existingSecret value below).
+    tenantId: ""
+
+    # -- Use an existing secret for Microsoft Entra ID authentication.
+    # @default -- -
+    existingSecret:
+      # -- Name of the secret. Can be templated.
+      name: ""
+      clientIdKey: ""
+      clientSecretKey: ""
