@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "backend.fullname" . }}
+  labels:
+    {{- include "backend.labels" . | nindent 4 }}
+data:
+  ANALYTICS_DB: "{{ .Values.analyticDatabase.name }}"
+  ANALYTICS_SERVER: "{{ .Values.analyticDatabase.server }}"
+  # OpenTelemetry
+  OTEL_ENABLED: "{{ .Values.otel.enabled }}"
+  OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: "{{ .Values.otel.exporterOtlpTracesEndpoint }}"
+  OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: "{{ .Values.otel.exporterOtlpMetricsEndpoint }}"
+  OTEL_METRICS_EXPORTER: "otlp"
+  # Oauth (TODO: to be removed once we leave Auth0 on SaaS)
+  OAUTH_CLIENT_ID: ""
+  OAUTH_CLIENT_SECRET: ""
+  OAUTH_DOMAIN: ""
+  OAUTH_AUDIENCE: ""
+  OAUTH_JWKS_URL: ""
+  # Platform Services
+  TENANT_REGISTRY_URL: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"
+  # Sentry
+  SENTRY_ENABLED: "false"
+  # Mixpanel
+  MIXPANEL_ENABLED: "false"
+  # Misc
+  ENV: "prod"
+  SERVER_PORT: "8080"
+  PROJECT_NAME: "backend"
+  DEVELOPMENT_MODE: "false"
+  OPENAPI_URL_ENABLED: "false"
+  {{- if .Values.backend.rootPath }}
+  ROOT_PATH: "{{ .Values.backend.rootPath }}"
+  {{- end }}

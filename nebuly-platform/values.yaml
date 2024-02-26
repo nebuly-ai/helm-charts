@@ -424,6 +424,10 @@ kafka:
   topicEventsDlq: "events-dlq"
 
 otel:
+  # -- If True, enable OpenTelemetry instrumentation of the platform services.
+  # -- When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the
+  # -- OpenTelemetry Collector endpoints specified below.
+  enabled: false
   # -- The endpoint of the OpenTelemetry Collector used to collect traces.
   exporterOtlpTracesEndpoint: "http://contrib-collector.otel:4317"
   # -- The endpoint of the OpenTelemetry Collector used to collect metrics.

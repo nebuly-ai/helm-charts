@@ -62,6 +62,23 @@ app.kubernetes.io/component: nebuly-backend
 {{- end }}
 {{- end }}
 
+{{/*
+*********************************************************************
+* Backend Scheduler
+*********************************************************************
+*/}}
+{{- define "backendScheduler.labels" -}}
+{{- include "backendScheduler.selectorLabels" . }}
+{{- end }}
+
+{{- define "backendScheduler.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: nebuly-backend-scheduler
+{{- end }}
+
+{{- define "backendScheduler.fullname" -}}
+{{- printf "%s-%s" .Release.Name "backend-scheduler" | trunc 63 | trimSuffix "-" }}
+{{- end }}
 
 {{/*
 *********************************************************************
