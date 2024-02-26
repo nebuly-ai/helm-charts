@@ -73,20 +73,58 @@ spec:
                   key: azure-tenant-id
             - name: "AZURE_KEYVAULT_URL"
               value: {{ .Values.secretsStore.azure.keyVaultUrl }}
+            # OTEL
+            - name: "OTEL_SERVICE_NAME"
+              value: "nebuly-tenant-registry"
+            - name: "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"
+              value: "{{ .Values.otel.exporterOtlpTracesEndpoint }}"
+            - name: "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"
+              value: "{{ .Values.otel.exporterOtlpMetricsEndpoint }}"
+            - name: "OTEL_METRICS_EXPORTER"
+              value: "otlp"
+            # Auth
+            - name: "JWT_SIGNING_KEY_PATH"
+              value: "/app/resources/private-key.pem"
+            - name: "ADMIN_USER_ENABLED"
+              value: "{{ .Values.auth.adminUserEnabled }}"
+            - name: "ADMIN_USER_USERNAME"
+              value: {{ .Values.auth.adminUserUsername }}
+            - name: "ADMIN_USER_PASSWORD"
+              value: {{ .Values.auth.adminUserPassword }}
+            {{- if .Values.auth.microsoft }}
+            - name: "LOGIN_REDIRECT_URL"
+              value: "{{ .Values.frontend.rootUrl }}"
+            - name: "OAUTH_PROVIDER"
+              value: "microsoft"
+            - name: "MICROSOFT_OAUTH_TENANT_ID"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tenantRegistry.fullname" . }}
+                  key: microsoft-oauth-tenant-id
+            - name: "MICROSOFT_OAUTH_CLIENT_ID"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tenantRegistry.fullname" . }}
+                  key: microsoft-oauth-client-id
+            - name: "MICROSOFT_OAUTH_CLIENT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "tenantRegistry.fullname" . }}
+                  key: microsoft-oauth-client-secret
+            - name: "MICROSOFT_OAUTH_REDIRECT_URI"
+              value: "{{ .Values.auth.microsoft.redirectUri }}"
+            {{- end -}}
             # Misc
             - name: "ENV"
               value: "prod"
             - name: "SERVER_PORT"
               value: "8080"
-            - name: "FORWARDED_ALLOW_IPS"
-              value: "*"
             - name: "PROJECT_NAME"
               value: "Tenant Registry"
             - name: "DEVELOPMENT_MODE"
               value: "false"
             - name: "STRIPE_ENABLED"
               value: "false"
-
 
           livenessProbe:
             httpGet:

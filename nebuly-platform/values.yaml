@@ -1,5 +1,6 @@
 backend:
   # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
+  # -- Example: rootPath: "/backend-service"
   rootPath: ""
 
   nameOverride: ""
@@ -152,10 +153,14 @@ frontend:
     #    hosts:
     #      - chart-example.local
 
+  # -- The full public facing url you use in browser, used for redirects and emails
+  rootUrl: ""
+
 
 
 eventIngestion:
-  # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
+  # -- Optionally, the base path of the Event Ingestion API when running behind a reverse proxy with a path prefix.
+  # -- Example: rootPath: "/event-ingestion"
   rootPath: ""
 
   nameOverride: ""
@@ -234,11 +239,6 @@ eventIngestion:
 
 
 ingestionWorker:
-  # -- The Client ID of the OAuth application linked with the Backend identity.
-  oauthClientId: ""
-  # -- The Client Secret of the OAuth application linked with the Backend identity.
-  oauthClientSecret: ""
-
   # -- The number of workers (e.g. coroutines) used to process interactions.
   numWorkersInteractions: 20
   # -- The number of workers (e.g. coroutines) used to process actions.
@@ -432,3 +432,26 @@ otel:
   exporterOtlpTracesEndpoint: "http://contrib-collector.otel:4317"
   # -- The endpoint of the OpenTelemetry Collector used to collect metrics.
   exporterOtlpMetricsEndpoint: "http://contrib-collector.otel:4317"
+
+auth:
+  # -- If true, an initial admin user with username/password login will be created.
+  adminUserEnabled: false
+  # -- The username of the initial admin user.
+  adminUserUsername: "admin@nebuly.ai"
+  # -- The password of the initial admin user.
+  adminUserPassword: "admin"
+
+  # -- If provided, enable SSO authentication with Microsoft Entra ID.
+  microsoft:
+    # -- The Client ID (e.g. Application ID) of the Microsoft Entra ID application.
+    clientId: ""
+    # -- The Client Secret of the Microsoft Entra ID application.
+    clientSecret: ""
+    # -- The ID of the Azure Tenant where the Microsoft Entra ID application is located.
+    tenantId: ""
+    # -- The callback URI of the SSO flow. Must be the same as the redirect URI configured for the
+    # -- Microsoft Entra ID application. Must be in the following format:
+    # -- "https://<backend-domain>/auth/oauth/microsoft/callback"
+    # -- Where <backend-domain> is the domain of the Backend API defined in the backend ingress.
+    redirectUri: ""
+

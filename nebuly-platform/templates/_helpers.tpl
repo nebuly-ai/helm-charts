@@ -181,6 +181,8 @@ app.kubernetes.io/component: nebuly-frontend
 {{/* Compile all validation warnings into a single message and call fail. */}}
 {{- define "chart.validateValues" -}}
 {{- $messages := list -}}
+{{/* Frontend */}}
+{{- $messages = append $messages (include "chart.validateValues.frontend.rootUrl" .) -}}
 {{/* Tenant Registry */}}
 {{- $messages = append $messages (include "chart.validateValues.tenantRegistry.postgresServer" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.tenantRegistry.postgresUser" .) -}}
@@ -198,9 +200,10 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = without $messages "" -}}
 {{- $message := join "\n" $messages -}}
 
+
 {{- if $message -}}
 {{- printf "\nValues validation:\n%s" $message | fail -}}
-{{ fail "hello" }}
+{{ fail "" }}
 {{- end -}}
 {{- end -}}
 
@@ -276,3 +279,18 @@ values: kafka.saslPassword
   `saslPassword` is required and should be a non-empty string
 {{- end -}}
 {{- end -}}
+
+
+{{/* Frontend validation. */}}
+{{- define "chart.validateValues.frontend.rootUrl" -}}
+{{- if empty .Values.frontend.rootUrl -}}
+values: frontend.rootUrl
+  `rootUrl` is required and should be a non-empty string.
+{{- else -}}
+{{- if not (regexMatch "^(https?|wss?)://[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?(/.*)?$" .Values.frontend.rootUrl) -}}
+values: frontend.rootUrl
+  `rootUrl` should be a valid URL.
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
