@@ -86,6 +86,9 @@ frontend:
     pullPolicy: IfNotPresent
     tag: "latest"
 
+  # -- The URL of the Backend API to which Frontend will make requests.
+  backendApiUrl: ""
+
   podAnnotations: { }
   podLabels: { }
 
