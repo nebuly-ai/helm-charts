@@ -124,12 +124,11 @@ frontend:
   #   readOnly: true
 
   resources:
-    { }
-  #    limits:
-  #      memory: 256Mi
-  #    requests:
-  #      cpu: 100m
-  #      memory: 128Mi
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
   nodeSelector: { }
 
   tolerations: [ ]
@@ -207,12 +206,11 @@ eventIngestion:
   #   readOnly: true
 
   resources:
-    { }
-  #    limits:
-  #      memory: 256Mi
-  #    requests:
-  #      cpu: 100m
-  #      memory: 128Mi
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
   nodeSelector: { }
 
   tolerations: [ ]
@@ -290,12 +288,11 @@ ingestionWorker:
   #   readOnly: true
 
   resources:
-    { }
-  #    limits:
-  #      memory: 1512Mi
-  #    requests:
-  #      cpu: 500m
-  #      memory: 1024Mi
+    limits:
+      memory: 1512Mi
+    requests:
+      cpu: 500m
+      memory: 1024Mi
   nodeSelector: { }
 
   tolerations: [ ]
@@ -313,7 +310,6 @@ tenantRegistry:
   postgresUser: ""
   # -- The password for the database user.
   postgresPassword: ""
-
 
   nameOverride: ""
   fullnameOverride: ""
@@ -359,12 +355,11 @@ tenantRegistry:
   #   readOnly: true
 
   resources:
-    { }
-  #    limits:
-  #      memory: 256Mi
-  #    requests:
-  #      cpu: 100m
-  #      memory: 128Mi
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
   nodeSelector: { }
 
   tolerations: [ ]
