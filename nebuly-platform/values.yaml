@@ -1,23 +1,4 @@
 backend:
-  # -- The host of the PostgreSQL database used to store service's data.
-  postgresServer: ""
-  # -- The name of the PostgreSQL database used to store backend data (projects, settings, etc.).
-  postgresDatabase: "backend"
-  # -- The user for connecting to the database.
-  postgresUser: ""
-  # -- The password for the database user.
-  postgresPassword: ""
-
-  # -- The Client ID of the OAuth application linked with the Backend identity.
-  oauthClientId: ""
-  # -- The Client Secret of the OAuth application linked with the Backend identity.
-  oauthClientSecret: ""
-  # -- The audience of the OAuth application linked with the Backend identity.
-  oauthAudience: ""
-
-  # -- The name of the Auth0 Database Connection storing the users of the platform.
-  auth0DatabaseConnection: ""
-
   # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
   rootPath: ""
 
@@ -64,12 +45,11 @@ backend:
   #   readOnly: true
 
   resources:
-    { }
-  #    limits:
-  #      memory: 256Mi
-  #    requests:
-  #      cpu: 100m
-  #      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 384Mi
   nodeSelector: { }
 
   tolerations: [ ]
@@ -172,11 +152,6 @@ frontend:
 
 
 eventIngestion:
-  # -- The Client ID of the OAuth application linked with the Backend identity.
-  oauthClientId: ""
-  # -- The Client Secret of the OAuth application linked with the Backend identity.
-  oauthClientSecret: ""
-
   # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
   rootPath: ""
 
@@ -403,7 +378,7 @@ imagePullSecrets: [ ]
 secretsStore:
   # -- The kind of Secret Store used to store the secrets.
   # -- Supported values: "database", "azure_keyvault"
-  kind: "database"
+  kind: "azure_keyvault"
   # Azure Secret Store configuration. Required only if kind is "azure_keyvault".
   azure:
     # -- The URL of the Azure Key Vault storing the Tenant Registry secrets.
@@ -444,24 +419,9 @@ kafka:
   topicEventsRetry3: "events-retry-3"
   # -- The name of the Kafka topic used as dead letter queue.
   topicEventsDlq: "events-dlq"
-  # -- The name of the main Kafka consumer group processing interactions.
-  consumerGroupInteractions: "interactions-worker"
-  # -- The name of the main Kafka consumer group processing feedback actions.
-  consumerGroupFeedbackActions: "feedback-actions-worker"
-  # -- The name of the main Kafka consumer group processing actions.
-  consumerGroupActions: "actions-worker"
-  # -- The name of the main Kafka consumer group processing topics.
-  consumerGroupTopics: "topics-worker"
 
-
-oauth:
-  # -- The OAuth domain name
-  domain: ""
-  # -- The URL for fetching the keys for validating the JWT tokens.
-  jwksUrl: ""
-
-openai:
-  # -- The OpenAI organization ID.
-  organizationId: ""
-  # -- The OpenAI API key.
-  apiKey: ""
+otel:
+  # -- The endpoint of the OpenTelemetry Collector used to collect traces.
+  exporterOtlpTracesEndpoint: "http://contrib-collector.otel:4317"
+  # -- The endpoint of the OpenTelemetry Collector used to collect metrics.
+  exporterOtlpMetricsEndpoint: "http://contrib-collector.otel:4317"

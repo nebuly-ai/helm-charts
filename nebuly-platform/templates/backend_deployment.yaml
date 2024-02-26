@@ -39,24 +39,10 @@ spec:
               protocol: TCP
           env:
             # Database
-            - name: "POSTGRES_SERVER"
-              value: {{ .Values.backend.postgresServer }}
-            - name: "POSTGRES_DB"
-              value: {{ .Values.backend.postgresDatabase }}
             - name: "ANALYTICS_DB"
               value: {{ .Values.analyticDatabase.name }}
             - name: "ANALYTICS_SERVER"
               value: {{ .Values.analyticDatabase.server }}
-            - name: "POSTGRES_USER"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "backend.fullname" . }}
-                  key: postgres-user
-            - name: "POSTGRES_PASSWORD"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "backend.fullname" . }}
-                  key: postgres-password
             - name: "ANALYTICS_USER"
               valueFrom:
                 secretKeyRef:
@@ -67,36 +53,40 @@ spec:
                 secretKeyRef:
                   name: {{ include "backend.fullname" . }}
                   key: analytic-database-password
-            # Oauth
+            # OpenTelemetry
+            - name: "OTEL_SERVICE_NAME"
+              value: "backend"
+            - name: "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"
+              value: {{ .Values.otel.exporterOtlpTracesEndpoint }}
+            - name: "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"
+              value: {{ .Values.otel.exporterOtlpMetricsEndpoint }}
+            - name: "OTEL_METRICS_EXPORTER"
+              value: "otlp"
+            # Oauth (TODO: to be removed once we leave Auth0 on SaaS)
             - name: "OAUTH_CLIENT_ID"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "backend.fullname" . }}
-                  key: oauth-client-id
+              value: ""
             - name: "OAUTH_CLIENT_SECRET"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "backend.fullname" . }}
-                  key: oauth-client-secret
+              value: ""
             - name: "OAUTH_DOMAIN"
-              value: {{ .Values.oauth.domain }}
+              value: ""
             - name: "OAUTH_AUDIENCE"
-              value: {{ .Values.backend.oauthAudience }}
+              value: ""
             - name: "OAUTH_JWKS_URL"
-              value: {{ .Values.oauth.jwksUrl }}
-            # Auth0
-            - name: "AUTH0_DATABASE_CONNECTION"
-              value: {{ .Values.backend.auth0DatabaseConnection }}
+              value: ""
             # Platform Services
             - name: "TENANT_REGISTRY_URL"
               value: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"
+            # Sentry
+            - name: "SENTRY_ENABLED"
+              value: "false"
+            # Mixpanel
+            - name: "MIXPANEL_ENABLED"
+              value: "false"
             # Misc
             - name: "ENV"
               value: "prod"
             - name: "SERVER_PORT"
               value: "8080"
-            - name: "FORWARDED_ALLOW_IPS"
-              value: "*"
             - name: "PROJECT_NAME"
               value: "Backend"
             - name: "DEVELOPMENT_MODE"
