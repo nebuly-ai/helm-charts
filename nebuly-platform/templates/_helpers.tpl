@@ -181,13 +181,6 @@ app.kubernetes.io/component: nebuly-frontend
 {{/* Compile all validation warnings into a single message and call fail. */}}
 {{- define "chart.validateValues" -}}
 {{- $messages := list -}}
-{{/* Backend */}}
-{{- $messages = append $messages (include "chart.validateValues.backend.postgresServer" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.backend.postgresUser" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.backend.postgresPassword" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.backend.oauthClientId" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.backend.oauthClientSecret" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.backend.oauthAudience" .) -}}
 {{/* Tenant Registry */}}
 {{- $messages = append $messages (include "chart.validateValues.tenantRegistry.postgresServer" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.tenantRegistry.postgresUser" .) -}}
@@ -197,12 +190,6 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.name" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.user" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.password" .) -}}
-{{/* Oauth */}}
-{{- $messages = append $messages (include "chart.validateValues.oauth.domain" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.oauth.jwksUrl" .) -}}
-{{/* OpenAI */}}
-{{- $messages = append $messages (include "chart.validateValues.openai.apiKey" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.openai.organizationId" .) -}}
 {{/* Kafka */}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.bootstrapServers" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslUsername" .) -}}
@@ -214,49 +201,6 @@ app.kubernetes.io/component: nebuly-frontend
 {{- if $message -}}
 {{- printf "\nValues validation:\n%s" $message | fail -}}
 {{ fail "hello" }}
-{{- end -}}
-{{- end -}}
-
-{{/* Backend validation. */}}
-{{- define "chart.validateValues.backend.postgresServer" -}}
-{{- if empty .Values.backend.postgresServer  -}}
-values: backend.postgresServer
-  `postgresServer` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{- define "chart.validateValues.backend.postgresPassword" -}}
-{{- if empty .Values.backend.postgresPassword  -}}
-values: backend.postgresPassword
-  `postgresPassword` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{- define "chart.validateValues.backend.postgresUser" -}}
-{{- if empty .Values.backend.postgresUser  -}}
-values: backend.postgresUser
-  `postgresUser` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{- define "chart.validateValues.backend.oauthClientId" -}}
-{{- if empty .Values.backend.oauthClientId  -}}
-values: backend.oauthClientId
-  `oauthClientId` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{- define "chart.validateValues.backend.oauthClientSecret" -}}
-{{- if empty .Values.backend.oauthClientSecret  -}}
-values: backend.oauthClientSecret
-  `oauthClientSecret` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{- define "chart.validateValues.backend.oauthAudience" -}}
-{{- if empty .Values.backend.oauthAudience  -}}
-values: backend.oauthAudience
-  `oauthAudience` is required and should be a non-empty string
 {{- end -}}
 {{- end -}}
 
@@ -310,35 +254,6 @@ values: analyticDatabase.password
 {{- end -}}
 {{- end -}}
 
-{{/* Oauth Validation. */}}
-{{- define "chart.validateValues.oauth.domain" -}}
-{{- if empty .Values.oauth.domain  -}}
-values: oauth.domain
-  `domain` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{- define "chart.validateValues.oauth.jwksUrl" -}}
-{{- if empty .Values.oauth.jwksUrl  -}}
-values: oauth.jwksUrl
-  `jwksUrl` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{/* OpenAI Validation. */}}
-{{- define "chart.validateValues.openai.organizationId" -}}
-{{- if empty .Values.openai.organizationId  -}}
-values: oauth.organizationId
-  `organizationId` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{- define "chart.validateValues.openai.apiKey" -}}
-{{- if empty .Values.openai.apiKey  -}}
-values: oauth.apiKey
-  `apiKey` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
 
 {{/* Kafka Validation. */}}
 {{- define "chart.validateValues.kafka.bootstrapServers" -}}
