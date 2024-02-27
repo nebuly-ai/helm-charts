@@ -107,21 +107,6 @@ Below you can find a minimal `values.yaml` file with all the mandatory configura
 imagePullSecrets:
   - name: nebuly-docker-pull
 
-backend:
-  postgresServer: mydatabaseserver.postgres.database.azure.com
-  postgresUser: myusername
-  postgresPassword: mypassword
-
-  auth0DatabaseConnection: mydatabaseconnection
-
-  oauthClientId: myoauthclientid
-  oauthClientSecret: myoauthclientsecret
-  oauthAudience: myoauthaudience
-
-eventIngestion:
-  oauthClientId: myoauthclientid
-  oauthClientSecret: myoauthclientsecret
-
 tenantRegistry:
   postgresServer: mydatabaseserver.postgres.database.azure.com
   postgresUser: myusername
@@ -130,10 +115,6 @@ tenantRegistry:
 ingestionWorker:
   oauthClientId: myoauthclientid
   oauthClientSecret: myoauthclientsecret
-
-oauth:
-  domain: mydomain
-  jwksUrl: https://domain/.well-known/jwks.json
 
 kafka:
   bootstrapServers: serverurl
@@ -179,6 +160,8 @@ backend:
             pathType: Prefix
 
 frontend:
+  backendApiUrl: https://dev.backend.nebuly.com
+
   ingress:
     enabled: true
     className: nginx
@@ -231,8 +214,15 @@ The command removes all the Kubernetes components associated with the chart and 
 | analyticDatabase.password | string | `""` | The password for the database user. |
 | analyticDatabase.server | string | `""` | The host of the database used to store analytic data. |
 | analyticDatabase.user | string | `""` | The user for connecting to the database. |
+| auth.adminUserEnabled | bool | `false` | If true, an initial admin user with username/password login will be created. |
+| auth.adminUserPassword | string | `"admin"` | The password of the initial admin user. |
+| auth.adminUserUsername | string | `"admin@nebuly.ai"` | The username of the initial admin user. |
+| auth.microsoft | object | `{"clientId":"","clientSecret":"","redirectUri":"","tenantId":""}` | If provided, enable SSO authentication with Microsoft Entra ID. |
+| auth.microsoft.clientId | string | `""` | The Client ID (e.g. Application ID) of the Microsoft Entra ID application. |
+| auth.microsoft.clientSecret | string | `""` | The Client Secret of the Microsoft Entra ID application. |
+| auth.microsoft.redirectUri | string | `""` | Where <backend-domain> is the domain of the Backend API defined in the backend ingress. |
+| auth.microsoft.tenantId | string | `""` | The ID of the Azure Tenant where the Microsoft Entra ID application is located. |
 | backend.affinity | object | `{}` |  |
-| backend.auth0DatabaseConnection | string | `""` | The name of the Auth0 Database Connection storing the users of the platform. |
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
@@ -246,19 +236,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.ingress.tls | list | `[]` |  |
 | backend.nameOverride | string | `""` |  |
 | backend.nodeSelector | object | `{}` |  |
-| backend.oauthAudience | string | `""` | The audience of the OAuth application linked with the Backend identity. |
-| backend.oauthClientId | string | `""` | The Client ID of the OAuth application linked with the Backend identity. |
-| backend.oauthClientSecret | string | `""` | The Client Secret of the OAuth application linked with the Backend identity. |
 | backend.podAnnotations | object | `{}` |  |
 | backend.podLabels | object | `{}` |  |
 | backend.podSecurityContext.runAsNonRoot | bool | `true` |  |
-| backend.postgresDatabase | string | `"backend"` | The name of the PostgreSQL database used to store backend data (projects, settings, etc.). |
-| backend.postgresPassword | string | `""` | The password for the database user. |
-| backend.postgresServer | string | `""` | The host of the PostgreSQL database used to store service's data. |
-| backend.postgresUser | string | `""` | The user for connecting to the database. |
 | backend.replicaCount | int | `1` |  |
-| backend.resources | object | `{}` |  |
-| backend.rootPath | string | `""` | Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix. |
+| backend.resources.limits.memory | string | `"384Mi"` |  |
+| backend.resources.requests.cpu | string | `"100m"` |  |
+| backend.resources.requests.memory | string | `"256Mi"` |  |
+| backend.rootPath | string | `""` | Example: rootPath: "/backend-service" |
 | backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | backend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | backend.securityContext.runAsNonRoot | bool | `true` |  |
@@ -281,14 +266,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.ingress.tls | list | `[]` |  |
 | eventIngestion.nameOverride | string | `""` |  |
 | eventIngestion.nodeSelector | object | `{}` |  |
-| eventIngestion.oauthClientId | string | `""` | The Client ID of the OAuth application linked with the Backend identity. |
-| eventIngestion.oauthClientSecret | string | `""` | The Client Secret of the OAuth application linked with the Backend identity. |
 | eventIngestion.podAnnotations | object | `{}` |  |
 | eventIngestion.podLabels | object | `{}` |  |
 | eventIngestion.podSecurityContext | object | `{}` |  |
 | eventIngestion.replicaCount | int | `1` |  |
-| eventIngestion.resources | object | `{}` |  |
-| eventIngestion.rootPath | string | `""` | Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix. |
+| eventIngestion.resources.limits.memory | string | `"256Mi"` |  |
+| eventIngestion.resources.requests.cpu | string | `"100m"` |  |
+| eventIngestion.resources.requests.memory | string | `"128Mi"` |  |
+| eventIngestion.rootPath | string | `""` | Example: rootPath: "/event-ingestion" |
 | eventIngestion.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | eventIngestion.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | eventIngestion.securityContext.runAsNonRoot | bool | `true` |  |
@@ -298,6 +283,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.volumeMounts | list | `[]` |  |
 | eventIngestion.volumes | list | `[]` |  |
 | frontend.affinity | object | `{}` |  |
+| frontend.backendApiUrl | string | `""` | The URL of the Backend API to which Frontend will make requests. |
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
@@ -315,7 +301,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.podLabels | object | `{}` |  |
 | frontend.podSecurityContext | object | `{}` |  |
 | frontend.replicaCount | int | `1` |  |
-| frontend.resources | object | `{}` |  |
+| frontend.resources.limits.memory | string | `"256Mi"` |  |
+| frontend.resources.requests.cpu | string | `"100m"` |  |
+| frontend.resources.requests.memory | string | `"128Mi"` |  |
+| frontend.rootUrl | string | `""` | The full public facing url you use in browser, used for redirects and emails |
 | frontend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | frontend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | frontend.securityContext.runAsNonRoot | bool | `true` |  |
@@ -335,13 +324,13 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `20` | The number of workers (e.g. coroutines) used to process interactions. |
-| ingestionWorker.oauthClientId | string | `""` | The Client ID of the OAuth application linked with the Backend identity. |
-| ingestionWorker.oauthClientSecret | string | `""` | The Client Secret of the OAuth application linked with the Backend identity. |
 | ingestionWorker.podAnnotations | object | `{}` |  |
 | ingestionWorker.podLabels | object | `{}` |  |
 | ingestionWorker.podSecurityContext | object | `{}` |  |
 | ingestionWorker.replicaCount | int | `1` |  |
-| ingestionWorker.resources | object | `{}` |  |
+| ingestionWorker.resources.limits.memory | string | `"1512Mi"` |  |
+| ingestionWorker.resources.requests.cpu | string | `"500m"` |  |
+| ingestionWorker.resources.requests.memory | string | `"1024Mi"` |  |
 | ingestionWorker.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | ingestionWorker.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | ingestionWorker.securityContext.runAsNonRoot | bool | `true` |  |
@@ -351,10 +340,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
 | kafka.bootstrapServers | string | `""` | Comma separated list of Kafka brokers. |
-| kafka.consumerGroupActions | string | `"actions-worker"` | The name of the main Kafka consumer group processing actions. |
-| kafka.consumerGroupFeedbackActions | string | `"feedback-actions-worker"` | The name of the main Kafka consumer group processing feedback actions. |
-| kafka.consumerGroupInteractions | string | `"interactions-worker"` | The name of the main Kafka consumer group processing interactions. |
-| kafka.consumerGroupTopics | string | `"topics-worker"` | The name of the main Kafka consumer group processing topics. |
 | kafka.saslPassword | string | `""` | The password for connecting to the Kafka cluster with the method SASL/PLAIN. |
 | kafka.saslUsername | string | `""` | The username for connecting to the Kafka cluster with the method SASL/PLAIN. |
 | kafka.socketKeepAliveEnabled | bool | `true` | If true, the Kafka clients will use the keep alive feature. |
@@ -364,13 +349,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry2 | string | `"events-retry-2"` | The name of the Kafka topic used to retry events that failed processing (backoff 2). |
 | kafka.topicEventsRetry3 | string | `"events-retry-3"` | The name of the Kafka topic used to retry events that failed processing (backoff 3). |
 | nameOverride | string | `""` |  |
-| oauth.domain | string | `""` | The OAuth domain name |
-| oauth.jwksUrl | string | `""` | The URL for fetching the keys for validating the JWT tokens. |
+| otel.enabled | bool | `false` | OpenTelemetry Collector endpoints specified below. |
+| otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
+| otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. |
 | secretsStore.azure.keyVaultUrl | string | `""` | The URL of the Azure Key Vault storing the Tenant Registry secrets. |
 | secretsStore.azure.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Key Vault is located. |
-| secretsStore.kind | string | `"database"` | Supported values: "database", "azure_keyvault" |
+| secretsStore.kind | string | `"azure_keyvault"` | Supported values: "database", "azure_keyvault" |
 | tenantRegistry.affinity | object | `{}` |  |
 | tenantRegistry.fullnameOverride | string | `""` |  |
 | tenantRegistry.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -386,7 +372,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | tenantRegistry.postgresServer | string | `""` | The host of the PostgreSQL database used to store service's data. |
 | tenantRegistry.postgresUser | string | `""` | The user for connecting to the database. |
 | tenantRegistry.replicaCount | int | `1` |  |
-| tenantRegistry.resources | object | `{}` |  |
+| tenantRegistry.resources.limits.memory | string | `"256Mi"` |  |
+| tenantRegistry.resources.requests.cpu | string | `"100m"` |  |
+| tenantRegistry.resources.requests.memory | string | `"128Mi"` |  |
 | tenantRegistry.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | tenantRegistry.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | tenantRegistry.securityContext.runAsNonRoot | bool | `true` |  |
