@@ -51,8 +51,6 @@ spec:
                 secretKeyRef:
                   name: {{ include "eventIngestion.fullname" . }}
                   key: kafka-sasl-username
-            - name: "SSL_CA_PATH"
-              value: "/etc/ssl/certs/ca-certificates.crt"
             - name: "KAFKA_SOCKET_KEEPALIVE_ENABLED"
               value: {{ .Values.kafka.socketKeepAliveEnabled  | quote }}
             # Kafka topics
