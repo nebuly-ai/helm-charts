@@ -144,6 +144,24 @@ app.kubernetes.io/component: job-topics-clustering
 
 {{/*
 *********************************************************************
+* Actions Processing Clustering Job
+*********************************************************************
+*/}}
+{{- define "actionsProcessing.labels" -}}
+{{- include "actionsProcessing.selectorLabels" . }}
+{{- end }}
+
+{{- define "actionsProcessing.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: job-topics-clustering
+{{- end }}
+
+{{- define "actionsProcessing.fullname" -}}
+{{- printf "%s-%s" .Release.Name "actions-processing" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{/*
+
+*********************************************************************
 * Tenant Registry
 *********************************************************************
 */}}

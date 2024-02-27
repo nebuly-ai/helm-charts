@@ -14,7 +14,7 @@ spec:
       backoffLimit: 0
       selector:
         matchLabels:
-          {{- include "topicsClustering.selectorLabels" . | nindent 8 }}
+          {{- include "topicsClustering.selectorLabels" . | nindent 10 }}
       template:
         metadata:
           {{- with .Values.ingestionWorker.podAnnotations }}

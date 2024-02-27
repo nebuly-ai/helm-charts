@@ -257,6 +257,18 @@ ingestionWorker:
         cpu: 1
         memory: 5024Mi
 
+  # -- Settings related to the CronJob for processing the actions of the collected interactions.
+  actionsProcessing:
+    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+    schedule: "@daily"
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        cpu: 500m
+        memory: 256Mi
+
+
   replicaCount: 1
 
   image:

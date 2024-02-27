@@ -310,6 +310,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
 | imagePullSecrets | list | `[]` |  |
+| ingestionWorker.actionsProcessing | object | `{"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"500m","memory":"256Mi"}},"schedule":"@daily"}` | Settings related to the CronJob for processing the actions of the collected interactions. |
+| ingestionWorker.actionsProcessing.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.affinity | object | `{}` |  |
 | ingestionWorker.fullnameOverride | string | `""` |  |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
