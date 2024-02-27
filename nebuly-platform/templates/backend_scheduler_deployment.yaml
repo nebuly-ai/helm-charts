@@ -47,7 +47,7 @@ spec:
           env:
             # OTEL
             - name: "OTEL_SERVICE_NAME"
-              value: "backend-scheduler"
+              value: "nebuly-backend-scheduler"
             # Database
             - name: "ANALYTICS_USER"
               valueFrom:

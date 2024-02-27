@@ -58,21 +58,6 @@ spec:
             # Kafka topics
             - name: "KAFKA_TOPIC_EVENTS_MAIN"
               value: {{ .Values.kafka.topicEventsMain }}
-            # Identity
-            - name: "OAUTH_DOMAIN"
-              value: {{ .Values.oauth.domain }}
-            - name: "OAUTH_AUDIENCE"
-              value: {{ .Values.backend.oauthAudience }}
-            - name: "OAUTH_CLIENT_ID"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "eventIngestion.fullname" . }}
-                  key: oauth-client-id
-            - name: "OAUTH_CLIENT_SECRET"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "eventIngestion.fullname" . }}
-                  key: oauth-client-secret
             # Platform Services
             - name: "TENANT_REGISTRY_URL"
               value: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"

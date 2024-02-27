@@ -49,17 +49,6 @@ If the topics do not exist, the Platform creates them automatically at startup. 
 manually with the desired configuration before installing the Platform, so that its possible to
 configure each topic with the desired number of partitions and replication factor according to the expected load.
 
-### OpenAI Organization
-
-The Platform requires an [OpenAI](https://openai.com/) organization for using the OpenAI API.
-
-You can provide the OpenAI organization ID and API key through the values `openai.organizationId` and
-`openai.apiKey`.
-
-The OpenAI organization is required to make available a model fine-tuned for Nebuly's Platform through the APIs.
-To obtain the fine-tuned model for your OpenAI organization, please reach out to Nebuly's support via
-[support@nebuly.ai](mailto:support@nebuly.ai).
-
 ## Installation
 
 ### 1. Create a GitHub personal access token
@@ -141,10 +130,6 @@ tenantRegistry:
 ingestionWorker:
   oauthClientId: myoauthclientid
   oauthClientSecret: myoauthclientsecret
-
-openai:
-  organizationId: myorganizationid
-  apiKey: myapikey
 
 oauth:
   domain: mydomain
@@ -381,8 +366,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | nameOverride | string | `""` |  |
 | oauth.domain | string | `""` | The OAuth domain name |
 | oauth.jwksUrl | string | `""` | The URL for fetching the keys for validating the JWT tokens. |
-| openai.apiKey | string | `""` | The OpenAI API key. |
-| openai.organizationId | string | `""` | The OpenAI organization ID. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. |
 | secretsStore.azure.keyVaultUrl | string | `""` | The URL of the Azure Key Vault storing the Tenant Registry secrets. |
