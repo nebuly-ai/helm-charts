@@ -94,8 +94,7 @@ frontend:
   podLabels: { }
 
   podSecurityContext:
-    { }
-  # fsGroup: 2000
+    runAsNonRoot: true
 
   securityContext:
     runAsNonRoot: true
@@ -176,8 +175,7 @@ eventIngestion:
   podLabels: { }
 
   podSecurityContext:
-    { }
-  # fsGroup: 2000
+    runAsNonRoot: true
 
   securityContext:
     runAsNonRoot: true
@@ -247,6 +245,18 @@ ingestionWorker:
   nameOverride: ""
   fullnameOverride: ""
 
+  # -- Settings related to the CronJob for clustering topics.
+  topicsClustering:
+    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+    schedule: "@daily"
+    resources:
+      limits:
+        cpu: 1
+        memory: 5024Mi
+      requests:
+        cpu: 1
+        memory: 5024Mi
+
   replicaCount: 1
 
   image:
@@ -258,8 +268,7 @@ ingestionWorker:
   podLabels: { }
 
   podSecurityContext:
-    { }
-  # fsGroup: 2000
+    runAsNonRoot: true
 
   securityContext:
     runAsNonRoot: true
@@ -325,8 +334,7 @@ tenantRegistry:
   podLabels: { }
 
   podSecurityContext:
-    { }
-  # fsGroup: 2000
+    runAsNonRoot: true
 
   securityContext:
     runAsNonRoot: true

@@ -112,10 +112,6 @@ tenantRegistry:
   postgresUser: myusername
   postgresPassword: mypassword
 
-ingestionWorker:
-  oauthClientId: myoauthclientid
-  oauthClientSecret: myoauthclientsecret
-
 kafka:
   bootstrapServers: serverurl
   saslUsername: username
@@ -268,7 +264,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.nodeSelector | object | `{}` |  |
 | eventIngestion.podAnnotations | object | `{}` |  |
 | eventIngestion.podLabels | object | `{}` |  |
-| eventIngestion.podSecurityContext | object | `{}` |  |
+| eventIngestion.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | eventIngestion.replicaCount | int | `1` |  |
 | eventIngestion.resources.limits.memory | string | `"256Mi"` |  |
 | eventIngestion.resources.requests.cpu | string | `"100m"` |  |
@@ -299,7 +295,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.nodeSelector | object | `{}` |  |
 | frontend.podAnnotations | object | `{}` |  |
 | frontend.podLabels | object | `{}` |  |
-| frontend.podSecurityContext | object | `{}` |  |
+| frontend.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | frontend.replicaCount | int | `1` |  |
 | frontend.resources.limits.memory | string | `"256Mi"` |  |
 | frontend.resources.requests.cpu | string | `"100m"` |  |
@@ -326,7 +322,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.numWorkersInteractions | int | `20` | The number of workers (e.g. coroutines) used to process interactions. |
 | ingestionWorker.podAnnotations | object | `{}` |  |
 | ingestionWorker.podLabels | object | `{}` |  |
-| ingestionWorker.podSecurityContext | object | `{}` |  |
+| ingestionWorker.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | ingestionWorker.replicaCount | int | `1` |  |
 | ingestionWorker.resources.limits.memory | string | `"1512Mi"` |  |
 | ingestionWorker.resources.requests.cpu | string | `"500m"` |  |
@@ -337,6 +333,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
 | ingestionWorker.tolerations | list | `[]` |  |
+| ingestionWorker.topicsClustering | object | `{"resources":{"limits":{"cpu":1,"memory":"5024Mi"},"requests":{"cpu":1,"memory":"5024Mi"}},"schedule":"@daily"}` | Settings related to the CronJob for clustering topics. |
+| ingestionWorker.topicsClustering.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
 | kafka.bootstrapServers | string | `""` | Comma separated list of Kafka brokers. |
@@ -366,7 +364,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | tenantRegistry.nodeSelector | object | `{}` |  |
 | tenantRegistry.podAnnotations | object | `{}` |  |
 | tenantRegistry.podLabels | object | `{}` |  |
-| tenantRegistry.podSecurityContext | object | `{}` |  |
+| tenantRegistry.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | tenantRegistry.postgresDatabase | string | `"tenant-registry"` | The name of the PostgreSQL database used to store service's data. |
 | tenantRegistry.postgresPassword | string | `""` | The password for the database user. |
 | tenantRegistry.postgresServer | string | `""` | The host of the PostgreSQL database used to store service's data. |

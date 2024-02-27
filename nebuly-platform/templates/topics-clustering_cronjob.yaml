@@ -1,0 +1,85 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "topicsClustering.fullname" . }}
+  labels:
+    {{- include "topicsClustering.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.ingestionWorker.topicsClustering.schedule | quote }}
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "topicsClustering.labels" . | nindent 10 }}
+    spec:
+      backoffLimit: 0
+      selector:
+        matchLabels:
+          {{- include "topicsClustering.selectorLabels" . | nindent 8 }}
+      template:
+        metadata:
+          {{- with .Values.ingestionWorker.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          labels:
+            {{- include "topicsClustering.labels" . | nindent 14 }}
+            {{- with .Values.ingestionWorker.podLabels }}
+            {{- toYaml . | nindent 14 }}
+            {{- end }}
+        spec:
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.ingestionWorker.podSecurityContext | nindent 12 }}
+          containers:
+            - name: {{ .Chart.Name }}
+              securityContext:
+                {{- toYaml .Values.ingestionWorker.securityContext | nindent 16 }}
+              image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
+              ports:
+                - name: http
+                  containerPort: {{ .Values.ingestionWorker.service.port }}
+                  protocol: TCP
+              env:
+                # Database
+                - name: "POSTGRES_USER"
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "ingestionWorker.fullname" . }}
+                      key: analytic-database-user
+                - name: "POSTGRES_PASSWORD"
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "ingestionWorker.fullname" . }}
+                      key: analytic-database-password
+                # Kafka Settings
+                - name: "KAFKA_SASL_PASSWORD"
+                  value: ""
+                - name: "KAFKA_SASL_USERNAME"
+                  value: ""
+
+              resources:
+                {{- toYaml .Values.ingestionWorker.topicsClustering.resources | nindent 18 }}
+              {{- with .Values.ingestionWorker.volumeMounts }}
+              volumeMounts:
+                {{- toYaml . | nindent 18 }}
+              {{- end }}
+          {{- with .Values.ingestionWorker.volumes }}
+          volumes:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.ingestionWorker.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.ingestionWorker.affinity }}
+          affinity:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.ingestionWorker.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}

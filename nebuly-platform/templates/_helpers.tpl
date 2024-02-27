@@ -102,7 +102,6 @@ app.kubernetes.io/component: nebuly-event-ingestion
 {{- end }}
 {{- end }}
 
-
 {{/*
 *********************************************************************
 * Ingestion Worker
@@ -125,6 +124,23 @@ app.kubernetes.io/component: nebuly-ingestion-worker
 {{- end }}
 {{- end }}
 
+{{/*
+*********************************************************************
+* Topics Clustering Job
+*********************************************************************
+*/}}
+{{- define "topicsClustering.labels" -}}
+{{- include "topicsClustering.selectorLabels" . }}
+{{- end }}
+
+{{- define "topicsClustering.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: job-topics-clustering
+{{- end }}
+
+{{- define "topicsClustering.fullname" -}}
+{{- printf "%s-%s" .Release.Name "topics-clustering" | trunc 63 | trimSuffix "-" }}
+{{- end }}
 
 {{/*
 *********************************************************************
@@ -147,7 +163,6 @@ app.kubernetes.io/component: nebuly-tenant-registry
 {{- printf "%s-%s" .Release.Name "tenant-registry" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
-
 
 {{/*
 *********************************************************************
