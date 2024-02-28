@@ -249,16 +249,16 @@ values: tenantRegistry.postgresServer
 {{- end -}}
 
 {{- define "chart.validateValues.tenantRegistry.postgresPassword" -}}
-{{- if empty .Values.tenantRegistry.postgresPassword  -}}
+{{- if and (empty .Values.tenantRegistry.postgresPassword) (empty .Values.tenantRegistry.existingSecret.name) -}}
 values: tenantRegistry.postgresPassword
-  `postgresPassword` is required and should be a non-empty string
+  `postgresPassword` is required when not using an existing secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
 
 {{- define "chart.validateValues.tenantRegistry.postgresUser" -}}
-{{- if empty .Values.tenantRegistry.postgresUser  -}}
+{{- if and (empty .Values.tenantRegistry.postgresUser) (empty .Values.tenantRegistry.existingSecret.name) -}}
 values: tenantRegistry.postgresUser
-  `postgresUser` is required and should be a non-empty string
+  `postgresUser` is required when not using an existing secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
 

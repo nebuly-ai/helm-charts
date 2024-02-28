@@ -373,6 +373,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | secretsStore.azure.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Key Vault is located. |
 | secretsStore.kind | string | `"azure_keyvault"` | Supported values: "database", "azure_keyvault" |
 | tenantRegistry.affinity | object | `{}` |  |
+| tenantRegistry.existingSecret | object | `{"name":"","postgresPasswordKey":"","postgresUserKey":""}` | Use an existing secret for the database authentication. |
+| tenantRegistry.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | tenantRegistry.fullnameOverride | string | `""` |  |
 | tenantRegistry.image.pullPolicy | string | `"IfNotPresent"` |  |
 | tenantRegistry.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
@@ -383,9 +385,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | tenantRegistry.podLabels | object | `{}` |  |
 | tenantRegistry.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | tenantRegistry.postgresDatabase | string | `"tenant-registry"` | The name of the PostgreSQL database used to store service's data. |
-| tenantRegistry.postgresPassword | string | `""` | The password for the database user. |
+| tenantRegistry.postgresPassword | see tenantRegistry.existingSecret value below | `""` | . |
 | tenantRegistry.postgresServer | string | `""` | The host of the PostgreSQL database used to store service's data. |
-| tenantRegistry.postgresUser | string | `""` | The user for connecting to the database. |
+| tenantRegistry.postgresUser | see tenantRegistry.existingSecret value below | `""` | . |
 | tenantRegistry.replicaCount | int | `1` |  |
 | tenantRegistry.resources.limits.memory | string | `"256Mi"` |  |
 | tenantRegistry.resources.requests.cpu | string | `"100m"` |  |

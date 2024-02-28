@@ -327,10 +327,19 @@ tenantRegistry:
   postgresServer: ""
   # -- The name of the PostgreSQL database used to store service's data.
   postgresDatabase: "tenant-registry"
-  # -- The user for connecting to the database.
+  # -- The user for connecting to the database. Required only if not using an existing secret
+  # -- (see tenantRegistry.existingSecret value below).
   postgresUser: ""
-  # -- The password for the database user.
+  # -- The password for the database user. Required only if not using an existing secret
+  # -- (see tenantRegistry.existingSecret value below).
   postgresPassword: ""
+
+  # -- Use an existing secret for the database authentication.
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    postgresUserKey: ""
+    postgresPasswordKey: ""
 
   nameOverride: ""
   fullnameOverride: ""
