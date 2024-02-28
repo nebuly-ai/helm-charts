@@ -485,17 +485,33 @@ auth:
   # -- The password of the initial admin user.
   adminUserPassword: "admin"
 
-  # -- If provided, enable SSO authentication with Microsoft Entra ID.
+
+  # -- The OAuth provider used for authentication. Supported values: "microsoft". If empty string,
+  # -- only username/password login will be available.
+  oauthProvider: "microsoft"
+
+  # -- Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft".
   microsoft:
-    # -- The Client ID (e.g. Application ID) of the Microsoft Entra ID application.
-    clientId: ""
-    # -- The Client Secret of the Microsoft Entra ID application.
-    clientSecret: ""
-    # -- The ID of the Azure Tenant where the Microsoft Entra ID application is located.
-    tenantId: ""
     # -- The callback URI of the SSO flow. Must be the same as the redirect URI configured for the
     # -- Microsoft Entra ID application. Must be in the following format:
     # -- "https://<backend-domain>/auth/oauth/microsoft/callback"
     # -- Where <backend-domain> is the domain of the Backend API defined in the backend ingress.
     redirectUri: ""
+    # -- The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when
+    # -- not using an existing secret (see microsoft.existingSecret value below).
+    clientId: ""
+    # -- The Client Secret of the Microsoft Entra ID application. To be provided only when not using an
+    # -- existing secret (see microsoft.existingSecret value below).
+    clientSecret: ""
+    # -- The ID of the Azure Tenant where the Microsoft Entra ID application is located. To be provided only
+    # -- when not using an existing secret (see microsoft.existingSecret value below).
+    tenantId: ""
+
+    # -- Use an existing secret for Microsoft Entra ID authentication.
+    existingSecret:
+      name: ""
+      clientIdKey: "microsoft-oauth-client-id"
+      clientSecretKey: "microsoft-oauth-client-secret"
+      tenantIdKey: "microsoft-oauth-tenant-id"
+
 

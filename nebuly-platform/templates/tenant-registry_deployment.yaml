@@ -91,7 +91,8 @@ spec:
               value: {{ .Values.auth.adminUserUsername }}
             - name: "ADMIN_USER_PASSWORD"
               value: {{ .Values.auth.adminUserPassword }}
-            {{- if .Values.auth.microsoft }}
+            {{- if eq .Values.auth.oauthProvider "microsoft" }}
+            # Microsoft OAuth
             - name: "LOGIN_REDIRECT_URL"
               value: "{{ .Values.frontend.rootUrl }}"
             - name: "OAUTH_PROVIDER"
@@ -99,18 +100,18 @@ spec:
             - name: "MICROSOFT_OAUTH_TENANT_ID"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "tenantRegistry.fullname" . }}
-                  key: microsoft-oauth-tenant-id
+                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
+                  key: {{ .Values.auth.microsoft.existingSecret.tenantIdKey | default "microsoft-oauth-tenant-id" }}
             - name: "MICROSOFT_OAUTH_CLIENT_ID"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "tenantRegistry.fullname" . }}
-                  key: microsoft-oauth-client-id
+                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
+                  key: {{ .Values.auth.microsoft.existingSecret.clientIdKey | default "microsoft-oauth-client-id" }}
             - name: "MICROSOFT_OAUTH_CLIENT_SECRET"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "tenantRegistry.fullname" . }}
-                  key: microsoft-oauth-client-secret
+                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
+                  key: {{ .Values.auth.microsoft.existingSecret.clientSecretKey | default "microsoft-oauth-client-secret" }}
             - name: "MICROSOFT_OAUTH_REDIRECT_URI"
               value: "{{ .Values.auth.microsoft.redirectUri }}"
             {{- end -}}

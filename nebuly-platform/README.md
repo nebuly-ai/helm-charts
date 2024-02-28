@@ -213,11 +213,13 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.adminUserEnabled | bool | `false` | If true, an initial admin user with username/password login will be created. |
 | auth.adminUserPassword | string | `"admin"` | The password of the initial admin user. |
 | auth.adminUserUsername | string | `"admin@nebuly.ai"` | The username of the initial admin user. |
-| auth.microsoft | object | `{"clientId":"","clientSecret":"","redirectUri":"","tenantId":""}` | If provided, enable SSO authentication with Microsoft Entra ID. |
-| auth.microsoft.clientId | string | `""` | The Client ID (e.g. Application ID) of the Microsoft Entra ID application. |
-| auth.microsoft.clientSecret | string | `""` | The Client Secret of the Microsoft Entra ID application. |
+| auth.microsoft | object | `{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"microsoft-oauth-client-id","clientSecretKey":"microsoft-oauth-client-secret","name":"","tenantIdKey":"microsoft-oauth-tenant-id"},"redirectUri":"","tenantId":""}` | Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft". |
+| auth.microsoft.clientId | string | `""` | not using an existing secret (see microsoft.existingSecret value below). |
+| auth.microsoft.clientSecret | string | `""` | existing secret (see microsoft.existingSecret value below). |
+| auth.microsoft.existingSecret | object | `{"clientIdKey":"microsoft-oauth-client-id","clientSecretKey":"microsoft-oauth-client-secret","name":"","tenantIdKey":"microsoft-oauth-tenant-id"}` | Use an existing secret for Microsoft Entra ID authentication. |
 | auth.microsoft.redirectUri | string | `""` | Where <backend-domain> is the domain of the Backend API defined in the backend ingress. |
-| auth.microsoft.tenantId | string | `""` | The ID of the Azure Tenant where the Microsoft Entra ID application is located. |
+| auth.microsoft.tenantId | string | `""` | when not using an existing secret (see microsoft.existingSecret value below). |
+| auth.oauthProvider | string | `"microsoft"` | only username/password login will be available. |
 | azureml | object | `{"batchEndpoint":"","clientId":"","clientSecret":"","resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""}` | process the collected data. |
 | azureml.batchEndpoint | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
 | azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. |
