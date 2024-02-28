@@ -130,10 +130,6 @@ app.kubernetes.io/component: nebuly-ingestion-worker
 *********************************************************************
 */}}
 {{- define "topicsClustering.labels" -}}
-{{- include "topicsClustering.selectorLabels" . }}
-{{- end }}
-
-{{- define "topicsClustering.selectorLabels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
 app.kubernetes.io/component: job-topics-clustering
 {{- end }}
@@ -148,10 +144,6 @@ app.kubernetes.io/component: job-topics-clustering
 *********************************************************************
 */}}
 {{- define "actionsProcessing.labels" -}}
-{{- include "actionsProcessing.selectorLabels" . }}
-{{- end }}
-
-{{- define "actionsProcessing.selectorLabels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
 app.kubernetes.io/component: job-topics-clustering
 {{- end }}

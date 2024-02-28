@@ -12,12 +12,16 @@ data:
   OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: "{{ .Values.otel.exporterOtlpTracesEndpoint }}"
   OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: "{{ .Values.otel.exporterOtlpMetricsEndpoint }}"
   OTEL_METRICS_EXPORTER: "otlp"
-  # Oauth (TODO: to be removed once we leave Auth0 on SaaS)
+  # Auth0 (TODO: to be removed once we leave Auth0 on SaaS)
   OAUTH_CLIENT_ID: ""
   OAUTH_CLIENT_SECRET: ""
   OAUTH_DOMAIN: ""
   OAUTH_AUDIENCE: ""
   OAUTH_JWKS_URL: ""
+  AUTH0_JWKS_URL: ""
+  AUTH0_DATABASE_CONNECTION: ""
+  # Oauth
+  OAUTH_JWKS_URL: "http://tenant-registry/auth/well-known/jwk.json"
   # Platform Services
   TENANT_REGISTRY_URL: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"
   # Sentry

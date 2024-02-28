@@ -12,9 +12,6 @@ spec:
         {{- include "topicsClustering.labels" . | nindent 10 }}
     spec:
       backoffLimit: 0
-      selector:
-        matchLabels:
-          {{- include "topicsClustering.selectorLabels" . | nindent 10 }}
       template:
         metadata:
           {{- with .Values.ingestionWorker.podAnnotations }}
@@ -27,6 +24,7 @@ spec:
             {{- toYaml . | nindent 14 }}
             {{- end }}
         spec:
+          restartPolicy: Never
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
             {{- toYaml . | nindent 14 }}

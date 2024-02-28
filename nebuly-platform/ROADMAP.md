@@ -5,6 +5,10 @@
 - [ ] Support of Azure OpenAI by Ingestion Worker
 - [ ] User insights feature implemented with Azure OpenAI instead of OpenAI
 
+## Fixes
+
+- [ ] Make services restart when changing env in configmap
+
 ## Test Suite
 
 The following are the scenarios we need to test before the release.
