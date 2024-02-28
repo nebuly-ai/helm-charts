@@ -36,8 +36,6 @@
   value: ""
 - name: AUTH0_DATABASE_CONNECTION
   value: ""
-- name: OAUTH_JWKS_URL
-  value: ""
 # Oauth
 - name: OAUTH_JWKS_URL
   value: "http://tenant-registry/auth/well-known/jwk.json"

@@ -41,27 +41,8 @@ spec:
                 - name: http
                   containerPort: {{ .Values.ingestionWorker.service.port }}
                   protocol: TCP
-              envFrom:
-                - configMapRef:
-                    name: {{ include "ingestionWorker.fullname" . }}
               env:
-                # Database
-                - name: "POSTGRES_USER"
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-                      key: {{ .Values.analyticDatabase.existingSecret.userKey | default "analytic-database-user" }}
-                - name: "POSTGRES_PASSWORD"
-                  valueFrom:
-                    secretKeyRef:
-                      name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-                      key: {{ .Values.analyticDatabase.existingSecret.passwordKey | default "analytic-database-password" }}
-                # Kafka Settings
-                - name: "KAFKA_SASL_PASSWORD"
-                  value: ""
-                - name: "KAFKA_SASL_USERNAME"
-                  value: ""
-
+                {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
               resources:
                 {{- toYaml .Values.ingestionWorker.topicsClustering.resources | nindent 18 }}
               {{- with .Values.ingestionWorker.volumeMounts }}
