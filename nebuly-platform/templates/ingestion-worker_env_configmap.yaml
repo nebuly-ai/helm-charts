@@ -36,4 +36,9 @@ data:
   KAFKA_TOPIC_EVENTS_DLQ: {{ .Values.kafka.topicEventsDlq | quote }}
   # Platform Services
   TENANT_REGISTRY_URL: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"
-
+  # Azure ML
+  AZURE_TENANT_ID: {{ .Values.azureml.tenantId | quote }}
+  AZURE_SUBSCRIPTION_ID: {{ .Values.azureml.subscriptionId | quote }}
+  AZUREML_RESOURCE_GROUP: {{ .Values.azureml.resourceGroup | quote }}
+  AZUREML_WORKSPACE: {{ .Values.azureml.workspace | quote }}
+  AZUREML_BATCH_ENDPOINT_NAME: {{ .Values.azureml.batchEndpoint | quote }}

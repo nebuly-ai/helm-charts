@@ -408,6 +408,26 @@ secretsStore:
     # -- The ID of the Azure Tenant where the Azure Key Vault is located.
     tenantId: ""
 
+# -- Optional configuration for the Azure Machine Learning integration.
+# -- If provided, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to
+# -- process the collected data.
+azureml:
+  # -- The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace.
+  clientId: ""
+  # -- The client secret of the Azure AD application used to access the Azure Machine Learning Workspace.
+  clientSecret: ""
+  # -- The ID of the Azure Tenant where the Azure Machine Learning Workspace is located.
+  tenantId: ""
+  # -- The subscription ID of the Azure Machine Learning Workspace.
+  subscriptionId: ""
+  # -- The name of the Azure resource group containing the Azure Machine Learning Workspace.
+  resourceGroup: ""
+  # -- The name of the Azure Machine Learning Workspace used to process the collected data.
+  workspace: ""
+  # -- The name of the Azure Machine Learning Workspace used to process the collected data.
+  batchEndpoint: ""
+
+
 analyticDatabase:
   # -- The host of the database used to store analytic data.
   server: ""

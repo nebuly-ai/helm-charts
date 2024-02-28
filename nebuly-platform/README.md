@@ -218,6 +218,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.microsoft.clientSecret | string | `""` | The Client Secret of the Microsoft Entra ID application. |
 | auth.microsoft.redirectUri | string | `""` | Where <backend-domain> is the domain of the Backend API defined in the backend ingress. |
 | auth.microsoft.tenantId | string | `""` | The ID of the Azure Tenant where the Microsoft Entra ID application is located. |
+| azureml | object | `{"batchEndpoint":"","clientId":"","clientSecret":"","resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""}` | process the collected data. |
+| azureml.batchEndpoint | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
+| azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. |
+| azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
+| azureml.resourceGroup | string | `""` | The name of the Azure resource group containing the Azure Machine Learning Workspace. |
+| azureml.subscriptionId | string | `""` | The subscription ID of the Azure Machine Learning Workspace. |
+| azureml.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Machine Learning Workspace is located. |
+| azureml.workspace | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
 | backend.affinity | object | `{}` |  |
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |

@@ -41,6 +41,9 @@ spec:
             - name: http
               containerPort: {{ .Values.ingestionWorker.service.port }}
               protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "ingestionWorker.fullname" . }}
           env:
             # Database
             - name: "POSTGRES_USER"
