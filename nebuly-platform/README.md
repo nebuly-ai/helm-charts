@@ -348,8 +348,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
 | kafka.bootstrapServers | string | `""` | Comma separated list of Kafka brokers. |
-| kafka.saslPassword | string | `""` | The password for connecting to the Kafka cluster with the method SASL/PLAIN. |
-| kafka.saslUsername | string | `""` | The username for connecting to the Kafka cluster with the method SASL/PLAIN. |
+| kafka.existingSecret | object | `{"name":"","saslPasswordKey":"password","saslUsernameKey":"username"}` | Use an existing secret for Kafka authentication. |
+| kafka.saslPassword | string | `""` | when not using an existing secret (see kafka.existingSecret value below). |
+| kafka.saslUsername | string | `""` | when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.socketKeepAliveEnabled | bool | `true` | If true, the Kafka clients will use the keep alive feature. |
 | kafka.topicEventsDlq | string | `"events-dlq"` | The name of the Kafka topic used as dead letter queue. |
 | kafka.topicEventsMain | string | `"events-main"` | The name of the main Kafka topic used to store events (e.g. interactions) |

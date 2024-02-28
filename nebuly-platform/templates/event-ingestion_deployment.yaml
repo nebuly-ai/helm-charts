@@ -44,13 +44,13 @@ spec:
             - name: "KAFKA_SASL_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "eventIngestion.fullname" . }}
-                  key: kafka-sasl-password
+                  name: {{ (tpl .Values.kafka.existingSecret.name .) | default (include "eventIngestion.fullname" .) }}
+                  key: {{ .Values.kafka.existingSecret.saslPasswordKey | default "kafka-sasl-password" }}
             - name: "KAFKA_SASL_USERNAME"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "eventIngestion.fullname" . }}
-                  key: kafka-sasl-username
+                  name: {{ (tpl .Values.kafka.existingSecret.name .) | default (include "eventIngestion.fullname" .) }}
+                  key: {{ .Values.kafka.existingSecret.saslUsernameKey | default "kafka-sasl-username" }}
             - name: "KAFKA_SOCKET_KEEPALIVE_ENABLED"
               value: {{ .Values.kafka.socketKeepAliveEnabled  | quote }}
             # Kafka topics

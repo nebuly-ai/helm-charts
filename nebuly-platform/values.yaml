@@ -441,10 +441,19 @@ analyticDatabase:
 kafka:
   # -- Comma separated list of Kafka brokers.
   bootstrapServers: ""
-  # -- The username for connecting to the Kafka cluster with the method SASL/PLAIN.
+  # -- The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
+  # -- when not using an existing secret (see kafka.existingSecret value below).
   saslUsername: ""
-  # -- The password for connecting to the Kafka cluster with the method SASL/PLAIN.
+  # -- The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
+  # -- when not using an existing secret (see kafka.existingSecret value below).
   saslPassword: ""
+
+  # -- Use an existing secret for Kafka authentication.
+  existingSecret:
+    name: ""
+    saslUsernameKey: "username"
+    saslPasswordKey: "password"
+
   # -- If true, the Kafka clients will use the keep alive feature.
   socketKeepAliveEnabled: true
   # -- The name of the main Kafka topic used to store events (e.g. interactions)

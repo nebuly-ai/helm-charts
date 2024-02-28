@@ -300,16 +300,16 @@ values: kafka.bootstrapServers
 {{- end -}}
 
 {{- define "chart.validateValues.kafka.saslUsername" -}}
-{{- if empty .Values.kafka.saslUsername  -}}
+{{- if and (empty .Values.kafka.saslUsername) (empty .Values.kafka.existingSecret.name) -}}
 values: kafka.saslUsername
-  `saslUsername` is required and should be a non-empty string
+  `saslUsername` is required when not using an existent secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
 
 {{- define "chart.validateValues.kafka.saslPassword" -}}
-{{- if empty .Values.kafka.saslPassword  -}}
+{{- if and (empty .Values.kafka.saslPassword) (empty .Values.kafka.existingSecret.name) -}}
 values: kafka.saslPassword
-  `saslPassword` is required and should be a non-empty string
+  `saslPassword` is required when not using an existing secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
 

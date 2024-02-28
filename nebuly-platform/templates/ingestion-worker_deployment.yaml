@@ -60,13 +60,13 @@ spec:
             - name: "KAFKA_SASL_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "ingestionWorker.fullname" . }}
-                  key: kafka-sasl-password
+                  name: {{ (tpl .Values.kafka.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
+                  key: {{ .Values.kafka.existingSecret.saslPasswordKey | default "kafka-sasl-password" }}
             - name: "KAFKA_SASL_USERNAME"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "ingestionWorker.fullname" . }}
-                  key: kafka-sasl-username
+                  name: {{ (tpl .Values.kafka.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
+                  key: {{ .Values.kafka.existingSecret.saslUsernameKey | default "kafka-sasl-username" }}
           livenessProbe:
             exec:
               command:
