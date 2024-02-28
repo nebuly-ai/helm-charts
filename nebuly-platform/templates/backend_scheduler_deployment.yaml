@@ -52,13 +52,13 @@ spec:
             - name: "ANALYTICS_USER"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "backend.fullname" . }}
-                  key: analytic-database-user
+                  name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "backend.fullname" .) }}
+                  key: {{ .Values.analyticDatabase.existingSecret.userKey | default "analytic-database-user" }}
             - name: "ANALYTICS_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "backend.fullname" . }}
-                  key: analytic-database-password
+                  name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "backend.fullname" .) }}
+                  key: {{ .Values.analyticDatabase.existingSecret.passwordKey | default "analytic-database-password" }}
           livenessProbe:
             httpGet:
               path: /healthz
