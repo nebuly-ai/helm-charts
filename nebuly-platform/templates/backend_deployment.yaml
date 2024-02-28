@@ -37,24 +37,12 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
-          envFrom:
-            - configMapRef:
-                name: {{ include "backend.fullname" . }}
           env:
             # OTEL
             - name: "OTEL_SERVICE_NAME"
               value: "nebuly-backend"
-            # Database
-            - name: "ANALYTICS_USER"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "backend.fullname" .) }}
-                  key: {{ .Values.analyticDatabase.existingSecret.userKey | default "analytic-database-user" }}
-            - name: "ANALYTICS_PASSWORD"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "backend.fullname" .) }}
-                  key: {{ .Values.analyticDatabase.existingSecret.passwordKey | default "analytic-database-password" }}
+            # Common env
+            {{ include "backend.commonEnv" . | nindent 12 }}
           livenessProbe:
             httpGet:
               path: /healthz
