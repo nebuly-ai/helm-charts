@@ -369,10 +369,12 @@ The command removes all the Kubernetes components associated with the chart and 
 | otel.enabled | bool | `false` | OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
-| secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. |
-| secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. |
+| secretsStore.azure.clientId | string | `""` | when not using an existing secret (see azure.existingSecret value below). |
+| secretsStore.azure.clientSecret | string | `""` | only when not using an existing secret (see azure.existingSecret value below). |
+| secretsStore.azure.existingSecret | object | `{"clientIdKey":"","clientSecretKey":"","name":""}` | Use an existing secret for the Azure Key Vault authentication. |
+| secretsStore.azure.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | secretsStore.azure.keyVaultUrl | string | `""` | The URL of the Azure Key Vault storing the Tenant Registry secrets. |
-| secretsStore.azure.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Key Vault is located. |
+| secretsStore.azure.tenantId | string | `""` | existing secret (see azure.existingSecret value below). |
 | secretsStore.kind | string | `"azure_keyvault"` | Supported values: "database", "azure_keyvault" |
 | tenantRegistry.affinity | object | `{}` |  |
 | tenantRegistry.existingSecret | object | `{"name":"","postgresPasswordKey":"","postgresUserKey":""}` | Use an existing secret for the database authentication. |

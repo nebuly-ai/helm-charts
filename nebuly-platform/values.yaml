@@ -410,12 +410,22 @@ secretsStore:
   azure:
     # -- The URL of the Azure Key Vault storing the Tenant Registry secrets.
     keyVaultUrl: ""
-    # -- The Application ID of the Azure AD application used to access the Azure Key Vault.
+    # -- The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only
+    # -- when not using an existing secret (see azure.existingSecret value below).
     clientId: ""
-    # -- The Application Secret of the Azure AD application used to access the Azure Key Vault.
+    # -- The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided
+    # -- only when not using an existing secret (see azure.existingSecret value below).
     clientSecret: ""
-    # -- The ID of the Azure Tenant where the Azure Key Vault is located.
+    # -- The ID of the Azure Tenant where the Azure Key Vault is located. To be provided only when not using an
+    # -- existing secret (see azure.existingSecret value below).
     tenantId: ""
+
+    # -- Use an existing secret for the Azure Key Vault authentication.
+    existingSecret:
+      # -- Name of the secret. Can be templated.
+      name: ""
+      clientIdKey: ""
+      clientSecretKey: ""
 
 # -- Optional configuration for the Azure Machine Learning integration.
 # -- If provided, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to

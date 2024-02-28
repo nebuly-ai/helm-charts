@@ -59,18 +59,15 @@ spec:
             - name: "AZURE_CLIENT_ID"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "tenantRegistry.fullname" . }}
-                  key: azure-client-id
+                  name: {{ (tpl .Values.secretsStore.azure.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
+                  key: {{ .Values.secretsStore.azure.existingSecret.clientIdKey | default "azure-client-id" }}
             - name: "AZURE_CLIENT_SECRET"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "tenantRegistry.fullname" . }}
-                  key: azure-client-secret
+                  name: {{ (tpl .Values.secretsStore.azure.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
+                  key: {{ .Values.secretsStore.azure.existingSecret.clientSecretKey | default "azure-client-secret" }}
             - name: "AZURE_TENANT_ID"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "tenantRegistry.fullname" . }}
-                  key: azure-tenant-id
+              value: {{ .Values.secretsStore.azure.tenantId }}
             - name: "AZURE_KEYVAULT_URL"
               value: {{ .Values.secretsStore.azure.keyVaultUrl }}
             # OTEL
