@@ -206,17 +206,20 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| analyticDatabase.name | string | `"analytics"` | The name of the database used to store analytic data (interactions, actions, etc.). |
-| analyticDatabase.password | string | `""` | The password for the database user. |
+| analyticDatabase.existingSecret | object | `{"name":"","passwordKey":"","userKey":""}` | Use an existing secret for the database authentication. |
+| analyticDatabase.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| analyticDatabase.name | string | `"analytics"` | when not using an existing secret (see analyticDatabase.existingSecret value below). |
+| analyticDatabase.password | see analyticDatabase.existingSecret value below | `""` | . |
 | analyticDatabase.server | string | `""` | The host of the database used to store analytic data. |
 | analyticDatabase.user | string | `""` | The user for connecting to the database. |
 | auth.adminUserEnabled | bool | `false` | If true, an initial admin user with username/password login will be created. |
 | auth.adminUserPassword | string | `"admin"` | The password of the initial admin user. |
 | auth.adminUserUsername | string | `"admin@nebuly.ai"` | The username of the initial admin user. |
-| auth.microsoft | object | `{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"microsoft-oauth-client-id","clientSecretKey":"microsoft-oauth-client-secret","name":"","tenantIdKey":"microsoft-oauth-tenant-id"},"redirectUri":"","tenantId":""}` | Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft". |
+| auth.microsoft | object | `{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":"","tenantIdKey":""},"redirectUri":"","tenantId":""}` | Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft". |
 | auth.microsoft.clientId | string | `""` | not using an existing secret (see microsoft.existingSecret value below). |
 | auth.microsoft.clientSecret | string | `""` | existing secret (see microsoft.existingSecret value below). |
-| auth.microsoft.existingSecret | object | `{"clientIdKey":"microsoft-oauth-client-id","clientSecretKey":"microsoft-oauth-client-secret","name":"","tenantIdKey":"microsoft-oauth-tenant-id"}` | Use an existing secret for Microsoft Entra ID authentication. |
+| auth.microsoft.existingSecret | object | `{"clientIdKey":"","clientSecretKey":"","name":"","tenantIdKey":""}` | Use an existing secret for Microsoft Entra ID authentication. |
+| auth.microsoft.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.microsoft.redirectUri | string | `""` | Where <backend-domain> is the domain of the Backend API defined in the backend ingress. |
 | auth.microsoft.tenantId | string | `""` | when not using an existing secret (see microsoft.existingSecret value below). |
 | auth.oauthProvider | string | `"microsoft"` | only username/password login will be available. |
@@ -350,7 +353,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
 | kafka.bootstrapServers | string | `""` | Comma separated list of Kafka brokers. |
-| kafka.existingSecret | object | `{"name":"","saslPasswordKey":"password","saslUsernameKey":"username"}` | Use an existing secret for Kafka authentication. |
+| kafka.existingSecret | object | `{"name":"","saslPasswordKey":"","saslUsernameKey":""}` | Use an existing secret for Kafka authentication. |
+| kafka.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | kafka.saslPassword | string | `""` | when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.saslUsername | string | `""` | when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.socketKeepAliveEnabled | bool | `true` | If true, the Kafka clients will use the keep alive feature. |

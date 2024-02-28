@@ -277,16 +277,16 @@ values: analyticDatabase.name
 {{- end -}}
 
 {{- define "chart.validateValues.analyticDatabase.user" -}}
-{{- if empty .Values.analyticDatabase.user  -}}
+{{- if and (empty .Values.analyticDatabase.user) (empty .Values.analyticDatabase.existingSecret.name)  -}}
 values: analyticDatabase.user
-  `user` is required and should be a non-empty string
+  `user` is required when not using an existing secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
 
 {{- define "chart.validateValues.analyticDatabase.password" -}}
-{{- if empty .Values.analyticDatabase.password  -}}
+{{- if and (empty .Values.analyticDatabase.password) (empty .Values.analyticDatabase.existingSecret.name)  -}}
 values: analyticDatabase.password
-  `password` is required and should be a non-empty string
+  `password` is required when not using an existing secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
 

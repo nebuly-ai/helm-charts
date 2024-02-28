@@ -49,13 +49,13 @@ spec:
             - name: "POSTGRES_USER"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "ingestionWorker.fullname" . }}
-                  key: analytic-database-user
+                  name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
+                  key: {{ .Values.analyticDatabase.existingSecret.userKey | default "analytic-database-user" }}
             - name: "POSTGRES_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "ingestionWorker.fullname" . }}
-                  key: analytic-database-password
+                  name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
+                  key: {{ .Values.analyticDatabase.existingSecret.passwordKey | default "analytic-database-password" }}
             # Kafka Settings
             - name: "KAFKA_SASL_PASSWORD"
               valueFrom:

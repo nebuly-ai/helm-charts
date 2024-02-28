@@ -431,12 +431,20 @@ azureml:
 analyticDatabase:
   # -- The host of the database used to store analytic data.
   server: ""
-  # -- The name of the database used to store analytic data (interactions, actions, etc.).
+  # -- The name of the database used to store analytic data (interactions, actions, etc.). To be provided only
+  # -- when not using an existing secret (see analyticDatabase.existingSecret value below).
   name: "analytics"
   # -- The user for connecting to the database.
   user: ""
-  # -- The password for the database user.
+  # -- The password for the database user. To be provided only when not using an existing secret
+  # -- (see analyticDatabase.existingSecret value below).
   password: ""
+  # -- Use an existing secret for the database authentication.
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    userKey: ""
+    passwordKey: ""
 
 kafka:
   # -- Comma separated list of Kafka brokers.
@@ -450,9 +458,10 @@ kafka:
 
   # -- Use an existing secret for Kafka authentication.
   existingSecret:
+    # -- Name of the secret. Can be templated.
     name: ""
-    saslUsernameKey: "username"
-    saslPasswordKey: "password"
+    saslUsernameKey: ""
+    saslPasswordKey: ""
 
   # -- If true, the Kafka clients will use the keep alive feature.
   socketKeepAliveEnabled: true
@@ -509,9 +518,10 @@ auth:
 
     # -- Use an existing secret for Microsoft Entra ID authentication.
     existingSecret:
+      # -- Name of the secret. Can be templated.
       name: ""
-      clientIdKey: "microsoft-oauth-client-id"
-      clientSecretKey: "microsoft-oauth-client-secret"
-      tenantIdKey: "microsoft-oauth-tenant-id"
+      clientIdKey: ""
+      clientSecretKey: ""
+      tenantIdKey: ""
 
 
