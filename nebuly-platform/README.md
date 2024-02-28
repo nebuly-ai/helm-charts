@@ -223,10 +223,12 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.microsoft.redirectUri | string | `""` | Where <backend-domain> is the domain of the Backend API defined in the backend ingress. |
 | auth.microsoft.tenantId | string | `""` | when not using an existing secret (see microsoft.existingSecret value below). |
 | auth.oauthProvider | string | `"microsoft"` | only username/password login will be available. |
-| azureml | object | `{"batchEndpoint":"","clientId":"","clientSecret":"","resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""}` | process the collected data. |
+| azureml | object | `{"batchEndpoint":"","clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""}` | process the collected data. |
 | azureml.batchEndpoint | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
 | azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. |
 | azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
+| azureml.existingSecret | object | `{"clientIdKey":"","clientSecretKey":"","name":""}` | Use an existing secret for the AzureML authentication. |
+| azureml.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | azureml.resourceGroup | string | `""` | The name of the Azure resource group containing the Azure Machine Learning Workspace. |
 | azureml.subscriptionId | string | `""` | The subscription ID of the Azure Machine Learning Workspace. |
 | azureml.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Machine Learning Workspace is located. |

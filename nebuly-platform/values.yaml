@@ -436,6 +436,13 @@ azureml:
   # -- The name of the Azure Machine Learning Workspace used to process the collected data.
   batchEndpoint: ""
 
+  # -- Use an existing secret for the AzureML authentication.
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    clientIdKey: ""
+    clientSecretKey: ""
+
 
 analyticDatabase:
   # -- The host of the database used to store analytic data.
