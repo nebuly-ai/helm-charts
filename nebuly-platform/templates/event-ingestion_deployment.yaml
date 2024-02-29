@@ -59,6 +59,17 @@ spec:
             # Platform Services
             - name: "TENANT_REGISTRY_URL"
               value: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"
+            # OTEL
+            - name: OTEL_ENABLED
+              value: "{{ .Values.otel.enabled }}"
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: "{{ .Values.otel.exporterOtlpTracesEndpoint }}"
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: "{{ .Values.otel.exporterOtlpMetricsEndpoint }}"
+            - name: OTEL_METRICS_EXPORTER
+              value: "otlp"
+            - name: OTEL_SERVICE_NAME
+              value: "event-ingestion"
             # Misc
             - name: "ENV"
               value: "prod"
