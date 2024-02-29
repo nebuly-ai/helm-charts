@@ -58,7 +58,7 @@ spec:
               value: {{ .Values.kafka.topicEventsMain }}
             # Platform Services
             - name: "TENANT_REGISTRY_URL"
-              value: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"
+              value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}"
             # OTEL
             - name: OTEL_ENABLED
               value: "{{ .Values.otel.enabled }}"

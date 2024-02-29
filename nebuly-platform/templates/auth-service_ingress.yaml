@@ -1,6 +1,6 @@
 {{- if .Values.auth.ingress.enabled -}}
-{{- $fullName := include "tenantRegistry.fullname" . -}}
-{{- $svcPort := .Values.tenantRegistry.service.port -}}
+{{- $fullName := include "authService.fullname" . -}}
+{{- $svcPort := .Values.auth.service.port -}}
 {{- if and .Values.auth.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.auth.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.auth.ingress.annotations "kubernetes.io/ingress.class" .Values.auth.ingress.className}}
@@ -17,7 +17,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "tenantRegistry.labels" . | nindent 4 }}
+    {{- include "authService.labels" . | nindent 4 }}
   {{- with .Values.auth.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

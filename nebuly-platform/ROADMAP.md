@@ -20,6 +20,8 @@ The following are the scenarios we need to test before the release.
 - [ ] Installation with custom names: check that all the components are installed and running, and the genrated
   names and labels are correct.
 - [ ] Installation providing the credentials through existing secrets
+- [ ] Test DB secrets store
+- [ ] Test KeyVault secrets store
 
 ### Smoke test
 

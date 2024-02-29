@@ -69,7 +69,7 @@
       key: {{ .Values.kafka.existingSecret.saslUsernameKey | default "kafka-sasl-username" }}
 # Platform services
 - name: TENANT_REGISTRY_URL
-  value: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"
+  value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}"
 # AzureML
 - name: AZURE_TENANT_ID
   value: "{{ .Values.azureml.tenantId }}"

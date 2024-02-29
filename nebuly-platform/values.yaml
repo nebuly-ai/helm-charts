@@ -84,6 +84,8 @@ frontend:
   rootUrl: ""
   # -- The URL of the Backend API to which Frontend will make requests.
   backendApiUrl: ""
+  #
+  authApiUrl: ""
 
   replicaCount: 1
 
@@ -319,81 +321,6 @@ ingestionWorker:
 
 
 
-tenantRegistry:
-  # -- The host of the PostgreSQL database used to store service's data.
-  postgresServer: ""
-  # -- The name of the PostgreSQL database used to store service's data.
-  postgresDatabase: "tenant-registry"
-  # -- The user for connecting to the database. Required only if not using an existing secret
-  # -- (see tenantRegistry.existingSecret value below).
-  postgresUser: ""
-  # -- The password for the database user. Required only if not using an existing secret
-  # -- (see tenantRegistry.existingSecret value below).
-  postgresPassword: ""
-
-  # -- Use an existing secret for the database authentication.
-  existingSecret:
-    # -- Name of the secret. Can be templated.
-    name: ""
-    postgresUserKey: ""
-    postgresPasswordKey: ""
-
-  nameOverride: ""
-  fullnameOverride: ""
-
-  replicaCount: 1
-
-  image:
-    repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
-    pullPolicy: IfNotPresent
-    tag: "latest"
-
-  podAnnotations: { }
-  podLabels: { }
-
-  podSecurityContext:
-    runAsNonRoot: true
-
-  securityContext:
-    runAsNonRoot: true
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-        - "ALL"
-  # readOnlyRootFilesystem: true
-  # runAsUser: 1000
-
-  service:
-    type: ClusterIP
-    port: 80
-
-  # Additional volumes on the output Deployment definition.
-  volumes: [ ]
-  # - name: foo
-  #   secret:
-  #     secretName: mysecret
-  #     optional: false
-
-  # Additional volumeMounts on the output Deployment definition.
-  volumeMounts: [ ]
-  # - name: foo
-  #   mountPath: "/etc/foo"
-  #   readOnly: true
-
-  resources:
-    limits:
-      memory: 256Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
-  nodeSelector: { }
-
-  tolerations: [ ]
-
-  affinity: { }
-
-
-
 nameOverride: ""
 
 imagePullSecrets: [ ]
@@ -402,7 +329,7 @@ imagePullSecrets: [ ]
 secretsStore:
   # -- The kind of Secret Store used to store the secrets.
   # -- Supported values: "database", "azure_keyvault"
-  kind: "azure_keyvault"
+  kind: "database"
   # Azure Secret Store configuration. Required only if kind is "azure_keyvault".
   azure:
     # -- The URL of the Azure Key Vault storing the Tenant Registry secrets.
@@ -519,7 +446,7 @@ auth:
 
   # -- The OAuth provider used for authentication. Supported values: "microsoft". If empty string,
   # -- only username/password login will be available.
-  oauthProvider: "microsoft"
+  oauthProvider: ""
 
   # -- Ingress configuration for the login endpoints.
   ingress:
@@ -538,6 +465,83 @@ auth:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
+
+  # -- Private RSA Key used for signing JWT tokens. Required only if not using an existing secret
+  # -- (see auth.existingSecret value below).
+  jwtSigningKey: ""
+
+  # -- The host of the PostgreSQL database used to store user data.
+  postgresServer: ""
+  # -- The name of the PostgreSQL database used to store user data.
+  postgresDatabase: "auth-service"
+  # -- The user for connecting to the database. Required only if not using an existing secret
+  # -- (see auth.existingSecret value below).
+  postgresUser: ""
+  # -- The password for the database user. Required only if not using an existing secret
+  # -- (see auth.existingSecret value below).
+  postgresPassword: ""
+
+  # -- Use an existing secret for the database authentication.
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    postgresUserKey: ""
+    postgresPasswordKey: ""
+    jwtSigningKey: ""
+
+  nameOverride: ""
+  fullnameOverride: ""
+
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
+    pullPolicy: IfNotPresent
+    tag: "latest"
+
+  podAnnotations: { }
+  podLabels: { }
+
+  podSecurityContext:
+    runAsNonRoot: true
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  # readOnlyRootFilesystem: true
+  # runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  # Additional volumes on the output Deployment definition.
+  volumes: [ ]
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # Additional volumeMounts on the output Deployment definition.
+  volumeMounts: [ ]
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  nodeSelector: { }
+
+  tolerations: [ ]
+
+  affinity: { }
 
   # -- Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft".
   microsoft:

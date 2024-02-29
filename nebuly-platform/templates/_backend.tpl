@@ -38,10 +38,10 @@
   value: ""
 # Oauth
 - name: OAUTH_JWKS_URL
-  value: "http://tenant-registry/auth/well-known/jwk.json"
+  value: "http://auth-service/auth/well-known/jwk.json"
 # Internal services
 - name: TENANT_REGISTRY_URL
-  value: "http://{{ include "tenantRegistry.fullname" . }}:{{ .Values.tenantRegistry.service.port }}"
+  value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}"
 # Sentry
 - name: SENTRY_ENABLED
   value: "false"

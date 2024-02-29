@@ -11,6 +11,6 @@ data:
       "GIT_REF": "${GIT_REF}",
       "NEXT_PUBLIC_AUTH_MODE": "custom",
       "NEXT_PUBLIC_API_URL": "{{ .Values.frontend.backendApiUrl }}",
-      "NEXT_PUBLIC_AUTH_API_URL": "{{ .Values.frontend.backendApiUrl }}/auth"
+      "NEXT_PUBLIC_AUTH_API_URL": "{{ .Values.frontend.authApiUrl }}"
     }
 

@@ -17,7 +17,7 @@ can be provided as a configuration parameter during the installation process of 
 | Database        | Helm Value                        | Collation  | Charset | Description                                                                          |
 |-----------------|-----------------------------------|------------|---------|--------------------------------------------------------------------------------------|
 | Backend         | `backend.postgresDatabase`        | en_US.utf8 | utf8    | It stores users information such as settings, dashboards and projects.               |
-| Tenant Registry | `tenantRegistry.postgresDatabase` | en_US.utf8 | utf8    | It stores internal information necessary for the proper functioning of the platform. |
+| Tenant Registry | `authService.postgresDatabase` | en_US.utf8 | utf8    | It stores internal information necessary for the proper functioning of the platform. |
 | Analytic        | `analyticDatabase.name`           | en_US.utf8 | utf8    | It stores analytic data such as user LLM interactions                                |
 
 The PostgreSQL server must meet the following requirements:
@@ -107,7 +107,7 @@ Below you can find a minimal `values.yaml` file with all the mandatory configura
 imagePullSecrets:
   - name: nebuly-docker-pull
 
-tenantRegistry:
+authService:
   postgresServer: mydatabaseserver.postgres.database.azure.com
   postgresUser: myusername
   postgresPassword: mypassword
@@ -215,14 +215,44 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.adminUserEnabled | bool | `false` | If true, an initial admin user with username/password login will be created. |
 | auth.adminUserPassword | string | `"admin"` | The password of the initial admin user. |
 | auth.adminUserUsername | string | `"admin@nebuly.ai"` | The username of the initial admin user. |
+| auth.affinity | object | `{}` |  |
+| auth.existingSecret | object | `{"jwtSigningKey":"","name":"","postgresPasswordKey":"","postgresUserKey":""}` | Use an existing secret for the database authentication. |
+| auth.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| auth.fullnameOverride | string | `""` |  |
+| auth.image.pullPolicy | string | `"IfNotPresent"` |  |
+| auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
+| auth.image.tag | string | `"latest"` |  |
+| auth.ingress | object | `{"annotations":{},"className":"","enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/auth","pathType":"ImplementationSpecific"}]}],"tls":[]}` | Ingress configuration for the login endpoints. |
+| auth.jwtSigningKey | see auth.existingSecret value below | `""` | . |
 | auth.microsoft | object | `{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":"","tenantIdKey":""},"redirectUri":"","tenantId":""}` | Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft". |
 | auth.microsoft.clientId | string | `""` | not using an existing secret (see microsoft.existingSecret value below). |
 | auth.microsoft.clientSecret | string | `""` | existing secret (see microsoft.existingSecret value below). |
 | auth.microsoft.existingSecret | object | `{"clientIdKey":"","clientSecretKey":"","name":"","tenantIdKey":""}` | Use an existing secret for Microsoft Entra ID authentication. |
 | auth.microsoft.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| auth.microsoft.redirectUri | string | `""` | Where <backend-domain> is the domain of the Backend API defined in the backend ingress. |
+| auth.microsoft.redirectUri | string | `""` | Where <backend-domain> is the domain defined in `backend.ingress`. |
 | auth.microsoft.tenantId | string | `""` | when not using an existing secret (see microsoft.existingSecret value below). |
-| auth.oauthProvider | string | `"microsoft"` | only username/password login will be available. |
+| auth.nameOverride | string | `""` |  |
+| auth.nodeSelector | object | `{}` |  |
+| auth.oauthProvider | string | `""` | only username/password login will be available. |
+| auth.podAnnotations | object | `{}` |  |
+| auth.podLabels | object | `{}` |  |
+| auth.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| auth.postgresDatabase | string | `"auth-service"` | The name of the PostgreSQL database used to store user data. |
+| auth.postgresPassword | see auth.existingSecret value below | `""` | . |
+| auth.postgresServer | string | `""` | The host of the PostgreSQL database used to store user data. |
+| auth.postgresUser | see auth.existingSecret value below | `""` | . |
+| auth.replicaCount | int | `1` |  |
+| auth.resources.limits.memory | string | `"256Mi"` |  |
+| auth.resources.requests.cpu | string | `"100m"` |  |
+| auth.resources.requests.memory | string | `"128Mi"` |  |
+| auth.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| auth.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| auth.securityContext.runAsNonRoot | bool | `true` |  |
+| auth.service.port | int | `80` |  |
+| auth.service.type | string | `"ClusterIP"` |  |
+| auth.tolerations | list | `[]` |  |
+| auth.volumeMounts | list | `[]` |  |
+| auth.volumes | list | `[]` |  |
 | azureml | object | `{"batchEndpoint":"","clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""}` | process the collected data. |
 | azureml.batchEndpoint | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
 | azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. |
@@ -284,7 +314,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.resources.limits.memory | string | `"256Mi"` |  |
 | eventIngestion.resources.requests.cpu | string | `"100m"` |  |
 | eventIngestion.resources.requests.memory | string | `"128Mi"` |  |
-| eventIngestion.rootPath | string | `""` | Example: rootPath: "/event-ingestion" |
 | eventIngestion.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | eventIngestion.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | eventIngestion.securityContext.runAsNonRoot | bool | `true` |  |
@@ -294,6 +323,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.volumeMounts | list | `[]` |  |
 | eventIngestion.volumes | list | `[]` |  |
 | frontend.affinity | object | `{}` |  |
+| frontend.authApiUrl | string | `""` |  |
 | frontend.backendApiUrl | string | `""` | The URL of the Backend API to which Frontend will make requests. |
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -375,35 +405,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | secretsStore.azure.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | secretsStore.azure.keyVaultUrl | string | `""` | The URL of the Azure Key Vault storing the Tenant Registry secrets. |
 | secretsStore.azure.tenantId | string | `""` | existing secret (see azure.existingSecret value below). |
-| secretsStore.kind | string | `"azure_keyvault"` | Supported values: "database", "azure_keyvault" |
-| tenantRegistry.affinity | object | `{}` |  |
-| tenantRegistry.existingSecret | object | `{"name":"","postgresPasswordKey":"","postgresUserKey":""}` | Use an existing secret for the database authentication. |
-| tenantRegistry.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| tenantRegistry.fullnameOverride | string | `""` |  |
-| tenantRegistry.image.pullPolicy | string | `"IfNotPresent"` |  |
-| tenantRegistry.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| tenantRegistry.image.tag | string | `"latest"` |  |
-| tenantRegistry.nameOverride | string | `""` |  |
-| tenantRegistry.nodeSelector | object | `{}` |  |
-| tenantRegistry.podAnnotations | object | `{}` |  |
-| tenantRegistry.podLabels | object | `{}` |  |
-| tenantRegistry.podSecurityContext.runAsNonRoot | bool | `true` |  |
-| tenantRegistry.postgresDatabase | string | `"tenant-registry"` | The name of the PostgreSQL database used to store service's data. |
-| tenantRegistry.postgresPassword | see tenantRegistry.existingSecret value below | `""` | . |
-| tenantRegistry.postgresServer | string | `""` | The host of the PostgreSQL database used to store service's data. |
-| tenantRegistry.postgresUser | see tenantRegistry.existingSecret value below | `""` | . |
-| tenantRegistry.replicaCount | int | `1` |  |
-| tenantRegistry.resources.limits.memory | string | `"256Mi"` |  |
-| tenantRegistry.resources.requests.cpu | string | `"100m"` |  |
-| tenantRegistry.resources.requests.memory | string | `"128Mi"` |  |
-| tenantRegistry.securityContext.allowPrivilegeEscalation | bool | `false` |  |
-| tenantRegistry.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| tenantRegistry.securityContext.runAsNonRoot | bool | `true` |  |
-| tenantRegistry.service.port | int | `80` |  |
-| tenantRegistry.service.type | string | `"ClusterIP"` |  |
-| tenantRegistry.tolerations | list | `[]` |  |
-| tenantRegistry.volumeMounts | list | `[]` |  |
-| tenantRegistry.volumes | list | `[]` |  |
+| secretsStore.kind | string | `"database"` | Supported values: "database", "azure_keyvault" |
 
 ## Maintainers
 

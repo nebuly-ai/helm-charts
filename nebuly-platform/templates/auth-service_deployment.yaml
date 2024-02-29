@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "tenantRegistry.fullname" . }}
+  name: {{ include "authService.fullname" . }}
   labels:
-    {{- include "tenantRegistry.labels" . | nindent 4 }}
+    {{- include "authService.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.tenantRegistry.replicaCount }}
+  replicas: {{ .Values.auth.replicaCount }}
   selector:
     matchLabels:
-      {{- include "tenantRegistry.selectorLabels" . | nindent 6 }}
+      {{- include "authService.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.tenantRegistry.podAnnotations }}
+      {{- with .Values.auth.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "tenantRegistry.labels" . | nindent 8 }}
-        {{- with .Values.tenantRegistry.podLabels }}
+        {{- include "authService.labels" . | nindent 8 }}
+        {{- with .Values.auth.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
@@ -26,13 +26,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        {{- toYaml .Values.tenantRegistry.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.auth.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.tenantRegistry.securityContext | nindent 12 }}
-          image: "{{ .Values.tenantRegistry.image.repository }}:{{ .Values.tenantRegistry.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.tenantRegistry.image.pullPolicy }}
+            {{- toYaml .Values.auth.securityContext | nindent 12 }}
+          image: "{{ .Values.auth.image.repository }}:{{ .Values.auth.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.auth.image.pullPolicy }}
           ports:
             - name: http
               containerPort: 8080
@@ -40,31 +40,31 @@ spec:
           env:
             # Database
             - name: "POSTGRES_SERVER"
-              value: {{ .Values.tenantRegistry.postgresServer }}
+              value: {{ .Values.auth.postgresServer }}
             - name: "POSTGRES_DB"
-              value: {{ .Values.tenantRegistry.postgresDatabase }}
+              value: {{ .Values.auth.postgresDatabase }}
             - name: "POSTGRES_USER"
               valueFrom:
                 secretKeyRef:
-                  name: {{ (tpl .Values.tenantRegistry.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
-                  key: {{ .Values.tenantRegistry.existingSecret.postgresUserKey | default "postgres-user" }}
+                  name: {{ (tpl .Values.auth.existingSecret.name . ) | default (include "authService.fullname" .) }}
+                  key: {{ .Values.auth.existingSecret.postgresUserKey | default "postgres-user" }}
             - name: "POSTGRES_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  name: {{ (tpl .Values.tenantRegistry.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
-                  key: {{ .Values.tenantRegistry.existingSecret.postgresPasswordKey | default "postgres-password" }}
+                  name: {{ (tpl .Values.auth.existingSecret.name . ) | default (include "authService.fullname" .) }}
+                  key: {{ .Values.auth.existingSecret.postgresPasswordKey | default "postgres-password" }}
             # Secrets Store
             - name: "SECRETS_STORE_KIND"
               value: {{ .Values.secretsStore.kind }}
             - name: "AZURE_CLIENT_ID"
               valueFrom:
                 secretKeyRef:
-                  name: {{ (tpl .Values.secretsStore.azure.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
+                  name: {{ (tpl .Values.secretsStore.azure.existingSecret.name . ) | default (include "authService.fullname" .) }}
                   key: {{ .Values.secretsStore.azure.existingSecret.clientIdKey | default "azure-client-id" }}
             - name: "AZURE_CLIENT_SECRET"
               valueFrom:
                 secretKeyRef:
-                  name: {{ (tpl .Values.secretsStore.azure.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
+                  name: {{ (tpl .Values.secretsStore.azure.existingSecret.name . ) | default (include "authService.fullname" .) }}
                   key: {{ .Values.secretsStore.azure.existingSecret.clientSecretKey | default "azure-client-secret" }}
             - name: "AZURE_TENANT_ID"
               value: {{ .Values.secretsStore.azure.tenantId }}
@@ -72,7 +72,7 @@ spec:
               value: {{ .Values.secretsStore.azure.keyVaultUrl }}
             # OTEL
             - name: "OTEL_SERVICE_NAME"
-              value: "nebuly-tenant-registry"
+              value: "nebuly-auth-service"
             - name: "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"
               value: "{{ .Values.otel.exporterOtlpTracesEndpoint }}"
             - name: "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"
@@ -97,17 +97,17 @@ spec:
             - name: "MICROSOFT_OAUTH_TENANT_ID"
               valueFrom:
                 secretKeyRef:
-                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
+                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "authService.fullname" .) }}
                   key: {{ .Values.auth.microsoft.existingSecret.tenantIdKey | default "microsoft-oauth-tenant-id" }}
             - name: "MICROSOFT_OAUTH_CLIENT_ID"
               valueFrom:
                 secretKeyRef:
-                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
+                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "authService.fullname" .) }}
                   key: {{ .Values.auth.microsoft.existingSecret.clientIdKey | default "microsoft-oauth-client-id" }}
             - name: "MICROSOFT_OAUTH_CLIENT_SECRET"
               valueFrom:
                 secretKeyRef:
-                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "tenantRegistry.fullname" .) }}
+                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "authService.fullname" .) }}
                   key: {{ .Values.auth.microsoft.existingSecret.clientSecretKey | default "microsoft-oauth-client-secret" }}
             - name: "MICROSOFT_OAUTH_REDIRECT_URI"
               value: "{{ .Values.auth.microsoft.redirectUri }}"
@@ -137,24 +137,31 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
           resources:
-            {{- toYaml .Values.tenantRegistry.resources | nindent 12 }}
-          {{- with .Values.tenantRegistry.volumeMounts }}
+            {{- toYaml .Values.auth.resources | nindent 12 }}
           volumeMounts:
+            - name: auth-service-secret
+              readOnly: true
+              mountPath: "/app/resources/private-key.pem"
+              subPath: {{ .Values.auth.existingSecret.jwtSigningKey | default "jwt-key" }}
+          {{- with .Values.auth.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      {{- with .Values.tenantRegistry.volumes }}
       volumes:
+        - name: auth-service-secret
+          secret:
+            secretName: {{ (tpl .Values.auth.existingSecret.name . ) | default (include "authService.fullname" .) }}
+      {{- with .Values.auth.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tenantRegistry.nodeSelector }}
+      {{- with .Values.auth.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tenantRegistry.affinity }}
+      {{- with .Values.auth.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tenantRegistry.tolerations }}
+      {{- with .Values.auth.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

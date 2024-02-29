@@ -157,20 +157,20 @@ app.kubernetes.io/component: job-topics-clustering
 * Tenant Registry
 *********************************************************************
 */}}
-{{- define "tenantRegistry.labels" -}}
-{{- include "tenantRegistry.selectorLabels" . }}
+{{- define "authService.labels" -}}
+{{- include "authService.selectorLabels" . }}
 {{- end }}
 
-{{- define "tenantRegistry.selectorLabels" -}}
+{{- define "authService.selectorLabels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
-app.kubernetes.io/component: nebuly-tenant-registry
+app.kubernetes.io/component: nebuly-auth-service
 {{- end }}
 
-{{- define "tenantRegistry.fullname" -}}
-{{- if .Values.tenantRegistry.fullnameOverride }}
-{{- .Values.tenantRegistry.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- define "authService.fullname" -}}
+{{- if .Values.auth.fullnameOverride }}
+{{- .Values.auth.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- printf "%s-%s" .Release.Name "tenant-registry" | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s" .Release.Name "auth-service" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 
@@ -210,9 +210,9 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = append $messages (include "chart.validateValues.frontend.rootUrl" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.frontend.backendApiUrl" .) -}}
 {{/* Tenant Registry */}}
-{{- $messages = append $messages (include "chart.validateValues.tenantRegistry.postgresServer" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.tenantRegistry.postgresUser" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.tenantRegistry.postgresPassword" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.auth.postgresServer" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.auth.postgresUser" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.auth.postgresPassword" .) -}}
 {{/* Analytic DB */}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.server" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.name" .) -}}
@@ -234,23 +234,23 @@ app.kubernetes.io/component: nebuly-frontend
 {{- end -}}
 
 {{/* Tenant Registry validation. */}}
-{{- define "chart.validateValues.tenantRegistry.postgresServer" -}}
-{{- if empty .Values.tenantRegistry.postgresServer  -}}
-values: tenantRegistry.postgresServer
+{{- define "chart.validateValues.auth.postgresServer" -}}
+{{- if empty .Values.auth.postgresServer  -}}
+values: auth.postgresServer
   `postgresServer` is required and should be a non-empty string
 {{- end -}}
 {{- end -}}
 
-{{- define "chart.validateValues.tenantRegistry.postgresPassword" -}}
-{{- if and (empty .Values.tenantRegistry.postgresPassword) (empty .Values.tenantRegistry.existingSecret.name) -}}
-values: tenantRegistry.postgresPassword
+{{- define "chart.validateValues.auth.postgresPassword" -}}
+{{- if and (empty .Values.auth.postgresPassword) (empty .Values.auth.existingSecret.name) -}}
+values: auth.postgresPassword
   `postgresPassword` is required when not using an existing secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
 
-{{- define "chart.validateValues.tenantRegistry.postgresUser" -}}
-{{- if and (empty .Values.tenantRegistry.postgresUser) (empty .Values.tenantRegistry.existingSecret.name) -}}
-values: tenantRegistry.postgresUser
+{{- define "chart.validateValues.auth.postgresUser" -}}
+{{- if and (empty .Values.auth.postgresUser) (empty .Values.auth.existingSecret.name) -}}
+values: auth.postgresUser
   `postgresUser` is required when not using an existing secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
