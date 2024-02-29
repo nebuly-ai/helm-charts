@@ -44,7 +44,7 @@
       key: {{ .Values.analyticDatabase.existingSecret.passwordKey | default "analytic-database-password" }}
 # Kafka Settings
 - name: KAFKA_SOCKET_KEEPALIVE_ENABLED
-  value: "true"
+  value: "{{ .Values.kafka.socketKeepAliveEnabled }}"
 - name: KAFKA_BOOTSTRAP_SERVERS
   value: "{{ .Values.kafka.bootstrapServers }}"
 - name: KAFKA_TOPIC_EVENTS_MAIN
