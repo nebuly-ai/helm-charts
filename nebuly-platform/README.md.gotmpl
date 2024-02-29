@@ -22,7 +22,7 @@ can be provided as a configuration parameter during the installation process of 
 | Database        | Helm Value                        | Collation  | Charset | Description                                                                          |
 |-----------------|-----------------------------------|------------|---------|--------------------------------------------------------------------------------------|
 | Backend         | `backend.postgresDatabase`        | en_US.utf8 | utf8    | It stores users information such as settings, dashboards and projects.               |
-| Tenant Registry | `authService.postgresDatabase` | en_US.utf8 | utf8    | It stores internal information necessary for the proper functioning of the platform. |
+| Auth Service    | `authService.postgresDatabase` | en_US.utf8 | utf8    | It stores internal information necessary for the proper functioning of the platform. |
 | Analytic        | `analyticDatabase.name`           | en_US.utf8 | utf8    | It stores analytic data such as user LLM interactions                                |
 
 The PostgreSQL server must meet the following requirements:

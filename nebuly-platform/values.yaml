@@ -332,7 +332,7 @@ secretsStore:
   kind: "database"
   # Azure Secret Store configuration. Required only if kind is "azure_keyvault".
   azure:
-    # -- The URL of the Azure Key Vault storing the Tenant Registry secrets.
+    # -- The URL of the Azure Key Vault storing the secrets.
     keyVaultUrl: ""
     # -- The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only
     # -- when not using an existing secret (see azure.existingSecret value below).

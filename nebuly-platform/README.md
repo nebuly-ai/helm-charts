@@ -17,7 +17,7 @@ can be provided as a configuration parameter during the installation process of 
 | Database        | Helm Value                        | Collation  | Charset | Description                                                                          |
 |-----------------|-----------------------------------|------------|---------|--------------------------------------------------------------------------------------|
 | Backend         | `backend.postgresDatabase`        | en_US.utf8 | utf8    | It stores users information such as settings, dashboards and projects.               |
-| Tenant Registry | `authService.postgresDatabase` | en_US.utf8 | utf8    | It stores internal information necessary for the proper functioning of the platform. |
+| Auth Service    | `authService.postgresDatabase` | en_US.utf8 | utf8    | It stores internal information necessary for the proper functioning of the platform. |
 | Analytic        | `analyticDatabase.name`           | en_US.utf8 | utf8    | It stores analytic data such as user LLM interactions                                |
 
 The PostgreSQL server must meet the following requirements:
@@ -403,7 +403,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | secretsStore.azure.clientSecret | string | `""` | only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.existingSecret | object | `{"clientIdKey":"","clientSecretKey":"","name":""}` | Use an existing secret for the Azure Key Vault authentication. |
 | secretsStore.azure.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| secretsStore.azure.keyVaultUrl | string | `""` | The URL of the Azure Key Vault storing the Tenant Registry secrets. |
+| secretsStore.azure.keyVaultUrl | string | `""` | The URL of the Azure Key Vault storing the secrets. |
 | secretsStore.azure.tenantId | string | `""` | existing secret (see azure.existingSecret value below). |
 | secretsStore.kind | string | `"database"` | Supported values: "database", "azure_keyvault" |
 

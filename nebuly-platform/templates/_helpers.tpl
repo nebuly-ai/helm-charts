@@ -154,7 +154,7 @@ app.kubernetes.io/component: job-topics-clustering
 {{/*
 
 *********************************************************************
-* Tenant Registry
+* Auth Service
 *********************************************************************
 */}}
 {{- define "authService.labels" -}}
@@ -209,7 +209,7 @@ app.kubernetes.io/component: nebuly-frontend
 {{/* Frontend */}}
 {{- $messages = append $messages (include "chart.validateValues.frontend.rootUrl" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.frontend.backendApiUrl" .) -}}
-{{/* Tenant Registry */}}
+{{/* Auth Service */}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresServer" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresUser" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresPassword" .) -}}
@@ -233,7 +233,7 @@ app.kubernetes.io/component: nebuly-frontend
 {{- end -}}
 {{- end -}}
 
-{{/* Tenant Registry validation. */}}
+{{/* Auth Service validation. */}}
 {{- define "chart.validateValues.auth.postgresServer" -}}
 {{- if empty .Values.auth.postgresServer  -}}
 values: auth.postgresServer
