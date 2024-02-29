@@ -80,15 +80,17 @@ frontend:
   nameOverride: ""
   fullnameOverride: ""
 
+  # -- The full public facing url you use in browser, used for redirects and emails
+  rootUrl: ""
+  # -- The URL of the Backend API to which Frontend will make requests.
+  backendApiUrl: ""
+
   replicaCount: 1
 
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
     tag: "latest"
-
-  # -- The URL of the Backend API to which Frontend will make requests.
-  backendApiUrl: ""
 
   podAnnotations: { }
   podLabels: { }
@@ -151,8 +153,6 @@ frontend:
     #    hosts:
     #      - chart-example.local
 
-  # -- The full public facing url you use in browser, used for redirects and emails
-  rootUrl: ""
 
 
 
