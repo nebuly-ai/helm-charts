@@ -38,7 +38,7 @@
   value: ""
 # Oauth
 - name: OAUTH_JWKS_URL
-  value: "http://auth-service/auth/well-known/jwk.json"
+  value: "http://{{ include "authService.fullname" . }}/auth/well-known/jwk.json"
 # Internal services
 - name: TENANT_REGISTRY_URL
   value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}"
