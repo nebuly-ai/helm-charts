@@ -80,11 +80,11 @@ frontend:
   nameOverride: ""
   fullnameOverride: ""
 
-  # -- The full public facing url you use in browser, used for redirects and emails
+  # -- The full public facing url you use in browser, used for redirects.
   rootUrl: ""
   # -- The URL of the Backend API to which Frontend will make requests.
   backendApiUrl: ""
-  #
+  # -- The URL of the API used for authentication (login, SSO, etc.).
   authApiUrl: ""
 
   replicaCount: 1
