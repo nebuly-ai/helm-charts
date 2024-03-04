@@ -16,16 +16,14 @@ can be provided as a configuration parameter during the installation process of 
 
 | Database        | Helm Value                        | Collation  | Charset | Description                                                                          |
 |-----------------|-----------------------------------|------------|---------|--------------------------------------------------------------------------------------|
-| Backend         | `backend.postgresDatabase`        | en_US.utf8 | utf8    | It stores users information such as settings, dashboards and projects.               |
-| Auth Service    | `authService.postgresDatabase` | en_US.utf8 | utf8    | It stores internal information necessary for the proper functioning of the platform. |
+| Backend         | `backend.postgresDatabase.name`        | en_US.utf8 | utf8    | It stores users information such as settings, dashboards and projects.               |
+| Auth Service    | `authService.postgresDatabase.name` | en_US.utf8 | utf8    | It stores the identity of the users and the respective permissions. |
 | Analytic        | `analyticDatabase.name`           | en_US.utf8 | utf8    | It stores analytic data such as user LLM interactions                                |
 
 The PostgreSQL server must meet the following requirements:
 
 * The minimum supported version of PostgreSQL is 14.0.
 * The server must support password authentication
-* [TimescaleDB](https://github.com/timescale/timescaledb) extension must be installed on the server
-* The minimum supported version of TimescaleDB is 2.5.0
 
 ### Apache Kafka
 
@@ -89,6 +87,13 @@ EOT
 kubectl create secret docker-registry nebuly-docker-pull --from-file=.dockerconfigjson=secret.json --namespace nebuly
 ```
 
+4. Include the created secret in the `imagePullSecrets` field of the `values.yaml` file.
+
+```yaml
+imagePullSecrets:
+  - name: nebuly-docker-pull
+```
+
 ### 3. Install the chart
 You can install the chart in the namespace `nebuly` with the following command:
 
@@ -101,42 +106,28 @@ helm install oci://ghcr.io/nebuly-ai/helm-charts/nebuly-platform \
   -f values.yaml
 ```
 
-Below you can find a minimal `values.yaml` file with all the mandatory configuration settings:
+## Exposing the services to the Internet
 
-```yaml
-imagePullSecrets:
-  - name: nebuly-docker-pull
-
-authService:
-  postgresServer: mydatabaseserver.postgres.database.azure.com
-  postgresUser: myusername
-  postgresPassword: mypassword
-
-kafka:
-  bootstrapServers: serverurl
-  saslUsername: username
-  saslPassword: password
-
-analyticDatabase:
-  server: mydatabaseserver.postgres.database.azure.com
-  user: username
-  password: password
-```
-
-You can refer to the section [Values](#values) for the full list of all the available configuration settings.
-
-## Expose the services to the Internet
-
-To expose the Platform services to the Internet, you need to specify the Ingress configuration in the
-`values.yaml` file. You can expose the following services:
+To expose the Platform services to the Internet, you need to specify the Ingress configurations of each
+service in the `values.yaml` file. You can expose the following services:
 
 * `frontend`: the Platform frontend application
+* `authService`: endpoints used for authentication and authorization
 * `backend`: the Platform backend APIs used by the frontend
 * `eventIngestion`: the Platform event ingestion APIs, used for receiving events and interactions.
 
 Below you can find an example configuration for exposing all the services using
 [ingress-nginx](https://github.com/kubernetes/ingress-nginx) as ingress
-controller and [cert-manager](https://github.com/cert-manager/cert-manager) for managing SSL certificates:
+controller and [cert-manager](https://github.com/cert-manager/cert-manager) for managing SSL certificates.
+
+The configuration below exposes the services using the following domains:
+* `platform.example.nebuly.com`: the frontend application
+* `backend.example.nebuly.com`: the backend APIs
+* `backend.example.nebuly.com/auth`: the authentication and authorization endpoints
+* `backend.example.nebuly.com/event-ingestion`: the event ingestion APIs
+
+<details>
+<summary> <b> Example values for ingress configuration </b> </summary>
 
 ```yaml
 backend:
@@ -147,16 +138,18 @@ backend:
         cert-manager.io/cluster-issuer: letsencrypt
     tls:
       - hosts:
-          - backend.nebuly.com
+          - backend.example.nebuly.com
         secretName: tls-secret-backend
     hosts:
-      - host: dev.backend.nebuly.com
+      - host: backend.example.nebuly.com
         paths:
           - path: /api
             pathType: Prefix
 
 frontend:
-  backendApiUrl: https://dev.backend.nebuly.com
+  backendApiUrl: https://backend.example.nebuly.com
+  rootUrl: https://platform.example.nebuly.com
+  authApiUrl: https://backend.example.nebuly.com/auth
 
   ingress:
     enabled: true
@@ -165,10 +158,10 @@ frontend:
         cert-manager.io/cluster-issuer: letsencrypt
     tls:
       - hosts:
-          - platform.nebuly.com
+          - platform.example.nebuly.com
         secretName: tls-secret-frontend
     hosts:
-      - host: platform.nebuly.com
+      - host: platform.example.nebuly.com
         paths:
           - path: /
             pathType: Prefix
@@ -183,14 +176,31 @@ eventIngestion:
         cert-manager.io/cluster-issuer: letsencrypt
     tls:
       - hosts:
-          - platform.nebuly.com
-        secretName: tls-secret-frontend
+          - backend.example.nebuly.com
+        secretName: tls-secret-backend
     hosts:
-      - host: backend.nebuly.com
+      - host: backend.example.nebuly.com
         paths:
           - path: /event-ingestion(/|$)(.*)
             pathType: Prefix
+
+authService:
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+    tls:
+      - hosts:
+          - backend.example.nebuly.com
+        secretName: tls-secret-backend
+    hosts:
+      - host: backend.example.nebuly.com
+        paths:
+          - path: /auth
+            pathType: Prefix
 ```
+</details>
 
 ## Uninstalling the Chart
 
@@ -206,41 +216,41 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| analyticDatabase.existingSecret | object | `{"name":"","passwordKey":"","userKey":""}` | Use an existing secret for the database authentication. |
+| analyticDatabase.existingSecret | object | - | Use an existing secret for the database authentication. |
 | analyticDatabase.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| analyticDatabase.name | string | `"analytics"` | when not using an existing secret (see analyticDatabase.existingSecret value below). |
-| analyticDatabase.password | see analyticDatabase.existingSecret value below | `""` | . |
+| analyticDatabase.name | string | `"analytics"` | The name of the database used to store analytic data (interactions, actions, etc.). To be provided only when not using an existing secret (see analyticDatabase.existingSecret value below). |
+| analyticDatabase.password | string | `""` | The password for the database user. To be provided only when not using an existing secret (see analyticDatabase.existingSecret value below). |
 | analyticDatabase.server | string | `""` | The host of the database used to store analytic data. |
 | analyticDatabase.user | string | `""` | The user for connecting to the database. |
 | auth.adminUserEnabled | bool | `false` | If true, an initial admin user with username/password login will be created. |
 | auth.adminUserPassword | string | `"admin"` | The password of the initial admin user. |
 | auth.adminUserUsername | string | `"admin@nebuly.ai"` | The username of the initial admin user. |
 | auth.affinity | object | `{}` |  |
-| auth.existingSecret | object | `{"jwtSigningKey":"","name":"","postgresPasswordKey":"","postgresUserKey":""}` | Use an existing secret for the database authentication. |
+| auth.existingSecret | object | - | Use an existing secret for the database authentication. |
 | auth.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.fullnameOverride | string | `""` |  |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
 | auth.image.tag | string | `"latest"` |  |
-| auth.ingress | object | `{"annotations":{},"className":"","enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/auth","pathType":"ImplementationSpecific"}]}],"tls":[]}` | Ingress configuration for the login endpoints. |
-| auth.jwtSigningKey | see auth.existingSecret value below | `""` | . |
-| auth.microsoft | object | `{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":"","tenantIdKey":""},"redirectUri":"","tenantId":""}` | Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft". |
-| auth.microsoft.clientId | string | `""` | not using an existing secret (see microsoft.existingSecret value below). |
-| auth.microsoft.clientSecret | string | `""` | existing secret (see microsoft.existingSecret value below). |
-| auth.microsoft.existingSecret | object | `{"clientIdKey":"","clientSecretKey":"","name":"","tenantIdKey":""}` | Use an existing secret for Microsoft Entra ID authentication. |
+| auth.ingress | object | - | Ingress configuration for the login endpoints. |
+| auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
+| auth.microsoft | object | - | Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft". |
+| auth.microsoft.clientId | string | `""` | The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
+| auth.microsoft.clientSecret | string | `""` | The Client Secret of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
+| auth.microsoft.enabled | bool | `false` | If true, enable Microsoft Entra ID SSO authentication. |
+| auth.microsoft.existingSecret | object | - | Use an existing secret for Microsoft Entra ID authentication. |
 | auth.microsoft.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| auth.microsoft.redirectUri | string | `""` | Where <backend-domain> is the domain defined in `backend.ingress`. |
-| auth.microsoft.tenantId | string | `""` | when not using an existing secret (see microsoft.existingSecret value below). |
+| auth.microsoft.redirectUri | string | `""` | The callback URI of the SSO flow. Must be the same as the redirect URI configured for the Microsoft Entra ID application. Must be in the following format: "https://<backend-domain>/auth/oauth/microsoft/callback" Where <backend-domain> is the domain defined in `backend.ingress`. |
+| auth.microsoft.tenantId | string | `""` | The ID of the Azure Tenant where the Microsoft Entra ID application is located. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
 | auth.nameOverride | string | `""` |  |
 | auth.nodeSelector | object | `{}` |  |
-| auth.oauthProvider | string | `""` | only username/password login will be available. |
 | auth.podAnnotations | object | `{}` |  |
 | auth.podLabels | object | `{}` |  |
 | auth.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | auth.postgresDatabase | string | `"auth-service"` | The name of the PostgreSQL database used to store user data. |
-| auth.postgresPassword | see auth.existingSecret value below | `""` | . |
+| auth.postgresPassword | string | `""` | The password for the database user. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.postgresServer | string | `""` | The host of the PostgreSQL database used to store user data. |
-| auth.postgresUser | see auth.existingSecret value below | `""` | . |
+| auth.postgresUser | string | `""` | The user for connecting to the database. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.replicaCount | int | `1` |  |
 | auth.resources.limits.memory | string | `"256Mi"` |  |
 | auth.resources.requests.cpu | string | `"100m"` |  |
@@ -253,11 +263,19 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.tolerations | list | `[]` |  |
 | auth.volumeMounts | list | `[]` |  |
 | auth.volumes | list | `[]` |  |
-| azureml | object | `{"batchEndpoint":"","clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""}` | process the collected data. |
+| azureOpenAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the Azure OpenAI resource will be used to process the collected data. |
+| azureOpenAi.apiKey | string | `""` | The primary API Key of the Azure OpenAI resource, used for authentication. To be provided only when not using an existing secret (see azureOpenAi.existingSecret value below). |
+| azureOpenAi.enabled | bool | `true` | If true, enable the Azure OpenAI integration. |
+| azureOpenAi.endpoint | string | `""` | The endpoint of the Azure OpenAI resource. |
+| azureOpenAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
+| azureOpenAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| azureOpenAi.insightsGeneratorDeployment | string | `"gpt-4-turbo"` | The name of the Azure OpenAI Deployment used to generate insights. |
+| azureml | object | - | Optional configuration for the Azure Machine Learning integration. If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to process the collected data. |
 | azureml.batchEndpoint | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
 | azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. |
 | azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
-| azureml.existingSecret | object | `{"clientIdKey":"","clientSecretKey":"","name":""}` | Use an existing secret for the AzureML authentication. |
+| azureml.enabled | bool | `true` | If true, enable the Azure OpenAI integration. |
+| azureml.existingSecret | object | - | Use an existing secret for the AzureML authentication. |
 | azureml.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | azureml.resourceGroup | string | `""` | The name of the Azure resource group containing the Azure Machine Learning Workspace. |
 | azureml.subscriptionId | string | `""` | The subscription ID of the Azure Machine Learning Workspace. |
@@ -284,7 +302,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.resources.limits.memory | string | `"384Mi"` |  |
 | backend.resources.requests.cpu | string | `"100m"` |  |
 | backend.resources.requests.memory | string | `"256Mi"` |  |
-| backend.rootPath | string | `""` | Example: rootPath: "/backend-service" |
+| backend.rootPath | string | `""` | Example: "/backend-service" |
 | backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | backend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | backend.securityContext.runAsNonRoot | bool | `true` |  |
@@ -323,7 +341,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.volumeMounts | list | `[]` |  |
 | eventIngestion.volumes | list | `[]` |  |
 | frontend.affinity | object | `{}` |  |
-| frontend.authApiUrl | string | `""` |  |
+| frontend.authApiUrl | string | `""` | The URL of the API used for authentication (login, SSO, etc.). |
 | frontend.backendApiUrl | string | `""` | The URL of the Backend API to which Frontend will make requests. |
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -345,7 +363,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.resources.limits.memory | string | `"256Mi"` |  |
 | frontend.resources.requests.cpu | string | `"100m"` |  |
 | frontend.resources.requests.memory | string | `"128Mi"` |  |
-| frontend.rootUrl | string | `""` | The full public facing url you use in browser, used for redirects and emails |
+| frontend.rootUrl | string | `""` | The full public facing url you use in browser, used for redirects. |
 | frontend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | frontend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | frontend.securityContext.runAsNonRoot | bool | `true` |  |
@@ -355,7 +373,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
 | imagePullSecrets | list | `[]` |  |
-| ingestionWorker.actionsProcessing | object | `{"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"500m","memory":"256Mi"}},"schedule":"@daily"}` | Settings related to the CronJob for processing the actions of the collected interactions. |
+| ingestionWorker.actionsProcessing | object | - | Settings related to the CronJob for processing the actions of the collected interactions. |
 | ingestionWorker.actionsProcessing.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.affinity | object | `{}` |  |
 | ingestionWorker.fullnameOverride | string | `""` |  |
@@ -380,15 +398,15 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
 | ingestionWorker.tolerations | list | `[]` |  |
-| ingestionWorker.topicsClustering | object | `{"resources":{"limits":{"cpu":1,"memory":"5024Mi"},"requests":{"cpu":1,"memory":"5024Mi"}},"schedule":"@daily"}` | Settings related to the CronJob for clustering topics. |
+| ingestionWorker.topicsClustering | object | - | Settings related to the CronJob for clustering topics. |
 | ingestionWorker.topicsClustering.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
 | kafka.bootstrapServers | string | `""` | Comma separated list of Kafka brokers. |
-| kafka.existingSecret | object | `{"name":"","saslPasswordKey":"","saslUsernameKey":""}` | Use an existing secret for Kafka authentication. |
+| kafka.existingSecret | object | - | Use an existing secret for Kafka authentication. |
 | kafka.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| kafka.saslPassword | string | `""` | when not using an existing secret (see kafka.existingSecret value below). |
-| kafka.saslUsername | string | `""` | when not using an existing secret (see kafka.existingSecret value below). |
+| kafka.saslPassword | string | `""` | The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
+| kafka.saslUsername | string | `""` | The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.socketKeepAliveEnabled | bool | `true` | If true, the Kafka clients will use the keep alive feature. |
 | kafka.topicEventsDlq | string | `"events-dlq"` | The name of the Kafka topic used as dead letter queue. |
 | kafka.topicEventsMain | string | `"events-main"` | The name of the main Kafka topic used to store events (e.g. interactions) |
@@ -396,15 +414,15 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry2 | string | `"events-retry-2"` | The name of the Kafka topic used to retry events that failed processing (backoff 2). |
 | kafka.topicEventsRetry3 | string | `"events-retry-3"` | The name of the Kafka topic used to retry events that failed processing (backoff 3). |
 | nameOverride | string | `""` |  |
-| otel.enabled | bool | `false` | OpenTelemetry Collector endpoints specified below. |
+| otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
-| secretsStore.azure.clientId | string | `""` | when not using an existing secret (see azure.existingSecret value below). |
-| secretsStore.azure.clientSecret | string | `""` | only when not using an existing secret (see azure.existingSecret value below). |
-| secretsStore.azure.existingSecret | object | `{"clientIdKey":"","clientSecretKey":"","name":""}` | Use an existing secret for the Azure Key Vault authentication. |
+| secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
+| secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
+| secretsStore.azure.existingSecret | object | - | Use an existing secret for the Azure Key Vault authentication. |
 | secretsStore.azure.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | secretsStore.azure.keyVaultUrl | string | `""` | The URL of the Azure Key Vault storing the secrets. |
-| secretsStore.azure.tenantId | string | `""` | existing secret (see azure.existingSecret value below). |
+| secretsStore.azure.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Key Vault is located. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.kind | string | `"database"` | Supported values: "database", "azure_keyvault" |
 
 ## Maintainers

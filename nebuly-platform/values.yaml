@@ -1,6 +1,6 @@
 backend:
   # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
-  # -- Example: rootPath: "/backend-service"
+  # -- Example: "/backend-service"
   rootPath: ""
 
   nameOverride: ""
@@ -245,6 +245,7 @@ ingestionWorker:
   fullnameOverride: ""
 
   # -- Settings related to the CronJob for clustering topics.
+  # @default -- -
   topicsClustering:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
     schedule: "@daily"
@@ -257,6 +258,7 @@ ingestionWorker:
         memory: 5024Mi
 
   # -- Settings related to the CronJob for processing the actions of the collected interactions.
+  # @default -- -
   actionsProcessing:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
     schedule: "@daily"
@@ -335,16 +337,17 @@ secretsStore:
     # -- The URL of the Azure Key Vault storing the secrets.
     keyVaultUrl: ""
     # -- The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only
-    # -- when not using an existing secret (see azure.existingSecret value below).
+    # when not using an existing secret (see azure.existingSecret value below).
     clientId: ""
     # -- The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided
-    # -- only when not using an existing secret (see azure.existingSecret value below).
+    # only when not using an existing secret (see azure.existingSecret value below).
     clientSecret: ""
     # -- The ID of the Azure Tenant where the Azure Key Vault is located. To be provided only when not using an
-    # -- existing secret (see azure.existingSecret value below).
+    # existing secret (see azure.existingSecret value below).
     tenantId: ""
 
     # -- Use an existing secret for the Azure Key Vault authentication.
+    # @default -- -
     existingSecret:
       # -- Name of the secret. Can be templated.
       name: ""
@@ -352,8 +355,9 @@ secretsStore:
       clientSecretKey: ""
 
 # -- Optional configuration for the Azure Machine Learning integration.
-# -- If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to
-# -- process the collected data.
+# If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to
+# process the collected data.
+# @default -- -
 azureml:
   # -- If true, enable the Azure OpenAI integration.
   enabled: true
@@ -373,6 +377,7 @@ azureml:
   batchEndpoint: ""
 
   # -- Use an existing secret for the AzureML authentication.
+  # @default -- -
   existingSecret:
     # -- Name of the secret. Can be templated.
     name: ""
@@ -380,8 +385,9 @@ azureml:
     clientSecretKey: ""
 
 # -- Optional configuration for the Azure OpenAI integration.
-# -- If enabled, the specified models on the Azure OpenAI resource will be used to
-# -- process the collected data.
+# If enabled, the specified models on the Azure OpenAI resource will be used to
+# process the collected data.
+# @default -- -
 azureOpenAi:
   # -- If true, enable the Azure OpenAI integration.
   enabled: true
@@ -390,45 +396,50 @@ azureOpenAi:
   # -- The endpoint of the Azure OpenAI resource.
   endpoint: ""
   # -- The primary API Key of the Azure OpenAI resource, used for authentication.
-  # -- To be provided only when not using an existing secret (see azureOpenAi.existingSecret value below).
+  # To be provided only when not using an existing secret (see azureOpenAi.existingSecret value below).
   apiKey: ""
 
   # -- Use an existing secret for the Azure OpenAI authentication.
+  # @default -- -
   existingSecret:
     # -- Name of the secret. Can be templated.
     name: ""
     apiKey: ""
 
 
+# @default -- -
 analyticDatabase:
   # -- The host of the database used to store analytic data.
   server: ""
   # -- The name of the database used to store analytic data (interactions, actions, etc.). To be provided only
-  # -- when not using an existing secret (see analyticDatabase.existingSecret value below).
+  # when not using an existing secret (see analyticDatabase.existingSecret value below).
   name: "analytics"
   # -- The user for connecting to the database.
   user: ""
   # -- The password for the database user. To be provided only when not using an existing secret
-  # -- (see analyticDatabase.existingSecret value below).
+  # (see analyticDatabase.existingSecret value below).
   password: ""
   # -- Use an existing secret for the database authentication.
+  # @default -- -
   existingSecret:
     # -- Name of the secret. Can be templated.
     name: ""
     userKey: ""
     passwordKey: ""
 
+# @default -- -
 kafka:
   # -- Comma separated list of Kafka brokers.
   bootstrapServers: ""
   # -- The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
-  # -- when not using an existing secret (see kafka.existingSecret value below).
+  # when not using an existing secret (see kafka.existingSecret value below).
   saslUsername: ""
   # -- The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
-  # -- when not using an existing secret (see kafka.existingSecret value below).
+  # when not using an existing secret (see kafka.existingSecret value below).
   saslPassword: ""
 
   # -- Use an existing secret for Kafka authentication.
+  # @default -- -
   existingSecret:
     # -- Name of the secret. Can be templated.
     name: ""
@@ -448,16 +459,18 @@ kafka:
   # -- The name of the Kafka topic used as dead letter queue.
   topicEventsDlq: "events-dlq"
 
+# @default -- -
 otel:
   # -- If True, enable OpenTelemetry instrumentation of the platform services.
-  # -- When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the
-  # -- OpenTelemetry Collector endpoints specified below.
+  # When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the
+  # OpenTelemetry Collector endpoints specified below.
   enabled: false
   # -- The endpoint of the OpenTelemetry Collector used to collect traces.
   exporterOtlpTracesEndpoint: "http://contrib-collector.otel:4317"
   # -- The endpoint of the OpenTelemetry Collector used to collect metrics.
   exporterOtlpMetricsEndpoint: "http://contrib-collector.otel:4317"
 
+# @default -- -
 auth:
   # -- If true, an initial admin user with username/password login will be created.
   adminUserEnabled: false
@@ -467,6 +480,7 @@ auth:
   adminUserPassword: "admin"
 
   # -- Ingress configuration for the login endpoints.
+  # @default -- -
   ingress:
     enabled: false
     className: ""
@@ -485,7 +499,7 @@ auth:
     #      - chart-example.local
 
   # -- Private RSA Key used for signing JWT tokens. Required only if not using an existing secret
-  # -- (see auth.existingSecret value below).
+  # (see auth.existingSecret value below).
   jwtSigningKey: ""
 
   # -- The host of the PostgreSQL database used to store user data.
@@ -493,13 +507,14 @@ auth:
   # -- The name of the PostgreSQL database used to store user data.
   postgresDatabase: "auth-service"
   # -- The user for connecting to the database. Required only if not using an existing secret
-  # -- (see auth.existingSecret value below).
+  # (see auth.existingSecret value below).
   postgresUser: ""
   # -- The password for the database user. Required only if not using an existing secret
-  # -- (see auth.existingSecret value below).
+  # (see auth.existingSecret value below).
   postgresPassword: ""
 
   # -- Use an existing secret for the database authentication.
+  # @default -- -
   existingSecret:
     # -- Name of the secret. Can be templated.
     name: ""
@@ -562,25 +577,27 @@ auth:
   affinity: { }
 
   # -- Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft".
+  # @default -- -
   microsoft:
     # -- If true, enable Microsoft Entra ID SSO authentication.
     enabled: false
     # -- The callback URI of the SSO flow. Must be the same as the redirect URI configured for the
-    # -- Microsoft Entra ID application. Must be in the following format:
-    # -- "https://<backend-domain>/auth/oauth/microsoft/callback"
-    # -- Where <backend-domain> is the domain defined in `backend.ingress`.
+    # Microsoft Entra ID application. Must be in the following format:
+    # "https://<backend-domain>/auth/oauth/microsoft/callback"
+    # Where <backend-domain> is the domain defined in `backend.ingress`.
     redirectUri: ""
     # -- The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when
-    # -- not using an existing secret (see microsoft.existingSecret value below).
+    # not using an existing secret (see microsoft.existingSecret value below).
     clientId: ""
     # -- The Client Secret of the Microsoft Entra ID application. To be provided only when not using an
-    # -- existing secret (see microsoft.existingSecret value below).
+    # existing secret (see microsoft.existingSecret value below).
     clientSecret: ""
     # -- The ID of the Azure Tenant where the Microsoft Entra ID application is located. To be provided only
-    # -- when not using an existing secret (see microsoft.existingSecret value below).
+    # when not using an existing secret (see microsoft.existingSecret value below).
     tenantId: ""
 
     # -- Use an existing secret for Microsoft Entra ID authentication.
+    # @default -- -
     existingSecret:
       # -- Name of the secret. Can be templated.
       name: ""
