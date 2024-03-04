@@ -95,10 +95,9 @@ spec:
             - name: "OAUTH_PROVIDER"
               value: "microsoft"
             - name: "MICROSOFT_OAUTH_TENANT_ID"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "authService.fullname" .) }}
-                  key: {{ .Values.auth.microsoft.existingSecret.tenantIdKey | default "microsoft-oauth-tenant-id" }}
+              value: {{ .Values.auth.microsoft.tenantId | quote }}
+            - name: "MICROSOFT_OAUTH_SUCCESSFUL_LOGIN_REDIRECT_URL"
+              value: {{ .Values.frontend.rootUrl | quote }}
             - name: "MICROSOFT_OAUTH_CLIENT_ID"
               valueFrom:
                 secretKeyRef:
