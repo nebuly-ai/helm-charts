@@ -88,7 +88,7 @@ spec:
               value: {{ .Values.auth.adminUserUsername }}
             - name: "ADMIN_USER_PASSWORD"
               value: {{ .Values.auth.adminUserPassword }}
-            {{ if eq .Values.auth.oauthProvider "microsoft" }}
+            {{ if .Values.auth.microsoft.enabled }}
             # Microsoft OAuth
             - name: "LOGIN_REDIRECT_URL"
               value: "{{ .Values.frontend.rootUrl }}"

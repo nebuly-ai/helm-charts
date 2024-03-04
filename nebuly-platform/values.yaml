@@ -466,11 +466,6 @@ auth:
   # -- The password of the initial admin user.
   adminUserPassword: "admin"
 
-  # -- The OAuth provider used for authentication. Supported values: "microsoft". If empty string,
-  # -- only username/password login will be available.
-  # TODO: use boolean instead to support multiple oauth providers
-  oauthProvider: ""
-
   # -- Ingress configuration for the login endpoints.
   ingress:
     enabled: false
