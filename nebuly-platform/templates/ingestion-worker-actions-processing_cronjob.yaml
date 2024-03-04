@@ -36,6 +36,7 @@ spec:
               securityContext:
                 {{- toYaml .Values.ingestionWorker.securityContext | nindent 16 }}
               image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
+              command: [ "python", "jobs/process_actions.py" ]
               imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
               ports:
                 - name: http
