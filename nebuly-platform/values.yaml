@@ -468,6 +468,7 @@ auth:
 
   # -- The OAuth provider used for authentication. Supported values: "microsoft". If empty string,
   # -- only username/password login will be available.
+  # TODO: use boolean instead to support multiple oauth providers
   oauthProvider: ""
 
   # -- Ingress configuration for the login endpoints.
@@ -567,6 +568,8 @@ auth:
 
   # -- Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft".
   microsoft:
+    # -- If true, enable Microsoft Entra ID SSO authentication.
+    enabled: false
     # -- The callback URI of the SSO flow. Must be the same as the redirect URI configured for the
     # -- Microsoft Entra ID application. Must be in the following format:
     # -- "https://<backend-domain>/auth/oauth/microsoft/callback"
