@@ -352,9 +352,11 @@ secretsStore:
       clientSecretKey: ""
 
 # -- Optional configuration for the Azure Machine Learning integration.
-# -- If provided, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to
+# -- If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to
 # -- process the collected data.
 azureml:
+  # -- If true, enable the Azure OpenAI integration.
+  enabled: true
   # -- The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace.
   clientId: ""
   # -- The client secret of the Azure AD application used to access the Azure Machine Learning Workspace.
@@ -376,6 +378,26 @@ azureml:
     name: ""
     clientIdKey: ""
     clientSecretKey: ""
+
+# -- Optional configuration for the Azure OpenAI integration.
+# -- If enabled, the specified models on the Azure OpenAI resource will be used to
+# -- process the collected data.
+azureOpenAi:
+  # -- If true, enable the Azure OpenAI integration.
+  enabled: true
+  # -- The name of the Azure OpenAI Deployment used to generate insights.
+  insightsGeneratorDeployment: "gpt-4-turbo"
+  # -- The endpoint of the Azure OpenAI resource.
+  endpoint: ""
+  # -- The primary API Key of the Azure OpenAI resource, used for authentication.
+  # -- To be provided only when not using an existing secret (see azureOpenAi.existingSecret value below).
+  apiKey: ""
+
+  # -- Use an existing secret for the Azure OpenAI authentication.
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    apiKey: ""
 
 
 analyticDatabase:

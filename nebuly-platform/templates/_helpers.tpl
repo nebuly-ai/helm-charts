@@ -222,6 +222,8 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = append $messages (include "chart.validateValues.kafka.bootstrapServers" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslUsername" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslPassword" .) -}}
+{{/* Azure OpenAI */}}
+{{- $messages = append $messages (include "chart.validateValues.azureOpenAi.endpoint" .) -}}
 
 {{- $messages = without $messages "" -}}
 {{- $message := join "\n" $messages -}}
@@ -306,6 +308,20 @@ values: kafka.saslPassword
 {{- end -}}
 {{- end -}}
 
+{{/* Azure OpenAI . */}}
+{{- define "chart.validateValues.azureOpenAi.endpoint" -}}
+{{- if .Values.azureOpenAi.enabled  -}}
+{{- if empty .Values.azureOpenAi.endpoint  -}}
+values: azureOpenAi.endpoint
+  `endpoint` is required and should be a non-empty string
+{{- else -}}
+{{- if not (regexMatch "^(https?|wss?)://[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?(/.*)?$" .Values.azureOpenAi.endpoint) -}}
+values: azureOpenAi.endpoint
+  `endpoint` should be a valid URL.
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
 
 {{/* Frontend validation. */}}
 {{- define "chart.validateValues.frontend.rootUrl" -}}

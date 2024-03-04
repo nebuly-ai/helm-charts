@@ -48,6 +48,16 @@
 # Mixpanel
 - name: MIXPANEL_ENABLED
   value: "false"
+# Azure OpenAI
+- name: AZURE_OPENAI_DEPLOYMENT_INSIGHTS_GENERATOR
+  value: {{ .Values.azureOpenAi.insightsGeneratorDeployment | quote }}
+- name: AZURE_OPENAI_ENDPOINT
+  value: {{ .Values.azureOpenAi.endpoint | quote }}
+- name: AZURE_OPENAI_API_KEY
+  valueFrom:
+    secretKeyRef:
+      name: {{ (tpl .Values.azureOpenAi.existingSecret.name . ) | default (include "backend.fullname" .) }}
+      key: {{ .Values.azureOpenAi.existingSecret.apiKey | default "azure-openai-api-key" }}
 # Misc
 - name: ENV
   value: "prod"
