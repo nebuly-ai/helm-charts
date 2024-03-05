@@ -1,2 +1,3 @@
 bin/
 *.tmp.yaml
+dockerconfig.json

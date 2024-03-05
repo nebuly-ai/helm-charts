@@ -1,0 +1,200 @@
+imagePullSecrets:
+  - name: dockerconfig-5gk4kc5hth
+
+backend:
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+    enabled: true
+    className: "nginx"
+    tls:
+      - hosts:
+          - helmtest.internal.nebuly.com
+        secretName: tls-secret-backend-helmtest
+    hosts:
+      - host: helmtest.internal.nebuly.com
+        paths:
+          - path: /backend(/|$)(.*)
+            pathType: Prefix
+
+  volumeMounts:
+    - name: secrets-store
+      mountPath: /mnt/secrets-store
+      readOnly: true
+  volumes:
+    - name: secrets-store
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: backend
+
+  image:
+    pullPolicy: Always
+
+  tolerations:
+    - key: "kubernetes.azure.com/scalesetpriority"
+      operator: "Equal"
+      value: "spot"
+      effect: "NoSchedule"
+
+
+eventIngestion:
+  image:
+    pullPolicy: Always
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+    enabled: true
+    className: "nginx"
+    tls:
+      - hosts:
+          - helmtest.internal.nebuly.com
+        secretName: tls-secret-backend-helmtest
+    hosts:
+      - host: helmtest.internal.nebuly.com
+        paths:
+          - path: /event-ingestion(/|$)(.*)
+            pathType: Prefix
+
+  tolerations:
+    - key: "kubernetes.azure.com/scalesetpriority"
+      operator: "Equal"
+      value: "spot"
+      effect: "NoSchedule"
+
+
+
+ingestionWorker:
+  image:
+    pullPolicy: Always
+
+  volumeMounts:
+    - name: secrets-store
+      mountPath: /mnt/secrets-store
+      readOnly: true
+  volumes:
+    - name: secrets-store
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: ingestion-worker
+
+  tolerations:
+    - key: "kubernetes.azure.com/scalesetpriority"
+      operator: "Equal"
+      value: "spot"
+      effect: "NoSchedule"
+
+
+kafka:
+  bootstrapServers: "nbllabplatformhubns.servicebus.windows.net:9093"
+  saslUsername: "$ConnectionString"
+  existingSecret:
+    name: ingestion-worker-credentials
+    saslPasswordKey: kafka-sasl-password
+    saslUsernameKey: kafka-sasl-username
+
+analyticDatabase:
+  server: "nbllabplatformservicesnorth.postgres.database.azure.com"
+  name: "analytics-dev"
+  existingSecret:
+    name:  backend-credentials
+    userKey: postgres-user
+    passwordKey: postgres-password
+
+auth:
+  postgresServer: "nbllabplatformservicesnorth.postgres.database.azure.com"
+  postgresDatabase: "tenant-registry-dev"
+  existingSecret:
+    name: tenant-registry-credentials
+    userKey: postgres-user
+    passwordKey: postgres-password
+    jwtSigningKey: jwt-key
+
+  image:
+    pullPolicy: Always
+
+  microsoft:
+    enabled: true
+    redirectUri: https://helmtest.internal.nebuly.com/backend/auth/oauth/microsoft/callback
+    tenantId: "4e16af92-dd38-417c-bf9d-a24f891a7987"
+    existingSecret:
+      name: tenant-registry-credentials
+      clientIdKey: microsoft-oauth-client-id
+      clientSecretKey: microsoft-oauth-client-secret
+
+  volumeMounts:
+    - name: secrets-store
+      mountPath: /mnt/secrets-store
+      readOnly: true
+  volumes:
+    - name: secrets-store
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: tenant-registry
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/rewrite-target: "/auth/$2"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    enabled: true
+    className: "nginx"
+    tls:
+      - hosts:
+          - helmtest.internal.nebuly.com
+        secretName: tls-secret-backend-helmtest
+    hosts:
+      - host: helmtest.internal.nebuly.com
+        paths:
+          - path: "/backend/auth(/|$)(.*)"
+            pathType: Prefix
+
+  tolerations:
+    - key: "kubernetes.azure.com/scalesetpriority"
+      operator: "Equal"
+      value: "spot"
+      effect: "NoSchedule"
+
+
+
+frontend:
+  rootUrl: "https://helmtest.internal.nebuly.com"
+  backendApiUrl: "https://helmtest.internal.nebuly.com/backend"
+  authApiUrl: "https://helmtest.internal.nebuly.com/backend/auth"
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+    enabled: true
+    className: "nginx"
+    tls:
+      - hosts:
+          - helmtest.internal.nebuly.com
+        secretName: tls-secret-backend-helmtest
+    hosts:
+      - host: helmtest.internal.nebuly.com
+        paths:
+          - path: /
+            pathType: Prefix
+
+
+  tolerations:
+    - key: "kubernetes.azure.com/scalesetpriority"
+      operator: "Equal"
+      value: "spot"
+      effect: "NoSchedule"
+
+
+azureOpenAi:
+  enabled: true
+  insightsGeneratorDeployment: "gpt-4-turbo"
+  endpoint: "https://nbllabopanaisweden.openai.azure.com"
+
+  existingSecret:
+    name: "backend-credentials"
+    apiKey: "azure-openai-api-key"
