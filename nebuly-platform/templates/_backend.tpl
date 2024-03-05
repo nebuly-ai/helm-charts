@@ -38,7 +38,7 @@
   value: ""
 # Oauth
 - name: OAUTH_JWKS_URL
-  value: "http://{{ include "authService.fullname" . }}/auth/well-known/jwk.json"
+  value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}/auth/well-known/jwk.json"
 # Internal services
 - name: TENANT_REGISTRY_URL
   value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}"
@@ -51,6 +51,8 @@
 # Azure OpenAI
 - name: AZURE_OPENAI_DEPLOYMENT_INSIGHTS_GENERATOR
   value: {{ .Values.azureOpenAi.insightsGeneratorDeployment | quote }}
+- name: AZURE_OPENAI_DEPLOYMENT_EMBEDDING_MODEL
+  value: {{ .Values.azureOpenAi.textEmbeddingsDeployment | quote }}
 - name: AZURE_OPENAI_ENDPOINT
   value: {{ .Values.azureOpenAi.endpoint | quote }}
 - name: AZURE_OPENAI_API_KEY

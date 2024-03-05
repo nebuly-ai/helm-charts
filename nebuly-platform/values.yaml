@@ -392,7 +392,9 @@ azureOpenAi:
   # -- If true, enable the Azure OpenAI integration.
   enabled: true
   # -- The name of the Azure OpenAI Deployment used to generate insights.
-  insightsGeneratorDeployment: "gpt-4-turbo"
+  insightsGeneratorDeployment: ""
+  # -- The name of the Azure OpenAI Deployment used to generate text embeddings.
+  textEmbeddingsDeployment: ""
   # -- The endpoint of the Azure OpenAI resource.
   endpoint: ""
   # -- The primary API Key of the Azure OpenAI resource, used for authentication.
