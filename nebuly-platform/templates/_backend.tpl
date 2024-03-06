@@ -24,6 +24,8 @@
 - name: OTEL_METRICS_EXPORTER
   value: "otlp"
 # Old Auth0 stuff, to be removed as soon as we leave Auth0
+- name: AUTH0_ENABLED
+  value: "false"
 - name: OAUTH_CLIENT_ID
   value: ""
 - name: OAUTH_CLIENT_SECRET
