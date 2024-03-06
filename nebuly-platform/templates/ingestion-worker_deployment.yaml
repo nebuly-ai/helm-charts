@@ -32,9 +32,9 @@ spec:
         - name: "{{ .Chart.Name }}-1"
           securityContext:
             {{- toYaml .Values.ingestionWorker.securityContext | nindent 12 }}
-          command:
-            - python
-            - entrypoints/entrypoint_1.py
+          command: ["sleep", "infinity"]
+{{/*            - python*/}}
+{{/*            - entrypoints/entrypoint_1.py*/}}
           image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
           ports:
@@ -62,9 +62,9 @@ spec:
         - name: "{{ .Chart.Name }}-2"
           securityContext:
             {{- toYaml .Values.ingestionWorker.securityContext | nindent 12 }}
-          command:
-            - python
-            - entrypoints/entrypoint_2.py
+          command: ["sleep", "infinity"]
+{{/*            - python*/}}
+{{/*            - entrypoints/entrypoint_2.py*/}}
           image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
           ports:
@@ -73,14 +73,14 @@ spec:
               protocol: TCP
           env:
             {{ include "ingestionWorker.commonEnv" . | nindent 12 }}
-          livenessProbe:
-            exec:
-              command:
-                - python
-                - app/health_check.py
-                - "60" # max allowed stale seconds
-            initialDelaySeconds: 5
-            periodSeconds: 10
+{{/*          livenessProbe:*/}}
+{{/*            exec:*/}}
+{{/*              command:*/}}
+{{/*                - python*/}}
+{{/*                - app/health_check.py*/}}
+{{/*                - "60" # max allowed stale seconds*/}}
+{{/*            initialDelaySeconds: 5*/}}
+{{/*            periodSeconds: 10*/}}
           resources:
             {{- toYaml .Values.ingestionWorker.resources | nindent 12 }}
           {{- with .Values.ingestionWorker.volumeMounts }}
