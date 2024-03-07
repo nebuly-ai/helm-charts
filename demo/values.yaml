@@ -222,3 +222,16 @@ azureOpenAi:
   existingSecret:
     name: "backend-credentials"
     apiKey: "azure-openai-api-key"
+
+azureml:
+  enabled: true
+  tenantId: "4e16af92-dd38-417c-bf9d-a24f891a7987"
+  subscriptionId: "eb83146c-b587-4e78-8455-dc83af309e2c"
+  resourceGroup: "rg-ml-eastus"
+  workspace: "nbllab-aml-eastus"
+  batchEndpoint: "os-model-batch"
+
+  existingSecret:
+    name: "ingestion-worker-credentials"
+    clientIdKey: "azure-client-id"
+    clientSecretKey: "azure-client-secret"
