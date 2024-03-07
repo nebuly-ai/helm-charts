@@ -265,22 +265,24 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.volumes | list | `[]` |  |
 | azureOpenAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the Azure OpenAI resource will be used to process the collected data. |
 | azureOpenAi.apiKey | string | `""` | The primary API Key of the Azure OpenAI resource, used for authentication. To be provided only when not using an existing secret (see azureOpenAi.existingSecret value below). |
+| azureOpenAi.chatCompletionDeployment | string | `""` | The name of the Azure OpenAI Deployment used to complete chat messages. |
 | azureOpenAi.enabled | bool | `true` | If true, enable the Azure OpenAI integration. |
 | azureOpenAi.endpoint | string | `""` | The endpoint of the Azure OpenAI resource. |
 | azureOpenAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
 | azureOpenAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| azureOpenAi.frustrationDetectionDeployment | string | `""` | The name of the Azure OpenAI Deployment used to detect frustration. |
 | azureOpenAi.insightsGeneratorDeployment | string | `""` | The name of the Azure OpenAI Deployment used to generate insights. |
 | azureOpenAi.textEmbeddingsDeployment | string | `""` | The name of the Azure OpenAI Deployment used to generate text embeddings. |
 | azureml | object | - | Optional configuration for the Azure Machine Learning integration. If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to process the collected data. |
 | azureml.batchEndpoint | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
-| azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. |
+| azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
 | azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
 | azureml.enabled | bool | `true` | If true, enable the Azure OpenAI integration. |
 | azureml.existingSecret | object | - | Use an existing secret for the AzureML authentication. |
 | azureml.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | azureml.resourceGroup | string | `""` | The name of the Azure resource group containing the Azure Machine Learning Workspace. |
 | azureml.subscriptionId | string | `""` | The subscription ID of the Azure Machine Learning Workspace. |
-| azureml.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Machine Learning Workspace is located. |
+| azureml.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Machine Learning Workspace is located. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
 | azureml.workspace | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
 | backend.affinity | object | `{}` |  |
 | backend.fullnameOverride | string | `""` |  |
@@ -333,6 +335,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.resources.limits.memory | string | `"256Mi"` |  |
 | eventIngestion.resources.requests.cpu | string | `"100m"` |  |
 | eventIngestion.resources.requests.memory | string | `"128Mi"` |  |
+| eventIngestion.rootPath | string | `""` | Example: "/backend-service" |
 | eventIngestion.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | eventIngestion.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | eventIngestion.securityContext.runAsNonRoot | bool | `true` |  |
