@@ -215,6 +215,8 @@ azureOpenAi:
   enabled: true
   insightsGeneratorDeployment: "gpt-4-turbo"
   textEmbeddingsDeployment: "text-embedding"
+  frustrationDetectionDeployment: "gpt-4-0125-preview"
+  chatCompletionDeployment: "gpt-3.5-turbo"
   endpoint: "https://nbllabopanaisweden.openai.azure.com"
 
   existingSecret:

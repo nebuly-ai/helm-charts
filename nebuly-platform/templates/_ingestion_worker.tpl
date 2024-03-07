@@ -81,9 +81,18 @@
   value: "{{ .Values.azureml.workspace }}"
 - name: AZUREML_BATCH_ENDPOINT_NAME
   value: "{{ .Values.azureml.batchEndpoint }}"
-# TODO: remove me (temporary until we remove OpenAI env vars)
-- name: OPENAI_API_KEY
-  value: ""
-- name: OPENAI_ORGANIZATION_ID
-  value: ""
+# Azure OpenAI
+- name: AZURE_OPENAI_ENDPOINT
+  value: "{{ .Values.azureOpenAi.endpoint }}"
+- name: AZURE_OPENAI_DEPLOYMENT_FRUSTRATION_DETECTION
+  value: "{{ .Values.azureOpenAi.frustrationDetectionDeployment }}"
+- name: AZURE_OPENAI_DEPLOYMENT_CHAT_COMPLETION
+  value: "{{ .Values.azureOpenAi.chatCompletionDeployment }}"
+- name: AZURE_OPENAI_DEPLOYMENT_EMBEDDINGS
+  value: "{{ .Values.azureOpenAi.textEmbeddingsDeployment }}"
+- name: AZURE_OPENAI_API_KEY
+  valueFrom:
+    secretKeyRef:
+      name: {{ (tpl .Values.azureOpenAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
+      key: {{ .Values.azureOpenAi.existingSecret.apiKey | default "azure-openai-api-key" }}
 {{- end -}}

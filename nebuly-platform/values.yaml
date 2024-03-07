@@ -398,6 +398,10 @@ azureOpenAi:
   insightsGeneratorDeployment: ""
   # -- The name of the Azure OpenAI Deployment used to generate text embeddings.
   textEmbeddingsDeployment: ""
+  # -- The name of the Azure OpenAI Deployment used to detect frustration.
+  frustrationDetectionDeployment: ""
+  # -- The name of the Azure OpenAI Deployment used to complete chat messages.
+  chatCompletionDeployment: ""
   # -- The endpoint of the Azure OpenAI resource.
   endpoint: ""
   # -- The primary API Key of the Azure OpenAI resource, used for authentication.
