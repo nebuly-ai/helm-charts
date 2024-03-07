@@ -365,10 +365,12 @@ azureml:
   # -- If true, enable the Azure OpenAI integration.
   enabled: true
   # -- The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace.
+  # To be provided only when not using an existing secret (see azureml.existingSecret value below).
   clientId: ""
   # -- The client secret of the Azure AD application used to access the Azure Machine Learning Workspace.
   clientSecret: ""
   # -- The ID of the Azure Tenant where the Azure Machine Learning Workspace is located.
+  # To be provided only when not using an existing secret (see azureml.existingSecret value below).
   tenantId: ""
   # -- The subscription ID of the Azure Machine Learning Workspace.
   subscriptionId: ""

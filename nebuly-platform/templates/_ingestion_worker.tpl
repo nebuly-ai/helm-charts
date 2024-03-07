@@ -75,6 +75,16 @@
   value: "{{ .Values.azureml.tenantId }}"
 - name: AZURE_SUBSCRIPTION_ID
   value: "{{ .Values.azureml.subscriptionId }}"
+- name: "AZURE_CLIENT_ID"
+  valueFrom:
+    secretKeyRef:
+      name: {{ (tpl .Values.azureml.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
+      key: {{ .Values.azureml.existingSecret.clientIdKey | default "azure-client-id" }}
+- name: "AZURE_CLIENT_SECRET"
+  valueFrom:
+    secretKeyRef:
+      name: {{ (tpl .Values.azureml.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
+      key: {{ .Values.azureml.existingSecret.clientSecretKey | default "azure-client-secret" }}
 - name: AZUREML_RESOURCE_GROUP
   value: "{{ .Values.azureml.resourceGroup }}"
 - name: AZUREML_WORKSPACE

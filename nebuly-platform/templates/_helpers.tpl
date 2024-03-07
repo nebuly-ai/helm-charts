@@ -223,7 +223,17 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslUsername" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslPassword" .) -}}
 {{/* Azure OpenAI */}}
+{{- if .Values.azureOpenAi.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.azureOpenAi.endpoint" .) -}}
+{{- end -}}
+{{/* Azure ML */}}
+{{- if .Values.azureml.enabled -}}
+{{- $messages = append $messages (include "chart.validateValues.azureml.endpoint" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.azureml.tenantId" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.azureml.subscriptionId" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.azureml.resourceGroup" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.azureml.workspace" .) -}}
+{{- end -}}
 
 {{- $messages = without $messages "" -}}
 {{- $message := join "\n" $messages -}}
@@ -310,7 +320,6 @@ values: kafka.saslPassword
 
 {{/* Azure OpenAI . */}}
 {{- define "chart.validateValues.azureOpenAi.endpoint" -}}
-{{- if .Values.azureOpenAi.enabled  -}}
 {{- if empty .Values.azureOpenAi.endpoint  -}}
 values: azureOpenAi.endpoint
   `endpoint` is required and should be a non-empty string
@@ -318,7 +327,6 @@ values: azureOpenAi.endpoint
 {{- if not (regexMatch "^(https?|wss?)://[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?(/.*)?$" .Values.azureOpenAi.endpoint) -}}
 values: azureOpenAi.endpoint
   `endpoint` should be a valid URL.
-{{- end -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
@@ -345,5 +353,43 @@ values: frontend.backendApiUrl
 values: frontend.backendApiUrl
   `backendApiUrl` should be a valid URL.
 {{- end -}}
+{{- end -}}
+{{- end -}}
+
+
+
+{{/* Azure ML validation. */}}
+{{- define "chart.validateValues.azureml.endpoint" -}}
+{{- if empty .Values.azureml.batchEndpoint  -}}
+values: azureml.endpoint
+  `endpoint` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.azureml.tenantId" -}}
+{{- if empty .Values.azureml.tenantId  -}}
+values: azureml.tenantId
+  `tenantId` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.azureml.subscriptionId" -}}
+{{- if empty .Values.azureml.subscriptionId  -}}
+values: azureml.subscriptionId
+  `subscriptionId` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.azureml.resourceGroup" -}}
+{{- if empty .Values.azureml.resourceGroup  -}}
+values: azureml.resourceGroup
+  `resourceGroup` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.azureml.workspace" -}}
+{{- if empty .Values.azureml.workspace  -}}
+values: azureml.workspace
+  `workspace` is required and should be a non-empty string
 {{- end -}}
 {{- end -}}
