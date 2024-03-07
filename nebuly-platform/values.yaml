@@ -159,6 +159,9 @@ frontend:
 
 
 eventIngestion:
+  # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
+  # -- Example: "/backend-service"
+  rootPath: ""
 
   nameOverride: ""
   fullnameOverride: ""
