@@ -1,6 +1,22 @@
 imagePullSecrets:
   - name: dockerconfig-5gk4kc5hth
 
+secretsStore:
+  kind: "azure_keyvault"
+  azure:
+    keyVaultUrl: "https://nbllabplatformkv.vault.azure.net"
+    clientId: "2a7f4b5f-4020-42ef-8613-6c45bd2a1ab4"
+    clientSecret: "X6E8Q~scKF050tqjSXFqyi_t9LumnbpYo4X4BdeL"
+    tenantId: "4e16af92-dd38-417c-bf9d-a24f891a7987"
+
+#    # -- Use an existing secret for the Azure Key Vault authentication.
+#    # @default -- -
+#    existingSecret:
+#      # -- Name of the secret. Can be templated.
+#      name: ""
+#      clientIdKey: ""
+#      clientSecretKey: ""
+
 backend:
   ingress:
     annotations:
@@ -41,8 +57,11 @@ backend:
 
 
 eventIngestion:
+  rootPath: "/event-ingestion"
   image:
     pullPolicy: Always
+
+
   ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
@@ -91,12 +110,14 @@ ingestionWorker:
 
 
 kafka:
-  bootstrapServers: "nbllabplatformhubns.servicebus.windows.net:9093"
+  bootstrapServers: "nbllabselfdeployhubns.servicebus.windows.net:9093"
   saslUsername: "$ConnectionString"
-  existingSecret:
-    name: ingestion-worker-credentials
-    saslPasswordKey: kafka-sasl-password
-    saslUsernameKey: kafka-sasl-username
+  saslPassword: "Endpoint=sb://nbllabselfdeployhubns.servicebus.windows.net/;SharedAccessKeyName=send-listen;SharedAccessKey=rloGx3KhknufuFQb7Um2DYIHoz6iRItlk+AEhBSYUL4="
+
+#  existingSecret:
+#    name: ingestion-worker-credentials
+#    saslPasswordKey: kafka-sasl-password
+#    saslUsernameKey: kafka-sasl-username
 
 analyticDatabase:
   server: "nbllabplatformservicesnorth.postgres.database.azure.com"
@@ -193,6 +214,7 @@ frontend:
 azureOpenAi:
   enabled: true
   insightsGeneratorDeployment: "gpt-4-turbo"
+  textEmbeddingsDeployment: "text-embedding"
   endpoint: "https://nbllabopanaisweden.openai.azure.com"
 
   existingSecret:
