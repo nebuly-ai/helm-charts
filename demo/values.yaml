@@ -217,7 +217,7 @@ azureOpenAi:
   textEmbeddingsDeployment: "text-embedding"
   frustrationDetectionDeployment: "gpt-4-0125-preview"
   chatCompletionDeployment: "gpt-3.5-turbo"
-  endpoint: "https://nbllabopanaisweden.openai.azure.com"
+  endpoint: "https://nbllabopenaisweden.openai.azure.com"
 
   existingSecret:
     name: "backend-credentials"
