@@ -5,17 +5,14 @@ secretsStore:
   kind: "azure_keyvault"
   azure:
     keyVaultUrl: "https://nbllabplatformkv.vault.azure.net"
-    clientId: "2a7f4b5f-4020-42ef-8613-6c45bd2a1ab4"
-    clientSecret: "X6E8Q~scKF050tqjSXFqyi_t9LumnbpYo4X4BdeL"
     tenantId: "4e16af92-dd38-417c-bf9d-a24f891a7987"
 
 #    # -- Use an existing secret for the Azure Key Vault authentication.
-#    # @default -- -
-#    existingSecret:
-#      # -- Name of the secret. Can be templated.
-#      name: ""
-#      clientIdKey: ""
-#      clientSecretKey: ""
+    existingSecret:
+      # -- Name of the secret. Can be templated.
+      name: "tenant-registry-credentials"
+      clientIdKey: "azure-client-id"
+      clientSecretKey: "azure-client-secret"
 
 backend:
   ingress:
