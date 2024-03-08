@@ -242,7 +242,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.microsoft.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.microsoft.redirectUri | string | `""` | The callback URI of the SSO flow. Must be the same as the redirect URI configured for the Microsoft Entra ID application. Must be in the following format: "https://<backend-domain>/auth/oauth/microsoft/callback" Where <backend-domain> is the domain defined in `backend.ingress`. |
 | auth.microsoft.tenantId | string | `""` | The ID of the Azure Tenant where the Microsoft Entra ID application is located. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
-| auth.nameOverride | string | `""` |  |
 | auth.nodeSelector | object | `{}` |  |
 | auth.podAnnotations | object | `{}` |  |
 | auth.podLabels | object | `{}` |  |
@@ -296,7 +295,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | backend.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | backend.ingress.tls | list | `[]` |  |
-| backend.nameOverride | string | `""` |  |
 | backend.nodeSelector | object | `{}` |  |
 | backend.podAnnotations | object | `{}` |  |
 | backend.podLabels | object | `{}` |  |
@@ -326,7 +324,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | eventIngestion.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | eventIngestion.ingress.tls | list | `[]` |  |
-| eventIngestion.nameOverride | string | `""` |  |
 | eventIngestion.nodeSelector | object | `{}` |  |
 | eventIngestion.podAnnotations | object | `{}` |  |
 | eventIngestion.podLabels | object | `{}` |  |
@@ -358,7 +355,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | frontend.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | frontend.ingress.tls | list | `[]` |  |
-| frontend.nameOverride | string | `""` |  |
 | frontend.nodeSelector | object | `{}` |  |
 | frontend.podAnnotations | object | `{}` |  |
 | frontend.podLabels | object | `{}` |  |
@@ -384,7 +380,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
 | ingestionWorker.image.tag | string | `"latest"` |  |
-| ingestionWorker.nameOverride | string | `""` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
@@ -417,7 +412,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry1 | string | `"events-retry-1"` | The name of the Kafka topic used to retry events that failed processing. |
 | kafka.topicEventsRetry2 | string | `"events-retry-2"` | The name of the Kafka topic used to retry events that failed processing (backoff 2). |
 | kafka.topicEventsRetry3 | string | `"events-retry-3"` | The name of the Kafka topic used to retry events that failed processing (backoff 3). |
-| nameOverride | string | `""` |  |
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |

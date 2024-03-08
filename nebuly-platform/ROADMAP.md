@@ -15,7 +15,7 @@ The following are the scenarios we need to test before the release.
 
 ### Chart Installation
 
-- [ ] Installation with default values: check that all the components are installed and running, and the genrated
+- [x] Installation with default values: check that all the components are installed and running, and the genrated
   names and labels are correct.
 - [ ] Installation with custom names: check that all the components are installed and running, and the genrated
   names and labels are correct.
@@ -40,4 +40,4 @@ The following are the scenarios we need to test before the release.
 
 ### Data processing
 
-- [ ] Check that the data is being processed by the Ingestion Worker (actions, interactions, topics, insights).
+- [x] Check that the data is being processed by the Ingestion Worker (actions, interactions, topics, insights).
