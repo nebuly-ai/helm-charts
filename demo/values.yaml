@@ -185,6 +185,8 @@ frontend:
   rootUrl: "https://helmtest.internal.nebuly.com"
   backendApiUrl: "https://helmtest.internal.nebuly.com/backend"
   authApiUrl: "https://helmtest.internal.nebuly.com/backend/auth"
+  image:
+    pullPolicy: Always
   ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
