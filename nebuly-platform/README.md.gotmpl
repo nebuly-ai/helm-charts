@@ -209,7 +209,181 @@ authService:
 </details>
 
 
+## Examples
 
+### Microsoft Azure installation
+
+The following is an example of `values.yaml` for installing the Platform on Microsoft Azure.
+
+The Platform will use the following Azure services:
+
+* Azure OpenAI: used for processing the ingested data (text embeddings, text generation)
+* Azure Machine Learning: used for storing the ingested data (frustration and warnings detection)
+* Azure Key Vault: used for storing API Keys
+* Azure Event Hub: used as Kafka server for storing the ingested events
+
+The configuration will expose the services using the following domains:
+
+* `platform.example.nebuly.com`: the frontend application
+* `backend.example.nebuly.com`: the backend APIs
+* `backend.example.nebuly.com/auth`: the authentication and authorization endpoints
+* `backend.example.nebuly.com/event-ingestion`: the event ingestion APIs
+
+The configuration assumes you have already create one or more secrets containing all the required credentials (these
+secrets are referenced in the `existingSecret` fields of the configuration).
+
+<details>
+<summary> <b> Microsoft Azure values.yaml </b> </summary>
+
+```yaml
+imagePullSecrets:
+  - name: my-image-pull-secret
+
+secretsStore:
+  kind: "azure_keyvault"
+  azure:
+    keyVaultUrl: "https://example.vault.azure.net"
+    tenantId: "<your-tenant-id>"
+
+    existingSecret:
+      # -- Name of the secret. Can be templated.
+      name: "my-secret"
+      clientIdKey: "azure-client-id"
+      clientSecretKey: "azure-client-secret"
+
+backend:
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+    tls:
+      - hosts:
+          - backend.example.nebuly.com
+        secretName: tls-secret-backend
+    hosts:
+      - host: backend.example.nebuly.com
+        paths:
+          - path: /api
+            pathType: Prefix
+
+eventIngestion:
+  rootPath: "/event-ingestion"
+
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/rewrite-target: $1
+        cert-manager.io/cluster-issuer: letsencrypt
+    tls:
+      - hosts:
+          - backend.example.nebuly.com
+        secretName: tls-secret-backend
+    hosts:
+      - host: backend.example.nebuly.com
+        paths:
+          - path: /event-ingestion(/|$)(.*)
+            pathType: Prefix
+
+
+kafka:
+  bootstrapServers: "<your-event-hub-name>.servicebus.windows.net:9093"
+
+  existingSecret:
+    name: my-secret
+    saslPasswordKey: kafka-sasl-password
+    saslUsernameKey: kafka-sasl-username
+
+analyticDatabase:
+  server: "<postgres-server-url>"
+  name: analytics
+  existingSecret:
+    name:  my-secret
+    userKey: postgres-user
+    passwordKey: postgres-password
+
+auth:
+  postgresServer: "<postgres-server-url>"
+  postgresDatabase: auth-service
+  existingSecret:
+    name: my-secret
+    userKey: postgres-user
+    passwordKey: postgres-password
+    jwtSigningKey: jwt-key
+
+  # Enable Microsoft SSO
+  microsoft:
+    enabled: true
+    redirectUri: https://backend.example.nebuly.com/auth/oauth/microsoft/callback
+    tenantId: "<your-tenant-id>"
+    existingSecret:
+      name: my-secret
+      clientIdKey: microsoft-oauth-client-id
+      clientSecretKey: microsoft-oauth-client-secret
+
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+    tls:
+      - hosts:
+          - backend.example.nebuly.com
+        secretName: tls-secret-backend
+    hosts:
+      - host: backend.example.nebuly.com
+        paths:
+          - path: /auth
+            pathType: Prefix
+
+
+frontend:
+  rootUrl: "https://platform.example.nebuly.com"
+  backendApiUrl: "https://backend.example.nebuly.com"
+  authApiUrl: "https://backend.example.nebuly.com/auth"
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+    enabled: true
+    className: "nginx"
+    tls:
+      - hosts:
+          - helmtest.internal.nebuly.com
+        secretName: tls-secret-backend-helmtest
+    hosts:
+      - host: helmtest.internal.nebuly.com
+        paths:
+          - path: /
+            pathType: Prefix
+
+azureOpenAi:
+  enabled: true
+  insightsGeneratorDeployment: "gpt-4-turbo"
+  textEmbeddingsDeployment: "text-embedding"
+  frustrationDetectionDeployment: "gpt-4-0125-preview"
+  chatCompletionDeployment: "gpt-3.5-turbo"
+  endpoint: "https://<your-azure-openai-instance>.openai.azure.com"
+
+  existingSecret:
+    name: my-secret
+    apiKey: azure-openai-api-key
+
+azureml:
+  enabled: true
+  tenantId: "<your-tenant-id>"
+  subscriptionId: "<your-subscription-id>"
+  resourceGroup: "<your-resource-group-name>"
+  workspace: "<your-aml-workspace-name>"
+  batchEndpoint: "os-model-batch"
+
+  existingSecret:
+    name: my-secret
+    clientIdKey: azure-client-id
+    clientSecretKey: azure-client-secret
+```
+</details>
 
 ## Uninstalling the Chart
 
