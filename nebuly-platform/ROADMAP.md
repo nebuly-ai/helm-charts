@@ -2,7 +2,7 @@
 
 ## What's blocking the Chart release
 
-- [ ] Support of Azure OpenAI by Ingestion Worker
+- [x] Support of Azure OpenAI by Ingestion Worker
 - [x] User insights feature implemented with Azure OpenAI instead of OpenAI
 
 ## Fixes
@@ -17,10 +17,10 @@ The following are the scenarios we need to test before the release.
 
 - [x] Installation with default values: check that all the components are installed and running, and the genrated
   names and labels are correct.
-- [ ] Installation with custom names: check that all the components are installed and running, and the genrated
+- [x] Installation with custom names: check that all the components are installed and running, and the genrated
   names and labels are correct.
 - [x] Installation providing the credentials through existing secrets
-- [ ] Test DB secrets store
+- [x] Test DB secrets store
 - [x] Test KeyVault secrets store
 
 ### Smoke test
@@ -31,7 +31,7 @@ The following are the scenarios we need to test before the release.
 
 ### Authentication
 
-- [ ] Username/password authentication
+- [x] Username/password authentication
     - Install the Platform with username/password authentication, specifying the value for the initial admin password
     - Check that the admin user can log in with the specified password
 - [x] Microsoft SSO authentication
