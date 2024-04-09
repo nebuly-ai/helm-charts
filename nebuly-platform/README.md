@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform.
 
@@ -405,7 +405,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.fullnameOverride | string | `""` |  |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"latest"` |  |
+| auth.image.tag | string | `"v1.4.1"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.microsoft | object | - | Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft". |
@@ -438,6 +438,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.volumes | list | `[]` |  |
 | azureOpenAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the Azure OpenAI resource will be used to process the collected data. |
 | azureOpenAi.apiKey | string | `""` | The primary API Key of the Azure OpenAI resource, used for authentication. To be provided only when not using an existing secret (see azureOpenAi.existingSecret value below). |
+| azureOpenAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use |
 | azureOpenAi.chatCompletionDeployment | string | `""` | The name of the Azure OpenAI Deployment used to complete chat messages. |
 | azureOpenAi.enabled | bool | `true` | If true, enable the Azure OpenAI integration. |
 | azureOpenAi.endpoint | string | `""` | The endpoint of the Azure OpenAI resource. |
@@ -461,7 +462,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"latest"` |  |
+| backend.image.tag | string | `"v1.13.1"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -490,7 +491,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
 | eventIngestion.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-event-ingestion"` |  |
-| eventIngestion.image.tag | string | `"latest"` |  |
+| eventIngestion.image.tag | string | `"v1.4.1"` |  |
 | eventIngestion.ingress.annotations | object | `{}` |  |
 | eventIngestion.ingress.className | string | `""` |  |
 | eventIngestion.ingress.enabled | bool | `false` |  |
@@ -521,7 +522,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"latest"` |  |
+| frontend.image.tag | string | `"v1.10.2"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -553,7 +554,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.fullnameOverride | string | `""` |  |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"latest"` |  |
+| ingestionWorker.image.tag | string | `"v1.4.1"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
