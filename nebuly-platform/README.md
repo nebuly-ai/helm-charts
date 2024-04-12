@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform.
 
@@ -451,6 +451,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | azureml.batchEndpoint | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
 | azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
 | azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
+| azureml.datasetName | string | `"nebuly-batch-endpoint"` | The name of the Azure Machine Learning Dataset used to upload the data to process. |
 | azureml.enabled | bool | `true` | If true, enable the Azure OpenAI integration. |
 | azureml.existingSecret | object | - | Use an existing secret for the AzureML authentication. |
 | azureml.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
