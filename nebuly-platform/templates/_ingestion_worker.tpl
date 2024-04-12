@@ -91,6 +91,8 @@
   value: "{{ .Values.azureml.workspace }}"
 - name: AZUREML_BATCH_ENDPOINT_NAME
   value: "{{ .Values.azureml.batchEndpoint }}"
+- name: AZUREML_DATASET_NAME
+  value: "{{ .Values.azureml.datasetName }}"
 # Azure OpenAI
 - name: AZURE_OPENAI_API_VERSION
   value: "{{ .Values.azureOpenAi.apiVersion }}"

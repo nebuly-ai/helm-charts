@@ -361,6 +361,8 @@ azureml:
   workspace: ""
   # -- The name of the Azure Machine Learning Workspace used to process the collected data.
   batchEndpoint: ""
+  # -- The name of the Azure Machine Learning Dataset used to upload the data to process.
+  datasetName: "nebuly-batch-endpoint"
 
   # -- Use an existing secret for the AzureML authentication.
   # @default -- -
