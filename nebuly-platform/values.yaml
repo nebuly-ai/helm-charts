@@ -263,7 +263,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: "v1.4.1"
+    tag: "v1.5.0"
 
   podAnnotations: {}
   podLabels: {}
@@ -299,10 +299,10 @@ ingestionWorker:
 
   resources:
     limits:
-      memory: 1512Mi
+      memory: 512Mi
     requests:
       cpu: 500m
-      memory: 1024Mi
+      memory: 324Mi
   nodeSelector: {}
 
   tolerations: []
