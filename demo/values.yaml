@@ -45,6 +45,7 @@ backend:
 
   image:
     pullPolicy: Always
+    tag: latest
 
   tolerations:
     - key: "kubernetes.azure.com/scalesetpriority"
@@ -111,9 +112,9 @@ kafka:
   saslUsername: "$ConnectionString"
   saslPassword: "Endpoint=sb://nbllabselfdeployhubns.servicebus.windows.net/;SharedAccessKeyName=send-listen;SharedAccessKey=rloGx3KhknufuFQb7Um2DYIHoz6iRItlk+AEhBSYUL4="
 
-#  existingSecret:
-#    name: ingestion-worker-credentials
-#    saslPasswordKey: kafka-sasl-password
+  existingSecret:
+    name: ingestion-worker-credentials
+    saslPasswordKey: kafka-sasl-password
 #    saslUsernameKey: kafka-sasl-username
 
 analyticDatabase:

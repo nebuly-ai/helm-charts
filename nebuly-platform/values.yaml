@@ -424,6 +424,36 @@ analyticDatabase:
 
 # @default -- -
 kafka:
+  external: false
+
+  replicas: 3
+  storage:
+    type: persistent-claim
+    size: 10Gi
+    deleteClaim: false
+  rack:
+    topologyKey: topology.kubernetes.io/zone
+  config:
+    replica.selector.class: org.apache.kafka.common.replica.RackAwareReplicaSelector
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  zookeeper:
+    replicas: 3
+    storage:
+      type: persistent-claim
+      size: 10Gi
+      deleteClaim: false
+    resources:
+      limits:
+          memory: 512Mi
+      requests:
+          cpu: 100m
+          memory: 256Mi
+
   # -- Comma separated list of Kafka brokers.
   bootstrapServers: ""
   # -- The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
@@ -596,3 +626,6 @@ auth:
       name: ""
       clientIdKey: ""
       clientSecretKey: ""
+
+strimzi:
+  enabled: true

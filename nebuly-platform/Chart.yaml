@@ -20,6 +20,12 @@ home: https://nebuly.com
 sources:
   - https://github.com/nebuly-ai/helm-charts
 
+dependencies:
+  - name: strimzi-kafka-operator
+    version: 0.40.0
+    repository: oci://quay.io/strimzi-helm
+    condition: strimzi.enabled
+
 maintainers:
   - name: Michele Zanotti
     email: m.zanotti@nebuly.ai
