@@ -10,6 +10,9 @@ spec:
       {{- toYaml .Values.kafka.zookeeper.storage | nindent 6 }}
     resources:
       {{- toYaml .Values.kafka.zookeeper.resources | nindent 6 }}
+  entityOperator:
+    userOperator: {}
+    topicOperator: {}
   kafka:
     replicas: {{ .Values.kafka.replicas }}
     listeners:
@@ -18,7 +21,9 @@ spec:
         type: internal
         tls: true
         authentication:
-          type: tls
+          type: scram-sha-512
+    authorization:
+      type: simple
     storage:
       {{- toYaml .Values.kafka.storage | nindent 6 }}
     resources:

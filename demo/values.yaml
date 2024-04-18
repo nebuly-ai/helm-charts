@@ -108,6 +108,8 @@ ingestionWorker:
 
 
 kafka:
+  external: true
+
   bootstrapServers: "nbllabselfdeployhubns.servicebus.windows.net:9093"
   saslUsername: "$ConnectionString"
   saslPassword: "Endpoint=sb://nbllabselfdeployhubns.servicebus.windows.net/;SharedAccessKeyName=send-listen;SharedAccessKey=rloGx3KhknufuFQb7Um2DYIHoz6iRItlk+AEhBSYUL4="
@@ -115,7 +117,7 @@ kafka:
   existingSecret:
     name: ingestion-worker-credentials
     saslPasswordKey: kafka-sasl-password
-#    saslUsernameKey: kafka-sasl-username
+    saslUsernameKey: kafka-sasl-username
 
 analyticDatabase:
   server: "nbllabplatformservicesnorth.postgres.database.azure.com"
