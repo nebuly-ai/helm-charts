@@ -39,3 +39,10 @@ valueFrom:
 {{- end -}}
 {{- end -}}
 
+{{- define "kafka.saslMechanism" -}}
+{{- if .Values.kafka.external -}}
+PLAIN
+{{- else -}}
+SCRAM-SHA-512
+{{- end -}}
+{{- end -}}

@@ -45,8 +45,12 @@ spec:
               {{- include "kafka.saslPasswordEnv" . | nindent 14 }}
             - name: "KAFKA_SASL_USERNAME"
               {{- include "kafka.saslUsernameEnv" . | nindent 14 }}
+            - name: "KAFKA_SASL_MECHANISM"
+              value: {{ include "kafka.saslMechanism" . | quote }}
             - name: "KAFKA_SOCKET_KEEPALIVE_ENABLED"
               value: {{ .Values.kafka.socketKeepAliveEnabled  | quote }}
+            - name: "KAFKA_SSL_CA_PATH"
+              value: "/etc/kafka/ca.crt"
             # Kafka topics
             - name: "KAFKA_TOPIC_EVENTS_MAIN"
               value: {{ .Values.kafka.topicEventsMain.name }}
@@ -94,12 +98,22 @@ spec:
             periodSeconds: 10
           resources:
             {{- toYaml .Values.eventIngestion.resources | nindent 12 }}
-          {{- with .Values.eventIngestion.volumeMounts }}
           volumeMounts:
+          {{- if not .Values.kafka.external }}
+           - name: kafka-cluster-ca-cert
+             mountPath: "/etc/kafka"
+             readOnly: true
+          {{- end }}
+          {{- with .Values.eventIngestion.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      {{- with .Values.eventIngestion.volumes }}
       volumes:
+      {{- if not .Values.kafka.external }}
+        - name: kafka-cluster-ca-cert
+          secret:
+            secretName: {{ include "kafka.fullname" . }}-cluster-ca-cert
+      {{- end }}
+      {{- with .Values.eventIngestion.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.eventIngestion.nodeSelector }}
