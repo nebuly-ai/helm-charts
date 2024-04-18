@@ -161,7 +161,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: "v1.4.1"
+    tag: "v1.4.3"
 
   podAnnotations: {}
   podLabels: {}
@@ -445,10 +445,10 @@ kafka:
   # @default -- -
   resources:
     limits:
-      memory: 512Mi
+      memory: 2048Mi
     requests:
       cpu: 100m
-      memory: 256Mi
+      memory: 1024Mi
   # Settings of the Zookeeper cluster.
   # @default -- -
   zookeeper:
@@ -461,10 +461,10 @@ kafka:
     # @default -- -
     resources:
       limits:
-          memory: 512Mi
+          memory: 2048Mi
       requests:
           cpu: 100m
-          memory: 256Mi
+          memory: 1024Mi
 
   # -- If true, the Kafka clients will use the keep alive feature.
   socketKeepAliveEnabled: true
