@@ -53,8 +53,13 @@ spec:
             periodSeconds: 10
           resources:
             {{- toYaml .Values.ingestionWorker.resources | nindent 12 }}
-          {{- with .Values.ingestionWorker.volumeMounts }}
           volumeMounts:
+          {{- if not .Values.kafka.external }}
+            - name: kafka-cluster-ca-cert
+              mountPath: "/etc/kafka"
+              readOnly: true
+          {{- end }}
+          {{- with .Values.ingestionWorker.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
 
@@ -83,8 +88,13 @@ spec:
             periodSeconds: 10
           resources:
             {{- toYaml .Values.ingestionWorker.resources | nindent 12 }}
-          {{- with .Values.ingestionWorker.volumeMounts }}
           volumeMounts:
+          {{- if not .Values.kafka.external }}
+            - name: kafka-cluster-ca-cert
+              mountPath: "/etc/kafka"
+              readOnly: true
+          {{- end }}
+          {{- with .Values.ingestionWorker.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
 
@@ -113,10 +123,15 @@ spec:
             periodSeconds: 10
           resources:
           {{- toYaml .Values.ingestionWorker.resources | nindent 12 }}
-        {{- with .Values.ingestionWorker.volumeMounts }}
           volumeMounts:
-          {{- toYaml . | nindent 12 }}
-        {{- end }}
+          {{- if not .Values.kafka.external }}
+            - name: kafka-cluster-ca-cert
+              mountPath: "/etc/kafka"
+              readOnly: true
+          {{- end }}
+          {{- with .Values.ingestionWorker.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
 
         # Container 4
         - name: "{{ .Chart.Name }}-4"
@@ -143,13 +158,23 @@ spec:
             periodSeconds: 10
           resources:
             {{- toYaml .Values.ingestionWorker.resources | nindent 12 }}
-          {{- with .Values.ingestionWorker.volumeMounts }}
           volumeMounts:
+          {{- if not .Values.kafka.external }}
+            - name: kafka-cluster-ca-cert
+              mountPath: "/etc/kafka"
+              readOnly: true
+          {{- end }}
+          {{- with .Values.ingestionWorker.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
 
-      {{- with .Values.ingestionWorker.volumes }}
       volumes:
+      {{- if not .Values.kafka.external }}
+        - name: kafka-cluster-ca-cert
+          secret:
+            secretName: {{ include "kafka.fullname" . }}-cluster-ca-cert
+      {{- end }}
+      {{- with .Values.ingestionWorker.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.ingestionWorker.nodeSelector }}
