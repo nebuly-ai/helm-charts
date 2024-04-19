@@ -83,7 +83,7 @@ spec:
             - name: "JWT_SIGNING_KEY_PATH"
               value: "/app/resources/private-key.pem"
             - name: "ADMIN_USER_ENABLED"
-              value: "{{ .Values.auth.adminUserEnabled }}"
+              value: {{ .Values.auth.adminUserEnabled  | quote }}
             - name: "ADMIN_USER_USERNAME"
               value: {{ .Values.auth.adminUserUsername }}
             - name: "ADMIN_USER_PASSWORD"
