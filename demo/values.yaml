@@ -56,9 +56,6 @@ backend:
 
 eventIngestion:
   rootPath: "/event-ingestion"
-  image:
-    pullPolicy: Always
-
 
   ingress:
     annotations:
@@ -108,7 +105,7 @@ ingestionWorker:
 
 
 kafka:
-  external: true
+  external: false
 
   bootstrapServers: "nbllabselfdeployhubns.servicebus.windows.net:9093"
   saslUsername: "$ConnectionString"
