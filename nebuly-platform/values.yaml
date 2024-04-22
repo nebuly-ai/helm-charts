@@ -10,7 +10,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.13.1"
+    tag: "v1.15.2"
 
   podAnnotations: {}
   podLabels: {}
@@ -87,7 +87,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.10.2"
+    tag: "v1.15.3"
 
   podAnnotations: {}
   podLabels: {}
@@ -161,7 +161,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: "v1.4.1"
+    tag: "v1.4.3"
 
   podAnnotations: {}
   podLabels: {}
@@ -263,7 +263,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: "v1.4.1"
+    tag: "v1.5.4"
 
   podAnnotations: {}
   podLabels: {}
@@ -299,10 +299,10 @@ ingestionWorker:
 
   resources:
     limits:
-      memory: 1512Mi
+      memory: 512Mi
     requests:
       cpu: 500m
-      memory: 1024Mi
+      memory: 324Mi
   nodeSelector: {}
 
   tolerations: []
@@ -424,35 +424,106 @@ analyticDatabase:
 
 # @default -- -
 kafka:
-  # -- Comma separated list of Kafka brokers.
+  # -- If true, deploy a Kafka cluster together with the platform services. Otherwise,
+  # use an existing Kafka cluster.
+  external: false
+
+  # -- The number of Kafka brokers in the cluster.
+  replicas: 3
+
+  # -- The storage class used for the Kafka and Zookeeper storage.
+  # @default -- -
+  storage:
+    type: persistent-claim
+    size: 10Gi
+    deleteClaim: false
+  rack:
+    topologyKey: topology.kubernetes.io/zone
+  config:
+    replica.selector.class: org.apache.kafka.common.replica.RackAwareReplicaSelector
+  # Resources of the Kafka brokers.
+  # @default -- -
+  resources:
+    limits:
+      memory: 2048Mi
+    requests:
+      cpu: 100m
+      memory: 1024Mi
+  # Settings of the Zookeeper cluster.
+  # @default -- -
+  zookeeper:
+    replicas: 3
+    storage:
+      type: persistent-claim
+      size: 10Gi
+      deleteClaim: false
+    # Resources of the Zookeeper pods.
+    # @default -- -
+    resources:
+      limits:
+          memory: 2048Mi
+      requests:
+          cpu: 100m
+          memory: 1024Mi
+
+  # -- If true, the Kafka clients will use the keep alive feature.
+  socketKeepAliveEnabled: true
+
+  # -- Settings of the main Kafka topic used to store events (e.g. interactions)
+  topicEventsMain:
+    # -- The name of the Kafka topic
+    name: "events-main"
+    replicas:
+    partitions: 8
+  # -- Settings f the Kafka topic used to retry events that failed processing.
+  topicEventsRetry1:
+    # -- The name of the Kafka topic.
+    name: "events-retry-1"
+    # -- The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters.
+    replicas:
+    # -- The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters.
+    partitions: 2
+  # -- Settings of the Kafka topic used to retry events that failed processing (backoff 2).
+  topicEventsRetry2:
+    # -- The name of the Kafka topic.
+    name: "events-retry-2"
+    # -- The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters.
+    replicas:
+    # -- The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters.
+    partitions: 1
+  # -- Settings of the Kafka topic used to retry events that failed processing (backoff 3).
+  topicEventsRetry3:
+    # -- The name of the Kafka topic.
+    name: "events-retry-3"
+    # -- The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters.
+    replicas:
+    # -- The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters.
+    partitions: 1
+  # -- Settings of the Kafka topic used as dead letter queue.
+  topicEventsDlq:
+    # -- The name of the Kafka topic.
+    name: "events-dlq"
+    # -- The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters.
+    replicas:
+    # -- The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters.
+    partitions: 1
+
+  # -- [external] Comma separated list of Kafka brokers.
   bootstrapServers: ""
-  # -- The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
+  # -- [external] The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
   # when not using an existing secret (see kafka.existingSecret value below).
   saslUsername: ""
-  # -- The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
+  # -- [external] The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
   # when not using an existing secret (see kafka.existingSecret value below).
   saslPassword: ""
 
-  # -- Use an existing secret for Kafka authentication.
+  # -- [external] Use an existing secret for Kafka authentication.
   # @default -- -
   existingSecret:
     # -- Name of the secret. Can be templated.
     name: ""
     saslUsernameKey: ""
     saslPasswordKey: ""
-
-  # -- If true, the Kafka clients will use the keep alive feature.
-  socketKeepAliveEnabled: true
-  # -- The name of the main Kafka topic used to store events (e.g. interactions)
-  topicEventsMain: "events-main"
-  # -- The name of the Kafka topic used to retry events that failed processing.
-  topicEventsRetry1: "events-retry-1"
-  # -- The name of the Kafka topic used to retry events that failed processing (backoff 2).
-  topicEventsRetry2: "events-retry-2"
-  # -- The name of the Kafka topic used to retry events that failed processing (backoff 3).
-  topicEventsRetry3: "events-retry-3"
-  # -- The name of the Kafka topic used as dead letter queue.
-  topicEventsDlq: "events-dlq"
 
 # @default -- -
 otel:
@@ -523,7 +594,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.4.1"
+    tag: "v1.4.2"
 
   podAnnotations: {}
   podLabels: {}
@@ -596,3 +667,6 @@ auth:
       name: ""
       clientIdKey: ""
       clientSecretKey: ""
+
+strimzi:
+  enabled: true

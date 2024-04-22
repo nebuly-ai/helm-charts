@@ -45,6 +45,7 @@ backend:
 
   image:
     pullPolicy: Always
+    tag: latest
 
   tolerations:
     - key: "kubernetes.azure.com/scalesetpriority"
@@ -55,9 +56,6 @@ backend:
 
 eventIngestion:
   rootPath: "/event-ingestion"
-  image:
-    pullPolicy: Always
-
 
   ingress:
     annotations:
@@ -107,14 +105,16 @@ ingestionWorker:
 
 
 kafka:
+  external: false
+
   bootstrapServers: "nbllabselfdeployhubns.servicebus.windows.net:9093"
   saslUsername: "$ConnectionString"
   saslPassword: "Endpoint=sb://nbllabselfdeployhubns.servicebus.windows.net/;SharedAccessKeyName=send-listen;SharedAccessKey=rloGx3KhknufuFQb7Um2DYIHoz6iRItlk+AEhBSYUL4="
 
-#  existingSecret:
-#    name: ingestion-worker-credentials
-#    saslPasswordKey: kafka-sasl-password
-#    saslUsernameKey: kafka-sasl-username
+  existingSecret:
+    name: ingestion-worker-credentials
+    saslPasswordKey: kafka-sasl-password
+    saslUsernameKey: kafka-sasl-username
 
 analyticDatabase:
   server: "nbllabplatformservicesnorth.postgres.database.azure.com"

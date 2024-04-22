@@ -1,0 +1,35 @@
+{{ if not .Values.kafka.external -}}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: {{ include "kafka.fullname" . }}
+spec:
+  zookeeper:
+    replicas: {{ .Values.kafka.zookeeper.replicas }}
+    storage:
+      {{- toYaml .Values.kafka.zookeeper.storage | nindent 6 }}
+    resources:
+      {{- toYaml .Values.kafka.zookeeper.resources | nindent 6 }}
+  entityOperator:
+    userOperator: {}
+    topicOperator: {}
+  kafka:
+    replicas: {{ .Values.kafka.replicas }}
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: true
+        authentication:
+          type: scram-sha-512
+    authorization:
+      type: simple
+    storage:
+      {{- toYaml .Values.kafka.storage | nindent 6 }}
+    resources:
+      {{- toYaml .Values.kafka.resources | nindent 6 }}
+    rack:
+      {{- toYaml .Values.kafka.rack | nindent 6 }}
+    config:
+      {{- toYaml .Values.kafka.config | nindent 6 }}
+  {{- end }}

@@ -46,27 +46,27 @@
 - name: KAFKA_SOCKET_KEEPALIVE_ENABLED
   value: "{{ .Values.kafka.socketKeepAliveEnabled }}"
 - name: KAFKA_BOOTSTRAP_SERVERS
-  value: "{{ .Values.kafka.bootstrapServers }}"
+  value: {{ include "kafka.bootstrapServers" . }}
 - name: KAFKA_TOPIC_EVENTS_MAIN
-  value: "{{ .Values.kafka.topicEventsMain }}"
+  value: "{{ .Values.kafka.topicEventsMain.name }}"
 - name: KAFKA_TOPIC_EVENTS_RETRY_1
-  value: "{{ .Values.kafka.topicEventsRetry1 }}"
+  value: "{{ .Values.kafka.topicEventsRetry1.name }}"
 - name: KAFKA_TOPIC_EVENTS_RETRY_2
-  value: "{{ .Values.kafka.topicEventsRetry2 }}"
+  value: "{{ .Values.kafka.topicEventsRetry2.name }}"
 - name: KAFKA_TOPIC_EVENTS_RETRY_3
-  value: "{{ .Values.kafka.topicEventsRetry3 }}"
+  value: "{{ .Values.kafka.topicEventsRetry3.name }}"
 - name: KAFKA_TOPIC_EVENTS_DLQ
-  value: "{{ .Values.kafka.topicEventsDlq }}"
+  value: "{{ .Values.kafka.topicEventsDlq.name }}"
+- name: "KAFKA_SASL_MECHANISM"
+  value: {{ include "kafka.saslMechanism" . | quote }}
 - name: "KAFKA_SASL_PASSWORD"
-  valueFrom:
-    secretKeyRef:
-      name: {{ (tpl .Values.kafka.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.kafka.existingSecret.saslPasswordKey | default "kafka-sasl-password" }}
+  {{ include "kafka.saslPasswordEnv" . }}
 - name: "KAFKA_SASL_USERNAME"
-  valueFrom:
-    secretKeyRef:
-      name: {{ (tpl .Values.kafka.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.kafka.existingSecret.saslUsernameKey | default "kafka-sasl-username" }}
+  {{ include "kafka.saslUsernameEnv" . }}
+{{- if not .Values.kafka.external }}
+- name: "KAFKA_SSL_CA_PATH"
+  value: "/etc/kafka/ca.crt"
+{{- end }}
 # Platform services
 - name: TENANT_REGISTRY_URL
   value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}"

@@ -1,0 +1,12 @@
+{{ if not .Values.kafka.external -}}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: {{ .Values.kafka.topicEventsDlq.name }}
+  labels:
+    strimzi.io/cluster: {{ include "kafka.fullname" . }}
+spec:
+  topicName: {{ .Values.kafka.topicEventsDlq.name }}
+  partitions: {{ .Values.kafka.topicEventsDlq.partitions }}
+  replicas: {{ .Values.kafka.topicEventsDlq.replicas | default .Values.kafka.replicas }}
+{{- end }}

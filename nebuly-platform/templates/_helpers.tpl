@@ -199,6 +199,16 @@ app.kubernetes.io/component: nebuly-frontend
 
 {{/*
 *********************************************************************
+* External Kafka
+*********************************************************************
+*/}}
+{{- define "externalKakfaSecretName" -}}
+{{- printf "%s-%s" .Release.Name "external-kafka" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+
+{{/*
+*********************************************************************
 * Utils functions
 *********************************************************************
 */}}
@@ -218,10 +228,12 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.name" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.user" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.password" .) -}}
-{{/* Kafka */}}
+{{/* External Kafka */}}
+{{- if .Values.kafka.external -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.bootstrapServers" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslUsername" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslPassword" .) -}}
+{{- end -}}
 {{/* Azure OpenAI */}}
 {{- if .Values.azureOpenAi.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.azureOpenAi.endpoint" .) -}}
@@ -295,8 +307,7 @@ values: analyticDatabase.password
 {{- end -}}
 {{- end -}}
 
-
-{{/* Kafka Validation. */}}
+{{/* External Kafka Validation. */}}
 {{- define "chart.validateValues.kafka.bootstrapServers" -}}
 {{- if empty .Values.kafka.bootstrapServers  -}}
 values: kafka.bootstrapServers
