@@ -669,4 +669,4 @@ auth:
       clientSecretKey: ""
 
 strimzi:
-  enabled: true
+  enabled: false

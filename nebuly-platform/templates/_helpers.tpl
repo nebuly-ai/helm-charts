@@ -228,6 +228,10 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.name" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.user" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.password" .) -}}
+{{/* Self-hosted Kafka */}}
+{{- if not .Values.kafka.external -}}
+{{- $messages = append $messages (include "chart.validateValues.kafka.strimzi" .) -}}
+{{- end -}}
 {{/* External Kafka */}}
 {{- if .Values.kafka.external -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.bootstrapServers" .) -}}
@@ -304,6 +308,14 @@ values: analyticDatabase.user
 {{- if and (empty .Values.analyticDatabase.password) (empty .Values.analyticDatabase.existingSecret.name)  -}}
 values: analyticDatabase.password
   `password` is required when not using an existing secret and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{/* Self-hosted Kafka Validation. */}}
+{{- define "chart.validateValues.kafka.strimzi" -}}
+{{- if not .Values.strimzi.enabled  -}}
+values: strimzi.enabled
+    `strimzi.enabled` should be true when using self-hosted Kafka with `kafka.external` set to false
 {{- end -}}
 {{- end -}}
 
