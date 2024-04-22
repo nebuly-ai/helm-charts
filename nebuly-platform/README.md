@@ -632,7 +632,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | secretsStore.azure.keyVaultUrl | string | `""` | The URL of the Azure Key Vault storing the secrets. |
 | secretsStore.azure.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Key Vault is located. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.kind | string | `"database"` | Supported values: "database", "azure_keyvault" |
-| strimzi.enabled | bool | `true` |  |
+| strimzi.enabled | bool | `false` |  |
 
 ## Maintainers
 
