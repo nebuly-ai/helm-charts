@@ -1,10 +1,16 @@
 # Nebuly Platform
 
-![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform.
 
 **Homepage:** <https://nebuly.com>
+
+## Requirements
+
+| Repository | Name | Version |
+|------------|------|---------|
+| oci://quay.io/strimzi-helm | strimzi-kafka-operator | 0.40.0 |
 
 ## Prerequisites
 
@@ -405,7 +411,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.fullnameOverride | string | `""` |  |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.4.1"` |  |
+| auth.image.tag | string | `"v1.4.2"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.microsoft | object | - | Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft". |
@@ -463,7 +469,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.13.1"` |  |
+| backend.image.tag | string | `"v1.15.2"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -492,7 +498,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
 | eventIngestion.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-event-ingestion"` |  |
-| eventIngestion.image.tag | string | `"v1.4.1"` |  |
+| eventIngestion.image.tag | string | `"v1.4.3"` |  |
 | eventIngestion.ingress.annotations | object | `{}` |  |
 | eventIngestion.ingress.className | string | `""` |  |
 | eventIngestion.ingress.enabled | bool | `false` |  |
@@ -523,7 +529,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.10.2"` |  |
+| frontend.image.tag | string | `"v1.15.3"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -555,7 +561,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.fullnameOverride | string | `""` |  |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.4.1"` |  |
+| ingestionWorker.image.tag | string | `"v1.5.4"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
@@ -564,9 +570,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.podLabels | object | `{}` |  |
 | ingestionWorker.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | ingestionWorker.replicaCount | int | `1` |  |
-| ingestionWorker.resources.limits.memory | string | `"1512Mi"` |  |
+| ingestionWorker.resources.limits.memory | string | `"512Mi"` |  |
 | ingestionWorker.resources.requests.cpu | string | `"500m"` |  |
-| ingestionWorker.resources.requests.memory | string | `"1024Mi"` |  |
+| ingestionWorker.resources.requests.memory | string | `"324Mi"` |  |
 | ingestionWorker.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | ingestionWorker.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | ingestionWorker.securityContext.runAsNonRoot | bool | `true` |  |
@@ -577,17 +583,45 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.topicsClustering.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
-| kafka.bootstrapServers | string | `""` | Comma separated list of Kafka brokers. |
-| kafka.existingSecret | object | - | Use an existing secret for Kafka authentication. |
+| kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
+| kafka.config."replica.selector.class" | string | `"org.apache.kafka.common.replica.RackAwareReplicaSelector"` |  |
+| kafka.existingSecret | object | - | [external] Use an existing secret for Kafka authentication. |
 | kafka.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| kafka.saslPassword | string | `""` | The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
-| kafka.saslUsername | string | `""` | The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
+| kafka.external | bool | `false` | If true, deploy a Kafka cluster together with the platform services. Otherwise, use an existing Kafka cluster. |
+| kafka.rack.topologyKey | string | `"topology.kubernetes.io/zone"` |  |
+| kafka.replicas | int | `3` | The number of Kafka brokers in the cluster. |
+| kafka.resources.limits.memory | string | `"2048Mi"` |  |
+| kafka.resources.requests.cpu | string | `"100m"` |  |
+| kafka.resources.requests.memory | string | `"1024Mi"` |  |
+| kafka.saslPassword | string | `""` | [external] The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
+| kafka.saslUsername | string | `""` | [external] The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.socketKeepAliveEnabled | bool | `true` | If true, the Kafka clients will use the keep alive feature. |
-| kafka.topicEventsDlq | string | `"events-dlq"` | The name of the Kafka topic used as dead letter queue. |
-| kafka.topicEventsMain | string | `"events-main"` | The name of the main Kafka topic used to store events (e.g. interactions) |
-| kafka.topicEventsRetry1 | string | `"events-retry-1"` | The name of the Kafka topic used to retry events that failed processing. |
-| kafka.topicEventsRetry2 | string | `"events-retry-2"` | The name of the Kafka topic used to retry events that failed processing (backoff 2). |
-| kafka.topicEventsRetry3 | string | `"events-retry-3"` | The name of the Kafka topic used to retry events that failed processing (backoff 3). |
+| kafka.storage | object | - | The storage class used for the Kafka and Zookeeper storage. |
+| kafka.topicEventsDlq | object | `{"name":"events-dlq","partitions":1,"replicas":null}` | Settings of the Kafka topic used as dead letter queue. |
+| kafka.topicEventsDlq.name | string | `"events-dlq"` | The name of the Kafka topic. |
+| kafka.topicEventsDlq.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsDlq.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsMain | object | `{"name":"events-main","partitions":8,"replicas":null}` | Settings of the main Kafka topic used to store events (e.g. interactions) |
+| kafka.topicEventsMain.name | string | `"events-main"` | The name of the Kafka topic |
+| kafka.topicEventsRetry1 | object | `{"name":"events-retry-1","partitions":2,"replicas":null}` | Settings f the Kafka topic used to retry events that failed processing. |
+| kafka.topicEventsRetry1.name | string | `"events-retry-1"` | The name of the Kafka topic. |
+| kafka.topicEventsRetry1.partitions | int | `2` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsRetry1.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsRetry2 | object | `{"name":"events-retry-2","partitions":1,"replicas":null}` | Settings of the Kafka topic used to retry events that failed processing (backoff 2). |
+| kafka.topicEventsRetry2.name | string | `"events-retry-2"` | The name of the Kafka topic. |
+| kafka.topicEventsRetry2.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsRetry2.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsRetry3 | object | `{"name":"events-retry-3","partitions":1,"replicas":null}` | Settings of the Kafka topic used to retry events that failed processing (backoff 3). |
+| kafka.topicEventsRetry3.name | string | `"events-retry-3"` | The name of the Kafka topic. |
+| kafka.topicEventsRetry3.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsRetry3.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.zookeeper.replicas | int | `3` |  |
+| kafka.zookeeper.resources.limits.memory | string | `"2048Mi"` |  |
+| kafka.zookeeper.resources.requests.cpu | string | `"100m"` |  |
+| kafka.zookeeper.resources.requests.memory | string | `"1024Mi"` |  |
+| kafka.zookeeper.storage.deleteClaim | bool | `false` |  |
+| kafka.zookeeper.storage.size | string | `"10Gi"` |  |
+| kafka.zookeeper.storage.type | string | `"persistent-claim"` |  |
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
@@ -598,6 +632,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | secretsStore.azure.keyVaultUrl | string | `""` | The URL of the Azure Key Vault storing the secrets. |
 | secretsStore.azure.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Key Vault is located. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.kind | string | `"database"` | Supported values: "database", "azure_keyvault" |
+| strimzi.enabled | bool | `true` |  |
 
 ## Maintainers
 
