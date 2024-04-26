@@ -136,6 +136,7 @@ auth:
   image:
     pullPolicy: Always
 
+  loginModes: "microsoft,password"
   microsoft:
     enabled: true
     redirectUri: https://helmtest.internal.nebuly.com/backend/auth/oauth/microsoft/callback

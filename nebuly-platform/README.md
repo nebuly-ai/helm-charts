@@ -414,6 +414,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.image.tag | string | `"v1.4.2"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
+| auth.loginModes | string | `"password"` | as a comma-separated list. Possible values are: `password`, `microsoft`. |
 | auth.microsoft | object | - | Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft". |
 | auth.microsoft.clientId | string | `""` | The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
 | auth.microsoft.clientSecret | string | `""` | The Client Secret of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
@@ -482,9 +483,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.podLabels | object | `{}` |  |
 | backend.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | backend.replicaCount | int | `1` |  |
-| backend.resources.limits.memory | string | `"384Mi"` |  |
+| backend.resources.limits.memory | string | `"400Mi"` |  |
 | backend.resources.requests.cpu | string | `"100m"` |  |
-| backend.resources.requests.memory | string | `"256Mi"` |  |
+| backend.resources.requests.memory | string | `"400Mi"` |  |
 | backend.rootPath | string | `""` | Example: "/backend-service" |
 | backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | backend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -513,7 +514,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.replicaCount | int | `1` |  |
 | eventIngestion.resources.limits.memory | string | `"256Mi"` |  |
 | eventIngestion.resources.requests.cpu | string | `"100m"` |  |
-| eventIngestion.resources.requests.memory | string | `"128Mi"` |  |
+| eventIngestion.resources.requests.memory | string | `"256Mi"` |  |
 | eventIngestion.rootPath | string | `""` | Example: "/backend-service" |
 | eventIngestion.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | eventIngestion.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -572,12 +573,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.replicaCount | int | `1` |  |
 | ingestionWorker.resources.limits.memory | string | `"512Mi"` |  |
 | ingestionWorker.resources.requests.cpu | string | `"500m"` |  |
-| ingestionWorker.resources.requests.memory | string | `"324Mi"` |  |
+| ingestionWorker.resources.requests.memory | string | `"512Mi"` |  |
 | ingestionWorker.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | ingestionWorker.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | ingestionWorker.securityContext.runAsNonRoot | bool | `true` |  |
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
+| ingestionWorker.suggestionsGeneration | object | - | Settings related to the CronJob for generating category suggestions. |
+| ingestionWorker.suggestionsGeneration.schedule | string | `"0 */2 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.topicsClustering | object | - | Settings related to the CronJob for clustering topics. |
 | ingestionWorker.topicsClustering.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |

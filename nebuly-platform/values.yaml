@@ -555,6 +555,9 @@ auth:
   adminUserUsername: "admin@nebuly.ai"
   # -- The password of the initial admin user.
   adminUserPassword: "admin"
+  # -- The available login modes. Value must be string with the login mode specified
+  # -- as a comma-separated list. Possible values are: `password`, `microsoft`.
+  loginModes: "password"
 
   # -- Ingress configuration for the login endpoints.
   # @default -- -

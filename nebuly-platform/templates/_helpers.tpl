@@ -237,6 +237,7 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresServer" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresUser" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresPassword" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.auth.loginModes" .) -}}
 {{/* Analytic DB */}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.server" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.name" .) -}}
@@ -280,6 +281,13 @@ app.kubernetes.io/component: nebuly-frontend
 {{- if empty .Values.auth.postgresServer  -}}
 values: auth.postgresServer
   `postgresServer` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.auth.loginModes" -}}
+{{- if and (not .Values.auth.microsoft.enabled) (contains "microsoft" .Values.auth.loginModes) -}}
+values: auth.loginModes
+  `loginModes` cannot contain "microsoft" when `microsoftSso` is not enabled
 {{- end -}}
 {{- end -}}
 
