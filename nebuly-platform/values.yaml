@@ -47,9 +47,9 @@ backend:
   resources:
     requests:
       cpu: 100m
-      memory: 256Mi
+      memory: 400Mi
     limits:
-      memory: 384Mi
+      memory: 400Mi
   nodeSelector: {}
 
   tolerations: []
@@ -196,11 +196,11 @@ eventIngestion:
   #   readOnly: true
 
   resources:
-    limits:
-      memory: 256Mi
     requests:
       cpu: 100m
-      memory: 128Mi
+      memory: 256Mi
+    limits:
+      memory: 256Mi
   nodeSelector: {}
 
   tolerations: []
@@ -309,11 +309,11 @@ ingestionWorker:
   #   readOnly: true
 
   resources:
-    limits:
-      memory: 512Mi
     requests:
       cpu: 500m
-      memory: 324Mi
+      memory: 512Mi
+    limits:
+      memory: 512Mi
   nodeSelector: {}
 
   tolerations: []
@@ -640,11 +640,11 @@ auth:
   #   readOnly: true
 
   resources:
-    limits:
-      memory: 256Mi
     requests:
       cpu: 100m
       memory: 128Mi
+    limits:
+      memory: 256Mi
   nodeSelector: {}
 
   tolerations: []
