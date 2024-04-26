@@ -240,11 +240,22 @@ ingestionWorker:
     schedule: "@daily"
     resources:
       limits:
-        cpu: 1
-        memory: 5024Mi
+        memory: 1400Mi
       requests:
-        cpu: 1
-        memory: 5024Mi
+        cpu: 500Mi
+        memory: 1400Mi
+
+  # -- Settings related to the CronJob for generating category suggestions.
+  # @default -- -
+  suggestionsGeneration:
+    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+    schedule: "0 */2 * * *" # every 2 hours
+    resources:
+      requests:
+        cpu: 500m
+        memory: 2048Mi
+      limits:
+        memory: 2048Mi
 
   # -- Settings related to the CronJob for processing the actions of the collected interactions.
   # @default -- -
@@ -252,11 +263,11 @@ ingestionWorker:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
     schedule: "@daily"
     resources:
-      limits:
-        memory: 512Mi
       requests:
         cpu: 500m
-        memory: 256Mi
+        memory: 512Mi
+      limits:
+        memory: 512Mi
 
   replicaCount: 1
 

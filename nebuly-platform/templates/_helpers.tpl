@@ -129,13 +129,27 @@ app.kubernetes.io/component: nebuly-ingestion-worker
 * Topics Clustering Job
 *********************************************************************
 */}}
-{{- define "topicsClustering.labels" -}}
+{{- define "jobTopicsClustering.labels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
 app.kubernetes.io/component: job-topics-clustering
 {{- end }}
 
-{{- define "topicsClustering.fullname" -}}
+{{- define "jobTopicsClustering.fullname" -}}
 {{- printf "%s-%s" .Release.Name "topics-clustering" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+*********************************************************************
+* Suggestions Job
+*********************************************************************
+*/}}
+{{- define "jobSuggestions.labels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: job-suggestions
+{{- end }}
+
+{{- define "jobSuggestions.fullname" -}}
+{{- printf "%s-%s" .Release.Name "suggestions" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
@@ -143,12 +157,12 @@ app.kubernetes.io/component: job-topics-clustering
 * Actions Processing Clustering Job
 *********************************************************************
 */}}
-{{- define "actionsProcessing.labels" -}}
+{{- define "jobActionsProcessing.labels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
 app.kubernetes.io/component: job-topics-clustering
 {{- end }}
 
-{{- define "actionsProcessing.fullname" -}}
+{{- define "jobActionsProcessing.fullname" -}}
 {{- printf "%s-%s" .Release.Name "actions-processing" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{/*
