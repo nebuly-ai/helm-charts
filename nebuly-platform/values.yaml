@@ -10,7 +10,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.16.0"
+    tag: "v1.16.1"
 
   podAnnotations: {}
   podLabels: {}
@@ -87,7 +87,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.16.0"
+    tag: "v1.16.2"
 
   podAnnotations: {}
   podLabels: {}
@@ -274,6 +274,7 @@ ingestionWorker:
   actionsProcessing:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
     schedule: "@daily"
+    backoffLimit: 1
     resources:
       requests:
         cpu: 200m

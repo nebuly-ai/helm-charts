@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "jobSuggestions.labels" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.ingestionWorker.topicsClustering.schedule | quote }}
+  schedule: {{ .Values.ingestionWorker.suggestionsGeneration.schedule | quote }}
   jobTemplate:
     metadata:
       labels:

@@ -11,7 +11,7 @@ spec:
       labels:
         {{- include "jobActionsProcessing.labels" . | nindent 10 }}
     spec:
-      backoffLimit: 0
+      backoffLimit: {{ .Values.ingestionWorker.actionsProcessing.backoffLimit }}
       template:
         metadata:
           {{- with .Values.ingestionWorker.podAnnotations }}
