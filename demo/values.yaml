@@ -105,7 +105,7 @@ ingestionWorker:
 
 
 kafka:
-  external: false
+  external: true
 
   bootstrapServers: "nbllabselfdeployhubns.servicebus.windows.net:9093"
   saslUsername: "$ConnectionString"
@@ -136,6 +136,7 @@ auth:
   image:
     pullPolicy: Always
 
+  loginModes: "microsoft,password"
   microsoft:
     enabled: true
     redirectUri: https://helmtest.internal.nebuly.com/backend/auth/oauth/microsoft/callback

@@ -414,6 +414,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.image.tag | string | `"v1.4.2"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
+| auth.loginModes | string | `"password"` | as a comma-separated list. Possible values are: `password`, `microsoft`. |
 | auth.microsoft | object | - | Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft". |
 | auth.microsoft.clientId | string | `""` | The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
 | auth.microsoft.clientSecret | string | `""` | The Client Secret of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
@@ -469,7 +470,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.15.2"` |  |
+| backend.image.tag | string | `"v1.16.0"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -482,9 +483,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.podLabels | object | `{}` |  |
 | backend.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | backend.replicaCount | int | `1` |  |
-| backend.resources.limits.memory | string | `"384Mi"` |  |
+| backend.resources.limits.memory | string | `"400Mi"` |  |
 | backend.resources.requests.cpu | string | `"100m"` |  |
-| backend.resources.requests.memory | string | `"256Mi"` |  |
+| backend.resources.requests.memory | string | `"400Mi"` |  |
 | backend.rootPath | string | `""` | Example: "/backend-service" |
 | backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | backend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -513,7 +514,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.replicaCount | int | `1` |  |
 | eventIngestion.resources.limits.memory | string | `"256Mi"` |  |
 | eventIngestion.resources.requests.cpu | string | `"100m"` |  |
-| eventIngestion.resources.requests.memory | string | `"128Mi"` |  |
+| eventIngestion.resources.requests.memory | string | `"256Mi"` |  |
 | eventIngestion.rootPath | string | `""` | Example: "/backend-service" |
 | eventIngestion.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | eventIngestion.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -529,7 +530,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.15.3"` |  |
+| frontend.image.tag | string | `"v1.16.0"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -558,10 +559,12 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.actionsProcessing | object | - | Settings related to the CronJob for processing the actions of the collected interactions. |
 | ingestionWorker.actionsProcessing.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.affinity | object | `{}` |  |
+| ingestionWorker.categoriesWarningsGeneration | object | - | Settings related to the CronJob for generating warnings for custom categories. |
+| ingestionWorker.categoriesWarningsGeneration.schedule | string | `"*/15 * * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.fullnameOverride | string | `""` |  |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.5.4"` |  |
+| ingestionWorker.image.tag | string | `"v1.6.1"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
@@ -572,12 +575,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.replicaCount | int | `1` |  |
 | ingestionWorker.resources.limits.memory | string | `"512Mi"` |  |
 | ingestionWorker.resources.requests.cpu | string | `"500m"` |  |
-| ingestionWorker.resources.requests.memory | string | `"324Mi"` |  |
+| ingestionWorker.resources.requests.memory | string | `"512Mi"` |  |
 | ingestionWorker.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | ingestionWorker.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | ingestionWorker.securityContext.runAsNonRoot | bool | `true` |  |
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
+| ingestionWorker.suggestionsGeneration | object | - | Settings related to the CronJob for generating category suggestions. |
+| ingestionWorker.suggestionsGeneration.schedule | string | `"0 */2 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.topicsClustering | object | - | Settings related to the CronJob for clustering topics. |
 | ingestionWorker.topicsClustering.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |

@@ -1,17 +1,17 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobTopicsClustering.fullname" . }}
+  name: {{ include "jobCategoryWarnings.fullname" . }}
   labels:
-    {{- include "jobTopicsClustering.labels" . | nindent 4 }}
+    {{- include "jobCategoryWarnings.labels" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.ingestionWorker.topicsClustering.schedule | quote }}
+  schedule: {{ .Values.ingestionWorker.categoriesWarningsGeneration.schedule | quote }}
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobTopicsClustering.labels" . | nindent 10 }}
+        {{- include "jobCategoryWarnings.labels" . | nindent 10 }}
     spec:
-      backoffLimit: 0
+      backoffLimit: 1
       template:
         metadata:
           {{- with .Values.ingestionWorker.podAnnotations }}
@@ -19,7 +19,7 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobTopicsClustering.labels" . | nindent 14 }}
+            {{- include "jobCategoryWarnings.labels" . | nindent 14 }}
             {{- with .Values.ingestionWorker.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
@@ -36,7 +36,7 @@ spec:
               securityContext:
                 {{- toYaml .Values.ingestionWorker.securityContext | nindent 16 }}
               image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
-              command: [ "python", "jobs/process_categories.py" ]
+              command: [ "python", "jobs/process_new_categories.py" ]
               imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
               ports:
                 - name: http
@@ -45,7 +45,7 @@ spec:
               env:
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
               resources:
-                {{- toYaml .Values.ingestionWorker.topicsClustering.resources | nindent 18 }}
+                {{- toYaml .Values.ingestionWorker.categoriesWarningsGeneration.resources | nindent 18 }}
               {{- with .Values.ingestionWorker.volumeMounts }}
               volumeMounts:
                 {{- toYaml . | nindent 18 }}

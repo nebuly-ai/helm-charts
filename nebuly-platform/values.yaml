@@ -10,7 +10,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.15.2"
+    tag: "v1.16.0"
 
   podAnnotations: {}
   podLabels: {}
@@ -47,9 +47,9 @@ backend:
   resources:
     requests:
       cpu: 100m
-      memory: 256Mi
+      memory: 400Mi
     limits:
-      memory: 384Mi
+      memory: 400Mi
   nodeSelector: {}
 
   tolerations: []
@@ -87,7 +87,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.15.3"
+    tag: "v1.16.0"
 
   podAnnotations: {}
   podLabels: {}
@@ -196,11 +196,11 @@ eventIngestion:
   #   readOnly: true
 
   resources:
-    limits:
-      memory: 256Mi
     requests:
       cpu: 100m
-      memory: 128Mi
+      memory: 256Mi
+    limits:
+      memory: 256Mi
   nodeSelector: {}
 
   tolerations: []
@@ -240,11 +240,34 @@ ingestionWorker:
     schedule: "@daily"
     resources:
       limits:
-        cpu: 1
-        memory: 5024Mi
+        memory: 1024Mi
       requests:
-        cpu: 1
-        memory: 5024Mi
+        cpu: 500m
+        memory: 1024Mi
+
+  # -- Settings related to the CronJob for generating warnings for custom categories.
+  # @default -- -
+  categoriesWarningsGeneration:
+    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+    schedule: "*/15 * * * *" # Every 15 minutes
+    resources:
+      limits:
+        memory: 1024Mi
+      requests:
+        cpu: 200m
+        memory: 1024Mi
+
+  # -- Settings related to the CronJob for generating category suggestions.
+  # @default -- -
+  suggestionsGeneration:
+    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+    schedule: "0 */2 * * *" # every 2 hours
+    resources:
+      requests:
+        cpu: 500m
+        memory: 2048Mi
+      limits:
+        memory: 2048Mi
 
   # -- Settings related to the CronJob for processing the actions of the collected interactions.
   # @default -- -
@@ -252,18 +275,18 @@ ingestionWorker:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
     schedule: "@daily"
     resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
       limits:
         memory: 512Mi
-      requests:
-        cpu: 500m
-        memory: 256Mi
 
   replicaCount: 1
 
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: "v1.5.4"
+    tag: "v1.6.1"
 
   podAnnotations: {}
   podLabels: {}
@@ -298,11 +321,11 @@ ingestionWorker:
   #   readOnly: true
 
   resources:
-    limits:
-      memory: 512Mi
     requests:
       cpu: 500m
-      memory: 324Mi
+      memory: 512Mi
+    limits:
+      memory: 512Mi
   nodeSelector: {}
 
   tolerations: []
@@ -544,6 +567,9 @@ auth:
   adminUserUsername: "admin@nebuly.ai"
   # -- The password of the initial admin user.
   adminUserPassword: "admin"
+  # -- The available login modes. Value must be string with the login mode specified
+  # -- as a comma-separated list. Possible values are: `password`, `microsoft`.
+  loginModes: "password"
 
   # -- Ingress configuration for the login endpoints.
   # @default -- -
@@ -629,11 +655,11 @@ auth:
   #   readOnly: true
 
   resources:
-    limits:
-      memory: 256Mi
     requests:
       cpu: 100m
       memory: 128Mi
+    limits:
+      memory: 256Mi
   nodeSelector: {}
 
   tolerations: []

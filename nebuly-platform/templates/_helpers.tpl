@@ -129,13 +129,27 @@ app.kubernetes.io/component: nebuly-ingestion-worker
 * Topics Clustering Job
 *********************************************************************
 */}}
-{{- define "topicsClustering.labels" -}}
+{{- define "jobTopicsClustering.labels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
 app.kubernetes.io/component: job-topics-clustering
 {{- end }}
 
-{{- define "topicsClustering.fullname" -}}
+{{- define "jobTopicsClustering.fullname" -}}
 {{- printf "%s-%s" .Release.Name "topics-clustering" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+*********************************************************************
+* Suggestions Job
+*********************************************************************
+*/}}
+{{- define "jobSuggestions.labels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: job-suggestions
+{{- end }}
+
+{{- define "jobSuggestions.fullname" -}}
+{{- printf "%s-%s" .Release.Name "suggestions" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
@@ -143,14 +157,29 @@ app.kubernetes.io/component: job-topics-clustering
 * Actions Processing Clustering Job
 *********************************************************************
 */}}
-{{- define "actionsProcessing.labels" -}}
+{{- define "jobActionsProcessing.labels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
 app.kubernetes.io/component: job-topics-clustering
 {{- end }}
 
-{{- define "actionsProcessing.fullname" -}}
+{{- define "jobActionsProcessing.fullname" -}}
 {{- printf "%s-%s" .Release.Name "actions-processing" | trunc 63 | trimSuffix "-" }}
 {{- end }}
+
+{{/*
+*********************************************************************
+* Categories Warnings Job
+*********************************************************************
+*/}}
+{{- define "jobCategoryWarnings.labels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: job-category-warnings
+{{- end }}
+
+{{- define "jobCategoryWarnings.fullname" -}}
+{{- printf "%s-%s" .Release.Name "category-warnings" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
 {{/*
 
 *********************************************************************
@@ -223,6 +252,7 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresServer" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresUser" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresPassword" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.auth.loginModes" .) -}}
 {{/* Analytic DB */}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.server" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.name" .) -}}
@@ -266,6 +296,13 @@ app.kubernetes.io/component: nebuly-frontend
 {{- if empty .Values.auth.postgresServer  -}}
 values: auth.postgresServer
   `postgresServer` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.auth.loginModes" -}}
+{{- if and (not .Values.auth.microsoft.enabled) (contains "microsoft" .Values.auth.loginModes) -}}
+values: auth.loginModes
+  `loginModes` cannot contain "microsoft" when `microsoftSso` is not enabled
 {{- end -}}
 {{- end -}}
 

@@ -9,6 +9,7 @@ data:
   env.json: |
     {
       "GIT_REF": "${GIT_REF}",
+      "LOGIN_MODELS": "{{ .Values.auth.loginModes }}",
       "DEPLOYMENT_MODE": "self-hosted",
       "NEXT_PUBLIC_AUTH_MODE": "custom",
       "NEXT_PUBLIC_API_URL": "{{ .Values.frontend.backendApiUrl }}",

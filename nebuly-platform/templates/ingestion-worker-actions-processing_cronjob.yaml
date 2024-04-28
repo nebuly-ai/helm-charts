@@ -1,15 +1,15 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "actionsProcessing.fullname" . }}
+  name: {{ include "jobActionsProcessing.fullname" . }}
   labels:
-    {{- include "actionsProcessing.labels" . | nindent 4 }}
+    {{- include "jobActionsProcessing.labels" . | nindent 4 }}
 spec:
   schedule: {{ .Values.ingestionWorker.actionsProcessing.schedule | quote }}
   jobTemplate:
     metadata:
       labels:
-        {{- include "actionsProcessing.labels" . | nindent 10 }}
+        {{- include "jobActionsProcessing.labels" . | nindent 10 }}
     spec:
       backoffLimit: 0
       template:
@@ -19,7 +19,7 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "actionsProcessing.labels" . | nindent 14 }}
+            {{- include "jobActionsProcessing.labels" . | nindent 14 }}
             {{- with .Values.ingestionWorker.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
