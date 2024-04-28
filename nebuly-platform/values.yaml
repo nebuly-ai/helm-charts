@@ -240,10 +240,22 @@ ingestionWorker:
     schedule: "@daily"
     resources:
       limits:
-        memory: 1400Mi
+        memory: 1024Mi
       requests:
-        cpu: 500Mi
-        memory: 1400Mi
+        cpu: 500m
+        memory: 1024Mi
+
+  # -- Settings related to the CronJob for generating warnings for custom categories.
+  # @default -- -
+  categoriesWarningsGeneration:
+    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+    schedule: "*/15 * * * *" # Every 15 minutes
+    resources:
+      limits:
+        memory: 1024Mi
+      requests:
+        cpu: 200m
+        memory: 1024Mi
 
   # -- Settings related to the CronJob for generating category suggestions.
   # @default -- -
@@ -264,7 +276,7 @@ ingestionWorker:
     schedule: "@daily"
     resources:
       requests:
-        cpu: 500m
+        cpu: 200m
         memory: 512Mi
       limits:
         memory: 512Mi

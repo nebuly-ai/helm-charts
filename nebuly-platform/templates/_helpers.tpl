@@ -165,6 +165,21 @@ app.kubernetes.io/component: job-topics-clustering
 {{- define "jobActionsProcessing.fullname" -}}
 {{- printf "%s-%s" .Release.Name "actions-processing" | trunc 63 | trimSuffix "-" }}
 {{- end }}
+
+{{/*
+*********************************************************************
+* Categories Warnings Job
+*********************************************************************
+*/}}
+{{- define "jobCategoryWarnings.labels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: job-category-warnings
+{{- end }}
+
+{{- define "jobCategoryWarnings.fullname" -}}
+{{- printf "%s-%s" .Release.Name "category-warnings" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
 {{/*
 
 *********************************************************************
