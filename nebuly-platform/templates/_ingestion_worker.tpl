@@ -70,6 +70,8 @@
 # Platform services
 - name: TENANT_REGISTRY_URL
   value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}"
+- name: BACKEND_URL
+  value: "http://{{ include "backend.fullname" . }}:{{ .Values.auth.service.port }}"
 # AzureML
 - name: AZURE_TENANT_ID
   value: "{{ .Values.azureml.tenantId }}"
