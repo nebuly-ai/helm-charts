@@ -10,7 +10,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.16.3"
+    tag: "v1.16.7"
 
   podAnnotations: {}
   podLabels: {}
@@ -87,7 +87,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.16.4"
+    tag: "v1.16.8"
 
   podAnnotations: {}
   podLabels: {}
