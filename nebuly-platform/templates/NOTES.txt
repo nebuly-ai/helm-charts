@@ -17,3 +17,7 @@ You can enable it by setting the value `backend.ingress.enabled` to `true`.
 [WARNING] Event Ingestion ingress is not enabled, the event ingestion APIs won't be accessible from outside the cluster.
 You can enable it by setting the value `eventIngestion.ingress.enabled` to `true`.
 {{ end }}
+
+{{- if .Values.azureml.enabled -}}
+[WARNING] AzureML support is deprecated and will be removed soon.
+{{ end }}

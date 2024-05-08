@@ -5,22 +5,22 @@ metadata:
   labels:
     {{- include "jobActionsProcessing.labels" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.ingestionWorker.actionsProcessing.schedule | quote }}
+  schedule: {{ .Values.actionsProcessing.schedule | quote }}
   jobTemplate:
     metadata:
       labels:
         {{- include "jobActionsProcessing.labels" . | nindent 10 }}
     spec:
-      backoffLimit: {{ .Values.ingestionWorker.actionsProcessing.backoffLimit }}
+      backoffLimit: {{ .Values.actionsProcessing.backoffLimit }}
       template:
         metadata:
-          {{- with .Values.ingestionWorker.podAnnotations }}
+          {{- with .Values.actionsProcessing.podAnnotations }}
           annotations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
             {{- include "jobActionsProcessing.labels" . | nindent 14 }}
-            {{- with .Values.ingestionWorker.podLabels }}
+            {{- with .Values.actionsProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
         spec:
@@ -30,39 +30,45 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           securityContext:
-            {{- toYaml .Values.ingestionWorker.podSecurityContext | nindent 12 }}
+            {{- toYaml .Values.actionsProcessing.podSecurityContext | nindent 12 }}
           containers:
             - name: {{ .Chart.Name }}
               securityContext:
-                {{- toYaml .Values.ingestionWorker.securityContext | nindent 16 }}
-              image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
+                {{- toYaml .Values.actionsProcessing.securityContext | nindent 16 }}
+              image: "{{ .Values.actionsProcessing.image.repository }}:{{ .Values.actionsProcessing.image.tag | default .Chart.AppVersion }}"
               command: [ "python", "jobs/process_actions.py" ]
-              imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
-              ports:
-                - name: http
-                  containerPort: {{ .Values.ingestionWorker.service.port }}
-                  protocol: TCP
+              imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
               env:
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
               resources:
-                {{- toYaml .Values.ingestionWorker.actionsProcessing.resources | nindent 18 }}
-              {{- with .Values.ingestionWorker.volumeMounts }}
+                {{- toYaml .Values.actionsProcessing.resources | nindent 18 }}
               volumeMounts:
+              {{- if not .Values.azureml.enabled }}
+                - name: models-cache
+                  mountPath: /var/cache
+                  readOnly: false
+              {{- end }}
+              {{- with .Values.actionsProcessing.volumeMounts }}
                 {{- toYaml . | nindent 18 }}
               {{- end }}
-          {{- with .Values.ingestionWorker.volumes }}
           volumes:
+          {{- if not .Values.azureml.enabled }}
+            - name: models-cache
+              persistentVolumeClaim:
+                claimName: {{ include "ingestionWorker.modelsCache.name" . }}
+          {{- end }}
+          {{- with .Values.actionsProcessing.volumes }}
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.nodeSelector }}
+          {{- with .Values.actionsProcessing.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.affinity }}
+          {{- with .Values.actionsProcessing.affinity }}
           affinity:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.tolerations }}
+          {{- with .Values.actionsProcessing.tolerations }}
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}

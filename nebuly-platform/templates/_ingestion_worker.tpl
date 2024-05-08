@@ -95,6 +95,17 @@
   value: "{{ .Values.azureml.batchEndpoint }}"
 - name: AZUREML_DATASET_NAME
   value: "{{ .Values.azureml.datasetName }}"
+{{- if not .Values.azureml.enabled }}
+# Inference
+- name: INFERENCE_MODE
+  value: "torch"
+- name: MODELS_CACHE_DIR
+  value: "/var/cache"
+- name: MODEL_NAME
+  value: {{ .Values.actionsProcessing.modelName | quote }}
+- name: MODEL_VERSION
+  value: {{ .Values.actionsProcessing.modelVersion | quote }}
+{{- end }}
 # Azure OpenAI
 - name: AZURE_OPENAI_API_VERSION
   value: "{{ .Values.azureOpenAi.apiVersion }}"

@@ -124,6 +124,11 @@ app.kubernetes.io/component: nebuly-ingestion-worker
 {{- end }}
 {{- end }}
 
+{{- define "ingestionWorker.modelsCache.name" -}}
+{{- printf "%s-%s" .Release.Name "models-cache" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+
 {{/*
 *********************************************************************
 * Topics Clustering Job
@@ -272,6 +277,8 @@ app.kubernetes.io/component: nebuly-frontend
 {{- if .Values.azureOpenAi.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.azureOpenAi.endpoint" .) -}}
 {{- end -}}
+{{/* Ingestion Worker*/}}
+{{- $messages = append $messages (include "chart.validateValues.ingestionWorker.modelsCache" .) -}}
 {{/* Azure ML */}}
 {{- if .Values.azureml.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.azureml.endpoint" .) -}}
@@ -416,6 +423,14 @@ values: frontend.backendApiUrl
 {{- end -}}
 {{- end -}}
 
+
+{{/* Ingestion Worker validation. */}}
+{{- define "chart.validateValues.ingestionWorker.modelsCache" -}}
+{{- if and (empty .Values.ingestionWorker.modelsCache.storageClassName) (not .Values.azureml.enabled) -}}
+values: ingestionWorker.modelsCache.storageClassName
+  `storageClassName` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
 
 
 {{/* Azure ML validation. */}}

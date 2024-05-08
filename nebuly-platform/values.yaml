@@ -230,6 +230,11 @@ ingestionWorker:
 
   fullnameOverride: ""
 
+  # -- Settings of the PVC used to cache AI models.
+  modelsCache:
+    size: 64Gi
+    storageClassName: ""
+
   # -- Settings related to the CronJob for clustering topics.
   # @default -- -
   topicsClustering:
@@ -263,18 +268,6 @@ ingestionWorker:
       limits:
         memory: 800Mi
 
-  # -- Settings related to the CronJob for processing the actions of the collected interactions.
-  # @default -- -
-  actionsProcessing:
-    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
-    schedule: "@daily"
-    backoffLimit: 1
-    resources:
-      requests:
-        cpu: 200m
-        memory: 512Mi
-      limits:
-        memory: 512Mi
 
   replicaCount: 1
 
@@ -326,6 +319,55 @@ ingestionWorker:
 
   affinity: {}
 
+# -- Settings related to the CronJob for processing the actions of the collected interactions.
+# @default -- -
+actionsProcessing:
+  # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+  schedule: "@daily"
+  backoffLimit: 1
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker-inference
+    pullPolicy: IfNotPresent
+    tag: v1.6.1
+
+  modelName: interaction-analyzer-7b-v2
+  modelVersion: 6
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+
+  podAnnotations: {}
+  podLabels: {}
+  podSecurityContext:
+    runAsNonRoot: true
+
+  # Additional volumes
+  volumes: []
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+  # Additional volumeMounts
+  volumeMounts: []
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  resources:
+    requests:
+      cpu: 1
+    limits:
+      memory: 8Gi
+      nvidia.com/gpu: 1
+
+  affinity: {}
+  tolerations: []
+  nodeSelector: {}
+
 imagePullSecrets: []
 # - name: my-secret-name
 
@@ -355,12 +397,12 @@ secretsStore:
       clientIdKey: ""
       clientSecretKey: ""
 
-# -- Optional configuration for the Azure Machine Learning integration.
+# -- [Deprecated] Optional configuration for the Azure Machine Learning integration.
 # If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to
 # process the collected data.
 # @default -- -
 azureml:
-  # -- If true, enable the Azure OpenAI integration.
+  # -- If true, enable the Azure Machine Learning integration.
   enabled: true
   # -- The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace.
   # To be provided only when not using an existing secret (see azureml.existingSecret value below).
