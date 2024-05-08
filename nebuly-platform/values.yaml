@@ -47,7 +47,6 @@ backend:
   resources:
     requests:
       cpu: 100m
-      memory: 400Mi
     limits:
       memory: 400Mi
   nodeSelector: {}
@@ -122,10 +121,9 @@ frontend:
   #   readOnly: true
 
   resources:
-    limits:
-      memory: 256Mi
     requests:
       cpu: 100m
+    limits:
       memory: 128Mi
   nodeSelector: {}
 
@@ -198,9 +196,8 @@ eventIngestion:
   resources:
     requests:
       cpu: 100m
-      memory: 256Mi
     limits:
-      memory: 256Mi
+      memory: 1024Mi
   nodeSelector: {}
 
   tolerations: []
@@ -239,10 +236,9 @@ ingestionWorker:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
     schedule: "@daily"
     resources:
-      limits:
-        memory: 1024Mi
       requests:
-        cpu: 500m
+        cpu: 250m
+      limits:
         memory: 1024Mi
 
   # -- Settings related to the CronJob for generating warnings for custom categories.
@@ -251,11 +247,10 @@ ingestionWorker:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
     schedule: "*/15 * * * *" # Every 15 minutes
     resources:
-      limits:
-        memory: 1024Mi
       requests:
         cpu: 200m
-        memory: 1024Mi
+      limits:
+        memory: 512Mi
 
   # -- Settings related to the CronJob for generating category suggestions.
   # @default -- -
@@ -264,10 +259,9 @@ ingestionWorker:
     schedule: "0 */2 * * *" # every 2 hours
     resources:
       requests:
-        cpu: 500m
-        memory: 2048Mi
+        cpu: 150m
       limits:
-        memory: 2048Mi
+        memory: 800Mi
 
   # -- Settings related to the CronJob for processing the actions of the collected interactions.
   # @default -- -
@@ -324,9 +318,8 @@ ingestionWorker:
   resources:
     requests:
       cpu: 500m
-      memory: 512Mi
     limits:
-      memory: 512Mi
+      memory: 585Mi
   nodeSelector: {}
 
   tolerations: []
