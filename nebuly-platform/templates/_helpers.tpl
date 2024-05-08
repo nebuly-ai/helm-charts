@@ -274,8 +274,8 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslPassword" .) -}}
 {{- end -}}
 {{/* Azure OpenAI */}}
-{{- if .Values.azureOpenAi.enabled -}}
-{{- $messages = append $messages (include "chart.validateValues.azureOpenAi.endpoint" .) -}}
+{{- if .Values.openAi.enabled -}}
+{{- $messages = append $messages (include "chart.validateValues.openAi.endpoint" .) -}}
 {{- end -}}
 {{/* Ingestion Worker*/}}
 {{- $messages = append $messages (include "chart.validateValues.ingestionWorker.modelsCache" .) -}}
@@ -386,13 +386,13 @@ values: kafka.saslPassword
 {{- end -}}
 
 {{/* Azure OpenAI . */}}
-{{- define "chart.validateValues.azureOpenAi.endpoint" -}}
-{{- if empty .Values.azureOpenAi.endpoint  -}}
-values: azureOpenAi.endpoint
+{{- define "chart.validateValues.openAi.endpoint" -}}
+{{- if empty .Values.openAi.endpoint  -}}
+values: openAi.endpoint
   `endpoint` is required and should be a non-empty string
 {{- else -}}
-{{- if not (regexMatch "^(https?|wss?)://[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?(/.*)?$" .Values.azureOpenAi.endpoint) -}}
-values: azureOpenAi.endpoint
+{{- if not (regexMatch "^(https?|wss?)://[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?(/.*)?$" .Values.openAi.endpoint) -}}
+values: openAi.endpoint
   `endpoint` should be a valid URL.
 {{- end -}}
 {{- end -}}

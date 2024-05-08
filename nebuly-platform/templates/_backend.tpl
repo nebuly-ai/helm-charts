@@ -52,16 +52,16 @@
   value: "false"
 # Azure OpenAI
 - name: AZURE_OPENAI_DEPLOYMENT_INSIGHTS_GENERATOR
-  value: {{ .Values.azureOpenAi.insightsGeneratorDeployment | quote }}
+  value: {{ .Values.openAi.insightsGeneratorDeployment | quote }}
 - name: AZURE_OPENAI_DEPLOYMENT_EMBEDDING_MODEL
-  value: {{ .Values.azureOpenAi.textEmbeddingsDeployment | quote }}
+  value: {{ .Values.openAi.textEmbeddingsDeployment | quote }}
 - name: AZURE_OPENAI_ENDPOINT
-  value: {{ .Values.azureOpenAi.endpoint | quote }}
+  value: {{ .Values.openAi.endpoint | quote }}
 - name: AZURE_OPENAI_API_KEY
   valueFrom:
     secretKeyRef:
-      name: {{ (tpl .Values.azureOpenAi.existingSecret.name . ) | default (include "backend.fullname" .) }}
-      key: {{ .Values.azureOpenAi.existingSecret.apiKey | default "azure-openai-api-key" }}
+      name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "backend.fullname" .) }}
+      key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
 # Misc
 - name: ENV
   value: "prod"

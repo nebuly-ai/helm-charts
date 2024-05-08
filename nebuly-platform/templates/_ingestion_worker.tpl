@@ -108,18 +108,18 @@
 {{- end }}
 # Azure OpenAI
 - name: AZURE_OPENAI_API_VERSION
-  value: "{{ .Values.azureOpenAi.apiVersion }}"
+  value: "{{ .Values.openAi.apiVersion }}"
 - name: AZURE_OPENAI_ENDPOINT
-  value: "{{ .Values.azureOpenAi.endpoint }}"
+  value: "{{ .Values.openAi.endpoint }}"
 - name: AZURE_OPENAI_DEPLOYMENT_FRUSTRATION
-  value: "{{ .Values.azureOpenAi.frustrationDetectionDeployment }}"
+  value: "{{ .Values.openAi.frustrationDetectionDeployment }}"
 - name: AZURE_OPENAI_DEPLOYMENT_CHAT_COMPLETION
-  value: "{{ .Values.azureOpenAi.chatCompletionDeployment }}"
+  value: "{{ .Values.openAi.chatCompletionDeployment }}"
 - name: AZURE_OPENAI_DEPLOYMENT_EMBEDDINGS
-  value: "{{ .Values.azureOpenAi.textEmbeddingsDeployment }}"
+  value: "{{ .Values.openAi.textEmbeddingsDeployment }}"
 - name: AZURE_OPENAI_API_KEY
   valueFrom:
     secretKeyRef:
-      name: {{ (tpl .Values.azureOpenAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.azureOpenAi.existingSecret.apiKey | default "azure-openai-api-key" }}
+      name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
+      key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
 {{- end -}}

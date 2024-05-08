@@ -432,24 +432,24 @@ azureml:
     clientSecretKey: ""
 
 # -- Optional configuration for the Azure OpenAI integration.
-# If enabled, the specified models on the Azure OpenAI resource will be used to
+# If enabled, the specified models on the OpenAI resource will be used to
 # process the collected data.
 # @default -- -
-azureOpenAi:
-  # -- If true, enable the Azure OpenAI integration.
+openAi:
+  # -- If true, enable the OpenAI integration.
   enabled: true
-  # -- The name of the Azure OpenAI Deployment used to generate insights.
+  # -- The name of the OpenAI Deployment used to generate insights.
   insightsGeneratorDeployment: ""
-  # -- The name of the Azure OpenAI Deployment used to generate text embeddings.
+  # -- The name of the OpenAI Deployment used to generate text embeddings.
   textEmbeddingsDeployment: ""
-  # -- The name of the Azure OpenAI Deployment used to detect frustration.
+  # -- The name of the OpenAI Deployment used to detect frustration.
   frustrationDetectionDeployment: ""
-  # -- The name of the Azure OpenAI Deployment used to complete chat messages.
+  # -- The name of the OpenAI Deployment used to complete chat messages.
   chatCompletionDeployment: ""
-  # -- The endpoint of the Azure OpenAI resource.
+  # -- The endpoint of the OpenAI resource.
   endpoint: ""
-  # -- The primary API Key of the Azure OpenAI resource, used for authentication.
-  # To be provided only when not using an existing secret (see azureOpenAi.existingSecret value below).
+  # -- The primary API Key of the OpenAI resource, used for authentication.
+  # To be provided only when not using an existing secret (see openAi.existingSecret value below).
   apiKey: ""
   # -- The version of the APIs to use
   apiVersion: "2024-02-15-preview"

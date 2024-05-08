@@ -356,7 +356,7 @@ frontend:
           - path: /
             pathType: Prefix
 
-azureOpenAi:
+openAi:
   enabled: true
   insightsGeneratorDeployment: "gpt-4-turbo"
   textEmbeddingsDeployment: "text-embedding"
@@ -446,17 +446,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.tolerations | list | `[]` |  |
 | auth.volumeMounts | list | `[]` |  |
 | auth.volumes | list | `[]` |  |
-| azureOpenAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the Azure OpenAI resource will be used to process the collected data. |
-| azureOpenAi.apiKey | string | `""` | The primary API Key of the Azure OpenAI resource, used for authentication. To be provided only when not using an existing secret (see azureOpenAi.existingSecret value below). |
-| azureOpenAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use |
-| azureOpenAi.chatCompletionDeployment | string | `""` | The name of the Azure OpenAI Deployment used to complete chat messages. |
-| azureOpenAi.enabled | bool | `true` | If true, enable the Azure OpenAI integration. |
-| azureOpenAi.endpoint | string | `""` | The endpoint of the Azure OpenAI resource. |
-| azureOpenAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
-| azureOpenAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| azureOpenAi.frustrationDetectionDeployment | string | `""` | The name of the Azure OpenAI Deployment used to detect frustration. |
-| azureOpenAi.insightsGeneratorDeployment | string | `""` | The name of the Azure OpenAI Deployment used to generate insights. |
-| azureOpenAi.textEmbeddingsDeployment | string | `""` | The name of the Azure OpenAI Deployment used to generate text embeddings. |
 | azureml | object | - | [Deprecated] Optional configuration for the Azure Machine Learning integration. If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to process the collected data. |
 | azureml.batchEndpoint | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
 | azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
@@ -626,6 +615,17 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.zookeeper.storage.size | string | `"10Gi"` |  |
 | kafka.zookeeper.storage.type | string | `"persistent-claim"` |  |
 | nvidia.enabled | bool | `false` |  |
+| openAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. |
+| openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |
+| openAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use |
+| openAi.chatCompletionDeployment | string | `""` | The name of the OpenAI Deployment used to complete chat messages. |
+| openAi.enabled | bool | `true` | If true, enable the OpenAI integration. |
+| openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. |
+| openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
+| openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| openAi.frustrationDetectionDeployment | string | `""` | The name of the OpenAI Deployment used to detect frustration. |
+| openAi.insightsGeneratorDeployment | string | `""` | The name of the OpenAI Deployment used to generate insights. |
+| openAi.textEmbeddingsDeployment | string | `""` | The name of the OpenAI Deployment used to generate text embeddings. |
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
