@@ -10,6 +10,7 @@ Helm chart for installing Nebuly's Platform.
 
 | Repository | Name | Version |
 |------------|------|---------|
+| https://nvidia.github.io/k8s-device-plugin | nvidia-device-plugin | 0.15.0 |
 | oci://quay.io/strimzi-helm | strimzi-kafka-operator | 0.40.0 |
 
 ## Prerequisites
@@ -355,7 +356,7 @@ frontend:
           - path: /
             pathType: Prefix
 
-azureOpenAi:
+openAi:
   enabled: true
   insightsGeneratorDeployment: "gpt-4-turbo"
   textEmbeddingsDeployment: "text-embedding"
@@ -396,6 +397,8 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| actionsProcessing | object | - | Settings related to the CronJob for processing the actions of the collected interactions. |
+| actionsProcessing.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | analyticDatabase.existingSecret | object | - | Use an existing secret for the database authentication. |
 | analyticDatabase.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | analyticDatabase.name | string | `"analytics"` | The name of the database used to store analytic data (interactions, actions, etc.). To be provided only when not using an existing secret (see analyticDatabase.existingSecret value below). |
@@ -443,23 +446,12 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.tolerations | list | `[]` |  |
 | auth.volumeMounts | list | `[]` |  |
 | auth.volumes | list | `[]` |  |
-| azureOpenAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the Azure OpenAI resource will be used to process the collected data. |
-| azureOpenAi.apiKey | string | `""` | The primary API Key of the Azure OpenAI resource, used for authentication. To be provided only when not using an existing secret (see azureOpenAi.existingSecret value below). |
-| azureOpenAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use |
-| azureOpenAi.chatCompletionDeployment | string | `""` | The name of the Azure OpenAI Deployment used to complete chat messages. |
-| azureOpenAi.enabled | bool | `true` | If true, enable the Azure OpenAI integration. |
-| azureOpenAi.endpoint | string | `""` | The endpoint of the Azure OpenAI resource. |
-| azureOpenAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
-| azureOpenAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| azureOpenAi.frustrationDetectionDeployment | string | `""` | The name of the Azure OpenAI Deployment used to detect frustration. |
-| azureOpenAi.insightsGeneratorDeployment | string | `""` | The name of the Azure OpenAI Deployment used to generate insights. |
-| azureOpenAi.textEmbeddingsDeployment | string | `""` | The name of the Azure OpenAI Deployment used to generate text embeddings. |
-| azureml | object | - | Optional configuration for the Azure Machine Learning integration. If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to process the collected data. |
+| azureml | object | - | [Deprecated] Optional configuration for the Azure Machine Learning integration. If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to process the collected data. |
 | azureml.batchEndpoint | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
 | azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
 | azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
 | azureml.datasetName | string | `"nebuly-batch-endpoint"` | The name of the Azure Machine Learning Dataset used to upload the data to process. |
-| azureml.enabled | bool | `true` | If true, enable the Azure OpenAI integration. |
+| azureml.enabled | bool | `true` | If true, enable the Azure Machine Learning integration. |
 | azureml.existingSecret | object | - | Use an existing secret for the AzureML authentication. |
 | azureml.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | azureml.resourceGroup | string | `""` | The name of the Azure resource group containing the Azure Machine Learning Workspace. |
@@ -485,7 +477,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.replicaCount | int | `1` |  |
 | backend.resources.limits.memory | string | `"400Mi"` |  |
 | backend.resources.requests.cpu | string | `"100m"` |  |
-| backend.resources.requests.memory | string | `"400Mi"` |  |
 | backend.rootPath | string | `""` | Example: "/backend-service" |
 | backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | backend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -512,9 +503,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.podLabels | object | `{}` |  |
 | eventIngestion.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | eventIngestion.replicaCount | int | `1` |  |
-| eventIngestion.resources.limits.memory | string | `"256Mi"` |  |
+| eventIngestion.resources.limits.memory | string | `"1024Mi"` |  |
 | eventIngestion.resources.requests.cpu | string | `"100m"` |  |
-| eventIngestion.resources.requests.memory | string | `"256Mi"` |  |
 | eventIngestion.rootPath | string | `""` | Example: "/backend-service" |
 | eventIngestion.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | eventIngestion.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -543,9 +533,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.podLabels | object | `{}` |  |
 | frontend.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | frontend.replicaCount | int | `1` |  |
-| frontend.resources.limits.memory | string | `"256Mi"` |  |
+| frontend.resources.limits.memory | string | `"128Mi"` |  |
 | frontend.resources.requests.cpu | string | `"100m"` |  |
-| frontend.resources.requests.memory | string | `"128Mi"` |  |
 | frontend.rootUrl | string | `""` | The full public facing url you use in browser, used for redirects. |
 | frontend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | frontend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -556,8 +545,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
 | imagePullSecrets | list | `[]` |  |
-| ingestionWorker.actionsProcessing | object | - | Settings related to the CronJob for processing the actions of the collected interactions. |
-| ingestionWorker.actionsProcessing.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.affinity | object | `{}` |  |
 | ingestionWorker.categoriesWarningsGeneration | object | - | Settings related to the CronJob for generating warnings for custom categories. |
 | ingestionWorker.categoriesWarningsGeneration.schedule | string | `"*/15 * * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
@@ -565,6 +552,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
 | ingestionWorker.image.tag | string | `"v1.6.1"` |  |
+| ingestionWorker.modelsCache | object | `{"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
@@ -573,9 +561,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.podLabels | object | `{}` |  |
 | ingestionWorker.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | ingestionWorker.replicaCount | int | `1` |  |
-| ingestionWorker.resources.limits.memory | string | `"512Mi"` |  |
+| ingestionWorker.resources.limits.memory | string | `"585Mi"` |  |
 | ingestionWorker.resources.requests.cpu | string | `"500m"` |  |
-| ingestionWorker.resources.requests.memory | string | `"512Mi"` |  |
 | ingestionWorker.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | ingestionWorker.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | ingestionWorker.securityContext.runAsNonRoot | bool | `true` |  |
@@ -627,6 +614,18 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.zookeeper.storage.deleteClaim | bool | `false` |  |
 | kafka.zookeeper.storage.size | string | `"10Gi"` |  |
 | kafka.zookeeper.storage.type | string | `"persistent-claim"` |  |
+| nvidia.enabled | bool | `false` |  |
+| openAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. |
+| openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |
+| openAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use |
+| openAi.chatCompletionDeployment | string | `""` | The name of the OpenAI Deployment used to complete chat messages. |
+| openAi.enabled | bool | `true` | If true, enable the OpenAI integration. |
+| openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. |
+| openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
+| openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| openAi.frustrationDetectionDeployment | string | `""` | The name of the OpenAI Deployment used to detect frustration. |
+| openAi.insightsGeneratorDeployment | string | `""` | The name of the OpenAI Deployment used to generate insights. |
+| openAi.textEmbeddingsDeployment | string | `""` | The name of the OpenAI Deployment used to generate text embeddings. |
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |

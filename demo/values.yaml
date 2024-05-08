@@ -211,7 +211,7 @@ frontend:
       effect: "NoSchedule"
 
 
-azureOpenAi:
+openAi:
   enabled: true
   insightsGeneratorDeployment: "gpt-4-turbo"
   textEmbeddingsDeployment: "text-embedding"
