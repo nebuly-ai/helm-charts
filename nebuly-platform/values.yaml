@@ -697,3 +697,5 @@ auth:
 
 strimzi:
   enabled: false
+nvidia:
+  enabled: false

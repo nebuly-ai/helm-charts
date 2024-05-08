@@ -25,6 +25,10 @@ dependencies:
     version: 0.40.0
     repository: oci://quay.io/strimzi-helm
     condition: strimzi.enabled
+  - name: nvidia-device-plugin
+    version: 0.15.0
+    repository: https://nvidia.github.io/k8s-device-plugin
+    condition: nvidia.enabled
 
 maintainers:
   - name: Michele Zanotti
