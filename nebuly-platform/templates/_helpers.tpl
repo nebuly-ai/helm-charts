@@ -305,6 +305,8 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = append $messages (include "chart.validateValues.actionsProcessing.modelsCache" .) -}}
 {{/* Lion Linguist */}}
 {{- $messages = append $messages (include "chart.validateValues.lionLinguist.modelsCache" .) -}}
+{{/* AI Models */}}
+{{- $messages = append $messages (include "chart.validateValues.aiModels.registry" .) -}}
 {{/* Azure ML */}}
 {{- if .Values.azureml.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.azureml.endpoint" .) -}}
@@ -455,6 +457,15 @@ values: frontend.backendApiUrl
 {{- if and (empty .Values.actionsProcessing.modelsCache.storageClassName) (not .Values.azureml.enabled) -}}
 values: actionsProcessing.modelsCache.storageClassName
   `storageClassName` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+
+{{/* AI Models validation. */}}
+{{- define "chart.validateValues.aiModels.registry" -}}
+{{- if not (contains .Values.aiModels.registry "aws_s3 azure_ml") -}}
+values: aiModels.registry
+  `registry` should be one of the following values: aws_s3, azure_ml
 {{- end -}}
 {{- end -}}
 

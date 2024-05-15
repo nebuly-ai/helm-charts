@@ -61,6 +61,8 @@ spec:
             - name: "MAX_CONCURRENT_REQUESTS"
               value: {{ .Values.lionLinguist.maxConcurrentRequests | quote }}
             # Models
+            - name: "MODEL_PROVIDER"
+              value: {{ .Values.aiModels.registry | quote }}
             - name: MODELS_CACHE_DIR
               value: "/var/cache"
             - name: EMBEDDING_MODEL_NAME
@@ -73,21 +75,7 @@ spec:
             - name: HF_HOME
               value: "/tmp/hf"
             {{- if eq .Values.aiModels.registry  "azureml" }}
-            # Model Registry - AzureML
-            - name: AZURE_TENANT_ID
-              value: "{{ .Values.aiModels.azureml.tenantId }}"
-            - name: AZURE_SUBSCRIPTION_ID
-              value: "{{ .Values.aiModels.azureml.subscriptionId }}"
-            - name: "AZURE_CLIENT_ID"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ (tpl .Values.aiModels.azureml.existingSecret.name . ) | default (include "lionLinguist.fullname" .) }}
-                  key: {{ .Values.aiModels.azureml.existingSecret.clientIdKey | default "azure-client-id" }}
-            - name: "AZURE_CLIENT_SECRET"
-              valueFrom:
-                secretKeyRef:
-                  name: {{ (tpl .Values.aiModels.azureml.existingSecret.name . ) | default (include "lionLinguist.fullname" .) }}
-                  key: {{ .Values.aiModels.azureml.existingSecret.clientSecretKey | default "azure-client-secret" }}
+              {{ include "aiModels.azureml.env" . | nindent 12 }}
             {{- end }}
           readinessProbe:
             httpGet:

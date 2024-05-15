@@ -79,6 +79,8 @@ eventIngestion:
       value: "spot"
       effect: "NoSchedule"
 
+aiModels:
+  registry: azure_ml
 
 lionLinguist:
   modelsCache:

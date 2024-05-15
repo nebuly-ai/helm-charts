@@ -40,11 +40,12 @@ spec:
               imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
               env:
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
+                  - name: MODEL_PROVIDER
+                    value: {{ .Values.aiModels.registry | quote }}
+                {{- if eq .Values.aiModels.registry "azure_ml" }}
+                  {{ include "aiModels.azureml.env" . | nindent 18 }}
+                {{- end }}
                 {{- if .Values.azureml.enabled }}
-                  - name: AZUREML_RESOURCE_GROUP
-                    value: "{{ .Values.azureml.resourceGroup }}"
-                  - name: AZUREML_WORKSPACE
-                    value: "{{ .Values.azureml.workspace }}"
                   - name: AZUREML_BATCH_ENDPOINT_NAME
                     value: "{{ .Values.azureml.batchEndpoint }}"
                   - name: AZUREML_DATASET_NAME
