@@ -398,6 +398,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | actionsProcessing | object | - | Settings related to the CronJob for processing the actions of the collected interactions. |
+| actionsProcessing.numHoursProcessed | int | `30` | Example: 24 -> process the last 24 hours of interactions. |
 | actionsProcessing.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | analyticDatabase.existingSecret | object | - | Use an existing secret for the database authentication. |
 | analyticDatabase.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
