@@ -63,6 +63,7 @@ app.kubernetes.io/component: nebuly-backend
 {{- end }}
 
 {{/*
+
 *********************************************************************
 * Backend Scheduler
 *********************************************************************
@@ -78,6 +79,29 @@ app.kubernetes.io/component: nebuly-backend-scheduler
 
 {{- define "backendScheduler.fullname" -}}
 {{- printf "%s-%s" .Release.Name "backend-scheduler" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+
+{{/*
+*********************************************************************
+* Lion Linguist
+*********************************************************************
+*/}}
+{{- define "lionLinguist.labels" -}}
+{{- include "lionLinguist.selectorLabels" . }}
+{{- end }}
+
+{{- define "lionLinguist.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: nebuly-lion-linguist
+{{- end }}
+
+{{- define "lionLinguist.fullname" -}}
+{{- if .Values.lionLinguist.fullnameOverride }}
+{{- .Values.lionLinguist.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name "backend" | trunc 63 | trimSuffix "-" }}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -124,7 +148,7 @@ app.kubernetes.io/component: nebuly-ingestion-worker
 {{- end }}
 {{- end }}
 
-{{- define "ingestionWorker.modelsCache.name" -}}
+{{- define "actionsProcessing.modelsCache.name" -}}
 {{- printf "%s-%s" .Release.Name "models-cache" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -278,7 +302,9 @@ app.kubernetes.io/component: nebuly-frontend
 {{- $messages = append $messages (include "chart.validateValues.openAi.endpoint" .) -}}
 {{- end -}}
 {{/* Ingestion Worker*/}}
-{{- $messages = append $messages (include "chart.validateValues.ingestionWorker.modelsCache" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.actionsProcessing.modelsCache" .) -}}
+{{/* Lion Linguist */}}
+{{- $messages = append $messages (include "chart.validateValues.lionLinguist.modelsCache" .) -}}
 {{/* Azure ML */}}
 {{- if .Values.azureml.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.azureml.endpoint" .) -}}
@@ -425,12 +451,22 @@ values: frontend.backendApiUrl
 
 
 {{/* Ingestion Worker validation. */}}
-{{- define "chart.validateValues.ingestionWorker.modelsCache" -}}
-{{- if and (empty .Values.ingestionWorker.modelsCache.storageClassName) (not .Values.azureml.enabled) -}}
-values: ingestionWorker.modelsCache.storageClassName
+{{- define "chart.validateValues.actionsProcessing.modelsCache" -}}
+{{- if and (empty .Values.actionsProcessing.modelsCache.storageClassName) (not .Values.azureml.enabled) -}}
+values: actionsProcessing.modelsCache.storageClassName
   `storageClassName` is required and should be a non-empty string
 {{- end -}}
 {{- end -}}
+
+
+{{/* Lion Linguist validation. */}}
+{{- define "chart.validateValues.lionLinguist.modelsCache" -}}
+{{- if empty .Values.lionLinguist.modelsCache.storageClassName -}}
+values: lionLinguist.modelsCache.storageClassName
+  `storageClassName` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
 
 
 {{/* Azure ML validation. */}}

@@ -398,8 +398,21 @@ The command removes all the Kubernetes components associated with the chart and 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | actionsProcessing | object | - | Settings related to the CronJob for processing the actions of the collected interactions. |
-| actionsProcessing.numHoursProcessed | int | `30` | Example: 24 -> process the last 24 hours of interactions. |
+| actionsProcessing.modelsCache | object | `{"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
+| actionsProcessing.numHoursProcessed | int | `50` | Example: 24 -> process the last 24 hours of interactions. |
 | actionsProcessing.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| aiModels | object | `{"aws":{"bucketName":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"registry":""}` | Settings of the AI models used for inference. |
+| aiModels.aws | object | - | Config of the AWS S3 model registry. |
+| aiModels.azureml | object | - | Config of the Azure Machine Learning model registry. |
+| aiModels.azureml.clientId | string | `""` | The client ID of the Azure AD application used to access the Azure Machine Learning Workspace. |
+| aiModels.azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
+| aiModels.azureml.existingSecret | object | - | Use an existing secret for the AzureML authentication. |
+| aiModels.azureml.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| aiModels.azureml.resourceGroup | string | `""` | The name of the Azure resource group containing the Azure Machine Learning Workspace. |
+| aiModels.azureml.subscriptionId | string | `""` | The subscription ID of the Azure Machine Learning Workspace. |
+| aiModels.azureml.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Machine Learning Workspace is located. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
+| aiModels.azureml.workspace | string | `""` | The name of the Azure Machine Learning Workspace. |
+| aiModels.registry | string | `""` | Available values are: "azure_ml", "aws_s3" |
 | analyticDatabase.existingSecret | object | - | Use an existing secret for the database authentication. |
 | analyticDatabase.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | analyticDatabase.name | string | `"analytics"` | The name of the database used to store analytic data (interactions, actions, etc.). To be provided only when not using an existing secret (see analyticDatabase.existingSecret value below). |
@@ -553,7 +566,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
 | ingestionWorker.image.tag | string | `"v1.6.1"` |  |
-| ingestionWorker.modelsCache | object | `{"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
@@ -615,6 +627,31 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.zookeeper.storage.deleteClaim | bool | `false` |  |
 | kafka.zookeeper.storage.size | string | `"10Gi"` |  |
 | kafka.zookeeper.storage.type | string | `"persistent-claim"` |  |
+| lionLinguist.affinity | object | `{}` |  |
+| lionLinguist.fullnameOverride | string | `""` |  |
+| lionLinguist.image.pullPolicy | string | `"IfNotPresent"` |  |
+| lionLinguist.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-lion-linguist"` |  |
+| lionLinguist.image.tag | string | `"v0.2.1"` |  |
+| lionLinguist.maxConcurrentRequests | int | `8` | The maximum number of concurrent requests that the service will handle. |
+| lionLinguist.modelsCache | object | `{"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
+| lionLinguist.nodeSelector | object | `{}` |  |
+| lionLinguist.podAnnotations | object | `{}` |  |
+| lionLinguist.podLabels | object | `{}` |  |
+| lionLinguist.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| lionLinguist.replicaCount | int | `1` |  |
+| lionLinguist.resources.limits."nvidia.com/gpu" | int | `1` |  |
+| lionLinguist.resources.limits.memory | string | `"4Gi"` |  |
+| lionLinguist.resources.requests.cpu | string | `"1000m"` |  |
+| lionLinguist.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| lionLinguist.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| lionLinguist.securityContext.runAsNonRoot | bool | `true` |  |
+| lionLinguist.service.port | int | `80` |  |
+| lionLinguist.service.type | string | `"ClusterIP"` |  |
+| lionLinguist.tolerations[0].effect | string | `"NoSchedule"` |  |
+| lionLinguist.tolerations[0].key | string | `"nvidia.com/gpu"` |  |
+| lionLinguist.tolerations[0].operator | string | `"Exists"` |  |
+| lionLinguist.volumeMounts | list | `[]` |  |
+| lionLinguist.volumes | list | `[]` |  |
 | nvidia.enabled | bool | `false` |  |
 | openAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. |
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |

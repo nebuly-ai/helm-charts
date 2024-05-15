@@ -80,6 +80,22 @@ eventIngestion:
       effect: "NoSchedule"
 
 
+lionLinguist:
+  modelsCache:
+    storageClassName: "azurefile-csi"
+
+  volumeMounts:
+    - name: secrets-store
+      mountPath: /mnt/secrets-store
+      readOnly: true
+  volumes:
+    - name: secrets-store
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: ingestion-worker
+
 
 ingestionWorker:
   image:

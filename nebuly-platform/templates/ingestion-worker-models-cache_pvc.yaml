@@ -3,7 +3,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "ingestionWorker.modelsCache.name" . }}
+  name: {{ include "ingestionWorker.fullname" . }}
   labels:
     {{- include "ingestionWorker.labels" . | nindent 4 }}
 spec:
@@ -11,6 +11,6 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.ingestionWorker.modelsCache.size }}
-  storageClassName: {{ .Values.ingestionWorker.modelsCache.size }}
+      storage: {{ .Values.actionsProcessing.modelsCache.size }}
+  storageClassName: {{ .Values.actionsProcessing.modelsCache.size }}
 {{- end }}

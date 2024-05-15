@@ -1,0 +1,139 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "lionLinguist.fullname" . }}
+  labels:
+    {{- include "lionLinguist.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.lionLinguist.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "lionLinguist.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.lionLinguist.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "lionLinguist.labels" . | nindent 8 }}
+        {{- with .Values.lionLinguist.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.lionLinguist.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.lionLinguist.securityContext | nindent 12 }}
+          image: "{{ .Values.lionLinguist.image.repository }}:{{ .Values.lionLinguist.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.lionLinguist.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            # OTEL
+            - name: OTEL_ENABLED
+              value: {{ .Values.otel.enabled | quote }}
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: {{ .Values.otel.exporterOtlpTracesEndpoint | quote }}
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: {{ .Values.otel.exporterOtlpMetricsEndpoint | quote }}
+            - name: OTEL_METRICS_EXPORTER
+              value: "otlp"
+            - name: OTEL_SERVICE_NAME
+              value: "lion-linguist"
+            # Misc
+            - name: "ENV"
+              value: "prod"
+            - name: "SERVER_PORT"
+              value: "8080"
+            - name: "PROJECT_NAME"
+              value: "Lion Linguist"
+            - name: "DEVELOPMENT_MODE"
+              value: "false"
+            - name: "MAX_CONCURRENT_REQUESTS"
+              value: {{ .Values.lionLinguist.maxConcurrentRequests | quote }}
+            # Models
+            - name: MODELS_CACHE_DIR
+              value: "/var/cache"
+            - name: EMBEDDING_MODEL_NAME
+              value: {{ .Values.aiModels.modelEmbeddingWarnings.name | quote }}
+            - name: EMBEDDING_MODEL_VERSION
+              value: {{ .Values.aiModels.modelEmbeddingWarnings.version | quote }}
+            # HF Env vars
+            - name: SENTENCE_TRANSFORMERS_HOME
+              value: "/tmp/hf"
+            - name: HF_HOME
+              value: "/tmp/hf"
+            {{- if eq .Values.aiModels.registry  "azureml" }}
+            # Model Registry - AzureML
+            - name: AZURE_TENANT_ID
+              value: "{{ .Values.aiModels.azureml.tenantId }}"
+            - name: AZURE_SUBSCRIPTION_ID
+              value: "{{ .Values.aiModels.azureml.subscriptionId }}"
+            - name: "AZURE_CLIENT_ID"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (tpl .Values.aiModels.azureml.existingSecret.name . ) | default (include "lionLinguist.fullname" .) }}
+                  key: {{ .Values.aiModels.azureml.existingSecret.clientIdKey | default "azure-client-id" }}
+            - name: "AZURE_CLIENT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (tpl .Values.aiModels.azureml.existingSecret.name . ) | default (include "lionLinguist.fullname" .) }}
+                  key: {{ .Values.aiModels.azureml.existingSecret.clientSecretKey | default "azure-client-secret" }}
+            {{- end }}
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            timeoutSeconds: 15
+            periodSeconds: 15
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 10
+            failureThreshold: 20
+          resources:
+            {{- toYaml .Values.lionLinguist.resources | nindent 12 }}
+          volumeMounts:
+            - name: models-cache
+              mountPath: /var/cache
+              readOnly: false
+              {{- with .Values.lionLinguist.volumeMounts }}
+                {{- toYaml . | nindent 12 }}
+              {{- end }}
+      volumes:
+        - name: models-cache
+          persistentVolumeClaim:
+            claimName: {{ include "lionLinguist.fullname" . }}
+      {{- with .Values.lionLinguist.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.lionLinguist.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.lionLinguist.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.lionLinguist.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
