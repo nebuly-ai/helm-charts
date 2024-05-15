@@ -40,6 +40,8 @@ spec:
               imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
               env:
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
+                - name: PROCESS_LAST_N_HOURS
+                  value: {{ .Values.actionsProcessing.numHoursProcessed | quote }}
               resources:
                 {{- toYaml .Values.actionsProcessing.resources | nindent 18 }}
               volumeMounts:
