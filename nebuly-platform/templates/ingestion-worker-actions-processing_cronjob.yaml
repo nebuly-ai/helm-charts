@@ -40,6 +40,26 @@ spec:
               imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
               env:
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
+                {{- if .Values.azureml.enabled }}
+                - name: AZUREML_RESOURCE_GROUP
+                  value: "{{ .Values.azureml.resourceGroup }}"
+                - name: AZUREML_WORKSPACE
+                  value: "{{ .Values.azureml.workspace }}"
+                - name: AZUREML_BATCH_ENDPOINT_NAME
+                  value: "{{ .Values.azureml.batchEndpoint }}"
+                - name: AZUREML_DATASET_NAME
+                  value: "{{ .Values.azureml.datasetName }}"
+                {{- end }}
+                {{- if not .Values.azureml.enabled }}
+                - name: INFERENCE_MODE
+                  value: "torch"
+                - name: MODELS_CACHE_DIR
+                  value: "/var/cache"
+                - name: MODEL_NAME
+                  value: {{ .Values.actionsProcessing.modelName | quote }}
+                - name: MODEL_VERSION
+                  value: {{ .Values.actionsProcessing.modelVersion | quote }}
+                {{- end }}
                 - name: PROCESS_LAST_N_HOURS
                   value: {{ .Values.actionsProcessing.numHoursProcessed | quote }}
               resources:
