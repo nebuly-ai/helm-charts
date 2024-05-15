@@ -57,9 +57,9 @@ spec:
                   - name: MODELS_CACHE_DIR
                     value: "/var/cache"
                   - name: MODEL_NAME
-                    value: {{ .Values.actionsProcessing.modelName | quote }}
+                    value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
                   - name: MODEL_VERSION
-                    value: {{ .Values.actionsProcessing.modelVersion | quote }}
+                    value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
                 {{- end }}
                   - name: PROCESS_LAST_N_HOURS
                     value: {{ .Values.actionsProcessing.numHoursProcessed | quote }}

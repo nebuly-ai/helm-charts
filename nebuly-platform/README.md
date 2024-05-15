@@ -401,7 +401,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | actionsProcessing.modelsCache | object | `{"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | actionsProcessing.numHoursProcessed | int | `50` | Example: 24 -> process the last 24 hours of interactions. |
 | actionsProcessing.schedule | string | `"@daily"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| aiModels | object | `{"aws":{"bucketName":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"registry":""}` | Settings of the AI models used for inference. |
+| aiModels | object | `{"aws":{"bucketName":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":7},"registry":""}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
 | aiModels.azureml | object | - | Config of the Azure Machine Learning model registry. |
 | aiModels.azureml.clientId | string | `""` | The client ID of the Azure AD application used to access the Azure Machine Learning Workspace. |

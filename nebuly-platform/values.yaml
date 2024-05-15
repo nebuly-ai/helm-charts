@@ -391,6 +391,9 @@ aiModels:
     name: "warning-embedding"
     version: 1
 
+  modelInferenceInteractions:
+    name: "interaction-analyzer-7b-v2"
+    version: 7
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
@@ -433,9 +436,6 @@ actionsProcessing:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker-inference
     pullPolicy: IfNotPresent
     tag: v1.6.1
-
-  modelName: interaction-analyzer-7b-v2
-  modelVersion: 6
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
