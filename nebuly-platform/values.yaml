@@ -335,7 +335,7 @@ actionsProcessing:
 
   # -- The number of previous hours that the actions processing job will process.
   # -- Example: 24 -> process the last 24 hours of interactions.
-  numHoursProcessed: 30
+  numHoursProcessed: 50
 
   securityContext:
     runAsNonRoot: true
