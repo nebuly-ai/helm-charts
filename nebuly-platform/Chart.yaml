@@ -1,0 +1,39 @@
+apiVersion: v2
+name: nebuly-platform
+description: Helm chart for installing Nebuly's Platform on Kubernetes.
+
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 1.6.6
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+appVersion: "1.0.0"
+
+home: https://nebuly.com
+
+sources:
+  - https://github.com/nebuly-ai/helm-charts
+
+dependencies:
+  - name: strimzi-kafka-operator
+    version: 0.40.0
+    repository: oci://quay.io/strimzi-helm
+    condition: strimzi.enabled
+  - name: nvidia-device-plugin
+    version: 0.15.0
+    repository: https://nvidia.github.io/k8s-device-plugin
+    condition: nvidia.enabled
+
+maintainers:
+  - name: Michele Zanotti
+    email: m.zanotti@nebuly.ai
+    url: https://github.com/Telemaco019
+  - name: Diego Fiori
+    email: d.fiori@nebuly.ai
+    url: https://github.com/diegofiori

@@ -1,0 +1,170 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "authService.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "authService.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.auth.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "authService.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.auth.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "authService.labels" . | nindent 8 }}
+        {{- with .Values.auth.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.auth.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.auth.securityContext | nindent 12 }}
+          image: "{{ .Values.auth.image.repository }}:{{ .Values.auth.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.auth.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            # Database
+            - name: "POSTGRES_SERVER"
+              value: {{ .Values.auth.postgresServer }}
+            - name: "POSTGRES_DB"
+              value: {{ .Values.auth.postgresDatabase }}
+            - name: "POSTGRES_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (tpl .Values.auth.existingSecret.name . ) | default (include "authService.fullname" .) }}
+                  key: {{ .Values.auth.existingSecret.postgresUserKey | default "postgres-user" }}
+            - name: "POSTGRES_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (tpl .Values.auth.existingSecret.name . ) | default (include "authService.fullname" .) }}
+                  key: {{ .Values.auth.existingSecret.postgresPasswordKey | default "postgres-password" }}
+            # Secrets Store
+            - name: "SECRETS_STORE_KIND"
+              value: {{ .Values.secretsStore.kind }}
+            - name: "AZURE_CLIENT_ID"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (tpl .Values.secretsStore.azure.existingSecret.name . ) | default (include "authService.fullname" .) }}
+                  key: {{ .Values.secretsStore.azure.existingSecret.clientIdKey | default "azure-client-id" }}
+            - name: "AZURE_CLIENT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (tpl .Values.secretsStore.azure.existingSecret.name . ) | default (include "authService.fullname" .) }}
+                  key: {{ .Values.secretsStore.azure.existingSecret.clientSecretKey | default "azure-client-secret" }}
+            - name: "AZURE_TENANT_ID"
+              value: {{ .Values.secretsStore.azure.tenantId }}
+            - name: "AZURE_KEYVAULT_URL"
+              value: {{ .Values.secretsStore.azure.keyVaultUrl }}
+            # OTEL
+            - name: "OTEL_SERVICE_NAME"
+              value: "nebuly-auth-service"
+            - name: "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"
+              value: "{{ .Values.otel.exporterOtlpTracesEndpoint }}"
+            - name: "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"
+              value: "{{ .Values.otel.exporterOtlpMetricsEndpoint }}"
+            - name: "OTEL_METRICS_EXPORTER"
+              value: "otlp"
+            # Auth
+            - name: "JWT_SIGNING_KEY_PATH"
+              value: "/app/resources/private-key.pem"
+            - name: "ADMIN_USER_ENABLED"
+              value: {{ .Values.auth.adminUserEnabled  | quote }}
+            - name: "ADMIN_USER_USERNAME"
+              value: {{ .Values.auth.adminUserUsername }}
+            - name: "ADMIN_USER_PASSWORD"
+              value: {{ .Values.auth.adminUserPassword }}
+            {{ if .Values.auth.microsoft.enabled }}
+            # Microsoft OAuth
+            - name: "LOGIN_REDIRECT_URL"
+              value: "{{ .Values.frontend.rootUrl }}"
+            - name: "OAUTH_PROVIDER"
+              value: "microsoft"
+            - name: "MICROSOFT_OAUTH_TENANT_ID"
+              value: {{ .Values.auth.microsoft.tenantId | quote }}
+            - name: "MICROSOFT_OAUTH_SUCCESSFUL_LOGIN_REDIRECT_URL"
+              value: {{ .Values.frontend.rootUrl | quote }}
+            - name: "MICROSOFT_OAUTH_CLIENT_ID"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "authService.fullname" .) }}
+                  key: {{ .Values.auth.microsoft.existingSecret.clientIdKey | default "microsoft-oauth-client-id" }}
+            - name: "MICROSOFT_OAUTH_CLIENT_SECRET"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (tpl .Values.auth.microsoft.existingSecret.name . ) | default (include "authService.fullname" .) }}
+                  key: {{ .Values.auth.microsoft.existingSecret.clientSecretKey | default "microsoft-oauth-client-secret" }}
+            - name: "MICROSOFT_OAUTH_REDIRECT_URI"
+              value: "{{ .Values.auth.microsoft.redirectUri }}"
+            {{- end -}}
+            # Misc
+            - name: "ENV"
+              value: "prod"
+            - name: "SERVER_PORT"
+              value: "8080"
+            - name: "PROJECT_NAME"
+              value: "auth-service"
+            - name: "DEVELOPMENT_MODE"
+              value: "false"
+            - name: "STRIPE_ENABLED"
+              value: "false"
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.auth.resources | nindent 12 }}
+          volumeMounts:
+            - name: auth-service-secret
+              readOnly: true
+              mountPath: "/app/resources/private-key.pem"
+              subPath: {{ .Values.auth.existingSecret.jwtSigningKey | default "jwt-key" }}
+          {{- with .Values.auth.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: auth-service-secret
+          secret:
+            secretName: {{ (tpl .Values.auth.existingSecret.name . ) | default (include "authService.fullname" .) }}
+      {{- with .Values.auth.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.auth.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.auth.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.auth.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,487 @@
+# Nebuly Platform
+
+![Version: 1.6.6](https://img.shields.io/badge/Version-1.6.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+
+Helm chart for installing Nebuly's Platform on Kubernetes.
+
+**Homepage:** <https://nebuly.com>
+
+## Requirements
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://nvidia.github.io/k8s-device-plugin | nvidia-device-plugin | 0.15.0 |
+| oci://quay.io/strimzi-helm | strimzi-kafka-operator | 0.40.0 |
+
+## Installation
+
+### 1. Create a GitHub personal access token
+
+You first need to create a GitHub personal access token with the `read:packages` scope to pull the required Docker
+images. You can refer to
+the [GitHub documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+
+### 2. Create a container image pull secret
+
+You need to create a container image pull secret with the PAT token you created in the previous step. You can
+do that following the steps below.
+
+1. Create a base64 encoded string of the token value with the following command, where `<username>` is your GitHub
+username and `<token>` is the value of the PAT token you created in the previous step.
+
+```bash
+echo -n "<username>:<token>" | base64
+```
+
+2. Create a JSON file containing the base64 representation of your PAT. You can do that with the following commands,
+   replacing the placeholder `<your-base64-token>` with the value you obtained in the previous step:
+
+```bash
+cat <<EOT > secret.json
+{
+  "auths": {
+    "ghcr.io": {
+      "auth": "<your-base64-token>"
+    }
+  }
+}
+EOT
+```
+
+3. Create the image pull secret
+```bash
+kubectl create secret docker-registry nebuly-docker-pull --from-file=.dockerconfigjson=secret.json --namespace nebuly
+```
+
+4. Include the created secret in the `imagePullSecrets` field of the `values.yaml` file.
+
+```yaml
+imagePullSecrets:
+  - name: nebuly-docker-pull
+```
+
+### 3. Install the chart
+You can install the chart in the namespace `nebuly` with the following command:
+
+```bash
+helm install oci://ghcr.io/nebuly-ai/helm-charts/nebuly-platform \
+  --namespace nebuly \
+  --generate-name \
+  --create-namespace \
+  -f values.yaml
+```
+
+## Exposing the services to the Internet
+
+To expose the Platform services to the Internet, you need to specify the Ingress configurations of each
+service in the `values.yaml` file. You can expose the following services:
+
+* `frontend`: the Platform frontend application
+* `authService`: endpoints used for authentication and authorization
+* `backend`: the Platform backend APIs used by the frontend
+* `eventIngestion`: the Platform event ingestion APIs, used for receiving events and interactions.
+
+Below you can find an example configuration for exposing all the services using
+[ingress-nginx](https://github.com/kubernetes/ingress-nginx) as ingress
+controller and [cert-manager](https://github.com/cert-manager/cert-manager) for managing SSL certificates.
+
+The configuration below exposes the services using the following domains:
+* `platform.example.nebuly.com`: the frontend application
+* `backend.example.nebuly.com`: the backend APIs
+* `backend.example.nebuly.com/auth`: the authentication and authorization endpoints
+* `backend.example.nebuly.com/event-ingestion`: the event ingestion APIs
+
+<details>
+<summary> <b> Example values for ingress configuration </b> </summary>
+
+```yaml
+backend:
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+    tls:
+      - hosts:
+          - backend.example.nebuly.com
+        secretName: tls-secret-backend
+    hosts:
+      - host: backend.example.nebuly.com
+        paths:
+          - path: /api
+            pathType: Prefix
+
+frontend:
+  backendApiUrl: https://backend.example.nebuly.com
+  rootUrl: https://platform.example.nebuly.com
+  authApiUrl: https://backend.example.nebuly.com/auth
+
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+    tls:
+      - hosts:
+          - platform.example.nebuly.com
+        secretName: tls-secret-frontend
+    hosts:
+      - host: platform.example.nebuly.com
+        paths:
+          - path: /
+            pathType: Prefix
+
+eventIngestion:
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/rewrite-target: $1
+        cert-manager.io/cluster-issuer: letsencrypt
+    tls:
+      - hosts:
+          - backend.example.nebuly.com
+        secretName: tls-secret-backend
+    hosts:
+      - host: backend.example.nebuly.com
+        paths:
+          - path: /event-ingestion(/|$)(.*)
+            pathType: Prefix
+
+authService:
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+    tls:
+      - hosts:
+          - backend.example.nebuly.com
+        secretName: tls-secret-backend
+    hosts:
+      - host: backend.example.nebuly.com
+        paths:
+          - path: /auth
+            pathType: Prefix
+```
+</details>
+
+## Uninstalling the Chart
+
+To uninstall/delete the `my-release` deployment:
+
+```bash
+helm uninstall my-release
+```
+
+The command removes all the Kubernetes components associated with the chart and deletes the release.
+
+## Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| actionsProcessing | object | - | Settings related to the CronJob for processing the actions of the collected interactions. |
+| actionsProcessing.modelsCache | object | `{"enabled":false,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
+| actionsProcessing.numHoursProcessed | int | `50` | Example: 24 -> process the last 24 hours of interactions. |
+| actionsProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| aiModels | object | `{"aws":{"bucketName":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":8},"registry":""}` | Settings of the AI models used for inference. |
+| aiModels.aws | object | - | Config of the AWS S3 model registry. |
+| aiModels.azureml | object | - | Config of the Azure Machine Learning model registry. |
+| aiModels.azureml.clientId | string | `""` | The client ID of the Azure AD application used to access the Azure Machine Learning Workspace. |
+| aiModels.azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
+| aiModels.azureml.existingSecret | object | - | Use an existing secret for the AzureML authentication. |
+| aiModels.azureml.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| aiModels.azureml.resourceGroup | string | `""` | The name of the Azure resource group containing the Azure Machine Learning Workspace. |
+| aiModels.azureml.subscriptionId | string | `""` | The subscription ID of the Azure Machine Learning Workspace. |
+| aiModels.azureml.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Machine Learning Workspace is located. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
+| aiModels.azureml.workspace | string | `""` | The name of the Azure Machine Learning Workspace. |
+| aiModels.registry | string | `""` | Available values are: "azure_ml", "aws_s3" |
+| analyticDatabase.existingSecret | object | - | Use an existing secret for the database authentication. |
+| analyticDatabase.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| analyticDatabase.name | string | `"analytics"` | The name of the database used to store analytic data (interactions, actions, etc.). To be provided only when not using an existing secret (see analyticDatabase.existingSecret value below). |
+| analyticDatabase.password | string | `""` | The password for the database user. To be provided only when not using an existing secret (see analyticDatabase.existingSecret value below). |
+| analyticDatabase.server | string | `""` | The host of the database used to store analytic data. |
+| analyticDatabase.user | string | `""` | The user for connecting to the database. |
+| annotations | object | `{}` | Extra annotations that will be added to all resources. |
+| auth.adminUserEnabled | bool | `false` | If true, an initial admin user with username/password login will be created. |
+| auth.adminUserPassword | string | `"admin"` | The password of the initial admin user. |
+| auth.adminUserUsername | string | `"admin@nebuly.ai"` | The username of the initial admin user. |
+| auth.affinity | object | `{}` |  |
+| auth.existingSecret | object | - | Use an existing secret for the database authentication. |
+| auth.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| auth.fullnameOverride | string | `""` |  |
+| auth.image.pullPolicy | string | `"IfNotPresent"` |  |
+| auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
+| auth.image.tag | string | `"v1.6.3"` |  |
+| auth.ingress | object | - | Ingress configuration for the login endpoints. |
+| auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
+| auth.loginModes | string | `"password"` | as a comma-separated list. Possible values are: `password`, `microsoft`. |
+| auth.microsoft | object | - | Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft". |
+| auth.microsoft.clientId | string | `""` | The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
+| auth.microsoft.clientSecret | string | `""` | The Client Secret of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
+| auth.microsoft.enabled | bool | `false` | If true, enable Microsoft Entra ID SSO authentication. |
+| auth.microsoft.existingSecret | object | - | Use an existing secret for Microsoft Entra ID authentication. |
+| auth.microsoft.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| auth.microsoft.redirectUri | string | `""` | The callback URI of the SSO flow. Must be the same as the redirect URI configured for the Microsoft Entra ID application. Must be in the following format: "https://<backend-domain>/auth/oauth/microsoft/callback" Where <backend-domain> is the domain defined in `backend.ingress`. |
+| auth.microsoft.tenantId | string | `""` | The ID of the Azure Tenant where the Microsoft Entra ID application is located. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
+| auth.nodeSelector | object | `{}` |  |
+| auth.podAnnotations | object | `{}` |  |
+| auth.podLabels | object | `{}` |  |
+| auth.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| auth.postgresDatabase | string | `"auth-service"` | The name of the PostgreSQL database used to store user data. |
+| auth.postgresPassword | string | `""` | The password for the database user. Required only if not using an existing secret (see auth.existingSecret value below). |
+| auth.postgresServer | string | `""` | The host of the PostgreSQL database used to store user data. |
+| auth.postgresUser | string | `""` | The user for connecting to the database. Required only if not using an existing secret (see auth.existingSecret value below). |
+| auth.replicaCount | int | `1` |  |
+| auth.resources.limits.memory | string | `"256Mi"` |  |
+| auth.resources.requests.cpu | string | `"100m"` |  |
+| auth.resources.requests.memory | string | `"128Mi"` |  |
+| auth.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| auth.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| auth.securityContext.runAsNonRoot | bool | `true` |  |
+| auth.service.port | int | `80` |  |
+| auth.service.type | string | `"ClusterIP"` |  |
+| auth.tolerations | list | `[]` |  |
+| auth.volumeMounts | list | `[]` |  |
+| auth.volumes | list | `[]` |  |
+| azureml | object | - | [Deprecated] Optional configuration for the Azure Machine Learning integration. If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to process the collected data. |
+| azureml.batchEndpoint | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
+| azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
+| azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
+| azureml.datasetName | string | `"nebuly-batch-endpoint"` | The name of the Azure Machine Learning Dataset used to upload the data to process. |
+| azureml.enabled | bool | `true` | If true, enable the Azure Machine Learning integration. |
+| azureml.existingSecret | object | - | Use an existing secret for the AzureML authentication. |
+| azureml.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| azureml.resourceGroup | string | `""` | The name of the Azure resource group containing the Azure Machine Learning Workspace. |
+| azureml.subscriptionId | string | `""` | The subscription ID of the Azure Machine Learning Workspace. |
+| azureml.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Machine Learning Workspace is located. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
+| azureml.workspace | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
+| backend.affinity | object | `{}` |  |
+| backend.fullnameOverride | string | `""` |  |
+| backend.image.pullPolicy | string | `"IfNotPresent"` |  |
+| backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
+| backend.image.tag | string | `"v1.25.7"` |  |
+| backend.ingress.annotations | object | `{}` |  |
+| backend.ingress.className | string | `""` |  |
+| backend.ingress.enabled | bool | `false` |  |
+| backend.ingress.hosts[0].host | string | `"chart-example.local"` |  |
+| backend.ingress.hosts[0].paths[0].path | string | `"/"` |  |
+| backend.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
+| backend.ingress.tls | list | `[]` |  |
+| backend.nodeSelector | object | `{}` |  |
+| backend.podAnnotations | object | `{}` |  |
+| backend.podLabels | object | `{}` |  |
+| backend.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| backend.replicaCount | int | `1` |  |
+| backend.resources.limits.memory | string | `"400Mi"` |  |
+| backend.resources.requests.cpu | string | `"100m"` |  |
+| backend.rootPath | string | `""` | Example: "/backend-service" |
+| backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| backend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| backend.securityContext.runAsNonRoot | bool | `true` |  |
+| backend.service.port | int | `80` |  |
+| backend.service.type | string | `"ClusterIP"` |  |
+| backend.tolerations | list | `[]` |  |
+| backend.volumeMounts | list | `[]` |  |
+| backend.volumes | list | `[]` |  |
+| eventIngestion.affinity | object | `{}` |  |
+| eventIngestion.fullnameOverride | string | `""` |  |
+| eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
+| eventIngestion.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-event-ingestion"` |  |
+| eventIngestion.image.tag | string | `"v1.5.2"` |  |
+| eventIngestion.ingress.annotations | object | `{}` |  |
+| eventIngestion.ingress.className | string | `""` |  |
+| eventIngestion.ingress.enabled | bool | `false` |  |
+| eventIngestion.ingress.hosts[0].host | string | `"chart-example.local"` |  |
+| eventIngestion.ingress.hosts[0].paths[0].path | string | `"/"` |  |
+| eventIngestion.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
+| eventIngestion.ingress.tls | list | `[]` |  |
+| eventIngestion.nodeSelector | object | `{}` |  |
+| eventIngestion.podAnnotations | object | `{}` |  |
+| eventIngestion.podLabels | object | `{}` |  |
+| eventIngestion.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| eventIngestion.replicaCount | int | `1` |  |
+| eventIngestion.resources.limits.memory | string | `"1024Mi"` |  |
+| eventIngestion.resources.requests.cpu | string | `"100m"` |  |
+| eventIngestion.rootPath | string | `""` | Example: "/backend-service" |
+| eventIngestion.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| eventIngestion.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| eventIngestion.securityContext.runAsNonRoot | bool | `true` |  |
+| eventIngestion.service.port | int | `80` |  |
+| eventIngestion.service.type | string | `"ClusterIP"` |  |
+| eventIngestion.tolerations | list | `[]` |  |
+| eventIngestion.volumeMounts | list | `[]` |  |
+| eventIngestion.volumes | list | `[]` |  |
+| frontend.affinity | object | `{}` |  |
+| frontend.authApiUrl | string | `""` | The URL of the API used for authentication (login, SSO, etc.). |
+| frontend.backendApiUrl | string | `""` | The URL of the Backend API to which Frontend will make requests. |
+| frontend.fullnameOverride | string | `""` |  |
+| frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
+| frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
+| frontend.image.tag | string | `"v1.24.11"` |  |
+| frontend.ingress.annotations | object | `{}` |  |
+| frontend.ingress.className | string | `""` |  |
+| frontend.ingress.enabled | bool | `false` |  |
+| frontend.ingress.hosts[0].host | string | `"chart-example.local"` |  |
+| frontend.ingress.hosts[0].paths[0].path | string | `"/"` |  |
+| frontend.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
+| frontend.ingress.tls | list | `[]` |  |
+| frontend.nodeSelector | object | `{}` |  |
+| frontend.podAnnotations | object | `{}` |  |
+| frontend.podLabels | object | `{}` |  |
+| frontend.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| frontend.replicaCount | int | `1` |  |
+| frontend.resources.limits.memory | string | `"128Mi"` |  |
+| frontend.resources.requests.cpu | string | `"100m"` |  |
+| frontend.rootUrl | string | `""` | The full public facing url you use in browser, used for redirects. |
+| frontend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| frontend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| frontend.securityContext.runAsNonRoot | bool | `true` |  |
+| frontend.service.port | int | `80` |  |
+| frontend.service.type | string | `"ClusterIP"` |  |
+| frontend.tolerations | list | `[]` |  |
+| frontend.volumeMounts | list | `[]` |  |
+| frontend.volumes | list | `[]` |  |
+| imagePullSecrets | list | `[]` |  |
+| ingestionWorker.affinity | object | `{}` |  |
+| ingestionWorker.categoriesWarningsGeneration | object | - | Settings related to the CronJob for generating warnings for custom categories. |
+| ingestionWorker.categoriesWarningsGeneration.schedule | string | `"*/15 * * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| ingestionWorker.fullnameOverride | string | `""` |  |
+| ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
+| ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
+| ingestionWorker.image.tag | string | `"v1.12.0"` |  |
+| ingestionWorker.intentVersion | string | `"v1"` |  |
+| ingestionWorker.lionLinguistRetryAttempts | int | `10` | lion linguist service. |
+| ingestionWorker.nodeSelector | object | `{}` |  |
+| ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
+| ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
+| ingestionWorker.numWorkersInteractions | int | `20` | The number of workers (e.g. coroutines) used to process interactions. |
+| ingestionWorker.podAnnotations | object | `{}` |  |
+| ingestionWorker.podLabels | object | `{}` |  |
+| ingestionWorker.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| ingestionWorker.replicaCount | int | `1` |  |
+| ingestionWorker.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| ingestionWorker.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| ingestionWorker.securityContext.runAsNonRoot | bool | `true` |  |
+| ingestionWorker.service.port | int | `80` |  |
+| ingestionWorker.service.type | string | `"ClusterIP"` |  |
+| ingestionWorker.stage1.resources.limits.memory | string | `"585Mi"` |  |
+| ingestionWorker.stage1.resources.requests.cpu | string | `"100m"` |  |
+| ingestionWorker.stage1.resources.requests.memory | string | `"585Mi"` |  |
+| ingestionWorker.stage2.resources.limits.memory | string | `"585Mi"` |  |
+| ingestionWorker.stage2.resources.requests.cpu | string | `"100m"` |  |
+| ingestionWorker.stage2.resources.requests.memory | string | `"585Mi"` |  |
+| ingestionWorker.stage3.resources.limits.memory | string | `"4Gi"` |  |
+| ingestionWorker.stage3.resources.requests.cpu | string | `"200m"` |  |
+| ingestionWorker.stage4.resources.limits.memory | string | `"585Mi"` |  |
+| ingestionWorker.stage4.resources.requests.cpu | string | `"100m"` |  |
+| ingestionWorker.stage4.resources.requests.memory | string | `"585Mi"` |  |
+| ingestionWorker.suggestionsGeneration | object | - | Settings related to the CronJob for generating category suggestions. |
+| ingestionWorker.suggestionsGeneration.schedule | string | `"0 */2 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| ingestionWorker.thresholds | object | `{"intentAssignmentToExistingCluster":0.87,"intentClustering":0.75,"intentMergeClusters":0.87,"subjectAssignmentToExistingCluster":0.5,"subjectClustering":0.5,"subjectMergeClusters":0.5}` | Thresholds for tuning the data-processing pipeline. |
+| ingestionWorker.tolerations | list | `[]` |  |
+| ingestionWorker.topicsClustering | object | - | Settings related to the CronJob for clustering topics. |
+| ingestionWorker.topicsClustering.schedule | string | `"0 3 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| ingestionWorker.volumeMounts | list | `[]` |  |
+| ingestionWorker.volumes | list | `[]` |  |
+| kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
+| kafka.config."replica.selector.class" | string | `"org.apache.kafka.common.replica.RackAwareReplicaSelector"` |  |
+| kafka.existingSecret | object | - | [external] Use an existing secret for Kafka authentication. |
+| kafka.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| kafka.external | bool | `false` | If true, deploy a Kafka cluster together with the platform services. Otherwise, use an existing Kafka cluster. |
+| kafka.rack.topologyKey | string | `"topology.kubernetes.io/zone"` |  |
+| kafka.replicas | int | `3` | The number of Kafka brokers in the cluster. |
+| kafka.resources.limits.memory | string | `"2048Mi"` |  |
+| kafka.resources.requests.cpu | string | `"100m"` |  |
+| kafka.resources.requests.memory | string | `"1024Mi"` |  |
+| kafka.saslPassword | string | `""` | [external] The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
+| kafka.saslUsername | string | `""` | [external] The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
+| kafka.socketKeepAliveEnabled | bool | `true` | If true, the Kafka clients will use the keep alive feature. |
+| kafka.storage | object | - | The storage class used for the Kafka and Zookeeper storage. |
+| kafka.topicEventsDlq | object | `{"name":"events-dlq","partitions":1,"replicas":null}` | Settings of the Kafka topic used as dead letter queue. |
+| kafka.topicEventsDlq.name | string | `"events-dlq"` | The name of the Kafka topic. |
+| kafka.topicEventsDlq.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsDlq.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsMain | object | `{"name":"events-main","partitions":8,"replicas":null}` | Settings of the main Kafka topic used to store events (e.g. interactions) |
+| kafka.topicEventsMain.name | string | `"events-main"` | The name of the Kafka topic |
+| kafka.topicEventsRetry1 | object | `{"name":"events-retry-1","partitions":2,"replicas":null}` | Settings f the Kafka topic used to retry events that failed processing. |
+| kafka.topicEventsRetry1.name | string | `"events-retry-1"` | The name of the Kafka topic. |
+| kafka.topicEventsRetry1.partitions | int | `2` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsRetry1.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsRetry2 | object | `{"name":"events-retry-2","partitions":1,"replicas":null}` | Settings of the Kafka topic used to retry events that failed processing (backoff 2). |
+| kafka.topicEventsRetry2.name | string | `"events-retry-2"` | The name of the Kafka topic. |
+| kafka.topicEventsRetry2.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsRetry2.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsRetry3 | object | `{"name":"events-retry-3","partitions":1,"replicas":null}` | Settings of the Kafka topic used to retry events that failed processing (backoff 3). |
+| kafka.topicEventsRetry3.name | string | `"events-retry-3"` | The name of the Kafka topic. |
+| kafka.topicEventsRetry3.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.topicEventsRetry3.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.zookeeper.replicas | int | `3` |  |
+| kafka.zookeeper.resources.limits.memory | string | `"2048Mi"` |  |
+| kafka.zookeeper.resources.requests.cpu | string | `"100m"` |  |
+| kafka.zookeeper.resources.requests.memory | string | `"1024Mi"` |  |
+| kafka.zookeeper.storage.deleteClaim | bool | `false` |  |
+| kafka.zookeeper.storage.size | string | `"10Gi"` |  |
+| kafka.zookeeper.storage.type | string | `"persistent-claim"` |  |
+| lionLinguist.affinity | object | `{}` |  |
+| lionLinguist.fullnameOverride | string | `""` |  |
+| lionLinguist.image.pullPolicy | string | `"IfNotPresent"` |  |
+| lionLinguist.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-lion-linguist"` |  |
+| lionLinguist.image.tag | string | `"v0.3.3"` |  |
+| lionLinguist.maxConcurrentRequests | int | `8` | The maximum number of concurrent requests that the service will handle. |
+| lionLinguist.modelsCache | object | `{"accessModes":["ReadWriteMany","ReadWriteOnce"],"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
+| lionLinguist.nodeSelector | object | `{}` |  |
+| lionLinguist.podAnnotations | object | `{}` |  |
+| lionLinguist.podLabels | object | `{}` |  |
+| lionLinguist.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| lionLinguist.replicaCount | int | `1` |  |
+| lionLinguist.resources.limits.memory | string | `"4Gi"` |  |
+| lionLinguist.resources.requests.cpu | string | `"1000m"` |  |
+| lionLinguist.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| lionLinguist.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| lionLinguist.securityContext.runAsNonRoot | bool | `true` |  |
+| lionLinguist.service.port | int | `80` |  |
+| lionLinguist.service.type | string | `"ClusterIP"` |  |
+| lionLinguist.tolerations[0].effect | string | `"NoSchedule"` |  |
+| lionLinguist.tolerations[0].key | string | `"nvidia.com/gpu"` |  |
+| lionLinguist.tolerations[0].operator | string | `"Exists"` |  |
+| lionLinguist.volumeMounts | list | `[]` |  |
+| lionLinguist.volumes | list | `[]` |  |
+| namespaceOverride | string | `""` | Override the namespace. |
+| nvidia.enabled | bool | `false` |  |
+| openAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. |
+| openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |
+| openAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use |
+| openAi.chatCompletionDeployment | string | `""` | The name of the OpenAI Deployment used to complete chat messages. |
+| openAi.enabled | bool | `true` | If true, enable the OpenAI integration. |
+| openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. |
+| openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
+| openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| openAi.frustrationDetectionDeployment | string | `""` | The name of the OpenAI Deployment used to detect frustration. |
+| openAi.insightsGeneratorDeployment | string | `""` | The name of the OpenAI Deployment used to generate insights. |
+| openAi.provider | string | `"azure"` | Allowed values: "openai", "azure" |
+| openAi.textEmbeddingsDeployment | string | `""` | The name of the OpenAI Deployment used to generate text embeddings. |
+| otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
+| otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
+| otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
+| secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
+| secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
+| secretsStore.azure.existingSecret | object | - | Use an existing secret for the Azure Key Vault authentication. |
+| secretsStore.azure.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| secretsStore.azure.keyVaultUrl | string | `""` | The URL of the Azure Key Vault storing the secrets. |
+| secretsStore.azure.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Key Vault is located. To be provided only when not using an existing secret (see azure.existingSecret value below). |
+| secretsStore.kind | string | `"database"` | Supported values: "database", "azure_keyvault" |
+| serviceAccount | object | `{"annotations":{},"create":false,"name":"default"}` | The name of the service account used by the platform services. |
+| strimzi.enabled | bool | `false` |  |
+
+## Maintainers
+
+| Name | Email | Url |
+| ---- | ------ | --- |
+| Michele Zanotti | <m.zanotti@nebuly.ai> | <https://github.com/Telemaco019> |
+| Diego Fiori | <d.fiori@nebuly.ai> | <https://github.com/diegofiori> |
+
+## Source Code
+
+* <https://github.com/nebuly-ai/helm-charts>

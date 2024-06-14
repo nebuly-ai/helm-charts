@@ -1,0 +1,103 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "jobActionsProcessing.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "jobActionsProcessing.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.actionsProcessing.schedule | quote }}
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "jobActionsProcessing.labels" . | nindent 10 }}
+    spec:
+      backoffLimit: {{ .Values.actionsProcessing.backoffLimit }}
+      template:
+        metadata:
+          {{- with .Values.actionsProcessing.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          labels:
+            {{- include "jobActionsProcessing.labels" . | nindent 14 }}
+            {{- with .Values.actionsProcessing.podLabels }}
+            {{- toYaml . | nindent 14 }}
+            {{- end }}
+        spec:
+          serviceAccountName: {{ .Values.serviceAccount.name }}
+          restartPolicy: Never
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.actionsProcessing.podSecurityContext | nindent 12 }}
+          containers:
+            - name: {{ .Chart.Name }}
+              securityContext:
+                {{- toYaml .Values.actionsProcessing.securityContext | nindent 16 }}
+              image: "{{ .Values.actionsProcessing.image.repository }}:{{ .Values.actionsProcessing.image.tag | default .Chart.AppVersion }}"
+              command: [ "python", "jobs/process_actions.py" ]
+              imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
+              env:
+                {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
+                  - name: MODEL_PROVIDER
+                    value: {{ .Values.aiModels.registry | quote }}
+                {{- if eq .Values.aiModels.registry "azure_ml" }}
+                  {{ include "aiModels.azureml.env" . | nindent 18 }}
+                {{- end }}
+                {{- if .Values.azureml.enabled }}
+                  - name: AZUREML_BATCH_ENDPOINT_NAME
+                    value: "{{ .Values.azureml.batchEndpoint }}"
+                  - name: AZUREML_DATASET_NAME
+                    value: "{{ .Values.azureml.datasetName }}"
+                {{- end }}
+                {{- if not .Values.azureml.enabled }}
+                  - name: INFERENCE_MODE
+                    value: "torch"
+                  - name: MODELS_CACHE_DIR
+                    value: "/var/cache"
+                  - name: MODEL_NAME
+                    value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
+                  - name: MODEL_VERSION
+                    value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
+                {{- end }}
+                  - name: PROCESS_LAST_N_HOURS
+                    value: {{ .Values.actionsProcessing.numHoursProcessed | quote }}
+              resources:
+                {{- toYaml .Values.actionsProcessing.resources | nindent 18 }}
+              volumeMounts:
+              {{- if not .Values.azureml.enabled }}
+                - name: models-cache
+                  mountPath: /var/cache
+                  readOnly: false
+              {{- end }}
+              {{- with .Values.actionsProcessing.volumeMounts }}
+                {{- toYaml . | nindent 18 }}
+              {{- end }}
+          volumes:
+            - name: models-cache
+          {{- if .Values.actionsProcessing.modelsCache.enabled }}
+              persistentVolumeClaim:
+                claimName: {{ include "ingestionWorker.fullname" . }}
+          {{- else }}
+              emptyDir: {}
+          {{- end }}
+          {{- with .Values.actionsProcessing.volumes }}
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.actionsProcessing.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.actionsProcessing.affinity }}
+          affinity:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.actionsProcessing.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}

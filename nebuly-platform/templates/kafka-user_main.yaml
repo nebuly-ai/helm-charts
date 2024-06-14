@@ -1,0 +1,29 @@
+{{ if not .Values.kafka.external -}}
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaUser
+metadata:
+  name: {{ include "kafka.user" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    strimzi.io/cluster: {{ include "kafka.fullname" . }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: "*"
+          patternType: literal
+        operations: ["All"]
+        host: "*"
+      - resource:
+          type: group
+          name: "*"
+          patternType: literal
+        operations: ["All"]
+        host: "*"
+{{- end }}

@@ -1,0 +1,15 @@
+{{ if not .Values.kafka.external -}}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: {{ .Values.kafka.topicEventsMain.name }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    strimzi.io/cluster: {{ include "kafka.fullname" . }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  topicName: {{ .Values.kafka.topicEventsMain.name }}
+  partitions: {{ .Values.kafka.topicEventsMain.partitions }}
+  replicas: {{ .Values.kafka.topicEventsMain.replicas | default .Values.kafka.replicas }}
+{{- end }}

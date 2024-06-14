@@ -1,0 +1,19 @@
+{{- if .Values.actionsProcessing.modelsCache.enabled }}
+# PVC for caching AI Models used for inference.
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "ingestionWorker.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "ingestionWorker.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.actionsProcessing.modelsCache.size }}
+  storageClassName: {{ .Values.actionsProcessing.modelsCache.storageClassName }}
+{{- end }}
