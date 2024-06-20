@@ -2,8 +2,8 @@ dependencies:
 - name: strimzi-kafka-operator
   repository: oci://quay.io/strimzi-helm
   version: 0.40.0
-- name: nvidia-device-plugin
-  repository: https://nvidia.github.io/k8s-device-plugin
-  version: 0.15.0
-digest: sha256:e281b45642a03c95501c2a7bb05d323f5af3374e38e067c5500b9feea4b7bf47
-generated: "2024-05-08T09:41:17.462129+02:00"
+- name: k8s-boostrap-aws
+  repository: file://../k8s-bootstrap-aws
+  version: 0.1.0
+digest: sha256:c08de3ef21c441482e4bdf2c2a80e083e6599095015d6028578289aa4ba5fe2f
+generated: "2024-06-20T11:42:46.556332+02:00"
