@@ -294,7 +294,7 @@ app.kubernetes.io/component: nebuly-frontend
 {{- define "chart.validateValues" -}}
 {{- $messages := list -}}
 {{/* Frontend */}}
-{{- $messages = append $messages (include "chart.validateValues.frontend.rootUrl" .) -}}
+{{/*{{- $messages = append $messages (include "chart.validateValues.frontend.rootUrl" .) -}}*/}}
 {{- $messages = append $messages (include "chart.validateValues.frontend.backendApiUrl" .) -}}
 {{/* Auth Service */}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresServer" .) -}}
@@ -434,17 +434,17 @@ values: openAi.endpoint
 {{- end -}}
 
 {{/* Frontend validation. */}}
-{{- define "chart.validateValues.frontend.rootUrl" -}}
-{{- if empty .Values.frontend.rootUrl -}}
-values: frontend.rootUrl
-  `rootUrl` is required and should be a non-empty string.
-{{- else -}}
-{{- if not (regexMatch "^(https?|wss?)://[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?(/.*)?$" .Values.frontend.rootUrl) -}}
-values: frontend.rootUrl
-  `rootUrl` should be a valid URL.
-{{- end -}}
-{{- end -}}
-{{- end -}}
+{{/*{{- define "chart.validateValues.frontend.rootUrl" -}}*/}}
+{{/*{{- if empty .Values.frontend.rootUrl -}}*/}}
+{{/*values: frontend.rootUrl*/}}
+{{/*  `rootUrl` is required and should be a non-empty string.*/}}
+{{/*{{- else -}}*/}}
+{{/*{{- if not (regexMatch "^(https?|wss?)://[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?(/.*)?$" .Values.frontend.rootUrl) -}}*/}}
+{{/*values: frontend.rootUrl*/}}
+{{/*  `rootUrl` should be a valid URL.*/}}
+{{/*{{- end -}}*/}}
+{{/*{{- end -}}*/}}
+{{/*{{- end -}}*/}}
 
 {{- define "chart.validateValues.frontend.backendApiUrl" -}}
 {{- if empty .Values.frontend.backendApiUrl -}}

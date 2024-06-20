@@ -2,8 +2,8 @@ dependencies:
 - name: strimzi-kafka-operator
   repository: oci://quay.io/strimzi-helm
   version: 0.40.0
-- name: k8s-boostrap-aws
+- name: k8s-bootstrap-aws
   repository: file://../k8s-bootstrap-aws
-  version: 0.1.0
-digest: sha256:c08de3ef21c441482e4bdf2c2a80e083e6599095015d6028578289aa4ba5fe2f
-generated: "2024-06-20T11:42:46.556332+02:00"
+  version: 0.1.1
+digest: sha256:bc50649cb6f38c386178db6eab9918761b40ead20f9232b8f5d41505600366a2
+generated: "2024-06-20T14:18:49.809323+02:00"
