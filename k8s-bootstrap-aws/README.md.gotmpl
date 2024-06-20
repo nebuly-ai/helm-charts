@@ -1,0 +1,55 @@
+# AWS - Kubernetes bootstrap
+
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.badgesSection" . }}
+
+{{ template "chart.description" . }}
+
+{{ template "chart.homepageLine" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+## Installation
+
+This chart is meant to be used as a dependency of
+the [Nebuly Platform](../nebuly-platform/README.md) chart. You can enable
+the installation of this chart by setting the `k8sBootstrapAws.enabled` value to `true`.
+
+```yaml
+k8sBootstrapAws:
+  enabled: true
+```
+
+You can refer to the Nebuly Platform
+chart [installation instructions](../nebuly-platform/README.md#installation) for more
+details.
+
+### Standalone installation
+
+If you want to install this chart as a standalone application, you can do so by
+running the following command:
+
+```bash
+helm install oci://ghcr.io/nebuly-ai/helm-charts/k8s-bootstrap-aws \
+  --namespace nebuly \
+  --generate-name \
+  --create-namespace \
+  -f values.yaml
+```
+
+To uninstall/delete the `my-release` deployment:
+
+```bash
+helm uninstall my-release
+```
+
+The command removes all the Kubernetes components associated with the chart and deletes
+the release.
+
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "chart.sourcesSection" . }}
