@@ -21,8 +21,16 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      - name: Check if docs are up to date
+      - name: "[nebuly-platform] Check if docs are up to date"
         working-directory: nebuly-platform
+        run: |
+          make doc
+          if ! git diff --exit-code; then
+              echo "Documentation not up to date. Please run helm-docs and commit changes!" >&2
+              exit 1
+          fi
+      - name: "[k8s-bootstrap-aws] Check if docs are up to date"
+        working-directory: k8s-bootstrap-aws
         run: |
           make doc
           if ! git diff --exit-code; then

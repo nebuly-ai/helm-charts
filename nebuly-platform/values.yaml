@@ -910,5 +910,5 @@ auth:
 
 strimzi:
   enabled: false
-nvidia:
+k8s-bootstrap-aws:
   enabled: false

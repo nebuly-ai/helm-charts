@@ -10,8 +10,8 @@ Helm chart for installing Nebuly's Platform on Kubernetes.
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://nvidia.github.io/k8s-device-plugin | nvidia-device-plugin | 0.15.0 |
-| oci://quay.io/strimzi-helm | strimzi-kafka-operator | 0.40.0 |
+| file://../k8s-bootstrap-aws | k8s-boostrap-aws | ~0.1.0 |
+| oci://quay.io/strimzi-helm | strimzi-kafka-operator | ~0.40.0 |
 
 ## Installation
 
@@ -385,6 +385,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.topicsClustering.schedule | string | `"0 3 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
+| k8s-bootstrap-aws.enabled | bool | `false` |  |
 | kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
 | kafka.config."replica.selector.class" | string | `"org.apache.kafka.common.replica.RackAwareReplicaSelector"` |  |
 | kafka.existingSecret | object | - | [external] Use an existing secret for Kafka authentication. |
@@ -449,7 +450,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | lionLinguist.volumeMounts | list | `[]` |  |
 | lionLinguist.volumes | list | `[]` |  |
 | namespaceOverride | string | `""` | Override the namespace. |
-| nvidia.enabled | bool | `false` |  |
 | openAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. |
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |
 | openAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use |

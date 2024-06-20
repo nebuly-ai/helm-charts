@@ -1,0 +1,36 @@
+# -- Override the namespace.
+namespaceOverride: ""
+# -- Override the name of the chart.
+nameOverride: ""
+
+# -- Extra annotations that will be added to all resources.
+annotations: { }
+
+cluster-autoscaler:
+  enabled: true
+  rbac:
+    serviceAccount:
+      annotations:
+        # -- The ARN of the IAM role used by the autoscaler.
+        eks.amazonaws.com/role-arn: ""
+
+metrics-server:
+  enabled: true
+
+nvidia-device-plugin:
+  enabled: true
+
+secrets-store-csi-driver:
+  enabled: true
+
+ingress-nginx:
+  enabled: true
+  controller:
+    allowSnippetAnnotations: true
+    config: { }
+    service:
+      targetPorts:
+        http: http
+        https: https
+      annotations: {}
+
