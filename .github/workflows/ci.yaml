@@ -29,8 +29,8 @@ jobs:
               echo "Documentation not up to date. Please run helm-docs and commit changes!" >&2
               exit 1
           fi
-      - name: "[k8s-bootstrap-aws] Check if docs are up to date"
-        working-directory: k8s-bootstrap-aws
+      - name: "[bootstrap-aws] Check if docs are up to date"
+        working-directory: bootstrap-aws
         run: |
           make doc
           if ! git diff --exit-code; then
