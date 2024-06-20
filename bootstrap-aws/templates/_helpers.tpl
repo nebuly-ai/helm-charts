@@ -60,10 +60,10 @@ nebuly.com/release-name: {{ .Release.Name }}
 */}}
 
 {{/* Compile all validation warnings into a single message and call fail. */}}
-{{- define "chart.validateValues" -}}
+{{- define "bootstrap.validateValues" -}}
 {{- $messages := list -}}
 {{/* Cluster Autoscaler */}}
-{{- $messages = append $messages (include "chart.validateValues.clusterAutoscaler.roleArn" .) -}}
+{{- $messages = append $messages (include "bootstrap.validateValues.clusterAutoscaler.roleArn" .) -}}
 
 {{- $messages = without $messages "" -}}
 {{- $message := join "\n" $messages -}}
@@ -76,7 +76,7 @@ nebuly.com/release-name: {{ .Release.Name }}
 {{- end -}}
 
 {{/* Cluster Autoscaler validation. */}}
-{{- define "chart.validateValues.clusterAutoscaler.roleArn" -}}
+{{- define "bootstrap.validateValues.clusterAutoscaler.roleArn" -}}
 {{- if empty (index .Values "cluster-autoscaler" "rbac" "serviceAccount" "annotations" "eks.amazonaws.com/role-arn")  -}}
 values: cluster-autoscaler.rbac.serviceAccount.annotations
   `eks.amazonaws.com/role-arn` is required and should be a non-empty string

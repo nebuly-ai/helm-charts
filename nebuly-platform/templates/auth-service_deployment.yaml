@@ -114,7 +114,7 @@ spec:
                   key: {{ .Values.auth.microsoft.existingSecret.clientSecretKey | default "microsoft-oauth-client-secret" }}
             - name: "MICROSOFT_OAUTH_REDIRECT_URI"
               value: "{{ .Values.auth.microsoft.redirectUri }}"
-            {{- end -}}
+            {{- end }}
             # Misc
             - name: "ENV"
               value: "prod"

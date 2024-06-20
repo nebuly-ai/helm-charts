@@ -1,1 +1,1 @@
-{{- template "chart.validateValues" . -}}
+{{- template "bootstrap.validateValues" . -}}
