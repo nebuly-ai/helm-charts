@@ -11,5 +11,8 @@ dependencies:
 - name: secrets-store-csi-driver
   repository: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
   version: 1.4.4
-digest: sha256:3dac1d67c10623d4142de4792ec0e70b62808ab11c89724b781d36bc8ec17ce2
-generated: "2024-06-20T11:57:52.672939+02:00"
+- name: ingress-nginx
+  repository: https://kubernetes.github.io/ingress-nginx
+  version: 4.10.1
+digest: sha256:b55678d8d292468ef7b20062b309d67718bd34409bb4652f5380015498f5bf25
+generated: "2024-06-20T12:29:12.386697+02:00"
