@@ -31,28 +31,6 @@ You can refer to the Nebuly Platform
 chart [installation instructions](../nebuly-platform/README.md#installation) for more
 details.
 
-### Standalone installation
-
-If you want to install this chart as a standalone application, you can do so by
-running the following command:
-
-```bash
-helm install oci://ghcr.io/nebuly-ai/helm-charts/bootstrap-aws \
-  --namespace nebuly \
-  --generate-name \
-  --create-namespace \
-  -f values.yaml
-```
-
-To uninstall/delete the `my-release` deployment:
-
-```bash
-helm uninstall my-release
-```
-
-The command removes all the Kubernetes components associated with the chart and deletes
-the release.
-
 ## Values
 
 | Key | Type | Default | Description |

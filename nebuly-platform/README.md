@@ -6,68 +6,38 @@ Helm chart for installing Nebuly's Platform on Kubernetes.
 
 **Homepage:** <https://nebuly.com>
 
-## Requirements
-
-| Repository | Name | Version |
-|------------|------|---------|
-| file://../bootstrap-aws | bootstrap-aws | ~0.1.0 |
-| oci://quay.io/strimzi-helm | strimzi-kafka-operator | ~0.40.0 |
-
 ## Installation
 
-### 1. Create a GitHub personal access token
-
-You first need to create a GitHub personal access token with the `read:packages` scope to pull the required Docker
-images. You can refer to
-the [GitHub documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
-
-### 2. Create a container image pull secret
-
-You need to create a container image pull secret with the PAT token you created in the previous step. You can
-do that following the steps below.
-
-1. Create a base64 encoded string of the token value with the following command, where `<username>` is your GitHub
-username and `<token>` is the value of the PAT token you created in the previous step.
+1. Create a namespace for the deployment.
 
 ```bash
-echo -n "<username>:<token>" | base64
+kubectl create namespace nebuly
 ```
 
-2. Create a JSON file containing the base64 representation of your PAT. You can do that with the following commands,
-   replacing the placeholder `<your-base64-token>` with the value you obtained in the previous step:
+2. Create an image pull secret to access the Nebuly Platform Docker images, using
+the `dockerfile.json` provided by Nebuly.
 
 ```bash
-cat <<EOT > secret.json
-{
-  "auths": {
-    "ghcr.io": {
-      "auth": "<your-base64-token>"
-    }
-  }
-}
-EOT
+kubectl create secret docker-registry \
+    nebuly-docker-pull \
+    --from-file=.dockerconfigjson=dockerfile.json \
+    --namespace nebuly
 ```
 
-3. Create the image pull secret
-```bash
-kubectl create secret docker-registry nebuly-docker-pull --from-file=.dockerconfigjson=secret.json --namespace nebuly
-```
-
-4. Include the created secret in the `imagePullSecrets` field of the `values.yaml` file.
+3. Include the created secret in the `imagePullSecrets` field of the `values.yaml` file.
 
 ```yaml
 imagePullSecrets:
   - name: nebuly-docker-pull
 ```
 
-### 3. Install the chart
-You can install the chart in the namespace `nebuly` with the following command:
+4. Install the chart
+You can install the chart with the following command:
 
 ```bash
 helm install oci://ghcr.io/nebuly-ai/helm-charts/nebuly-platform \
   --namespace nebuly \
   --generate-name \
-  --create-namespace \
   -f values.yaml
 ```
 
