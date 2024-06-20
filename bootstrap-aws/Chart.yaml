@@ -1,5 +1,5 @@
 apiVersion: v2
-name: k8s-bootstrap-aws
+name: bootstrap-aws
 description: Helm chart for bootstrapping a Kubernetes cluster on AWS with all the
   dependencies required for installing [Nebuly Platform](https://nebuly.com).
 

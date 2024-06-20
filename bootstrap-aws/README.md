@@ -1,6 +1,6 @@
 # AWS - Kubernetes bootstrap
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
 
 Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependencies required for installing [Nebuly Platform](https://nebuly.com).
 
@@ -20,10 +20,10 @@ Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependenci
 
 This chart is meant to be used as a dependency of
 the [Nebuly Platform](../nebuly-platform/README.md) chart. You can enable
-the installation of this chart by setting the `k8sBootstrapAws.enabled` value to `true`.
+the installation of this chart by setting the `bootstrapAws.enabled` value to `true`.
 
 ```yaml
-k8sBootstrapAws:
+bootstrapAws:
   enabled: true
 ```
 
@@ -37,7 +37,7 @@ If you want to install this chart as a standalone application, you can do so by
 running the following command:
 
 ```bash
-helm install oci://ghcr.io/nebuly-ai/helm-charts/k8s-bootstrap-aws \
+helm install oci://ghcr.io/nebuly-ai/helm-charts/bootstrap-aws \
   --namespace nebuly \
   --generate-name \
   --create-namespace \

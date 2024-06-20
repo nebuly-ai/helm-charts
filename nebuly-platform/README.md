@@ -10,7 +10,7 @@ Helm chart for installing Nebuly's Platform on Kubernetes.
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../k8s-bootstrap-aws | k8s-boostrap-aws | ~0.1.0 |
+| file://../bootstrap-aws | bootstrap-aws | 0.1.0 |
 | oci://quay.io/strimzi-helm | strimzi-kafka-operator | ~0.40.0 |
 
 ## Installation
@@ -285,6 +285,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.tolerations | list | `[]` |  |
 | backend.volumeMounts | list | `[]` |  |
 | backend.volumes | list | `[]` |  |
+| bootstrap-aws.enabled | bool | `false` |  |
 | eventIngestion.affinity | object | `{}` |  |
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -385,7 +386,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.topicsClustering.schedule | string | `"0 3 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
-| k8s-bootstrap-aws.enabled | bool | `false` |  |
 | kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
 | kafka.config."replica.selector.class" | string | `"org.apache.kafka.common.replica.RackAwareReplicaSelector"` |  |
 | kafka.existingSecret | object | - | [external] Use an existing secret for Kafka authentication. |

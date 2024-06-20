@@ -910,5 +910,5 @@ auth:
 
 strimzi:
   enabled: false
-k8s-bootstrap-aws:
+bootstrap-aws:
   enabled: false

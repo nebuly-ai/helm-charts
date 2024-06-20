@@ -25,10 +25,10 @@ dependencies:
     version: ~0.40.0
     repository: oci://quay.io/strimzi-helm
     condition: strimzi.enabled
-  - name: k8s-bootstrap-aws
+  - name: bootstrap-aws
     version: 0.1.0
-    condition: k8s-bootstrap-aws.enabled
-    repository: "file://../k8s-bootstrap-aws"
+    condition: bootstrap-aws.enabled
+    repository: "file://../bootstrap-aws"
 
 maintainers:
   - name: Michele Zanotti
