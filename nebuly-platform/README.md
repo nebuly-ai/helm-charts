@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.8.0](https://img.shields.io/badge/Version-1.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.8.1](https://img.shields.io/badge/Version-1.8.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -183,7 +183,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.fullnameOverride | string | `""` |  |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.6.3"` |  |
+| auth.image.tag | string | `"v1.6.4"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.loginModes | string | `"password"` | as a comma-separated list. Possible values are: `password`, `microsoft`. |
@@ -231,7 +231,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.26.5"` |  |
+| backend.image.tag | string | `"v1.27.2"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -290,7 +290,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.24.23"` |  |
+| frontend.image.tag | string | `"v1.26.3"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -321,7 +321,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.fullnameOverride | string | `""` |  |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.14.1"` |  |
+| ingestionWorker.image.tag | string | `"v1.17.4"` |  |
 | ingestionWorker.intentVersion | string | `"v1"` |  |
 | ingestionWorker.lionLinguistRetryAttempts | int | `10` | lion linguist service. |
 | ingestionWorker.nodeSelector | object | `{}` |  |
@@ -423,7 +423,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | openAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. |
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |
 | openAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use |
-| openAi.chatCompletionDeployment | string | `""` | The name of the OpenAI Deployment used to complete chat messages. |
 | openAi.enabled | bool | `true` | If true, enable the OpenAI integration. |
 | openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. |
 | openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
@@ -431,7 +430,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | openAi.frustrationDetectionDeployment | string | `""` | The name of the OpenAI Deployment used to detect frustration. |
 | openAi.insightsGeneratorDeployment | string | `""` | The name of the OpenAI Deployment used to generate insights. |
 | openAi.provider | string | `"azure"` | Allowed values: "openai", "azure" |
-| openAi.textEmbeddingsDeployment | string | `""` | The name of the OpenAI Deployment used to generate text embeddings. |
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |

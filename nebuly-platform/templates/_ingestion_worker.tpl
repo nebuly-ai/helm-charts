@@ -104,10 +104,6 @@
   value: "{{ .Values.openAi.endpoint }}"
 - name: OPENAI_DEPLOYMENT_FRUSTRATION
   value: "{{ .Values.openAi.frustrationDetectionDeployment }}"
-- name: OPENAI_DEPLOYMENT_CHAT_COMPLETION
-  value: "{{ .Values.openAi.chatCompletionDeployment }}"
-- name: OPENAI_DEPLOYMENT_EMBEDDINGS
-  value: "{{ .Values.openAi.textEmbeddingsDeployment }}"
 - name: AZURE_OPENAI_API_KEY
   valueFrom:
     secretKeyRef:

@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.26.5"
+    tag: "v1.27.2"
 
   podAnnotations: { }
   podLabels: { }
@@ -98,7 +98,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.24.23"
+    tag: "v1.26.3"
 
   podAnnotations: { }
   podLabels: { }
@@ -365,7 +365,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.14.1
+    tag: v1.17.4
 
   podAnnotations: { }
   podLabels: { }
@@ -494,7 +494,7 @@ actionsProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.14.1
+    tag: v1.17.4
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -615,12 +615,8 @@ openAi:
   enabled: true
   # -- The name of the OpenAI Deployment used to generate insights.
   insightsGeneratorDeployment: ""
-  # -- The name of the OpenAI Deployment used to generate text embeddings.
-  textEmbeddingsDeployment: ""
   # -- The name of the OpenAI Deployment used to detect frustration.
   frustrationDetectionDeployment: ""
-  # -- The name of the OpenAI Deployment used to complete chat messages.
-  chatCompletionDeployment: ""
   # -- The endpoint of the OpenAI resource.
   endpoint: ""
   # -- The primary API Key of the OpenAI resource, used for authentication.
@@ -834,7 +830,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.6.3"
+    tag: "v1.6.4"
 
   podAnnotations: { }
   podLabels: { }
