@@ -3,6 +3,7 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: gp2-csi
+  namespace: {{ include "bootstrap.namespace" . }}
 provisioner: ebs.csi.aws.com
 allowVolumeExpansion: true
 parameters:
