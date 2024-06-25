@@ -22,6 +22,8 @@ nvidia-device-plugin:
 
 secrets-store-csi-driver:
   enabled: true
+  syncSecret:
+    enabled: true
 
 ingress-nginx:
   enabled: true

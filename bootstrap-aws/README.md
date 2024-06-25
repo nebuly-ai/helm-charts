@@ -49,6 +49,7 @@ details.
 | namespaceOverride | string | `""` | Override the namespace. |
 | nvidia-device-plugin.enabled | bool | `true` |  |
 | secrets-store-csi-driver.enabled | bool | `true` |  |
+| secrets-store-csi-driver.syncSecret.enabled | bool | `true` |  |
 
 ## Source Code
 
