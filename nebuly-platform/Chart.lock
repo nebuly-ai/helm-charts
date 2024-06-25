@@ -4,6 +4,6 @@ dependencies:
   version: 0.40.0
 - name: bootstrap-aws
   repository: file://../bootstrap-aws
-  version: 0.1.1
-digest: sha256:b04979ce4143b016d4248f2e539a8ad731cb35b2e4a4fee8696b4b7b8b71b2e8
-generated: "2024-06-20T14:30:02.263714+02:00"
+  version: 0.1.2
+digest: sha256:f51aaaad9158a8b27c07f92a85a5a7dc756dec06a48e92766fdf3f34cf87ceb3
+generated: "2024-06-25T12:32:58.49873+02:00"
