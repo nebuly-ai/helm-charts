@@ -64,6 +64,8 @@ spec:
               value: "false"
             - name: "MAX_CONCURRENT_REQUESTS"
               value: {{ .Values.lionLinguist.maxConcurrentRequests | quote }}
+            - name: "AWS_S3_BUCKET_NAME"
+              value: {{ .Values.aiModels.aws.bucketName | quote }}
             # Models
             - name: "MODEL_PROVIDER"
               value: {{ .Values.aiModels.registry | quote }}
