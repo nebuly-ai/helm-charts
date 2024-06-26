@@ -1,3 +1,4 @@
+{{- if .Values.lionLinguist.modelsCache.enabled }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -14,3 +15,4 @@ spec:
     requests:
       storage: {{ .Values.lionLinguist.modelsCache.size }}
   storageClassName: {{ .Values.lionLinguist.modelsCache.storageClassName }}
+{{- end }}

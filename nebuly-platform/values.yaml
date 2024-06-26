@@ -238,11 +238,15 @@ lionLinguist:
 
   replicaCount: 1
 
+  deploymentStrategy:
+    type: Recreate
+
   # -- The maximum number of concurrent requests that the service will handle.
   maxConcurrentRequests: 8
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
+    enabled: true
     size: 64Gi
     storageClassName: ""
     accessModes:

@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.8.5](https://img.shields.io/badge/Version-1.8.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.8.7](https://img.shields.io/badge/Version-1.8.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -396,15 +396,17 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.zookeeper.storage.size | string | `"10Gi"` |  |
 | kafka.zookeeper.storage.type | string | `"persistent-claim"` |  |
 | lionLinguist.affinity | object | `{}` |  |
+| lionLinguist.deploymentStrategy.type | string | `"Recreate"` |  |
 | lionLinguist.fullnameOverride | string | `""` |  |
 | lionLinguist.image.pullPolicy | string | `"IfNotPresent"` |  |
 | lionLinguist.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-lion-linguist"` |  |
 | lionLinguist.image.tag | string | `"v0.3.3"` |  |
 | lionLinguist.maxConcurrentRequests | int | `8` | The maximum number of concurrent requests that the service will handle. |
-| lionLinguist.modelsCache | object | `{"accessModes":["ReadWriteMany","ReadWriteOnce"],"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
+| lionLinguist.modelsCache | object | `{"accessModes":["ReadWriteMany","ReadWriteOnce"],"enabled":true,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | lionLinguist.nodeSelector | object | `{}` |  |
 | lionLinguist.podAnnotations | object | `{}` |  |
 | lionLinguist.podLabels | object | `{}` |  |
+| lionLinguist.podSecurityContext.fsGroup | int | `101` |  |
 | lionLinguist.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | lionLinguist.replicaCount | int | `1` |  |
 | lionLinguist.resources.limits.memory | string | `"4Gi"` |  |

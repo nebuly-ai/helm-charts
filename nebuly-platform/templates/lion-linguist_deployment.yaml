@@ -9,6 +9,8 @@ metadata:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.lionLinguist.replicaCount }}
+  strategy:
+    {{- .Values.lionLinguist.deploymentStrategy | toYaml | nindent 4 }}
   selector:
     matchLabels:
       {{- include "lionLinguist.selectorLabels" . | nindent 6 }}
@@ -122,8 +124,12 @@ spec:
               {{- end }}
       volumes:
         - name: models-cache
+      {{- if .Values.lionLinguist.modelsCache.enabled }}
           persistentVolumeClaim:
             claimName: {{ include "lionLinguist.fullname" . }}
+      {{- else }}
+          emptyDir: { }
+      {{- end }}
       {{- with .Values.lionLinguist.volumes }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
