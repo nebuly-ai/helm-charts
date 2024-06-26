@@ -258,6 +258,7 @@ lionLinguist:
   podLabels: { }
 
   podSecurityContext:
+    fsGroup: 101
     runAsNonRoot: true
 
   securityContext:
