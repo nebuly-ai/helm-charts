@@ -48,7 +48,15 @@
   value: "http://{{ include "lionLinguist.fullname" . }}:{{ .Values.auth.service.port }}"
 # Sentry
 - name: SENTRY_ENABLED
-  value: "false"
+  value: {{ .Values.backend.sentry.enabled | quote }}
+- name: SENTRY_ENVIRONMENT
+  value: {{ .Values.backend.sentry.environment | quote }}
+- name: SENTRY_DSN
+  value: {{ .Values.backend.sentry.dsn | quote }}
+- name: SENTRY_TRACES_SAMPLE_RATE
+  value: {{ .Values.backend.sentry.tracesSampleRate | quote }}
+- name: SENTRY_PROFILES_SAMPLE_RATE
+  value: {{ .Values.backend.sentry.profilesSampleRate | quote }}
 # Mixpanel
 - name: MIXPANEL_ENABLED
   value: "false"

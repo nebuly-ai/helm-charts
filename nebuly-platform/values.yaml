@@ -83,6 +83,17 @@ backend:
     #    hosts:
     #      - chart-example.local
 
+  # -- Settings of the Sentry integration.
+  sentry:
+    # -- If true, enable the Sentry integration.
+    enabled: false
+    # -- The name of the Sentry environment.
+    environment: ""
+    # -- The DSN of the Sentry project
+    dsn: ""
+    profilesSampleRate: 0
+    tracesSampleRate: 0
+
 frontend:
   fullnameOverride: ""
 
@@ -159,6 +170,18 @@ frontend:
     #    hosts:
     #      - chart-example.local
 
+  # -- Settings of the Sentry integration.
+  sentry:
+    # -- If true, enable the Sentry integration.
+    enabled: false
+    # -- The DSN of the Sentry project
+    dsn: ""
+    # -- The name of the Sentry environment.
+    environment: ""
+    tracesSampleRate: 0
+    # -- The sample rate for replay sessions.
+    replaySessionSampleRate: 0
+
 eventIngestion:
   # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
   # -- Example: "/backend-service"
@@ -231,6 +254,17 @@ eventIngestion:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
+
+  # -- Settings of the Sentry integration.
+  sentry:
+    # -- If true, enable the Sentry integration.
+    enabled: false
+    # -- The DSN of the Sentry project
+    dsn: ""
+    # -- The name of the Sentry environment.
+    environment: ""
+    profilesSampleRate: 0
+    tracesSampleRate: 0
 
 
 lionLinguist:
@@ -305,6 +339,17 @@ lionLinguist:
 
   affinity: { }
 
+  # -- Settings of the Sentry integration.
+  sentry:
+    # -- If true, enable the Sentry integration.
+    enabled: false
+    # -- The DSN of the Sentry project
+    dsn: ""
+    # -- The name of the Sentry environment.
+    environment: ""
+    profilesSampleRate: 0
+    tracesSampleRate: 0
+
 
 ingestionWorker:
   # -- The number of workers (e.g. coroutines) used to process interactions.
@@ -363,10 +408,7 @@ ingestionWorker:
         cpu: 100m
       limits:
         memory: 600Mi
-
-
   replicaCount: 1
-
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
@@ -436,6 +478,17 @@ ingestionWorker:
   tolerations: [ ]
 
   affinity: { }
+
+  # -- Settings of the Sentry integration.
+  sentry:
+    # -- If true, enable the Sentry integration.
+    enabled: false
+    # -- The DSN of the Sentry project
+    dsn: ""
+    # -- The name of the Sentry environment.
+    environment: ""
+    profilesSampleRate: 0
+    tracesSampleRate: 0
 
 # -- Settings of the AI models used for inference.
 aiModels:
@@ -785,6 +838,17 @@ auth:
   # -- The available login modes. Value must be string with the login mode specified
   # -- as a comma-separated list. Possible values are: `password`, `microsoft`.
   loginModes: "password"
+
+  # -- Settings of the Sentry integration.
+  sentry:
+    # -- If true, enable the Sentry integration.
+    enabled: false
+    # -- The DSN of the Sentry project
+    dsn: ""
+    # -- The name of the Sentry environment.
+    environment: ""
+    profilesSampleRate: 0
+    tracesSampleRate: 0
 
   # -- Ingress configuration for the login endpoints.
   # @default -- -
