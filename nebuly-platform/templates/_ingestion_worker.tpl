@@ -122,4 +122,15 @@
   value: {{ .Values.ingestionWorker.thresholds.intentClustering | quote }}
 - name: THRESHOLD_INTENT_MERGE_CLUSTERS
   value: {{ .Values.ingestionWorker.thresholds.intentMergeClusters | quote }}
+# Sentry
+- name: SENTRY_ENABLED
+  value: {{ .Values.ingestionWorker.sentry.enabled | quote }}
+- name: SENTRY_ENVIRONMENT
+  value: {{ .Values.ingestionWorker.sentry.environment | quote }}
+- name: SENTRY_DSN
+  value: {{ .Values.ingestionWorker.sentry.dsn | quote }}
+- name: SENTRY_TRACES_SAMPLE_RATE
+  value: {{ .Values.ingestionWorker.sentry.tracesSampleRate | quote }}
+- name: SENTRY_PROFILES_SAMPLE_RATE
+  value: {{ .Values.ingestionWorker.sentry.profilesSampleRate | quote }}
 {{- end -}}

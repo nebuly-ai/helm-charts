@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.8.7](https://img.shields.io/badge/Version-1.8.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.8.8](https://img.shields.io/badge/Version-1.8.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -210,6 +210,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | auth.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | auth.securityContext.runAsNonRoot | bool | `true` |  |
+| auth.sentry | object | `{"dsn":"","enabled":false,"environment":"","profilesSampleRate":0,"tracesSampleRate":0}` | Settings of the Sentry integration. |
+| auth.sentry.dsn | string | `""` | The DSN of the Sentry project |
+| auth.sentry.enabled | bool | `false` | If true, enable the Sentry integration. |
+| auth.sentry.environment | string | `""` | The name of the Sentry environment. |
 | auth.service.port | int | `80` |  |
 | auth.service.type | string | `"ClusterIP"` |  |
 | auth.tolerations | list | `[]` |  |
@@ -250,6 +254,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | backend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | backend.securityContext.runAsNonRoot | bool | `true` |  |
+| backend.sentry | object | `{"dsn":"","enabled":false,"environment":"","profilesSampleRate":0,"tracesSampleRate":0}` | Settings of the Sentry integration. |
+| backend.sentry.dsn | string | `""` | The DSN of the Sentry project |
+| backend.sentry.enabled | bool | `false` | If true, enable the Sentry integration. |
+| backend.sentry.environment | string | `""` | The name of the Sentry environment. |
 | backend.service.port | int | `80` |  |
 | backend.service.type | string | `"ClusterIP"` |  |
 | backend.tolerations | list | `[]` |  |
@@ -279,6 +287,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | eventIngestion.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | eventIngestion.securityContext.runAsNonRoot | bool | `true` |  |
+| eventIngestion.sentry | object | `{"dsn":"","enabled":false,"environment":"","profilesSampleRate":0,"tracesSampleRate":0}` | Settings of the Sentry integration. |
+| eventIngestion.sentry.dsn | string | `""` | The DSN of the Sentry project |
+| eventIngestion.sentry.enabled | bool | `false` | If true, enable the Sentry integration. |
+| eventIngestion.sentry.environment | string | `""` | The name of the Sentry environment. |
 | eventIngestion.service.port | int | `80` |  |
 | eventIngestion.service.type | string | `"ClusterIP"` |  |
 | eventIngestion.tolerations | list | `[]` |  |
@@ -309,6 +321,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | frontend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | frontend.securityContext.runAsNonRoot | bool | `true` |  |
+| frontend.sentry | object | `{"dsn":"","enabled":false,"environment":"","replaySessionSampleRate":0,"tracesSampleRate":0}` | Settings of the Sentry integration. |
+| frontend.sentry.dsn | string | `""` | The DSN of the Sentry project |
+| frontend.sentry.enabled | bool | `false` | If true, enable the Sentry integration. |
+| frontend.sentry.environment | string | `""` | The name of the Sentry environment. |
+| frontend.sentry.replaySessionSampleRate | int | `0` | The sample rate for replay sessions. |
 | frontend.service.port | int | `80` |  |
 | frontend.service.type | string | `"ClusterIP"` |  |
 | frontend.tolerations | list | `[]` |  |
@@ -335,6 +352,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | ingestionWorker.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | ingestionWorker.securityContext.runAsNonRoot | bool | `true` |  |
+| ingestionWorker.sentry | object | `{"dsn":"","enabled":false,"environment":"","profilesSampleRate":0,"tracesSampleRate":0}` | Settings of the Sentry integration. |
+| ingestionWorker.sentry.dsn | string | `""` | The DSN of the Sentry project |
+| ingestionWorker.sentry.enabled | bool | `false` | If true, enable the Sentry integration. |
+| ingestionWorker.sentry.environment | string | `""` | The name of the Sentry environment. |
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
 | ingestionWorker.stage1.resources.limits.memory | string | `"585Mi"` |  |
@@ -414,6 +435,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | lionLinguist.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | lionLinguist.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | lionLinguist.securityContext.runAsNonRoot | bool | `true` |  |
+| lionLinguist.sentry | object | `{"dsn":"","enabled":false,"environment":"","profilesSampleRate":0,"tracesSampleRate":0}` | Settings of the Sentry integration. |
+| lionLinguist.sentry.dsn | string | `""` | The DSN of the Sentry project |
+| lionLinguist.sentry.enabled | bool | `false` | If true, enable the Sentry integration. |
+| lionLinguist.sentry.environment | string | `""` | The name of the Sentry environment. |
 | lionLinguist.service.port | int | `80` |  |
 | lionLinguist.service.type | string | `"ClusterIP"` |  |
 | lionLinguist.tolerations[0].effect | string | `"NoSchedule"` |  |

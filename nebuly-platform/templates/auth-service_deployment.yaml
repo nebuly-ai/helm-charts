@@ -83,6 +83,17 @@ spec:
               value: "{{ .Values.otel.exporterOtlpMetricsEndpoint }}"
             - name: "OTEL_METRICS_EXPORTER"
               value: "otlp"
+            # Sentry
+            - name: SENTRY_ENABLED
+              value: {{ .Values.auth.sentry.enabled | quote }}
+            - name: SENTRY_ENVIRONMENT
+              value: {{ .Values.auth.sentry.environment | quote }}
+            - name: SENTRY_DSN
+              value: {{ .Values.auth.sentry.dsn | quote }}
+            - name: SENTRY_TRACES_SAMPLE_RATE
+              value: {{ .Values.auth.sentry.tracesSampleRate | quote }}
+            - name: SENTRY_PROFILES_SAMPLE_RATE
+              value: {{ .Values.auth.sentry.profilesSampleRate | quote }}
             # Auth
             - name: "JWT_SIGNING_KEY_PATH"
               value: "/app/resources/private-key.pem"

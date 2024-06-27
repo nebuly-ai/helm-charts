@@ -55,6 +55,17 @@ spec:
               value: "otlp"
             - name: OTEL_SERVICE_NAME
               value: "lion-linguist"
+            # Sentry
+            - name: SENTRY_ENABLED
+              value: {{ .Values.lionLinguist.sentry.enabled | quote }}
+            - name: SENTRY_ENVIRONMENT
+              value: {{ .Values.lionLinguist.sentry.environment | quote }}
+            - name: SENTRY_DSN
+              value: {{ .Values.lionLinguist.sentry.dsn | quote }}
+            - name: SENTRY_TRACES_SAMPLE_RATE
+              value: {{ .Values.lionLinguist.sentry.tracesSampleRate | quote }}
+            - name: SENTRY_PROFILES_SAMPLE_RATE
+              value: {{ .Values.lionLinguist.sentry.profilesSampleRate | quote }}
             # Misc
             - name: "ENV"
               value: "prod"

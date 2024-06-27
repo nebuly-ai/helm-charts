@@ -74,6 +74,17 @@ spec:
               value: "otlp"
             - name: OTEL_SERVICE_NAME
               value: "event-ingestion"
+            # Sentry
+            - name: SENTRY_ENABLED
+              value: {{ .Values.eventIngestion.sentry.enabled | quote }}
+            - name: SENTRY_ENVIRONMENT
+              value: {{ .Values.eventIngestion.sentry.environment | quote }}
+            - name: SENTRY_DSN
+              value: {{ .Values.eventIngestion.sentry.dsn | quote }}
+            - name: SENTRY_TRACES_SAMPLE_RATE
+              value: {{ .Values.eventIngestion.sentry.tracesSampleRate | quote }}
+            - name: SENTRY_PROFILES_SAMPLE_RATE
+              value: {{ .Values.eventIngestion.sentry.profilesSampleRate | quote }}
             # Misc
             - name: "ENV"
               value: "prod"
