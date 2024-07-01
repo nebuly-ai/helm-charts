@@ -391,7 +391,7 @@ ingestionWorker:
   # @default -- -
   categoriesWarningsGeneration:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
-    schedule: "*/15 * * * *" # Every 15 minutes
+    schedule: "0 * * * *" # Every hour
     resources:
       requests:
         cpu: 100m
