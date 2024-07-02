@@ -6,9 +6,6 @@
   value: "false"
 - name: TOUCH_EVERY_SECONDS
   value: "10"
-# Sentry
-- name: SENTRY_ENABLED
-  value: "false"
 # Workers
 - name: NUMBER_OF_WORKERS_ACTIONS
   value: "{{ .Values.ingestionWorker.numWorkersActions }}"
