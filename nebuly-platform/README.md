@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.8.11](https://img.shields.io/badge/Version-1.8.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.8.12](https://img.shields.io/badge/Version-1.8.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -430,7 +430,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | lionLinguist.podSecurityContext.fsGroup | int | `101` |  |
 | lionLinguist.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | lionLinguist.replicaCount | int | `1` |  |
-| lionLinguist.resources.limits.memory | string | `"4Gi"` |  |
+| lionLinguist.resources.limits.memory | string | `"8Gi"` |  |
 | lionLinguist.resources.requests.cpu | string | `"1000m"` |  |
 | lionLinguist.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | lionLinguist.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
