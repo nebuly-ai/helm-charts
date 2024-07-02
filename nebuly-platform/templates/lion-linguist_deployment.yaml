@@ -123,7 +123,7 @@ spec:
               path: /healthz
               port: http
             periodSeconds: 10
-            failureThreshold: 30
+            failureThreshold: 60
           resources:
             {{- toYaml .Values.lionLinguist.resources | nindent 12 }}
           volumeMounts:
