@@ -67,6 +67,8 @@ spec:
                 {{- end }}
                   - name: PROCESS_LAST_N_HOURS
                     value: {{ .Values.actionsProcessing.numHoursProcessed | quote }}
+                  - name: "AWS_S3_BUCKET_NAME"
+                    value: {{ .Values.aiModels.aws.bucketName | quote }}
               resources:
                 {{- toYaml .Values.actionsProcessing.resources | nindent 18 }}
               volumeMounts:
