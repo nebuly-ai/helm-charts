@@ -60,6 +60,8 @@ spec:
                     value: "torch"
                   - name: MODELS_CACHE_DIR
                     value: "/var/cache"
+                  - name: GPU_MODEL
+                    value: {{ .Values.actionsProcessing.gpuModel | quote }}
                   - name: MODEL_NAME
                     value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
                   - name: MODEL_VERSION
