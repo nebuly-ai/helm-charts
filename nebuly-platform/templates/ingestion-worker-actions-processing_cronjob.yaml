@@ -70,6 +70,11 @@ spec:
               resources:
                 {{- toYaml .Values.actionsProcessing.resources | nindent 18 }}
               volumeMounts:
+              {{- if not .Values.kafka.external }}
+                - name: kafka-cluster-ca-cert
+                  mountPath: "/etc/kafka"
+                  readOnly: true
+              {{- end }}
               {{- if not .Values.azureml.enabled }}
                 - name: models-cache
                   mountPath: /var/cache
@@ -79,6 +84,11 @@ spec:
                 {{- toYaml . | nindent 18 }}
               {{- end }}
           volumes:
+          {{- if not .Values.kafka.external }}
+            - name: kafka-cluster-ca-cert
+              secret:
+                secretName: {{ include "kafka.fullname" . }}-cluster-ca-cert
+          {{- end }}
             - name: models-cache
           {{- if .Values.actionsProcessing.modelsCache.enabled }}
               persistentVolumeClaim:
