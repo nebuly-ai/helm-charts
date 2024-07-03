@@ -119,6 +119,22 @@
   value: {{ .Values.ingestionWorker.thresholds.intentClustering | quote }}
 - name: THRESHOLD_INTENT_MERGE_CLUSTERS
   value: {{ .Values.ingestionWorker.thresholds.intentMergeClusters | quote }}
+
+- name: SUGGESTION_PROCESSOR
+  value: "v2"
+- name: INTENT_BATCH_SIZE
+  value: "5000"
+- name: SUBJECT_BATCH_SIZE
+  value: "5000"
+- name: THRESHOLD_CLUSTERING
+  value: "0.87"
+- name: THRESHOLD_MERGE_CLUSTERS
+  value: "0.87"
+- name: THRESHOLD_CLUSTERING_V2
+  value: "0.3"
+- name: THRESHOLD_MERGE_CLUSTERS_V2
+  value: "0.25"
+
 # Sentry
 - name: SENTRY_ENABLED
   value: {{ .Values.ingestionWorker.sentry.enabled | quote }}
