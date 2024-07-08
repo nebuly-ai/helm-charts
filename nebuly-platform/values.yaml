@@ -510,7 +510,7 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: 8
+    version: 9
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
