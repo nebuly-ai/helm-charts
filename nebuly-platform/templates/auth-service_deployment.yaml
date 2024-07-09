@@ -75,6 +75,8 @@ spec:
             - name: "AZURE_KEYVAULT_URL"
               value: {{ .Values.secretsStore.azure.keyVaultUrl }}
             # OTEL
+            - name: "OTEL_ENABLED"
+              value: {{ .Values.otel.enabled | quote }}
             - name: "OTEL_SERVICE_NAME"
               value: "nebuly-auth-service"
             - name: "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"
