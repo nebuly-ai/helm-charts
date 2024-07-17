@@ -975,6 +975,17 @@ auth:
       clientIdKey: ""
       clientSecretKey: ""
 
+# -- Post-upgrade hooks settings.
+postUpgrade:
+  # -- If True, run a post-install jop that runs a full refresh of the backend RO tables.
+  refreshRoTables:
+    enabled: true
+    resources:
+      requests:
+        cpu: 100m
+      limits:
+        memory: 512Mi
+
 strimzi:
   enabled: false
 bootstrap-aws:

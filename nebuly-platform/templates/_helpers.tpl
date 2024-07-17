@@ -58,6 +58,15 @@ nebuly.com/release-name: {{ .Release.Name }}
 {{- end }}
 {{- end }}
 
+{{/*
+*********************************************************************
+* Hooks
+*********************************************************************
+*/}}
+{{- define "postUpgrade.refreshRoLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+{{- end }}
 
 {{/*
 *********************************************************************
