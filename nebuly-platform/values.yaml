@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.31.37"
+    tag: "v1.31.39"
 
   podAnnotations: { }
   podLabels: { }
@@ -109,7 +109,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.33.4"
+    tag: "v1.33.9"
 
   podAnnotations: { }
   podLabels: { }
@@ -979,7 +979,7 @@ auth:
 postUpgrade:
   # -- If True, run a post-install jop that runs a full refresh of the backend RO tables.
   refreshRoTables:
-    enabled: true
+    enabled: false
     resources:
       requests:
         cpu: 100m

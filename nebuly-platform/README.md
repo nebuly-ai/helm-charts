@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.9.0](https://img.shields.io/badge/Version-1.9.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.9.1](https://img.shields.io/badge/Version-1.9.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -235,7 +235,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.31.37"` |  |
+| backend.image.tag | string | `"v1.31.39"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -302,7 +302,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.33.4"` |  |
+| frontend.image.tag | string | `"v1.33.9"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -460,8 +460,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
-| postUpgrade | object | `{"refreshRoTables":{"enabled":true,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}}` | Post-upgrade hooks settings. |
-| postUpgrade.refreshRoTables | object | `{"enabled":true,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}` | If True, run a post-install jop that runs a full refresh of the backend RO tables. |
+| postUpgrade | object | `{"refreshRoTables":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}}` | Post-upgrade hooks settings. |
+| postUpgrade.refreshRoTables | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}` | If True, run a post-install jop that runs a full refresh of the backend RO tables. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.existingSecret | object | - | Use an existing secret for the Azure Key Vault authentication. |
