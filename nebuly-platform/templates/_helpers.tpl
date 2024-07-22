@@ -305,6 +305,8 @@ app.kubernetes.io/component: nebuly-frontend
 {{/* Frontend */}}
 {{/*{{- $messages = append $messages (include "chart.validateValues.frontend.rootUrl" .) -}}*/}}
 {{- $messages = append $messages (include "chart.validateValues.frontend.backendApiUrl" .) -}}
+{{/* Backend */}}
+{{- $messages = append $messages (include "chart.validateValues.telemetry" .) -}}
 {{/* Auth Service */}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresServer" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresUser" .) -}}
@@ -494,7 +496,13 @@ values: lionLinguist.modelsCache.storageClassName
 {{- end -}}
 {{- end -}}
 
-
+{{/* Backend validation. */}}
+{{- define "chart.validateValues.telemetry" -}}
+{{- if and (empty .Values.telemetry.apiKey) (.Values.telemetry.enabled)  -}}
+values: telemetry.apiKey
+  `apiKey` is required when telemetry is enabled and should be a non-empty string.
+{{- end -}}
+{{- end -}}
 
 {{/* Azure ML validation. */}}
 {{- define "chart.validateValues.azureml.endpoint" -}}

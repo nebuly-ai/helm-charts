@@ -59,7 +59,11 @@
   value: {{ .Values.backend.sentry.profilesSampleRate | quote }}
 # Mixpanel
 - name: MIXPANEL_ENABLED
-  value: "false"
+  value: {{ .Values.telemetry.enabled | quote }}
+- name: MIXPANEL_TOKEN
+  value: {{ .Values.telemetry.apiKey | quote }}
+- name: ANALYTICS_OVERRIDE_TENANT
+  value: {{ .Release.Name | quote }}
 # Azure OpenAI
 - name: AZURE_OPENAI_DEPLOYMENT_INSIGHTS_GENERATOR
   value: {{ .Values.openAi.insightsGeneratorDeployment | quote }}
