@@ -194,7 +194,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: v1.7.4
+    tag: v1.7.5
 
   podAnnotations: { }
   podLabels: { }
@@ -909,7 +909,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.6.6"
+    tag: "v1.6.7"
 
   podAnnotations: { }
   podLabels: { }
