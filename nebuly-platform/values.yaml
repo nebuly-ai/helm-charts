@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.33.1"
+    tag: "v1.33.2"
 
   podAnnotations: { }
   podLabels: { }
@@ -60,7 +60,7 @@ backend:
     requests:
       cpu: 100m
     limits:
-      memory: 400Mi
+      memory: 1024Mi
   nodeSelector: { }
 
   tolerations: [ ]
@@ -460,12 +460,6 @@ ingestionWorker:
         memory: 585Mi
       limits:
         memory: 585Mi
-  stage3:
-    resources:
-      requests:
-        cpu: 200m
-      limits:
-        memory: 4Gi
   stage4:
     resources:
       requests:

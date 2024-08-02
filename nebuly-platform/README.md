@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.9.4](https://img.shields.io/badge/Version-1.9.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.9.5](https://img.shields.io/badge/Version-1.9.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -235,7 +235,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.33.1"` |  |
+| backend.image.tag | string | `"v1.33.2"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -248,7 +248,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.podLabels | object | `{}` |  |
 | backend.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | backend.replicaCount | int | `1` |  |
-| backend.resources.limits.memory | string | `"400Mi"` |  |
+| backend.resources.limits.memory | string | `"1024Mi"` |  |
 | backend.resources.requests.cpu | string | `"100m"` |  |
 | backend.rootPath | string | `""` | Example: "/backend-service" |
 | backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
@@ -364,8 +364,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.stage2.resources.limits.memory | string | `"585Mi"` |  |
 | ingestionWorker.stage2.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage2.resources.requests.memory | string | `"585Mi"` |  |
-| ingestionWorker.stage3.resources.limits.memory | string | `"4Gi"` |  |
-| ingestionWorker.stage3.resources.requests.cpu | string | `"200m"` |  |
 | ingestionWorker.stage4.resources.limits.memory | string | `"585Mi"` |  |
 | ingestionWorker.stage4.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage4.resources.requests.memory | string | `"585Mi"` |  |
