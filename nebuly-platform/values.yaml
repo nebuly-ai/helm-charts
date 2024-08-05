@@ -667,8 +667,6 @@ openAi:
   provider: azure
   # -- If true, enable the OpenAI integration.
   enabled: true
-  # -- The name of the OpenAI Deployment used to generate insights.
-  insightsGeneratorDeployment: ""
   # -- The name of the OpenAI Deployment used to detect frustration.
   frustrationDetectionDeployment: ""
   # -- The endpoint of the OpenAI resource.

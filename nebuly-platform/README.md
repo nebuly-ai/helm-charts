@@ -453,7 +453,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
 | openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | openAi.frustrationDetectionDeployment | string | `""` | The name of the OpenAI Deployment used to detect frustration. |
-| openAi.insightsGeneratorDeployment | string | `""` | The name of the OpenAI Deployment used to generate insights. |
 | openAi.provider | string | `"azure"` | Allowed values: "openai", "azure" |
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |

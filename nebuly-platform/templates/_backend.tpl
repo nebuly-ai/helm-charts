@@ -66,9 +66,9 @@
   value: {{ .Release.Name | quote }}
 # Azure OpenAI
 - name: AZURE_OPENAI_DEPLOYMENT_INSIGHTS_GENERATOR
-  value: {{ .Values.openAi.insightsGeneratorDeployment | quote }}
+  value: "" # TODO: remove me
 - name: AZURE_OPENAI_DEPLOYMENT_EMBEDDING_MODEL
-  value: {{ .Values.openAi.textEmbeddingsDeployment | quote }}
+  value: "" # TODO: remove me
 - name: AZURE_OPENAI_ENDPOINT
   value: {{ .Values.openAi.endpoint | quote }}
 - name: AZURE_OPENAI_API_KEY
