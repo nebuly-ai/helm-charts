@@ -1,4 +1,4 @@
-name: [nebuly-platform] CI Pipeline
+name: "[nebuly-platform] CI Pipeline"
 
 on:
   workflow_dispatch:

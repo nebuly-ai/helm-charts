@@ -1,4 +1,4 @@
-name: [bootstrap-azure] CI Pipeline
+name: "[bootstrap-azure] CI Pipeline"
 
 on:
   workflow_dispatch:
