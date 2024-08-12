@@ -1,0 +1,22 @@
+# -- Override the namespace.
+namespaceOverride: ""
+# -- Override the name of the chart.
+nameOverride: ""
+
+# -- Extra annotations that will be added to all resources.
+annotations: { }
+
+nvidia-device-plugin:
+  enabled: true
+
+ingress-nginx:
+  enabled: true
+  controller:
+    allowSnippetAnnotations: true
+    config: { }
+    service:
+      targetPorts:
+        http: http
+        https: https
+      annotations: {}
+

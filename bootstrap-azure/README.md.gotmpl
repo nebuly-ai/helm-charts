@@ -1,0 +1,35 @@
+# Microsoft Azure - Kubernetes bootstrap
+
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.badgesSection" . }}
+
+{{ template "chart.description" . }}
+
+{{ template "chart.homepageLine" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+## Installation
+
+This chart is meant to be used as a dependency of
+the [Nebuly Platform](../nebuly-platform/README.md) chart.
+
+You can install this chart as a standalone, or you can install it as dependency
+of `nebuly-platform` by setting the `bootstrapAzure.enabled` value to `true`.
+
+```yaml
+bootstrapAzure:
+  enabled: true
+```
+
+You can refer to the Nebuly Platform
+chart [installation instructions](../nebuly-platform/README.md#installation) for more
+details.
+
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "chart.sourcesSection" . }}
