@@ -7,8 +7,8 @@ on:
       - "main"
     paths:
       - "bootstrap-azure/**"
-      - !".github/**"
-      - !"*.md"
+      - "!.github/**"
+      - "!*.md"
 
 env:
   REGISTRY: ghcr.io
