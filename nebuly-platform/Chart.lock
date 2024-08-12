@@ -5,5 +5,8 @@ dependencies:
 - name: bootstrap-aws
   repository: file://../bootstrap-aws
   version: 0.1.3
-digest: sha256:55024d05aee2a00f51206db06558ad4d5513e2d1598046b4fffcebaaf4be00f1
-generated: "2024-06-25T12:47:18.892573+02:00"
+- name: bootstrap-azure
+  repository: file://../bootstrap-azure
+  version: 0.1.0
+digest: sha256:eeaf8ccb6577174b5270cc8c262615071c079745d72c32c8b88cbe3e69174c59
+generated: "2024-08-12T15:29:44.692171+02:00"

@@ -263,7 +263,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.tolerations | list | `[]` |  |
 | backend.volumeMounts | list | `[]` |  |
 | backend.volumes | list | `[]` |  |
-| bootstrap-aws.enabled | bool | `false` |  |
+| bootstrap-aws | object | `{"enabled":false}` | - an EKS cluster on AWS. |
+| bootstrap-azure | object | `{"enabled":false}` | - an AKS cluster on Microsoft Azure. |
 | eventIngestion.affinity | object | `{}` |  |
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |

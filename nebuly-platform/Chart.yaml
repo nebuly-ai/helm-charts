@@ -29,6 +29,10 @@ dependencies:
     version: ~0.1.0
     condition: bootstrap-aws.enabled
     repository: "file://../bootstrap-aws"
+  - name: bootstrap-azure
+    version: ~0.1.0
+    condition: bootstrap-azure.enabled
+    repository: "file://../bootstrap-azure"
 
 maintainers:
   - name: Michele Zanotti
