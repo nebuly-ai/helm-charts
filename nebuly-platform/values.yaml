@@ -988,5 +988,14 @@ postUpgrade:
 
 strimzi:
   enabled: false
+
+# -- If True, install the Chart `nebuly-ai/bootstrap-aws`, which
+# -- installs all the dependencies required for installing nebuly-platform on
+# --- an EKS cluster on AWS.
 bootstrap-aws:
+  enabled: false
+# -- If True, install the Chart `nebuly-ai/bootstrap-azure`, which
+# -- installs all the dependencies required for installing nebuly-platform on
+# --- an AKS cluster on Microsoft Azure.
+bootstrap-azure:
   enabled: false

@@ -18,9 +18,8 @@ Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependenci
 
 ## Installation
 
-This chart is meant to be used as a dependency of
-the [Nebuly Platform](../nebuly-platform/README.md) chart. You can enable
-the installation of this chart by setting the `bootstrapAws.enabled` value to `true`.
+You can install this chart as a standalone, or you can install it as dependency
+of `nebuly-platform` by setting the `bootstrap-aws.enabled` value to `true`.
 
 ```yaml
 bootstrap-aws:
