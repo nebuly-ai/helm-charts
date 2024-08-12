@@ -12,3 +12,5 @@ You can refer to each chart's README for more details on how to use them.
 - [Nebuly Platform](./nebuly-platform/): chart for installing Nebuly Platform.
 - [Bootstrap AWS](./bootstrap-aws/): chart for bootstrapping a Kubernetes cluster on AWS
   with all the dependencies required for installing Nebuly Platform.
+- [Bootstrap Azure](./bootstrap-azure/): chart for bootstrapping a Kubernetes cluster on 
+  Microsoft Azure with all the dependencies required for installing Nebuly Platform.
