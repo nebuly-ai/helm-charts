@@ -8,6 +8,7 @@ annotations: { }
 
 nvidia-device-plugin:
   enabled: true
+  namespaceOverride: nvidia
 
 ingress-nginx:
   enabled: true
@@ -20,3 +21,8 @@ ingress-nginx:
         https: https
       annotations: {}
 
+cert-manager:
+  enabled: true
+  namespace: cert-manager
+  crds:
+    enabled: true
