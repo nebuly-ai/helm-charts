@@ -511,6 +511,51 @@ aiModels:
   aws:
     bucketName: ""
 
+  # -- Settings for the Sync Job that pulls AI models from Nebuly's private registry
+  # -- and makes them available in your platform's registry.
+  # -- The Job checks if the specified model versions are available in your private
+  # -- registry. If not, it pulls them from Nebuly's registry and pushes them
+  # -- to your registry.
+  # @default -- -
+  sync:
+    # -- Enable or disable the Sync Job. Default is false for compatibility reasons.
+    enabled: false
+    # -- The schedule of the job. The format is the same as the Kubernetes CronJob schedule.
+    schedule: "0 23 * * *" # Every day at 11:00 PM
+    image:
+      repository: ghcr.io/nebuly-ai/nebuly-models-sync
+      pullPolicy: IfNotPresent
+      tag: v0.1.0
+    resources:
+      requests:
+        memory: 4Gi
+      limits:
+        memory: 8Gi
+    securityContext:
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - "ALL"
+    podAnnotations: { }
+    podLabels: { }
+    affinity: { }
+    tolerations: [ ]
+    nodeSelector: { }
+    podSecurityContext:
+      runAsNonRoot: true
+    # -- Additional volumes
+    volumes: [ ]
+    # - name: foo
+    #   secret:
+    #     secretName: mysecret
+    #     optional: false
+    # -- Additional volumeMounts
+    volumeMounts: [ ]
+    # - name: foo
+    #   mountPath: "/etc/foo"
+    #   readOnly: true
+
   # -- Config of the Azure Machine Learning model registry.
   # @default -- -
   azureml:

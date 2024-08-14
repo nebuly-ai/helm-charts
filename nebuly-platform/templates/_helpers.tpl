@@ -223,18 +223,19 @@ app.kubernetes.io/component: job-topics-clustering
 {{- printf "%s-%s" .Release.Name "actions-processing" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+
 {{/*
 *********************************************************************
-* Categories Warnings Job
+* Models Sync Job
 *********************************************************************
 */}}
-{{- define "jobCategoryWarnings.labels" -}}
+{{- define "modelsSync.labels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
-app.kubernetes.io/component: job-category-warnings
+app.kubernetes.io/component: models-sync
 {{- end }}
 
-{{- define "jobCategoryWarnings.fullname" -}}
-{{- printf "%s-%s" .Release.Name "category-warnings" | trunc 63 | trimSuffix "-" }}
+{{- define "modelsSync.fullname" -}}
+{{- printf "%s-%s" .Release.Name "models-sync" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
