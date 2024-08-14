@@ -1,3 +1,4 @@
+{{- if .Values.aiModels.sync.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -56,12 +57,27 @@ spec:
                   valueFrom:
                     secretKeyRef:
                       name: {{ (tpl .Values.aiModels.sync.source.existingSecret.name . ) | default (include "modelsSync.fullname" .) }}
-                      key: {{ .Values.aiModels.sync.source.clientId | default "azure-client-id" }}
+                      key: {{ .Values.aiModels.sync.source.clientId | default "source-azure-client-id" }}
                 - name: "SOURCE_AZURE_CLIENT_SECRET"
                   valueFrom:
                     secretKeyRef:
                       name: {{ (tpl .Values.aiModels.sync.source.existingSecret.name . ) | default (include "modelsSync.fullname" .) }}
-                      key: {{ .Values.aiModels.sync.source.clientSecret | default "azure-client-secret" }}
+                      key: {{ .Values.aiModels.sync.source.clientSecret | default "source-azure-client-secret" }}
+                # -- Target registry
+                {{- if eq .Values.aiModels.registry "azure_ml" }}
+                - name: "AZURE_TENANT_ID"
+                  value: {{ .Values.aiModels.azure.tenantId | quote }}
+                - name: "AZURE_CLIENT_ID"
+                  value: {{ .Values.aiModels.azure.managedIdentityClientId | quote }}
+                - name: "AZURE_STORAGE_ACCOUNT_NAME"
+                  value: {{ .Values.aiModels.azure.storageAccountName | quote }}
+                - name: "AZURE_STORAGE_CONTAINER_NAME"
+                  value: {{ .Values.aiModels.azure.storageContainerName | quote }}
+                {{- end }}
+                {{- if eq .Values.aiModels.registry "aws_s3" }}
+                - name: "AWS_S3_BUCKET_NAME"
+                  value: {{ .Values.aiModels.aws.bucketName | quote }}
+                {{- end }}
               resources:
                 {{- toYaml .Values.aiModels.sync.resources | nindent 18 }}
               {{- with .Values.aiModels.sync.volumeMounts }}
@@ -84,3 +100,4 @@ spec:
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
+{{- end }}

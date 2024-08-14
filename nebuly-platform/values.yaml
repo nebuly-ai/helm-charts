@@ -511,6 +511,18 @@ aiModels:
   aws:
     bucketName: ""
 
+  # -- Config of the Azure Storage model registry.
+  # @default -- -
+  azure:
+    # -- The name of the Azure Storage account.
+    storageAccountName: ""
+    # -- The name of the Azure Storage container.
+    storageContainerName: ""
+    # -- The tenant ID of the Azure account.
+    tenantId: ""
+    # -- The client ID of the Azure managed identity used to access the Azure Storage account.
+    managedIdentityClientId: ""
+
   # -- Settings for the Sync Job that pulls AI models from Nebuly's private registry
   # -- and makes them available in your platform's registry.
   # -- The Job checks if the specified model versions are available in your private

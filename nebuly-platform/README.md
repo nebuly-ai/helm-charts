@@ -155,8 +155,13 @@ The command removes all the Kubernetes components associated with the chart and 
 | actionsProcessing.modelsCache | object | `{"enabled":false,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | actionsProcessing.numHoursProcessed | int | `50` | Example: 24 -> process the last 24 hours of interactions. |
 | actionsProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| aiModels | object | `{"aws":{"bucketName":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":9},"registry":"","sync":{"affinity":{},"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.1.0"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"tolerations":[],"volumes":[]}}` | Settings of the AI models used for inference. |
+| aiModels | object | `{"aws":{"bucketName":""},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":9},"registry":"","sync":{"affinity":{},"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.1.0"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
+| aiModels.azure | object | - | Config of the Azure Storage model registry. |
+| aiModels.azure.managedIdentityClientId | string | `""` | The client ID of the Azure managed identity used to access the Azure Storage account. |
+| aiModels.azure.storageAccountName | string | `""` | The name of the Azure Storage account. |
+| aiModels.azure.storageContainerName | string | `""` | The name of the Azure Storage container. |
+| aiModels.azure.tenantId | string | `""` | The tenant ID of the Azure account. |
 | aiModels.azureml | object | - | Config of the Azure Machine Learning model registry. |
 | aiModels.azureml.clientId | string | `""` | The client ID of the Azure AD application used to access the Azure Machine Learning Workspace. |
 | aiModels.azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
@@ -166,9 +171,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | aiModels.azureml.subscriptionId | string | `""` | The subscription ID of the Azure Machine Learning Workspace. |
 | aiModels.azureml.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Machine Learning Workspace is located. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
 | aiModels.azureml.workspace | string | `""` | The name of the Azure Machine Learning Workspace. |
-| aiModels.registry | string | `""` | Available values are: "azure_ml", "aws_s3" |
-| aiModels.sync | object | - | and make them available in your registry used by the platform installation. |
+| aiModels.registry | string | `""` | Available values are: "azure_ml", "aws_s3", "azure_storage" |
+| aiModels.sync | object | - | to your registry. |
 | aiModels.sync.enabled | bool | `false` | Enable or disable the Sync Job. Default is false for compatibility reasons. |
+| aiModels.sync.schedule | string | `"0 23 * * *"` | The schedule of the job. The format is the same as the Kubernetes CronJob schedule. |
+| aiModels.sync.source | object | `{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}}` | Source Nebuly models registry. |
+| aiModels.sync.source.existingSecret | object | - | Use an existing secret for the AzureML authentication. |
+| aiModels.sync.source.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| aiModels.sync.volumeMounts | list | `[]` | Additional volumeMounts |
 | aiModels.sync.volumes | list | `[]` | Additional volumes |
 | analyticDatabase.existingSecret | object | - | Use an existing secret for the database authentication. |
 | analyticDatabase.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
