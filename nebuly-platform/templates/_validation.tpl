@@ -184,7 +184,7 @@ values: actionsProcessing.modelsCache.storageClassName
 
 {{/* AI Models validation. */}}
 {{- define "chart.validateValues.aiModels.registry" -}}
-{{- if not (contains .Values.aiModels.registry "aws_s3 azure_ml") -}}
+{{- if not (contains .Values.aiModels.registry "aws_s3 azure_ml" "azure_storage") -}}
 values: aiModels.registry
   `registry` should be one of the following values: aws_s3, azure_ml
 {{- end -}}
