@@ -40,7 +40,14 @@ spec:
             securityContext:
               {{- toYaml .Values.aiModels.sync.securityContext | nindent 16 }}
             image: "{{ .Values.aiModels.sync.image.repository }}:{{ .Values.aiModels.sync.image.tag | default .Chart.AppVersion }}"
-            command: [ "python", "jobs/process_categories.py" ]
+            command:
+              - models-sync
+              - {{ .Values.aiModels.modelEmbeddingWarnings.name }}:{{ .Values.aiModels.modelEmbeddingWarnings.version }}
+              - {{ .Values.aiModels.modelEmbeddingTopic.name }}:{{ .Values.aiModels.modelEmbeddingTopic.version }}
+              - {{ .Values.aiModels.modelEmbeddingIntents.name }}:{{ .Values.aiModels.modelEmbeddingIntents.version }}
+              - {{ .Values.aiModels.modelInferenceInteractions.name }}:{{ .Values.aiModels.modelInferenceInteractions.version }}
+              - --target-registry
+              - {{ .Values.aiModels.registry }}
             imagePullPolicy: {{ .Values.aiModels.sync.image.pullPolicy }}
             env:
               # -- Source registry
@@ -63,7 +70,7 @@ spec:
                     name: {{ (tpl .Values.aiModels.sync.source.existingSecret.name . ) | default (include "modelsSync.fullname" .) }}
                     key: {{ .Values.aiModels.sync.source.existingSecret.clientSecretKey | default "source-azure-client-secret" }}
               # -- Target registry
-              {{- if eq .Values.aiModels.registry "azure_ml" }}
+              {{- if eq .Values.aiModels.registry "azure_storage" }}
               - name: "AZURE_TENANT_ID"
                 value: {{ .Values.aiModels.azure.tenantId | quote }}
               - name: "AZURE_CLIENT_ID"
