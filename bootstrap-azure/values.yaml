@@ -6,6 +6,12 @@ nameOverride: ""
 # -- Extra annotations that will be added to all resources.
 annotations: { }
 
+# @default --
+clusterIssuer:
+  enabled: true
+  name: letsencrypt
+  email: support@nebuly.ai
+
 nvidia-device-plugin:
   enabled: true
 
@@ -20,7 +26,6 @@ ingress-nginx:
         https: https
       annotations:
         service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: "/healthz"
-
 
 cert-manager:
   enabled: true
