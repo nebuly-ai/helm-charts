@@ -46,9 +46,6 @@ spec:
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
                   - name: MODEL_PROVIDER
                     value: {{ .Values.aiModels.registry | quote }}
-                {{- if eq .Values.aiModels.registry "azure_ml" }}
-                  {{ include "aiModels.azureml.env" . | nindent 18 }}
-                {{- end }}
                 {{- if .Values.azureml.enabled }}
                   - name: AZUREML_BATCH_ENDPOINT_NAME
                     value: "{{ .Values.azureml.batchEndpoint }}"
@@ -69,8 +66,15 @@ spec:
                 {{- end }}
                   - name: PROCESS_LAST_N_HOURS
                     value: {{ .Values.actionsProcessing.numHoursProcessed | quote }}
-                  - name: "AWS_S3_BUCKET_NAME"
-                    value: {{ .Values.aiModels.aws.bucketName | quote }}
+                {{- if eq .Values.aiModels.registry  "azure_ml" }}
+                  {{ include "aiModels.azureml.env" . | nindent 18 }}
+                {{- end }}
+                {{- if eq .Values.aiModels.registry  "azure_storage" }}
+                  {{ include "aiModels.azure_storage.env" . | nindent 18 }}
+                {{- end }}
+                {{- if eq .Values.aiModels.registry  "aws_s3" }}
+                  {{ include "aiModels.aws.env" . | nindent 18 }}
+                {{- end }}
               resources:
                 {{- toYaml .Values.actionsProcessing.resources | nindent 18 }}
               volumeMounts:
