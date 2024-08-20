@@ -352,7 +352,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.fullnameOverride | string | `""` |  |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.23.8"` |  |
+| ingestionWorker.image.tag | string | `"v1.24.1"` |  |
 | ingestionWorker.intentVersion | string | `"v1"` |  |
 | ingestionWorker.lionLinguistRetryAttempts | int | `10` | lion linguist service. |
 | ingestionWorker.nodeSelector | object | `{}` |  |
@@ -433,7 +433,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | lionLinguist.fullnameOverride | string | `""` |  |
 | lionLinguist.image.pullPolicy | string | `"IfNotPresent"` |  |
 | lionLinguist.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-lion-linguist"` |  |
-| lionLinguist.image.tag | string | `"v0.3.3"` |  |
+| lionLinguist.image.tag | string | `"v0.4.3"` |  |
 | lionLinguist.maxConcurrentRequests | int | `8` | The maximum number of concurrent requests that the service will handle. |
 | lionLinguist.modelsCache | object | `{"accessModes":["ReadWriteMany","ReadWriteOnce"],"enabled":true,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | lionLinguist.nodeSelector | object | `{}` |  |
