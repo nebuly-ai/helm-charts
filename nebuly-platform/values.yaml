@@ -290,7 +290,7 @@ lionLinguist:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-lion-linguist
     pullPolicy: IfNotPresent
-    tag: "v0.3.3"
+    tag: "v0.4.3"
 
   podAnnotations: { }
   podLabels: { }
@@ -412,7 +412,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.23.8
+    tag: v1.24.0
 
   podAnnotations: { }
   podLabels: { }
@@ -614,7 +614,7 @@ actionsProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.23.8
+    tag: v1.24.0
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
