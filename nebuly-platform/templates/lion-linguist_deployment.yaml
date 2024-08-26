@@ -44,6 +44,8 @@ spec:
               containerPort: 8080
               protocol: TCP
           env:
+            - name: "PRELOADED_MODELS"
+              value: '["warning"]'
             {{- include "lionLinguist.commonEnv" . | nindent 12 }}
           readinessProbe:
             httpGet:
