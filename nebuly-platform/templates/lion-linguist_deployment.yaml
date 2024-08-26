@@ -46,6 +46,39 @@ spec:
           env:
             - name: "PRELOADED_MODELS"
               value: '["warning"]'
+            # Misc
+            - name: "ENV"
+              value: "prod"
+            - name: "SERVER_PORT"
+              value: "8080"
+            - name: "PROJECT_NAME"
+              value: "Lion Linguist"
+            - name: "DEVELOPMENT_MODE"
+              value: "false"
+            - name: "MAX_CONCURRENT_REQUESTS"
+              value: {{ .Values.lionLinguist.maxConcurrentRequests | quote }}
+            # OTEL
+            - name: OTEL_ENABLED
+              value: {{ .Values.otel.enabled | quote }}
+            - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
+              value: {{ .Values.otel.exporterOtlpTracesEndpoint | quote }}
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: {{ .Values.otel.exporterOtlpMetricsEndpoint | quote }}
+            - name: OTEL_METRICS_EXPORTER
+              value: "otlp"
+            - name: OTEL_SERVICE_NAME
+              value: "lion-linguist"
+            # Sentry
+            - name: SENTRY_ENABLED
+              value: {{ .Values.lionLinguist.sentry.enabled | quote }}
+            - name: SENTRY_ENVIRONMENT
+              value: {{ .Values.lionLinguist.sentry.environment | quote }}
+            - name: SENTRY_DSN
+              value: {{ .Values.lionLinguist.sentry.dsn | quote }}
+            - name: SENTRY_TRACES_SAMPLE_RATE
+              value: {{ .Values.lionLinguist.sentry.tracesSampleRate | quote }}
+            - name: SENTRY_PROFILES_SAMPLE_RATE
+              value: {{ .Values.lionLinguist.sentry.profilesSampleRate | quote }}
             {{- include "lionLinguist.commonEnv" . | nindent 12 }}
           readinessProbe:
             httpGet:
