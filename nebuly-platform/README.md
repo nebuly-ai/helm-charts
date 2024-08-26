@@ -352,7 +352,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.fullnameOverride | string | `""` |  |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.24.1"` |  |
+| ingestionWorker.image.tag | string | `"v1.24.5"` |  |
 | ingestionWorker.intentVersion | string | `"v1"` |  |
 | ingestionWorker.lionLinguistRetryAttempts | int | `10` | lion linguist service. |
 | ingestionWorker.nodeSelector | object | `{}` |  |
@@ -383,7 +383,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.stage4.resources.requests.memory | string | `"585Mi"` |  |
 | ingestionWorker.suggestionsGeneration | object | - | Settings related to the CronJob for generating category suggestions. |
 | ingestionWorker.suggestionsGeneration.schedule | string | `"0 */2 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| ingestionWorker.thresholds | object | `{"intentAssignmentToExistingCluster":0.87,"intentClustering":0.75,"intentMergeClusters":0.87,"subjectAssignmentToExistingCluster":0.5,"subjectClustering":0.5,"subjectMergeClusters":0.5}` | Thresholds for tuning the data-processing pipeline. |
+| ingestionWorker.thresholds | object | `{"intentAssignmentToExistingCluster":0.87,"intentClustering":0.75,"intentMergeClusters":0.87,"subjectClustering":0.3,"subjectMergeClusters":0.3}` | Thresholds for tuning the data-processing pipeline. |
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.topicsClustering | object | - | Settings related to the CronJob for clustering topics. |
 | ingestionWorker.topicsClustering.schedule | string | `"0 3 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |

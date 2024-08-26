@@ -369,9 +369,8 @@ ingestionWorker:
 
   # -- Thresholds for tuning the data-processing pipeline.
   thresholds:
-    subjectAssignmentToExistingCluster: 0.5
-    subjectClustering: 0.5
-    subjectMergeClusters: 0.5
+    subjectClustering: 0.3
+    subjectMergeClusters: 0.3
     intentAssignmentToExistingCluster: 0.87
     intentClustering: 0.75
     intentMergeClusters: 0.87
@@ -412,7 +411,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.24.1
+    tag: v1.24.5
 
   podAnnotations: { }
   podLabels: { }
@@ -614,7 +613,7 @@ actionsProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.24.1
+    tag: v1.24.5
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
