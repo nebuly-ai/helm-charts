@@ -104,7 +104,7 @@ spec:
             {{- toYaml .Values.lionLinguist.resources | nindent 12 }}
           volumeMounts:
             - name: models-cache
-              mountPath: /var/cache
+              mountPath: /var/cache/nebuly
               readOnly: false
               {{- with .Values.lionLinguist.volumeMounts }}
                 {{- toYaml . | nindent 12 }}

@@ -3,7 +3,7 @@
 - name: "MODEL_PROVIDER"
   value: {{ .Values.aiModels.registry | quote }}
 - name: MODELS_CACHE_DIR
-  value: "/var/cache"
+  value: "/var/cache/nebuly"
 - name: EMBEDDING_WARNING_MODEL_NAME
   value: {{ .Values.aiModels.modelEmbeddingWarnings.name | quote }}
 - name: EMBEDDING_WARNING_MODEL_VERSION

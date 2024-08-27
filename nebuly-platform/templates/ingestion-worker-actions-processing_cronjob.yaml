@@ -56,7 +56,7 @@ spec:
                   - name: INFERENCE_MODE
                     value: "torch"
                   - name: MODELS_CACHE_DIR
-                    value: "/var/cache"
+                    value: "/var/cache/nebuly"
                   - name: GPU_MODEL
                     value: {{ .Values.actionsProcessing.gpuModel | quote }}
                   - name: MODEL_NAME
@@ -85,7 +85,7 @@ spec:
               {{- end }}
               {{- if not .Values.azureml.enabled }}
                 - name: models-cache
-                  mountPath: /var/cache
+                  mountPath: /var/cache/nebuly
                   readOnly: false
               {{- end }}
               {{- with .Values.actionsProcessing.volumeMounts }}
