@@ -492,7 +492,7 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: 9
+    version: 12
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
@@ -1041,6 +1041,13 @@ postUpgrade:
         cpu: 100m
       limits:
         memory: 512Mi
+
+# -- Optional cert-manager cluster issuer.
+# @default --
+clusterIssuer:
+  enabled: true
+  name: letsencrypt
+  email: support@nebuly.ai
 
 strimzi:
   enabled: false

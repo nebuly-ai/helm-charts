@@ -6,11 +6,6 @@ nameOverride: ""
 # -- Extra annotations that will be added to all resources.
 annotations: { }
 
-# @default --
-clusterIssuer:
-  enabled: true
-  name: letsencrypt
-  email: support@nebuly.ai
 
 nvidia-device-plugin:
   enabled: true

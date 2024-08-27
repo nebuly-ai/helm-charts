@@ -38,9 +38,6 @@ details.
 | annotations | object | `{}` | Extra annotations that will be added to all resources. |
 | cert-manager.crds.enabled | bool | `true` |  |
 | cert-manager.enabled | bool | `true` |  |
-| clusterIssuer.email | string | `"support@nebuly.ai"` |  |
-| clusterIssuer.enabled | bool | `true` |  |
-| clusterIssuer.name | string | `"letsencrypt"` |  |
 | ingress-nginx.controller.allowSnippetAnnotations | bool | `true` |  |
 | ingress-nginx.controller.config | object | `{}` |  |
 | ingress-nginx.controller.service.annotations."service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path" | string | `"/healthz"` |  |
