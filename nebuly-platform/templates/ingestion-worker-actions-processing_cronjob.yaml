@@ -44,6 +44,7 @@ spec:
               imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
               env:
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
+                {{ include "lionLinguist.commonEnv" . | nindent 18 }}
                   - name: MODEL_PROVIDER
                     value: {{ .Values.aiModels.registry | quote }}
                 {{- if .Values.azureml.enabled }}

@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.33.2"
+    tag: "v1.34.13"
 
   podAnnotations: { }
   podLabels: { }
@@ -109,7 +109,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.34.0"
+    tag: "v1.36.9"
 
   podAnnotations: { }
   podLabels: { }
@@ -194,7 +194,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: v1.7.5
+    tag: v1.8.0
 
   podAnnotations: { }
   podLabels: { }
@@ -290,7 +290,7 @@ lionLinguist:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-lion-linguist
     pullPolicy: IfNotPresent
-    tag: "v0.4.3"
+    tag: "v0.4.9"
 
   podAnnotations: { }
   podLabels: { }

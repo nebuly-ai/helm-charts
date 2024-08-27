@@ -48,6 +48,7 @@ spec:
                   protocol: TCP
               env:
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
+                {{ include "lionLinguist.commonEnv" . | nindent 18 }}
               resources:
                 {{- toYaml .Values.ingestionWorker.topicsClustering.resources | nindent 18 }}
               {{- with .Values.ingestionWorker.volumeMounts }}

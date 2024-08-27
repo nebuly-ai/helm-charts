@@ -47,6 +47,7 @@ spec:
                   containerPort: {{ .Values.ingestionWorker.service.port }}
                   protocol: TCP
               env:
+                {{ include "lionLinguist.commonEnv" . | nindent 18 }}
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
               resources:
                 {{- toYaml .Values.ingestionWorker.suggestionsGeneration.resources | nindent 18 }}
