@@ -39,9 +39,9 @@ spec:
             - name: {{ .Chart.Name }}
               securityContext:
                 {{- toYaml .Values.ingestionWorker.securityContext | nindent 16 }}
-              image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
+              image: "{{ .Values.actionsProcessing.image.repository }}:{{ .Values.actionsProcessing.image.tag | default .Chart.AppVersion }}"
               command: [ "python", "jobs/process_suggestions.py" ]
-              imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
+              imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
               ports:
                 - name: http
                   containerPort: {{ .Values.ingestionWorker.service.port }}
