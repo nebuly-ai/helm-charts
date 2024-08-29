@@ -43,39 +43,31 @@ spec:
               command: [ "python", "jobs/process_actions.py" ]
               imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
               env:
-                {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
-                {{ include "lionLinguist.commonEnv" . | nindent 18 }}
-                  - name: MODEL_PROVIDER
-                    value: {{ .Values.aiModels.registry | quote }}
-                {{- if .Values.azureml.enabled }}
-                  - name: AZUREML_BATCH_ENDPOINT_NAME
-                    value: "{{ .Values.azureml.batchEndpoint }}"
-                  - name: AZUREML_DATASET_NAME
-                    value: "{{ .Values.azureml.datasetName }}"
-                {{- end }}
-                {{- if not .Values.azureml.enabled }}
-                  - name: INFERENCE_MODE
-                    value: "torch"
-                  - name: MODELS_CACHE_DIR
-                    value: "/var/cache/nebuly"
-                  - name: GPU_MODEL
-                    value: {{ .Values.actionsProcessing.gpuModel | quote }}
-                  - name: MODEL_NAME
-                    value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
-                  - name: MODEL_VERSION
-                    value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
-                {{- end }}
-                  - name: PROCESS_LAST_N_HOURS
-                    value: {{ .Values.actionsProcessing.numHoursProcessed | quote }}
-                {{- if eq .Values.aiModels.registry  "azure_ml" }}
-                  {{ include "aiModels.azureml.env" . | nindent 18 }}
-                {{- end }}
-                {{- if eq .Values.aiModels.registry  "azure_storage" }}
-                  {{ include "aiModels.azure_storage.env" . | nindent 18 }}
-                {{- end }}
-                {{- if eq .Values.aiModels.registry  "aws_s3" }}
-                  {{ include "aiModels.aws.env" . | nindent 18 }}
-                {{- end }}
+              {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
+              {{ include "lionLinguist.commonEnv" . | nindent 16 }}
+                - name: MODEL_PROVIDER
+                  value: {{ .Values.aiModels.registry | quote }}
+                - name: INFERENCE_MODE
+                  value: "torch"
+                - name: MODELS_CACHE_DIR
+                  value: "/var/cache/nebuly"
+                - name: GPU_MODEL
+                  value: {{ .Values.actionsProcessing.gpuModel | quote }}
+                - name: MODEL_NAME
+                  value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
+                - name: MODEL_VERSION
+                  value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
+                - name: PROCESS_LAST_N_HOURS
+                  value: {{ .Values.actionsProcessing.numHoursProcessed | quote }}
+              {{- if eq .Values.aiModels.registry  "azure_ml" }}
+                {{ include "aiModels.azureml.env" . | nindent 16 }}
+              {{- end }}
+              {{- if eq .Values.aiModels.registry  "azure_storage" }}
+                {{ include "aiModels.azure_storage.env" . | nindent 16 }}
+              {{- end }}
+              {{- if eq .Values.aiModels.registry  "aws_s3" }}
+                {{ include "aiModels.aws.env" . | nindent 16 }}
+              {{- end }}
               resources:
                 {{- toYaml .Values.actionsProcessing.resources | nindent 18 }}
               volumeMounts:
@@ -84,11 +76,9 @@ spec:
                   mountPath: "/etc/kafka"
                   readOnly: true
               {{- end }}
-              {{- if not .Values.azureml.enabled }}
                 - name: models-cache
                   mountPath: /var/cache/nebuly
                   readOnly: false
-              {{- end }}
               {{- with .Values.actionsProcessing.volumeMounts }}
                 {{- toYaml . | nindent 18 }}
               {{- end }}
@@ -103,7 +93,7 @@ spec:
               persistentVolumeClaim:
                 claimName: {{ include "ingestionWorker.fullname" . }}
           {{- else }}
-              emptyDir: {}
+              emptyDir: { }
           {{- end }}
           {{- with .Values.actionsProcessing.volumes }}
             {{- toYaml . | nindent 14 }}

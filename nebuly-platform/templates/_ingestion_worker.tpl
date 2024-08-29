@@ -75,23 +75,6 @@
   value: "http://{{ include "lionLinguist.fullname" . }}:{{ .Values.backend.service.port }}"
 - name: LION_LINGUIST_RETRY_ATTEMPTS
   value: "{{ .Values.ingestionWorker.lionLinguistRetryAttempts }}"
-{{- if .Values.azureml.enabled }}
-# AzureML
-- name: AZURE_TENANT_ID
-  value: "{{ .Values.azureml.tenantId }}"
-- name: AZURE_SUBSCRIPTION_ID
-  value: "{{ .Values.azureml.subscriptionId }}"
-- name: "AZURE_CLIENT_ID"
-  valueFrom:
-    secretKeyRef:
-      name: {{ (tpl .Values.azureml.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.azureml.existingSecret.clientIdKey | default "azure-client-id" }}
-- name: "AZURE_CLIENT_SECRET"
-  valueFrom:
-    secretKeyRef:
-      name: {{ (tpl .Values.azureml.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.azureml.existingSecret.clientSecretKey | default "azure-client-secret" }}
-{{- end}}
 # Azure OpenAI
 - name: OPENAI_PROVIDER
   value: {{ .Values.openAi.provider | quote }}

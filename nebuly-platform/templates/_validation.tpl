@@ -36,14 +36,6 @@
 {{- $messages = append $messages (include "chart.validateValues.aiModels.sync.source.clientId" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.aiModels.sync.source.clientSecret" .) -}}
 {{- end -}}
-{{/* Azure ML */}}
-{{- if .Values.azureml.enabled -}}
-{{- $messages = append $messages (include "chart.validateValues.azureml.endpoint" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.azureml.tenantId" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.azureml.subscriptionId" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.azureml.resourceGroup" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.azureml.workspace" .) -}}
-{{- end -}}
 
 {{- $messages = without $messages "" -}}
 {{- $message := join "\n" $messages -}}
@@ -219,38 +211,3 @@ values: telemetry.apiKey
 {{- end -}}
 {{- end -}}
 
-{{/* Azure ML validation. */}}
-{{- define "chart.validateValues.azureml.endpoint" -}}
-{{- if empty .Values.azureml.batchEndpoint  -}}
-values: azureml.endpoint
-  `endpoint` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{- define "chart.validateValues.azureml.tenantId" -}}
-{{- if empty .Values.azureml.tenantId  -}}
-values: azureml.tenantId
-  `tenantId` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{- define "chart.validateValues.azureml.subscriptionId" -}}
-{{- if empty .Values.azureml.subscriptionId  -}}
-values: azureml.subscriptionId
-  `subscriptionId` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{- define "chart.validateValues.azureml.resourceGroup" -}}
-{{- if empty .Values.azureml.resourceGroup  -}}
-values: azureml.resourceGroup
-  `resourceGroup` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
-
-{{- define "chart.validateValues.azureml.workspace" -}}
-{{- if empty .Values.azureml.workspace  -}}
-values: azureml.workspace
-  `workspace` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
