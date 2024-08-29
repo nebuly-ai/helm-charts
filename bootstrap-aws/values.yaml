@@ -10,6 +10,7 @@ cluster-autoscaler:
   enabled: true
   rbac:
     serviceAccount:
+      name: cluster-autoscaler
       annotations:
         # -- The ARN of the IAM role used by the autoscaler.
         eks.amazonaws.com/role-arn: ""
