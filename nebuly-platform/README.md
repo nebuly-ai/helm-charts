@@ -368,12 +368,19 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.stage4.resources.limits.memory | string | `"585Mi"` |  |
 | ingestionWorker.stage4.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage4.resources.requests.memory | string | `"585Mi"` |  |
-| ingestionWorker.suggestionsGeneration | object | - | Settings related to the CronJob for generating category suggestions. |
-| ingestionWorker.suggestionsGeneration.schedule | string | `"0 */2 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| ingestionWorker.suggestionsGeneration.affinity | object | `{}` |  |
+| ingestionWorker.suggestionsGeneration.nodeSelector | object | `{}` |  |
+| ingestionWorker.suggestionsGeneration.resources.limits."nvidia.com/gpu" | int | `1` |  |
+| ingestionWorker.suggestionsGeneration.resources.limits.memory | string | `"8Gi"` |  |
+| ingestionWorker.suggestionsGeneration.resources.requests.cpu | int | `1` |  |
+| ingestionWorker.suggestionsGeneration.schedule | string | `"0 3 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| ingestionWorker.suggestionsGeneration.tolerations[0].effect | string | `"NoSchedule"` |  |
+| ingestionWorker.suggestionsGeneration.tolerations[0].key | string | `"nvidia.com/gpu"` |  |
+| ingestionWorker.suggestionsGeneration.tolerations[0].operator | string | `"Exists"` |  |
 | ingestionWorker.thresholds | object | `{"intentAssignmentToExistingCluster":0.87,"intentClustering":0.75,"intentMergeClusters":0.87,"subjectClustering":0.3,"subjectMergeClusters":0.3}` | Thresholds for tuning the data-processing pipeline. |
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.topicsClustering | object | - | Settings related to the CronJob for clustering topics. |
-| ingestionWorker.topicsClustering.schedule | string | `"0 3 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| ingestionWorker.topicsClustering.schedule | string | `"0 1 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
 | kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |

@@ -379,23 +379,36 @@ ingestionWorker:
   # @default -- -
   topicsClustering:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
-    schedule: "0 3 * * *" # Every day at 3:00 AM
+    schedule: "0 1 * * *" # Every day at 1:00 AM
     resources:
       requests:
-        cpu: 250m
+        cpu: 1
       limits:
-        memory: 1024Mi
+        nvidia.com/gpu: 1
+        memory: 8Gi
+    tolerations:
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists
+    affinity: {}
+    nodeSelector: { }
 
-  # -- Settings related to the CronJob for generating category suggestions.
-  # @default -- -
   suggestionsGeneration:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
-    schedule: "0 */2 * * *" # every 2 hours
+    schedule: "0 3 * * *" # Every day ad 3:00 AM
     resources:
       requests:
-        cpu: 100m
+        cpu: 1
       limits:
-        memory: 600Mi
+        nvidia.com/gpu: 1
+        memory: 8Gi
+    tolerations:
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists
+    affinity: { }
+    nodeSelector: { }
+
   replicaCount: 1
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker

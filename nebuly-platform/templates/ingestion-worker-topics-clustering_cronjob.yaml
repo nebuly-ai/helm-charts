@@ -59,15 +59,15 @@ spec:
           volumes:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.nodeSelector }}
+          {{- with .Values.ingestionWorker.topicsClustering.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.affinity }}
+          {{- with .Values.ingestionWorker.topicsClustering.affinity }}
           affinity:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.tolerations }}
+          {{- with .Values.ingestionWorker.topicsClustering.tolerations }}
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
