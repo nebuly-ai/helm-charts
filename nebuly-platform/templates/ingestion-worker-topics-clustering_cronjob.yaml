@@ -51,13 +51,17 @@ spec:
                 {{ include "lionLinguist.commonEnv" . | nindent 18 }}
               resources:
                 {{- toYaml .Values.ingestionWorker.topicsClustering.resources | nindent 18 }}
-              {{- with .Values.ingestionWorker.volumeMounts }}
               volumeMounts:
-                {{- toYaml . | nindent 18 }}
+                - name: models-cache
+                  mountPath: /var/cache/nebuly
+              {{- with .Values.ingestionWorker.volumeMounts }}
+                {{- toYaml . | nindent 16 }}
               {{- end }}
-          {{- with .Values.ingestionWorker.volumes }}
           volumes:
-            {{- toYaml . | nindent 14 }}
+            - name: models-cache
+              emptyDir: {}
+          {{- with .Values.ingestionWorker.volumes }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.ingestionWorker.topicsClustering.nodeSelector }}
           nodeSelector:
