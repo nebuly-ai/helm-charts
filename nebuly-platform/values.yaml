@@ -1010,6 +1010,18 @@ auth:
       clientIdKey: ""
       clientSecretKey: ""
 
+# -- Settings for data reprocessing jobs required during
+# -- major platform upgrades.
+# -- Keep everything disabled by default unless you're upgrading the platform to a
+# -- major release.
+reprocessing:
+  actions:
+    enabled: false
+  suggestions:
+    enabled: false
+  topics:
+    enabled: false
+
 # -- Post-upgrade hooks settings.
 postUpgrade:
   # -- If True, run a post-install jop that runs a full refresh of the backend RO tables.

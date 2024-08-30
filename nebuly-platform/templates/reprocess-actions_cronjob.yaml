@@ -1,0 +1,120 @@
+{{- if .Values.reprocessing.actions.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: "reprocess-actions"
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "jobActionsProcessing.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  schedule: 0 0 29 2 1 # Never
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "jobActionsProcessing.labels" . | nindent 10 }}
+    spec:
+      backoffLimit: {{ .Values.actionsProcessing.backoffLimit }}
+      template:
+        metadata:
+          {{- with .Values.actionsProcessing.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          labels:
+            {{- include "jobActionsProcessing.labels" . | nindent 14 }}
+            {{- with .Values.actionsProcessing.podLabels }}
+            {{- toYaml . | nindent 14 }}
+            {{- end }}
+        spec:
+          serviceAccountName: {{ .Values.serviceAccount.name }}
+          restartPolicy: Never
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.actionsProcessing.podSecurityContext | nindent 12 }}
+          containers:
+            - name: {{ .Chart.Name }}
+              securityContext:
+                {{- toYaml .Values.actionsProcessing.securityContext | nindent 16 }}
+              image: "{{ .Values.actionsProcessing.image.repository }}:{{ .Values.actionsProcessing.image.tag | default .Chart.AppVersion }}"
+              command:
+                - python
+                - minkmaze
+                - reprocess
+                - actions
+                - tenant
+                - nebuly
+              imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
+              env:
+              {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
+              {{ include "lionLinguist.commonEnv" . | nindent 16 }}
+                - name: MODEL_PROVIDER
+                  value: {{ .Values.aiModels.registry | quote }}
+                - name: INFERENCE_MODE
+                  value: "torch"
+                - name: MODELS_CACHE_DIR
+                  value: "/var/cache/nebuly"
+                - name: GPU_MODEL
+                  value: {{ .Values.actionsProcessing.gpuModel | quote }}
+                - name: MODEL_NAME
+                  value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
+                - name: MODEL_VERSION
+                  value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
+                - name: PROCESS_LAST_N_HOURS
+                  value: {{ .Values.actionsProcessing.numHoursProcessed | quote }}
+              {{- if eq .Values.aiModels.registry  "azure_ml" }}
+                {{ include "aiModels.azureml.env" . | nindent 16 }}
+              {{- end }}
+              {{- if eq .Values.aiModels.registry  "azure_storage" }}
+                {{ include "aiModels.azure_storage.env" . | nindent 16 }}
+              {{- end }}
+              {{- if eq .Values.aiModels.registry  "aws_s3" }}
+                {{ include "aiModels.aws.env" . | nindent 16 }}
+              {{- end }}
+              resources:
+                {{- toYaml .Values.actionsProcessing.resources | nindent 18 }}
+              volumeMounts:
+              {{- if not .Values.kafka.external }}
+                - name: kafka-cluster-ca-cert
+                  mountPath: "/etc/kafka"
+                  readOnly: true
+              {{- end }}
+                - name: models-cache
+                  mountPath: /var/cache/nebuly
+                  readOnly: false
+              {{- with .Values.actionsProcessing.volumeMounts }}
+                {{- toYaml . | nindent 18 }}
+              {{- end }}
+          volumes:
+          {{- if not .Values.kafka.external }}
+            - name: kafka-cluster-ca-cert
+              secret:
+                secretName: {{ include "kafka.fullname" . }}-cluster-ca-cert
+          {{- end }}
+            - name: models-cache
+          {{- if .Values.actionsProcessing.modelsCache.enabled }}
+              persistentVolumeClaim:
+                claimName: {{ include "ingestionWorker.fullname" . }}
+          {{- else }}
+              emptyDir: { }
+          {{- end }}
+          {{- with .Values.actionsProcessing.volumes }}
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.actionsProcessing.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.actionsProcessing.affinity }}
+          affinity:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.actionsProcessing.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+{{- end }}
