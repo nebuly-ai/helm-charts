@@ -37,6 +37,7 @@ details.
 | annotations | object | `{}` | Extra annotations that will be added to all resources. |
 | cluster-autoscaler.enabled | bool | `true` |  |
 | cluster-autoscaler.rbac.serviceAccount.annotations."eks.amazonaws.com/role-arn" | string | `""` | The ARN of the IAM role used by the autoscaler. |
+| cluster-autoscaler.rbac.serviceAccount.name | string | `"cluster-autoscaler"` |  |
 | ingress-nginx.controller.allowSnippetAnnotations | bool | `true` |  |
 | ingress-nginx.controller.config | object | `{}` |  |
 | ingress-nginx.controller.service.annotations | object | `{}` |  |
