@@ -87,6 +87,15 @@
   value: "false"
 - name: OPENAPI_URL_ENABLED
   value: "false"
+# Temporary - TODO: to remove after backend cleanup
+- name: LLM_PROVIDER
+  value: "openai"
+- name: OPENAI_API_KEY
+  value: ""
+- name: OPENAI_ORGANIZATION
+  value: ""
+- name: AZURE_OPENAI_DEPLOYMENT_TRANSLATION
+  value: ""
 {{- if .Values.backend.rootPath }}
 - name: ROOT_PATH
   value: "{{ .Values.backend.rootPath }}"

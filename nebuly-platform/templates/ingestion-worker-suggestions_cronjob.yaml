@@ -39,34 +39,39 @@ spec:
             - name: {{ .Chart.Name }}
               securityContext:
                 {{- toYaml .Values.ingestionWorker.securityContext | nindent 16 }}
-              image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
+              image: "{{ .Values.actionsProcessing.image.repository }}:{{ .Values.actionsProcessing.image.tag | default .Chart.AppVersion }}"
               command: [ "python", "jobs/process_suggestions.py" ]
-              imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
+              imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
               ports:
                 - name: http
                   containerPort: {{ .Values.ingestionWorker.service.port }}
                   protocol: TCP
               env:
+                {{ include "lionLinguist.commonEnv" . | nindent 18 }}
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
               resources:
                 {{- toYaml .Values.ingestionWorker.suggestionsGeneration.resources | nindent 18 }}
-              {{- with .Values.ingestionWorker.volumeMounts }}
               volumeMounts:
-                {{- toYaml . | nindent 18 }}
+                - name: models-cache
+                  mountPath: /var/cache/nebuly
+              {{- with .Values.ingestionWorker.volumeMounts }}
+                {{- toYaml . | nindent 16 }}
               {{- end }}
-          {{- with .Values.ingestionWorker.volumes }}
           volumes:
-            {{- toYaml . | nindent 14 }}
+            - name: models-cache
+              emptyDir: { }
+          {{- with .Values.ingestionWorker.volumes }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.nodeSelector }}
+          {{- with .Values.ingestionWorker.suggestionsGeneration.nodeSelector }}
           nodeSelector:
-            {{- toYaml . | nindent 14 }}
+            {{- toYaml . | nindent 15 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.affinity }}
+          {{- with .Values.ingestionWorker.suggestionsGeneration.affinity }}
           affinity:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.tolerations }}
+          {{- with .Values.ingestionWorker.suggestionsGeneration.tolerations }}
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}

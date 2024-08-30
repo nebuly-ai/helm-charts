@@ -1,14 +1,15 @@
+{{- if .Values.reprocessing.topics.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobTopicsClustering.fullname" . }}
+  name: reprocess-topics
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
     {{- include "jobTopicsClustering.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.ingestionWorker.topicsClustering.schedule | quote }}
+  schedule: 0 0 29 2 1 # Never
   jobTemplate:
     metadata:
       labels:
@@ -40,7 +41,12 @@ spec:
               securityContext:
                 {{- toYaml .Values.ingestionWorker.securityContext | nindent 16 }}
               image: "{{ .Values.actionsProcessing.image.repository }}:{{ .Values.actionsProcessing.image.tag | default .Chart.AppVersion }}"
-              command: [ "python", "jobs/process_categories.py" ]
+              command:
+                - python
+                - minkmaze
+                - reprocess
+                - intents
+                - all
               imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
               ports:
                 - name: http
@@ -75,3 +81,4 @@ spec:
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
+{{- end }}

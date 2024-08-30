@@ -1,18 +1,19 @@
+{{- if .Values.reprocessing.suggestions.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobTopicsClustering.fullname" . }}
+  name: "reprocess-suggestions"
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{- include "jobTopicsClustering.labels" . | nindent 4 }}
+    {{- include "jobSuggestions.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.ingestionWorker.topicsClustering.schedule | quote }}
+  schedule: 0 0 29 2 1 # Never
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobTopicsClustering.labels" . | nindent 10 }}
+        {{- include "jobSuggestions.labels" . | nindent 10 }}
     spec:
       backoffLimit: 0
       template:
@@ -22,7 +23,7 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobTopicsClustering.labels" . | nindent 14 }}
+            {{- include "jobSuggestions.labels" . | nindent 14 }}
             {{- with .Values.ingestionWorker.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
@@ -40,17 +41,22 @@ spec:
               securityContext:
                 {{- toYaml .Values.ingestionWorker.securityContext | nindent 16 }}
               image: "{{ .Values.actionsProcessing.image.repository }}:{{ .Values.actionsProcessing.image.tag | default .Chart.AppVersion }}"
-              command: [ "python", "jobs/process_categories.py" ]
+              command:
+                - python
+                - minkmaze
+                - reprocess
+                - suggestions
+                - all
               imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
               ports:
                 - name: http
                   containerPort: {{ .Values.ingestionWorker.service.port }}
                   protocol: TCP
               env:
-                {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
                 {{ include "lionLinguist.commonEnv" . | nindent 18 }}
+                {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
               resources:
-                {{- toYaml .Values.ingestionWorker.topicsClustering.resources | nindent 18 }}
+                {{- toYaml .Values.ingestionWorker.suggestionsGeneration.resources | nindent 18 }}
               volumeMounts:
                 - name: models-cache
                   mountPath: /var/cache/nebuly
@@ -59,19 +65,21 @@ spec:
               {{- end }}
           volumes:
             - name: models-cache
-              emptyDir: {}
+              emptyDir: { }
           {{- with .Values.ingestionWorker.volumes }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.topicsClustering.nodeSelector }}
+          {{- with .Values.ingestionWorker.suggestionsGeneration.nodeSelector }}
           nodeSelector:
-            {{- toYaml . | nindent 14 }}
+            {{- toYaml . | nindent 15 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.topicsClustering.affinity }}
+          {{- with .Values.ingestionWorker.suggestionsGeneration.affinity }}
           affinity:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.topicsClustering.tolerations }}
+          {{- with .Values.ingestionWorker.suggestionsGeneration.tolerations }}
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
+
+{{- end }}

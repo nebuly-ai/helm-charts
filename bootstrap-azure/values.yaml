@@ -6,6 +6,7 @@ nameOverride: ""
 # -- Extra annotations that will be added to all resources.
 annotations: { }
 
+
 nvidia-device-plugin:
   enabled: true
 
@@ -18,5 +19,10 @@ ingress-nginx:
       targetPorts:
         http: http
         https: https
-      annotations: {}
+      annotations:
+        service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: "/healthz"
 
+cert-manager:
+  enabled: true
+  crds:
+    enabled: true

@@ -17,3 +17,12 @@ dependencies:
     version: ~4.10
     condition: ingress-nginx.enabled
     repository: https://kubernetes.github.io/ingress-nginx
+  - name: cert-manager
+    version: ~v1.15.2
+    repository: https://charts.jetstack.io
+    alias: cert-manager
+  - name: nvidia-device-plugin
+    version: ~0.15.0
+    alias: nvidia-device-plugin
+    repository: https://nvidia.github.io/k8s-device-plugin
+    condition: nvidia-device-plugin.enabled

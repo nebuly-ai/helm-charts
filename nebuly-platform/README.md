@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.10.0](https://img.shields.io/badge/Version-1.10.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.11.0](https://img.shields.io/badge/Version-1.11.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -155,8 +155,13 @@ The command removes all the Kubernetes components associated with the chart and 
 | actionsProcessing.modelsCache | object | `{"enabled":false,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | actionsProcessing.numHoursProcessed | int | `50` | Example: 24 -> process the last 24 hours of interactions. |
 | actionsProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| aiModels | object | `{"aws":{"bucketName":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":9},"registry":""}` | Settings of the AI models used for inference. |
+| aiModels | object | `{"aws":{"bucketName":""},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":12},"registry":"","sync":{"affinity":{},"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.1.0"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
+| aiModels.azure | object | - | Config of the Azure Storage model registry. |
+| aiModels.azure.managedIdentityClientId | string | `""` | The client ID of the Azure managed identity used to access the Azure Storage account. |
+| aiModels.azure.storageAccountName | string | `""` | The name of the Azure Storage account. |
+| aiModels.azure.storageContainerName | string | `""` | The name of the Azure Storage container. |
+| aiModels.azure.tenantId | string | `""` | The tenant ID of the Azure account. |
 | aiModels.azureml | object | - | Config of the Azure Machine Learning model registry. |
 | aiModels.azureml.clientId | string | `""` | The client ID of the Azure AD application used to access the Azure Machine Learning Workspace. |
 | aiModels.azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
@@ -166,7 +171,15 @@ The command removes all the Kubernetes components associated with the chart and 
 | aiModels.azureml.subscriptionId | string | `""` | The subscription ID of the Azure Machine Learning Workspace. |
 | aiModels.azureml.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Machine Learning Workspace is located. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
 | aiModels.azureml.workspace | string | `""` | The name of the Azure Machine Learning Workspace. |
-| aiModels.registry | string | `""` | Available values are: "azure_ml", "aws_s3" |
+| aiModels.registry | string | `""` | Available values are: "azure_ml", "aws_s3", "azure_storage" |
+| aiModels.sync | object | - | to your registry. |
+| aiModels.sync.enabled | bool | `false` | Enable or disable the Sync Job. Default is false for compatibility reasons. |
+| aiModels.sync.schedule | string | `"0 23 * * *"` | The schedule of the job. The format is the same as the Kubernetes CronJob schedule. |
+| aiModels.sync.source | object | `{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}}` | Source Nebuly models registry. |
+| aiModels.sync.source.existingSecret | object | - | Use an existing secret for the AzureML authentication. |
+| aiModels.sync.source.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| aiModels.sync.volumeMounts | list | `[]` | Additional volumeMounts |
+| aiModels.sync.volumes | list | `[]` | Additional volumes |
 | analyticDatabase.existingSecret | object | - | Use an existing secret for the database authentication. |
 | analyticDatabase.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | analyticDatabase.name | string | `"analytics"` | The name of the database used to store analytic data (interactions, actions, etc.). To be provided only when not using an existing secret (see analyticDatabase.existingSecret value below). |
@@ -183,7 +196,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.fullnameOverride | string | `""` |  |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.6.7"` |  |
+| auth.image.tag | string | `"v1.6.10"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.loginModes | string | `"password"` | as a comma-separated list. Possible values are: `password`, `microsoft`. |
@@ -219,23 +232,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.tolerations | list | `[]` |  |
 | auth.volumeMounts | list | `[]` |  |
 | auth.volumes | list | `[]` |  |
-| azureml | object | - | [Deprecated] Optional configuration for the Azure Machine Learning integration. If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to process the collected data. |
-| azureml.batchEndpoint | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
-| azureml.clientId | string | `""` | The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
-| azureml.clientSecret | string | `""` | The client secret of the Azure AD application used to access the Azure Machine Learning Workspace. |
-| azureml.datasetName | string | `"nebuly-batch-endpoint"` | The name of the Azure Machine Learning Dataset used to upload the data to process. |
-| azureml.enabled | bool | `true` | If true, enable the Azure Machine Learning integration. |
-| azureml.existingSecret | object | - | Use an existing secret for the AzureML authentication. |
-| azureml.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| azureml.resourceGroup | string | `""` | The name of the Azure resource group containing the Azure Machine Learning Workspace. |
-| azureml.subscriptionId | string | `""` | The subscription ID of the Azure Machine Learning Workspace. |
-| azureml.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Machine Learning Workspace is located. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
-| azureml.workspace | string | `""` | The name of the Azure Machine Learning Workspace used to process the collected data. |
 | backend.affinity | object | `{}` |  |
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.33.2"` |  |
+| backend.image.tag | string | `"v1.34.15"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -265,11 +266,12 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.volumes | list | `[]` |  |
 | bootstrap-aws | object | `{"enabled":false}` | - an EKS cluster on AWS. |
 | bootstrap-azure | object | `{"enabled":false}` | - an AKS cluster on Microsoft Azure. |
+| clusterIssuer | object | `{"email":"support@nebuly.ai","enabled":false,"name":"letsencrypt"}` | Optional cert-manager cluster issuer. @default -- |
 | eventIngestion.affinity | object | `{}` |  |
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
 | eventIngestion.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-event-ingestion"` |  |
-| eventIngestion.image.tag | string | `"v1.7.5"` |  |
+| eventIngestion.image.tag | string | `"v1.8.0"` |  |
 | eventIngestion.ingress.annotations | object | `{}` |  |
 | eventIngestion.ingress.className | string | `""` |  |
 | eventIngestion.ingress.enabled | bool | `false` |  |
@@ -303,7 +305,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.34.0"` |  |
+| frontend.image.tag | string | `"v1.36.13"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -334,12 +336,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.volumes | list | `[]` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingestionWorker.affinity | object | `{}` |  |
-| ingestionWorker.categoriesWarningsGeneration | object | - | Settings related to the CronJob for generating warnings for custom categories. |
-| ingestionWorker.categoriesWarningsGeneration.schedule | string | `"0 * * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.fullnameOverride | string | `""` |  |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.23.8"` |  |
+| ingestionWorker.image.tag | string | `"v1.25.6"` |  |
 | ingestionWorker.intentVersion | string | `"v1"` |  |
 | ingestionWorker.lionLinguistRetryAttempts | int | `10` | lion linguist service. |
 | ingestionWorker.nodeSelector | object | `{}` |  |
@@ -368,12 +368,19 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.stage4.resources.limits.memory | string | `"585Mi"` |  |
 | ingestionWorker.stage4.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage4.resources.requests.memory | string | `"585Mi"` |  |
-| ingestionWorker.suggestionsGeneration | object | - | Settings related to the CronJob for generating category suggestions. |
-| ingestionWorker.suggestionsGeneration.schedule | string | `"0 */2 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| ingestionWorker.thresholds | object | `{"intentAssignmentToExistingCluster":0.87,"intentClustering":0.75,"intentMergeClusters":0.87,"subjectAssignmentToExistingCluster":0.5,"subjectClustering":0.5,"subjectMergeClusters":0.5}` | Thresholds for tuning the data-processing pipeline. |
+| ingestionWorker.suggestionsGeneration.affinity | object | `{}` |  |
+| ingestionWorker.suggestionsGeneration.nodeSelector | object | `{}` |  |
+| ingestionWorker.suggestionsGeneration.resources.limits."nvidia.com/gpu" | int | `1` |  |
+| ingestionWorker.suggestionsGeneration.resources.limits.memory | string | `"8Gi"` |  |
+| ingestionWorker.suggestionsGeneration.resources.requests.cpu | int | `1` |  |
+| ingestionWorker.suggestionsGeneration.schedule | string | `"0 3 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| ingestionWorker.suggestionsGeneration.tolerations[0].effect | string | `"NoSchedule"` |  |
+| ingestionWorker.suggestionsGeneration.tolerations[0].key | string | `"nvidia.com/gpu"` |  |
+| ingestionWorker.suggestionsGeneration.tolerations[0].operator | string | `"Exists"` |  |
+| ingestionWorker.thresholds | object | `{"intentAssignmentToExistingCluster":0.87,"intentClustering":0.75,"intentMergeClusters":0.87,"subjectClustering":0.3,"subjectMergeClusters":0.3}` | Thresholds for tuning the data-processing pipeline. |
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.topicsClustering | object | - | Settings related to the CronJob for clustering topics. |
-| ingestionWorker.topicsClustering.schedule | string | `"0 3 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| ingestionWorker.topicsClustering.schedule | string | `"0 1 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
 | kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
@@ -420,7 +427,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | lionLinguist.fullnameOverride | string | `""` |  |
 | lionLinguist.image.pullPolicy | string | `"IfNotPresent"` |  |
 | lionLinguist.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-lion-linguist"` |  |
-| lionLinguist.image.tag | string | `"v0.3.3"` |  |
+| lionLinguist.image.tag | string | `"v0.4.9"` |  |
 | lionLinguist.maxConcurrentRequests | int | `8` | The maximum number of concurrent requests that the service will handle. |
 | lionLinguist.modelsCache | object | `{"accessModes":["ReadWriteMany","ReadWriteOnce"],"enabled":true,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | lionLinguist.nodeSelector | object | `{}` |  |
@@ -429,7 +436,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | lionLinguist.podSecurityContext.fsGroup | int | `101` |  |
 | lionLinguist.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | lionLinguist.replicaCount | int | `1` |  |
-| lionLinguist.resources.limits.memory | string | `"8Gi"` |  |
+| lionLinguist.resources.limits.memory | string | `"6Gi"` |  |
 | lionLinguist.resources.requests.cpu | string | `"1000m"` |  |
 | lionLinguist.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | lionLinguist.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -460,6 +467,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
 | postUpgrade | object | `{"refreshRoTables":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}}` | Post-upgrade hooks settings. |
 | postUpgrade.refreshRoTables | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}` | If True, run a post-install jop that runs a full refresh of the backend RO tables. |
+| reprocessing | object | `{"actions":{"enabled":false},"suggestions":{"enabled":false},"topics":{"enabled":false}}` | major release. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.existingSecret | object | - | Use an existing secret for the Azure Key Vault authentication. |

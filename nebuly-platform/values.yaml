@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.33.2"
+    tag: "v1.34.15"
 
   podAnnotations: { }
   podLabels: { }
@@ -109,7 +109,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.34.0"
+    tag: "v1.36.13"
 
   podAnnotations: { }
   podLabels: { }
@@ -194,7 +194,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: v1.7.5
+    tag: v1.8.0
 
   podAnnotations: { }
   podLabels: { }
@@ -290,7 +290,7 @@ lionLinguist:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-lion-linguist
     pullPolicy: IfNotPresent
-    tag: "v0.3.3"
+    tag: "v0.4.9"
 
   podAnnotations: { }
   podLabels: { }
@@ -329,7 +329,7 @@ lionLinguist:
     requests:
       cpu: 1000m
     limits:
-      memory: 8Gi
+      memory: 6Gi
   nodeSelector: { }
 
   tolerations:
@@ -369,9 +369,8 @@ ingestionWorker:
 
   # -- Thresholds for tuning the data-processing pipeline.
   thresholds:
-    subjectAssignmentToExistingCluster: 0.5
-    subjectClustering: 0.5
-    subjectMergeClusters: 0.5
+    subjectClustering: 0.3
+    subjectMergeClusters: 0.3
     intentAssignmentToExistingCluster: 0.87
     intentClustering: 0.75
     intentMergeClusters: 0.87
@@ -380,39 +379,41 @@ ingestionWorker:
   # @default -- -
   topicsClustering:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
-    schedule: "0 3 * * *" # Every day at 3:00 AM
+    schedule: "0 1 * * *" # Every day at 1:00 AM
     resources:
       requests:
-        cpu: 250m
+        cpu: 1
       limits:
-        memory: 1024Mi
+        nvidia.com/gpu: 1
+        memory: 8Gi
+    tolerations:
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists
+    affinity: {}
+    nodeSelector: { }
 
-  # -- Settings related to the CronJob for generating warnings for custom categories.
-  # @default -- -
-  categoriesWarningsGeneration:
-    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
-    schedule: "0 * * * *" # Every hour
-    resources:
-      requests:
-        cpu: 100m
-      limits:
-        memory: 400Mi
-
-  # -- Settings related to the CronJob for generating category suggestions.
-  # @default -- -
   suggestionsGeneration:
     # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
-    schedule: "0 */2 * * *" # every 2 hours
+    schedule: "0 3 * * *" # Every day ad 3:00 AM
     resources:
       requests:
-        cpu: 100m
+        cpu: 1
       limits:
-        memory: 600Mi
+        nvidia.com/gpu: 1
+        memory: 8Gi
+    tolerations:
+      - effect: NoSchedule
+        key: nvidia.com/gpu
+        operator: Exists
+    affinity: { }
+    nodeSelector: { }
+
   replicaCount: 1
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.23.8
+    tag: v1.25.6
 
   podAnnotations: { }
   podLabels: { }
@@ -487,7 +488,7 @@ ingestionWorker:
 # -- Settings of the AI models used for inference.
 aiModels:
   # -- The kind of registry used to store the AI models.
-  # -- Available values are: "azure_ml", "aws_s3"
+  # -- Available values are: "azure_ml", "aws_s3", "azure_storage"
   registry: ""
 
   modelEmbeddingWarnings:
@@ -504,12 +505,80 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: 9
+    version: 12
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
   aws:
     bucketName: ""
+
+  # -- Config of the Azure Storage model registry.
+  # @default -- -
+  azure:
+    # -- The name of the Azure Storage account.
+    storageAccountName: ""
+    # -- The name of the Azure Storage container.
+    storageContainerName: ""
+    # -- The tenant ID of the Azure account.
+    tenantId: ""
+    # -- The client ID of the Azure managed identity used to access the Azure Storage account.
+    managedIdentityClientId: ""
+
+  # -- Settings for the Sync Job that pulls AI models from Nebuly's private registry
+  # -- and makes them available in your platform's registry.
+  # -- The Job checks if the specified model versions are available in your private
+  # -- registry. If not, it pulls them from Nebuly's registry and pushes them
+  # -- to your registry.
+  # @default -- -
+  sync:
+    # -- Enable or disable the Sync Job. Default is false for compatibility reasons.
+    enabled: false
+    # -- The schedule of the job. The format is the same as the Kubernetes CronJob schedule.
+    schedule: "0 23 * * *" # Every day at 11:00 PM
+    # -- Source Nebuly models registry.
+    source:
+      clientId: ""
+      clientSecret: ""
+      # -- Use an existing secret for the AzureML authentication.
+      # @default -- -
+      existingSecret:
+        # -- Name of the secret. Can be templated.
+        name: ""
+        clientIdKey: ""
+        clientSecretKey: ""
+    image:
+      repository: ghcr.io/nebuly-ai/nebuly-models-sync
+      pullPolicy: IfNotPresent
+      tag: v0.1.0
+    resources:
+      requests:
+        memory: 4Gi
+      limits:
+        memory: 8Gi
+    securityContext:
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - "ALL"
+    podAnnotations: { }
+    podLabels: { }
+    affinity: { }
+    tolerations: [ ]
+    nodeSelector: { }
+    podSecurityContext:
+      runAsNonRoot: true
+    # -- Additional volumes
+    volumes: [ ]
+    # - name: foo
+    #   secret:
+    #     secretName: mysecret
+    #     optional: false
+    # -- Additional volumeMounts
+    volumeMounts: [ ]
+    # - name: foo
+    #   mountPath: "/etc/foo"
+    #   readOnly: true
 
   # -- Config of the Azure Machine Learning model registry.
   # @default -- -
@@ -546,7 +615,7 @@ actionsProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.23.8
+    tag: v1.25.6
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -623,40 +692,6 @@ secretsStore:
       name: ""
       clientIdKey: ""
       clientSecretKey: ""
-
-# -- [Deprecated] Optional configuration for the Azure Machine Learning integration.
-# If enabled, a Batch Endpoint on the specified Azure Machine Learning Workspace will be used to
-# process the collected data.
-# @default -- -
-azureml:
-  # -- If true, enable the Azure Machine Learning integration.
-  enabled: true
-  # -- The client ID (e.g. Application ID) of the Azure AD application used to access the Azure Machine Learning Workspace.
-  # To be provided only when not using an existing secret (see azureml.existingSecret value below).
-  clientId: ""
-  # -- The client secret of the Azure AD application used to access the Azure Machine Learning Workspace.
-  clientSecret: ""
-  # -- The ID of the Azure Tenant where the Azure Machine Learning Workspace is located.
-  # To be provided only when not using an existing secret (see azureml.existingSecret value below).
-  tenantId: ""
-  # -- The subscription ID of the Azure Machine Learning Workspace.
-  subscriptionId: ""
-  # -- The name of the Azure resource group containing the Azure Machine Learning Workspace.
-  resourceGroup: ""
-  # -- The name of the Azure Machine Learning Workspace used to process the collected data.
-  workspace: ""
-  # -- The name of the Azure Machine Learning Workspace used to process the collected data.
-  batchEndpoint: ""
-  # -- The name of the Azure Machine Learning Dataset used to upload the data to process.
-  datasetName: "nebuly-batch-endpoint"
-
-  # -- Use an existing secret for the AzureML authentication.
-  # @default -- -
-  existingSecret:
-    # -- Name of the secret. Can be templated.
-    name: ""
-    clientIdKey: ""
-    clientSecretKey: ""
 
 # -- Optional configuration for the Azure OpenAI integration.
 # If enabled, the specified models on the OpenAI resource will be used to
@@ -901,7 +936,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.6.7"
+    tag: "v1.6.10"
 
   podAnnotations: { }
   podLabels: { }
@@ -975,6 +1010,18 @@ auth:
       clientIdKey: ""
       clientSecretKey: ""
 
+# -- Settings for data reprocessing jobs required during
+# -- major platform upgrades.
+# -- Keep everything disabled by default unless you're upgrading the platform to a
+# -- major release.
+reprocessing:
+  actions:
+    enabled: false
+  suggestions:
+    enabled: false
+  topics:
+    enabled: false
+
 # -- Post-upgrade hooks settings.
 postUpgrade:
   # -- If True, run a post-install jop that runs a full refresh of the backend RO tables.
@@ -985,6 +1032,13 @@ postUpgrade:
         cpu: 100m
       limits:
         memory: 512Mi
+
+# -- Optional cert-manager cluster issuer.
+# @default --
+clusterIssuer:
+  enabled: false
+  name: letsencrypt
+  email: support@nebuly.ai
 
 strimzi:
   enabled: false

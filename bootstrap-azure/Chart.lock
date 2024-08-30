@@ -2,5 +2,11 @@ dependencies:
 - name: ingress-nginx
   repository: https://kubernetes.github.io/ingress-nginx
   version: 4.10.3
-digest: sha256:5e35a429deeee1e618684684a85cb275476d0a0f7408dc1ef36b079c7546a0d7
-generated: "2024-08-12T15:21:46.592521+02:00"
+- name: cert-manager
+  repository: https://charts.jetstack.io
+  version: v1.15.2
+- name: nvidia-device-plugin
+  repository: https://nvidia.github.io/k8s-device-plugin
+  version: 0.15.1
+digest: sha256:b775c9e4d56e89da1f4b4a94e6f6e2ec2f9ff54bd02d63d1731778cbf21f0093
+generated: "2024-08-14T17:01:40.443798+02:00"

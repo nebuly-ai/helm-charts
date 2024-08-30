@@ -1,14 +1,15 @@
+{{- if .Values.reprocessing.actions.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobActionsProcessing.fullname" . }}
+  name: "reprocess-actions"
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
     {{- include "jobActionsProcessing.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.actionsProcessing.schedule | quote }}
+  schedule: 0 0 29 2 1 # Never
   jobTemplate:
     metadata:
       labels:
@@ -40,7 +41,13 @@ spec:
               securityContext:
                 {{- toYaml .Values.actionsProcessing.securityContext | nindent 16 }}
               image: "{{ .Values.actionsProcessing.image.repository }}:{{ .Values.actionsProcessing.image.tag | default .Chart.AppVersion }}"
-              command: [ "python", "jobs/process_actions.py" ]
+              command:
+                - python
+                - minkmaze
+                - reprocess
+                - actions
+                - tenant
+                - nebuly
               imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
               env:
               {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
@@ -110,3 +117,4 @@ spec:
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
+{{- end }}

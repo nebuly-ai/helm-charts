@@ -10,7 +10,9 @@ Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependenci
 
 | Repository | Name | Version |
 |------------|------|---------|
+| https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.15.2 |
 | https://kubernetes.github.io/ingress-nginx | ingress-nginx | ~4.10 |
+| https://nvidia.github.io/k8s-device-plugin | nvidia-device-plugin(nvidia-device-plugin) | ~0.15.0 |
 
 ## Installation
 
@@ -34,9 +36,11 @@ details.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | annotations | object | `{}` | Extra annotations that will be added to all resources. |
+| cert-manager.crds.enabled | bool | `true` |  |
+| cert-manager.enabled | bool | `true` |  |
 | ingress-nginx.controller.allowSnippetAnnotations | bool | `true` |  |
 | ingress-nginx.controller.config | object | `{}` |  |
-| ingress-nginx.controller.service.annotations | object | `{}` |  |
+| ingress-nginx.controller.service.annotations."service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path" | string | `"/healthz"` |  |
 | ingress-nginx.controller.service.targetPorts.http | string | `"http"` |  |
 | ingress-nginx.controller.service.targetPorts.https | string | `"https"` |  |
 | ingress-nginx.enabled | bool | `true` |  |

@@ -75,23 +75,6 @@
   value: "http://{{ include "lionLinguist.fullname" . }}:{{ .Values.backend.service.port }}"
 - name: LION_LINGUIST_RETRY_ATTEMPTS
   value: "{{ .Values.ingestionWorker.lionLinguistRetryAttempts }}"
-{{- if .Values.azureml.enabled }}
-# AzureML
-- name: AZURE_TENANT_ID
-  value: "{{ .Values.azureml.tenantId }}"
-- name: AZURE_SUBSCRIPTION_ID
-  value: "{{ .Values.azureml.subscriptionId }}"
-- name: "AZURE_CLIENT_ID"
-  valueFrom:
-    secretKeyRef:
-      name: {{ (tpl .Values.azureml.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.azureml.existingSecret.clientIdKey | default "azure-client-id" }}
-- name: "AZURE_CLIENT_SECRET"
-  valueFrom:
-    secretKeyRef:
-      name: {{ (tpl .Values.azureml.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.azureml.existingSecret.clientSecretKey | default "azure-client-secret" }}
-{{- end}}
 # Azure OpenAI
 - name: OPENAI_PROVIDER
   value: {{ .Values.openAi.provider | quote }}
@@ -107,8 +90,6 @@
       name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
       key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
 # Thresholds
-- name: THRESHOLD_SUBJECT_ASSIGNMENT_TO_EXISTING_CLUSTER
-  value: {{ .Values.ingestionWorker.thresholds.subjectAssignmentToExistingCluster | quote }}
 - name: THRESHOLD_SUBJECT_CLUSTERING
   value: {{ .Values.ingestionWorker.thresholds.subjectClustering | quote }}
 - name: THRESHOLD_SUBJECT_MERGE_CLUSTERS
@@ -120,16 +101,8 @@
 - name: THRESHOLD_INTENT_MERGE_CLUSTERS
   value: {{ .Values.ingestionWorker.thresholds.intentMergeClusters | quote }}
 
-- name: SUGGESTION_PROCESSOR
-  value: "v2"
 - name: INTENT_BATCH_SIZE
   value: "5000"
-- name: SUBJECT_BATCH_SIZE
-  value: "5000"
-- name: THRESHOLD_CLUSTERING
-  value: "0.87"
-- name: THRESHOLD_MERGE_CLUSTERS
-  value: "0.87"
 - name: THRESHOLD_CLUSTERING_V2
   value: "0.3"
 - name: THRESHOLD_MERGE_CLUSTERS_V2

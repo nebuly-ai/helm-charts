@@ -18,3 +18,17 @@
       name: {{ (tpl .Values.aiModels.azureml.existingSecret.name . ) | default (include "lionLinguist.fullname" .) }}
       key: {{ .Values.aiModels.azureml.existingSecret.clientSecretKey | default "azure-client-secret" }}
 {{- end -}}
+{{- define "aiModels.azure_storage.env" -}}
+- name: AZURE_STORAGE_ACCOUNT_NAME
+  value: "{{ .Values.aiModels.azure.storageAccountName }}"
+- name: AZURE_STORAGE_CONTAINER_NAME
+  value: "{{ .Values.aiModels.azure.storageContainerName }}"
+- name: "AZURE_TENANT_ID"
+  value: {{ .Values.aiModels.azure.tenantId | quote }}
+- name: "AZURE_CLIENT_ID"
+  value: {{ .Values.aiModels.azure.managedIdentityClientId | quote }}
+{{- end -}}
+{{- define "aiModels.aws.env" -}}
+- name: "AWS_S3_BUCKET_NAME"
+  value: {{ .Values.aiModels.aws.bucketName | quote }}
+{{- end -}}
