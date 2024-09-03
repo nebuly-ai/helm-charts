@@ -1,0 +1,30 @@
+name: "[nebuly-platform] Release"
+
+on:
+  push:
+    tags:
+      - "bootstrap-aws-v[0-9]+.[0-9]+.[0-9]+"
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  PushCharts:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Helm
+        uses: Azure/setup-helm@v3
+
+      - name: Helm login
+        run: echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ${{ env.REGISTRY }} -u $ --password-stdin
+
+      - name: Helm push
+        working-directory: bootstrap-aws
+        run: make helm-push
