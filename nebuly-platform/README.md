@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.11.3](https://img.shields.io/badge/Version-1.11.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.11.4](https://img.shields.io/badge/Version-1.11.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -438,6 +438,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | lionLinguist.replicaCount | int | `1` |  |
 | lionLinguist.resources.limits.memory | string | `"6Gi"` |  |
 | lionLinguist.resources.requests.cpu | string | `"1000m"` |  |
+| lionLinguist.resources.requests.memory | string | `"2Gi"` |  |
 | lionLinguist.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | lionLinguist.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | lionLinguist.securityContext.runAsNonRoot | bool | `true` |  |
@@ -447,9 +448,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | lionLinguist.sentry.environment | string | `""` | The name of the Sentry environment. |
 | lionLinguist.service.port | int | `80` |  |
 | lionLinguist.service.type | string | `"ClusterIP"` |  |
-| lionLinguist.tolerations[0].effect | string | `"NoSchedule"` |  |
-| lionLinguist.tolerations[0].key | string | `"nvidia.com/gpu"` |  |
-| lionLinguist.tolerations[0].operator | string | `"Exists"` |  |
 | lionLinguist.volumeMounts | list | `[]` |  |
 | lionLinguist.volumes | list | `[]` |  |
 | namespaceOverride | string | `""` | Override the namespace. |

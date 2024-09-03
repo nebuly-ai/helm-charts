@@ -328,14 +328,10 @@ lionLinguist:
   resources:
     requests:
       cpu: 1000m
+      memory: 2Gi
     limits:
       memory: 6Gi
   nodeSelector: { }
-
-  tolerations:
-    - effect: NoSchedule
-      key: nvidia.com/gpu
-      operator: Exists
 
   affinity: { }
 
