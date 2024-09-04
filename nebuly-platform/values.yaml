@@ -384,7 +384,7 @@ ingestionWorker:
       - effect: NoSchedule
         key: nvidia.com/gpu
         operator: Exists
-    affinity: {}
+    affinity: { }
     nodeSelector: { }
 
   suggestionsGeneration:
@@ -655,7 +655,10 @@ actionsProcessing:
       nvidia.com/gpu: 1
 
   affinity: { }
-  tolerations: [ ]
+  tolerations:
+    - effect: NoSchedule
+      key: nvidia.com/gpu
+      operator: Exists
   nodeSelector: { }
 
 imagePullSecrets: [ ]
