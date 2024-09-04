@@ -357,8 +357,6 @@ ingestionWorker:
 
   fullnameOverride: ""
 
-  intentVersion: "v1"
-
   # -- Number o retires that the ingestion worker will attempt when calling
   # -- lion linguist service.
   lionLinguistRetryAttempts: 10

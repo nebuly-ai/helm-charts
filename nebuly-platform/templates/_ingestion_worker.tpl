@@ -13,8 +13,6 @@
   value: "{{ .Values.ingestionWorker.numWorkersInteractions }}"
 - name: NUMBER_OF_WORKERS_FEEDBACK_ACTIONS
   value: "{{ .Values.ingestionWorker.numWorkersFeedbackActions }}"
-- name: INTENT_VERSION
-  value: {{ .Values.ingestionWorker.intentVersion | quote }}
 # OTEL
 - name: OTEL_SERVICE_NAME
   value: "nebuly-ingestion-worker"
