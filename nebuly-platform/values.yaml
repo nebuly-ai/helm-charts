@@ -654,6 +654,9 @@ actionsProcessing:
       memory: 8Gi
       nvidia.com/gpu: 1
 
+  # -- Set to True when running on multiple GPUs.
+  hostIPC: false
+
   affinity: { }
   tolerations:
     - effect: NoSchedule

@@ -27,6 +27,7 @@ spec:
             {{- toYaml . | nindent 14 }}
             {{- end }}
         spec:
+          hostIPC: {{ .Values.actionsProcessing.hostIPC }}
           serviceAccountName: {{ .Values.serviceAccount.name }}
           restartPolicy: Never
           {{- with .Values.imagePullSecrets }}
