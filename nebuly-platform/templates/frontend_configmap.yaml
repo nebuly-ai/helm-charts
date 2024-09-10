@@ -17,7 +17,6 @@ data:
       "NEXT_PUBLIC_AUTH_MODE": "custom",
       "NEXT_PUBLIC_API_URL": "{{ .Values.frontend.backendApiUrl }}",
       "NEXT_PUBLIC_AUTH_API_URL": "{{ .Values.frontend.authApiUrl }}",
-      "NEXT_PUBLIC_ENABLE_MICROSOFT_LOGIN": "{{ .Values.auth.microsoft.enabled }}",
       "NEXT_PUBLIC_SENTRY_ENABLED": {{ .Values.frontend.sentry.enabled | quote }},
       "NEXT_PUBLIC_SENTRY_DSN": {{ .Values.frontend.sentry.dsn | quote }},
       "NEXT_PUBLIC_SENTRY_ENVIRONMENT": {{ .Values.frontend.sentry.environment | quote }},

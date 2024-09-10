@@ -10,7 +10,8 @@
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresServer" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresUser" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresPassword" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.auth.loginModes" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.auth.microsoft" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.auth.okta" .) -}}
 {{/* Analytic DB */}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.server" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.name" .) -}}
@@ -55,10 +56,17 @@ values: auth.postgresServer
 {{- end -}}
 {{- end -}}
 
-{{- define "chart.validateValues.auth.loginModes" -}}
+{{- define "chart.validateValues.auth.microsoft" -}}
 {{- if and (not .Values.auth.microsoft.enabled) (contains "microsoft" .Values.auth.loginModes) -}}
 values: auth.loginModes
-  `loginModes` cannot contain "microsoft" when `microsoftSso` is not enabled
+  `loginModes` cannot contain "microsoft" when `auth.microsoft.enabled` is false
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.auth.okta" -}}
+{{- if and (not .Values.auth.okta.enabled) (contains "okta" .Values.auth.loginModes) -}}
+values: auth.loginModes
+  `loginModes` cannot contain "okta" when `auth.okta.enabled` is false
 {{- end -}}
 {{- end -}}
 

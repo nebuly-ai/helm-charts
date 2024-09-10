@@ -873,7 +873,7 @@ auth:
   # -- The password of the initial admin user.
   adminUserPassword: "admin"
   # -- The available login modes. Value must be string with the login mode specified
-  # -- as a comma-separated list. Possible values are: `password`, `microsoft`.
+  # -- as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`.
   loginModes: "password"
 
   # -- Settings of the Sentry integration.
@@ -982,7 +982,33 @@ auth:
 
   affinity: { }
 
-  # -- Microsoft Entra ID authentication configuration. Used when auth.oauthProvider is "microsoft".
+  # -- Okta authentication configuration. Used when `auth.loginModes` contains "okta".
+  okta:
+    enabled: false
+    # -- The Client ID of the Okta application. To be provided only when not using an existing secret
+    # (see okta.existingSecret value below).
+    clientId: ""
+    # -- The Client Secret of the Okta application. To be provided only when not using an existing secret
+    # (see okta.existingSecret value below).
+    clientSecret: ""
+    # -- The issuer of the Okta application.
+    issuer: ""
+    # -- The callback URI of the SSO flow. Must be the same as the redirect URI configured for the
+    # Okta application. Must be in the following format:
+    # "https://<backend-domain>/auth/oauth/microsoft/callback"
+    # Where <backend-domain> is the domain defined in `backend.ingress`.
+    redirectUri: ""
+
+    # -- Use an existing secret for Okta SSO authentication.
+    # @default -- -
+    existingSecret:
+      # -- Name of the secret. Can be templated.
+      name: ""
+      clientIdKey: ""
+      clientSecretKey: ""
+
+  # -- Microsoft Entra ID authentication configuration. Used when `auth.loginModes`
+  # -- contains "microsoft".
   # @default -- -
   microsoft:
     # -- If true, enable Microsoft Entra ID SSO authentication.
@@ -998,8 +1024,7 @@ auth:
     # -- The Client Secret of the Microsoft Entra ID application. To be provided only when not using an
     # existing secret (see microsoft.existingSecret value below).
     clientSecret: ""
-    # -- The ID of the Azure Tenant where the Microsoft Entra ID application is located. To be provided only
-    # when not using an existing secret (see microsoft.existingSecret value below).
+    # -- The ID of the Azure Tenant where the Microsoft Entra ID application is located.
     tenantId: ""
 
     # -- Use an existing secret for Microsoft Entra ID authentication.
