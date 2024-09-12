@@ -37,3 +37,7 @@ ingress-nginx:
         https: https
       annotations: {}
 
+cert-manager:
+  enabled: true
+  crds:
+    enabled: true
