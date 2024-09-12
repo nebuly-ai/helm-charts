@@ -1,6 +1,6 @@
 # AWS - Kubernetes bootstrap
 
-![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 0.1.4](https://img.shields.io/badge/Version-0.1.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
 
 Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependencies required for installing [Nebuly Platform](https://nebuly.com).
 
@@ -10,6 +10,7 @@ Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependenci
 
 | Repository | Name | Version |
 |------------|------|---------|
+| https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.15.2 |
 | https://kubernetes-sigs.github.io/metrics-server/ | metrics-server | ~3.12 |
 | https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts | secrets-store-csi-driver | ~1.4 |
 | https://kubernetes.github.io/autoscaler | cluster-autoscaler | ~9.37 |
@@ -35,6 +36,8 @@ details.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | annotations | object | `{}` | Extra annotations that will be added to all resources. |
+| cert-manager.crds.enabled | bool | `true` |  |
+| cert-manager.enabled | bool | `true` |  |
 | cluster-autoscaler.enabled | bool | `true` |  |
 | cluster-autoscaler.rbac.serviceAccount.annotations."eks.amazonaws.com/role-arn" | string | `""` | The ARN of the IAM role used by the autoscaler. |
 | cluster-autoscaler.rbac.serviceAccount.name | string | `"cluster-autoscaler"` |  |
