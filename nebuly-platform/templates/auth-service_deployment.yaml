@@ -151,6 +151,10 @@ spec:
                   name: {{ (tpl .Values.auth.okta.existingSecret.name . ) | default (include "authService.fullname" .) }}
                   key: {{ .Values.auth.okta.existingSecret.clientSecretKey | default "okta-oauth-client-secret" }}
             {{- end }}
+            - name: "SLACK_NOTIFICATIONS_ENABLED"
+              value: {{ .Values.telemetry.enabled | quote }}
+            - name: "TEAMS_NOTIFICATIONS_ENABLED"
+              value: {{ .Values.telemetry.enabled | quote }}
             # Misc
             - name: "ENV"
               value: "prod"
