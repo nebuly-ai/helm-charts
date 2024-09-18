@@ -20,7 +20,7 @@ Expand the name of the chart.
 {{- end }}
 
 {{- define "telemetry.tenant" }}
-{{- default .Values.telemetry.tenant .Release.Name }}
+{{- .Values.telemetry.tenant | default .Release.Name }}
 {{- end }}
 
 {{/*
