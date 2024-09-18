@@ -67,7 +67,7 @@ spec:
             - name: OTEL_METRICS_EXPORTER
               value: "otlp"
             - name: OTEL_SERVICE_NAME
-              value: "lion-linguist"
+              value: "nebuly-lion-linguist"
             # Sentry
             - name: SENTRY_ENABLED
               value: {{ .Values.lionLinguist.sentry.enabled | quote }}

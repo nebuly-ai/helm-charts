@@ -73,7 +73,7 @@ spec:
             - name: OTEL_METRICS_EXPORTER
               value: "otlp"
             - name: OTEL_SERVICE_NAME
-              value: "event-ingestion"
+              value: "nebuly-event-ingestion"
             # Sentry
             - name: SENTRY_ENABLED
               value: {{ .Values.eventIngestion.sentry.enabled | quote }}
