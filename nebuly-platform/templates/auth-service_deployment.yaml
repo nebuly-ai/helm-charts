@@ -78,7 +78,7 @@ spec:
             - name: "OTEL_ENABLED"
               value: {{ .Values.otel.enabled | quote }}
             - name: "OTEL_SERVICE_NAME"
-              value: "nebuly-tenant-registry"
+              value: "nebuly-auth-service"
             - name: "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"
               value: "{{ .Values.otel.exporterOtlpTracesEndpoint }}"
             - name: "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"
