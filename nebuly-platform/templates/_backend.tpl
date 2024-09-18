@@ -63,7 +63,7 @@
 - name: MIXPANEL_TOKEN
   value: {{ .Values.telemetry.apiKey | quote }}
 - name: ANALYTICS_OVERRIDE_TENANT
-  value: {{ .Release.Name | quote }}
+  value: {{ include "telemetry.tenant" . | quote }}
 # Azure OpenAI
 - name: AZURE_OPENAI_DEPLOYMENT_INSIGHTS_GENERATOR
   value: "" # TODO: remove me

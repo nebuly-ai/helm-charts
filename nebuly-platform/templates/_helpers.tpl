@@ -19,6 +19,9 @@ Expand the name of the chart.
 {{- end }}
 {{- end }}
 
+{{- define "telemetry.tenant" }}
+{{- default .Values.telemetry.tenant .Release.Name }}
+{{- end }}
 
 {{/*
 Create chart name and version as used by the chart label.

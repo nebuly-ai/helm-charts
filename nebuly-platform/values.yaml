@@ -861,6 +861,8 @@ telemetry:
   # -- If True, enable telemetry collection. Collected telemetry data consists
   # of anonymous usage statistics and error reports.
   enabled: false
+  # -- Code of the tenant to which the telemetry data will be associated.
+  tenant: ""
   # -- The API key used to authenticate with the telemetry service.
   apiKey: ""
 
@@ -936,7 +938,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.9.0"
+    tag: "v1.9.1"
 
   podAnnotations: { }
   podLabels: { }

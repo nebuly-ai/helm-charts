@@ -155,6 +155,8 @@ spec:
               value: {{ .Values.telemetry.enabled | quote }}
             - name: "TEAMS_NOTIFICATIONS_ENABLED"
               value: {{ .Values.telemetry.enabled | quote }}
+            - name: "TELEMETRY_OVERRIDE_TENANT"
+              value: {{ include "telemetry.tenant" . | quote }}
             # Misc
             - name: "ENV"
               value: "prod"
