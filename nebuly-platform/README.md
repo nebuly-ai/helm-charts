@@ -274,6 +274,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.volumes | list | `[]` |  |
 | bootstrap-aws | object | `{"enabled":false}` | - an EKS cluster on AWS. |
 | bootstrap-azure | object | `{"enabled":false}` | - an AKS cluster on Microsoft Azure. |
+| bootstrap-gcp | object | `{"enabled":false}` | - an GKE cluster on Google Cloud Platform. |
 | clusterIssuer | object | `{"email":"support@nebuly.ai","enabled":false,"name":"letsencrypt"}` | Optional cert-manager cluster issuer. @default -- |
 | eventIngestion.affinity | object | `{}` |  |
 | eventIngestion.fullnameOverride | string | `""` |  |

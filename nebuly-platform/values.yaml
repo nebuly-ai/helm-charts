@@ -1080,3 +1080,8 @@ bootstrap-aws:
 # --- an AKS cluster on Microsoft Azure.
 bootstrap-azure:
   enabled: false
+# -- If True, install the Chart `nebuly-ai/bootstrap-gcp`, which
+# -- installs all the dependencies required for installing nebuly-platform on
+# --- an GKE cluster on Google Cloud Platform.
+bootstrap-gcp:
+  enabled: false

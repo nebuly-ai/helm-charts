@@ -1,4 +1,4 @@
-name: "[nebuly-platform] Release"
+name: "[bootstrap-azure] Release"
 
 on:
   push:
