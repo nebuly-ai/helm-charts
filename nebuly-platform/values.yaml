@@ -482,7 +482,7 @@ ingestionWorker:
 # -- Settings of the AI models used for inference.
 aiModels:
   # -- The kind of registry used to store the AI models.
-  # -- Available values are: "azure_ml", "aws_s3", "azure_storage"
+  # -- Available values are: "azure_ml", "aws_s3", "azure_storage", "gcp_bucket"
   registry: ""
 
   modelEmbeddingWarnings:
@@ -505,6 +505,14 @@ aiModels:
   # @default -- -
   aws:
     bucketName: ""
+
+  # -- Config of the AWS S3 model registry.
+  # @default -- -
+  gcp:
+    # -- The name of the GCP bucket.
+    bucketName: ""
+    # -- The name of the GCP project containing the bucket.
+    projectName: ""
 
   # -- Config of the Azure Storage model registry.
   # @default -- -

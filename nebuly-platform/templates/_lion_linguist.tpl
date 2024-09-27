@@ -30,4 +30,7 @@
 {{- if eq .Values.aiModels.registry  "aws_s3" }}
 {{ include "aiModels.aws.env" . }}
 {{- end }}
+{{- if eq .Values.aiModels.registry  "gcp_bucket" }}
+{{ include "aiModels.gcp.env" . }}
+{{- end }}
 {{- end }}
