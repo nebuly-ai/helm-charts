@@ -17,28 +17,28 @@ spec:
   backoffLimit: 0
   template:
     metadata:
-        {{- with .Values.aiModels.sync.podAnnotations }}
+      {{- with .Values.aiModels.sync.podAnnotations }}
       annotations:
-          {{- toYaml . | nindent 14 }}
-        {{- end }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-          {{- include "modelsSync.labels" . | nindent 10 }}
-          {{- with .Values.aiModels.sync.podLabels }}
-          {{- toYaml . | nindent 10 }}
-          {{- end }}
+        {{- include "modelsSync.labels" . | nindent 8 }}
+        {{- with .Values.aiModels.sync.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       restartPolicy: Never
-        {{- with .Values.imagePullSecrets }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       securityContext:
-          {{- toYaml .Values.aiModels.sync.podSecurityContext | nindent 10 }}
+        {{- toYaml .Values.aiModels.sync.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-              {{- toYaml .Values.aiModels.sync.securityContext | nindent 12 }}
+            {{- toYaml .Values.aiModels.sync.securityContext | nindent 12 }}
           image: "{{ .Values.aiModels.sync.image.repository }}:{{ .Values.aiModels.sync.image.tag | default .Chart.AppVersion }}"
           command:
             - models-sync
@@ -81,31 +81,31 @@ spec:
               value: {{ .Values.aiModels.azure.storageContainerName | quote }}
             {{- end }}
             {{- if eq .Values.aiModels.registry "aws_s3" }}
-            {{- include "aiModels.aws.env" . | nindent 14 }}
+            {{- include "aiModels.aws.env" . | nindent 12 }}
             {{- end }}
             {{- if eq .Values.aiModels.registry "gcp_bucket" }}
-            {{- include "aiModels.gcp.env" . | nindent 14 }}
+            {{- include "aiModels.gcp.env" . | nindent 12 }}
             {{- end }}
           resources:
-              {{- toYaml .Values.aiModels.sync.resources | nindent 12 }}
-            {{- with .Values.aiModels.sync.volumeMounts }}
+            {{- toYaml .Values.aiModels.sync.resources | nindent 12 }}
+          {{- with .Values.aiModels.sync.volumeMounts }}
           volumeMounts:
-              {{- toYaml . | nindent 12 }}
-            {{- end }}
-        {{- with .Values.aiModels.sync.volumes }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with .Values.aiModels.sync.volumes }}
       volumes:
-          {{- toYaml . | nindent 14 }}
-        {{- end }}
-        {{- with .Values.aiModels.sync.nodeSelector }}
+        {{- toYaml . | nindent 10 }}
+      {{- end }}
+      {{- with .Values.aiModels.sync.nodeSelector }}
       nodeSelector:
-          {{- toYaml . | nindent 14 }}
-        {{- end }}
-        {{- with .Values.aiModels.sync.affinity }}
+        {{- toYaml . | nindent 10 }}
+      {{- end }}
+      {{- with .Values.aiModels.sync.affinity }}
       affinity:
-          {{- toYaml . | nindent 14 }}
-        {{- end }}
-        {{- with .Values.aiModels.sync.tolerations }}
+        {{- toYaml . | nindent 10 }}
+      {{- end }}
+      {{- with .Values.aiModels.sync.tolerations }}
       tolerations:
-          {{- toYaml . | nindent 14 }}
-        {{- end }}
+        {{- toYaml . | nindent 10 }}
+      {{- end }}
 {{- end }}

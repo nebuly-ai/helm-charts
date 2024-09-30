@@ -54,8 +54,6 @@ spec:
               {{ include "lionLinguist.commonEnv" . | nindent 16 }}
                 - name: MODEL_PROVIDER
                   value: {{ .Values.aiModels.registry | quote }}
-                - name: INFERENCE_MODE
-                  value: "torch"
                 - name: MODELS_CACHE_DIR
                   value: "/var/cache/nebuly"
                 - name: GPU_MODEL
