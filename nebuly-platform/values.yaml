@@ -365,9 +365,8 @@ ingestionWorker:
   thresholds:
     subjectClustering: 0.3
     subjectMergeClusters: 0.3
-    intentAssignmentToExistingCluster: 0.87
-    intentClustering: 0.75
-    intentMergeClusters: 0.87
+    intentClustering: 0.25
+    intentMergeClusters: 0.2
 
   # -- Settings related to the CronJob for clustering topics.
   # @default -- -
@@ -499,7 +498,7 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: 12
+    version: 14
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
