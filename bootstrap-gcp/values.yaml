@@ -21,3 +21,15 @@ cert-manager:
   enabled: true
   crds:
     enabled: true
+
+gpu-operator:
+  enabled: true
+  hostPaths:
+    driverInstallDir: /home/kubernetes/bin/nvidia
+  toolkit:
+    installDir: /home/kubernetes/bin/nvidia
+  cdi:
+    enabled: true
+    default: true
+  driver:
+    enabled: false

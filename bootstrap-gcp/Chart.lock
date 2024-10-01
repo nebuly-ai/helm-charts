@@ -1,4 +1,7 @@
 dependencies:
+- name: gpu-operator
+  repository: https://helm.ngc.nvidia.com/nvidia
+  version: v24.6.2
 - name: ingress-nginx
   repository: https://kubernetes.github.io/ingress-nginx
   version: 4.10.4
@@ -11,5 +14,5 @@ dependencies:
 - name: secrets-store-csi-driver-provider-gcp
   repository: https://charts.portefaix.xyz
   version: 0.6.0
-digest: sha256:e7e331603e8ab27161f65ac7fd1736ab055e7155392df64089c5c7242166277f
-generated: "2024-10-01T12:59:48.808334+02:00"
+digest: sha256:1b1bdd479524284377c6fa577e1b78f40861f35a55c0e45329716a5ad23982c5
+generated: "2024-10-01T13:17:59.460855+02:00"
