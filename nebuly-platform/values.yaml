@@ -1042,11 +1042,11 @@ auth:
 # -- major release.
 reprocessing:
   actions:
-    enabled: false
+    enabled: true
   suggestions:
-    enabled: false
+    enabled: true
   topics:
-    enabled: false
+    enabled: true
 
 # -- Post-upgrade hooks settings.
 postUpgrade:
