@@ -75,6 +75,8 @@ spec:
               resources:
                 {{- toYaml .Values.actionsProcessing.resources | nindent 18 }}
               volumeMounts:
+                - name: vllm-report-usage
+                  mountPath: /nonexistent
               {{- if not .Values.kafka.external }}
                 - name: kafka-cluster-ca-cert
                   mountPath: "/etc/kafka"
@@ -87,6 +89,8 @@ spec:
                 {{- toYaml . | nindent 18 }}
               {{- end }}
           volumes:
+            - name: vllm-report-usage
+              emptyDir: {}
           {{- if not .Values.kafka.external }}
             - name: kafka-cluster-ca-cert
               secret:
