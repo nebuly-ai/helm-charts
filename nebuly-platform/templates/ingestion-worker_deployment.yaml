@@ -9,6 +9,8 @@ metadata:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.ingestionWorker.replicaCount }}
+  strategy:
+    {{- .Values.ingestionWorker.deploymentStrategy | toYaml | nindent 4 }}
   selector:
     matchLabels:
       {{- include "ingestionWorker.selectorLabels" . | nindent 6 }}

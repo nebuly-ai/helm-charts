@@ -357,6 +357,9 @@ ingestionWorker:
 
   fullnameOverride: ""
 
+  deploymentStrategy:
+    type: Recreate
+
   # -- Number o retires that the ingestion worker will attempt when calling
   # -- lion linguist service.
   lionLinguistRetryAttempts: 10
@@ -658,7 +661,6 @@ actionsProcessing:
     requests:
       cpu: 1
     limits:
-      memory: 8Gi
       nvidia.com/gpu: 1
 
   # -- Set to True when running on multiple GPUs.

@@ -348,6 +348,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.volumes | list | `[]` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingestionWorker.affinity | object | `{}` |  |
+| ingestionWorker.deploymentStrategy.type | string | `"Recreate"` |  |
 | ingestionWorker.fullnameOverride | string | `""` |  |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
