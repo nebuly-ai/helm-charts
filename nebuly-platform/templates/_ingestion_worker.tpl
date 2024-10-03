@@ -87,13 +87,16 @@
     secretKeyRef:
       name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
       key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
+- name: OPENAI_API_KEY
+  valueFrom:
+    secretKeyRef:
+      name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
+      key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
 # Thresholds
 - name: THRESHOLD_SUBJECT_CLUSTERING
   value: {{ .Values.ingestionWorker.thresholds.subjectClustering | quote }}
 - name: THRESHOLD_SUBJECT_MERGE_CLUSTERS
   value: {{ .Values.ingestionWorker.thresholds.subjectMergeClusters | quote }}
-- name: THRESHOLD_INTENT_ASSIGNMENT_TO_EXISTING_CLUSTER
-  value: {{ .Values.ingestionWorker.thresholds.intentAssignmentToExistingCluster | quote }}
 - name: THRESHOLD_INTENT_CLUSTERING
   value: {{ .Values.ingestionWorker.thresholds.intentClustering | quote }}
 - name: THRESHOLD_INTENT_MERGE_CLUSTERS

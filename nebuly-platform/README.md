@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.11.13](https://img.shields.io/badge/Version-1.11.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.12.3](https://img.shields.io/badge/Version-1.12.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -156,7 +156,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | actionsProcessing.modelsCache | object | `{"enabled":false,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | actionsProcessing.numHoursProcessed | int | `50` | Example: 24 -> process the last 24 hours of interactions. |
 | actionsProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| aiModels | object | `{"aws":{"bucketName":""},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":12},"registry":"","sync":{"affinity":{},"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.2.0"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
+| aiModels | object | `{"aws":{"bucketName":""},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":14},"registry":"","sync":{"affinity":{},"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.2.0"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
 | aiModels.azure | object | - | Config of the Azure Storage model registry. |
 | aiModels.azure.managedIdentityClientId | string | `""` | The client ID of the Azure managed identity used to access the Azure Storage account. |
@@ -247,7 +247,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.36.18"` |  |
+| backend.image.tag | string | `"v1.37.5"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -317,7 +317,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.39.9"` |  |
+| frontend.image.tag | string | `"v1.40.4"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -351,7 +351,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.fullnameOverride | string | `""` |  |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.27.0"` |  |
+| ingestionWorker.image.tag | string | `"v1.28.0"` |  |
 | ingestionWorker.lionLinguistRetryAttempts | int | `10` | lion linguist service. |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
@@ -388,7 +388,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.suggestionsGeneration.tolerations[0].effect | string | `"NoSchedule"` |  |
 | ingestionWorker.suggestionsGeneration.tolerations[0].key | string | `"nvidia.com/gpu"` |  |
 | ingestionWorker.suggestionsGeneration.tolerations[0].operator | string | `"Exists"` |  |
-| ingestionWorker.thresholds | object | `{"intentAssignmentToExistingCluster":0.87,"intentClustering":0.75,"intentMergeClusters":0.87,"subjectClustering":0.3,"subjectMergeClusters":0.3}` | Thresholds for tuning the data-processing pipeline. |
+| ingestionWorker.thresholds | object | `{"intentClustering":0.25,"intentMergeClusters":0.2,"subjectClustering":0.3,"subjectMergeClusters":0.3}` | Thresholds for tuning the data-processing pipeline. |
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.topicsClustering | object | - | Settings related to the CronJob for clustering topics. |
 | ingestionWorker.topicsClustering.schedule | string | `"0 1 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
