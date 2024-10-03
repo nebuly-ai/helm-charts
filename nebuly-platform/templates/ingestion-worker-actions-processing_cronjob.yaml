@@ -69,6 +69,9 @@ spec:
               {{- if eq .Values.aiModels.registry  "aws_s3" }}
                 {{ include "aiModels.aws.env" . | nindent 16 }}
               {{- end }}
+              {{- if eq .Values.aiModels.registry  "gcp_bucket" }}
+                {{ include "aiModels.gcp.env" . | nindent 16 }}
+              {{- end }}
               resources:
                 {{- toYaml .Values.actionsProcessing.resources | nindent 18 }}
               volumeMounts:

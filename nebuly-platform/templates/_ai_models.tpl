@@ -32,3 +32,9 @@
 - name: "AWS_S3_BUCKET_NAME"
   value: {{ .Values.aiModels.aws.bucketName | quote }}
 {{- end -}}
+{{- define "aiModels.gcp.env" -}}
+- name: "GCP_BUCKET_NAME"
+  value: {{ .Values.aiModels.gcp.bucketName | quote }}
+- name: "GCP_PROJECT_NAME"
+  value: {{ .Values.aiModels.gcp.projectName | quote }}
+{{- end -}}

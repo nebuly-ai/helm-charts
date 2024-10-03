@@ -33,6 +33,10 @@ dependencies:
     version: ~0.1.0
     condition: bootstrap-azure.enabled
     repository: "file://../bootstrap-azure"
+  - name: bootstrap-gcp
+    version: ~0.1.0
+    condition: bootstrap-gcp.enabled
+    repository: "file://../bootstrap-gcp"
 
 maintainers:
   - name: Michele Zanotti

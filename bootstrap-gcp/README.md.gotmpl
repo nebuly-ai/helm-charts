@@ -1,0 +1,32 @@
+# GCP - Kubernetes bootstrap
+
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.badgesSection" . }}
+
+{{ template "chart.description" . }}
+
+{{ template "chart.homepageLine" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+## Installation
+
+You can install this chart as a standalone, or you can install it as dependency
+of `nebuly-platform` by setting the `bootstrap-gcp.enabled` value to `true`.
+
+```yaml
+bootstrap-gcp:
+  enabled: true
+```
+
+You can refer to the Nebuly Platform
+chart [installation instructions](../nebuly-platform/README.md#installation) for more
+details.
+
+
+{{ template "chart.valuesSection" . }}
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "chart.sourcesSection" . }}

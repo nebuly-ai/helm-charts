@@ -1,0 +1,35 @@
+nvidia-device-plugin:
+  enabled: true
+
+secrets-store-csi-driver:
+  enabled: true
+  syncSecret:
+    enabled: true
+
+ingress-nginx:
+  enabled: true
+  controller:
+    allowSnippetAnnotations: true
+    config: { }
+    service:
+      targetPorts:
+        http: http
+        https: https
+      annotations: { }
+
+cert-manager:
+  enabled: true
+  crds:
+    enabled: true
+
+gpu-operator:
+  enabled: true
+  hostPaths:
+    driverInstallDir: /home/kubernetes/bin/nvidia
+  toolkit:
+    installDir: /home/kubernetes/bin/nvidia
+  cdi:
+    enabled: true
+    default: true
+  driver:
+    enabled: false

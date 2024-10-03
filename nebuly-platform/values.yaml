@@ -290,7 +290,7 @@ lionLinguist:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-lion-linguist
     pullPolicy: IfNotPresent
-    tag: "v0.4.9"
+    tag: "v0.5.0"
 
   podAnnotations: { }
   podLabels: { }
@@ -406,7 +406,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.27.1
+    tag: v1.28.0
 
   podAnnotations: { }
   podLabels: { }
@@ -481,7 +481,7 @@ ingestionWorker:
 # -- Settings of the AI models used for inference.
 aiModels:
   # -- The kind of registry used to store the AI models.
-  # -- Available values are: "azure_ml", "aws_s3", "azure_storage"
+  # -- Available values are: "azure_ml", "aws_s3", "azure_storage", "gcp_bucket"
   registry: ""
 
   modelEmbeddingWarnings:
@@ -504,6 +504,14 @@ aiModels:
   # @default -- -
   aws:
     bucketName: ""
+
+  # -- Config of the AWS S3 model registry.
+  # @default -- -
+  gcp:
+    # -- The name of the GCP bucket.
+    bucketName: ""
+    # -- The name of the GCP project containing the bucket.
+    projectName: ""
 
   # -- Config of the Azure Storage model registry.
   # @default -- -
@@ -542,7 +550,7 @@ aiModels:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-models-sync
       pullPolicy: IfNotPresent
-      tag: v0.1.0
+      tag: v0.2.0
     resources:
       requests:
         memory: 4Gi
@@ -608,7 +616,7 @@ actionsProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.27.1
+    tag: v1.28.0
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -1078,4 +1086,9 @@ bootstrap-aws:
 # -- installs all the dependencies required for installing nebuly-platform on
 # --- an AKS cluster on Microsoft Azure.
 bootstrap-azure:
+  enabled: false
+# -- If True, install the Chart `nebuly-ai/bootstrap-gcp`, which
+# -- installs all the dependencies required for installing nebuly-platform on
+# --- an GKE cluster on Google Cloud Platform.
+bootstrap-gcp:
   enabled: false

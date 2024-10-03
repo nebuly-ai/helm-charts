@@ -1,9 +1,9 @@
-name: "[nebuly-platform] Release"
+name: "[bootstrap-azure] Release"
 
 on:
   push:
     tags:
-      - "bootstrap-aws-v[0-9]+.[0-9]+.[0-9]+"
+      - "bootstrap-azure-v[0-9]+.[0-9]+.[0-9]+"
 
 env:
   REGISTRY: ghcr.io
@@ -26,5 +26,5 @@ jobs:
         run: echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ${{ env.REGISTRY }} -u $ --password-stdin
 
       - name: Helm push
-        working-directory: bootstrap-aws
+        working-directory: bootstrap-azure
         run: make helm-push
