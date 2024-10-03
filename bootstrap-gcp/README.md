@@ -12,9 +12,9 @@ Helm chart for bootstrapping a Kubernetes cluster on GCP with all the dependenci
 |------------|------|---------|
 | https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.15.2 |
 | https://charts.portefaix.xyz | secrets-store-csi-driver-provider-gcp | ~0.6.0 |
+| https://helm.ngc.nvidia.com/nvidia | gpu-operator | ~24.6 |
 | https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts | secrets-store-csi-driver | ~1.4 |
 | https://kubernetes.github.io/ingress-nginx | ingress-nginx | ~4.10 |
-| https://nvidia.github.io/k8s-device-plugin | nvidia-device-plugin | ~0.15.0 |
 
 ## Installation
 
@@ -36,6 +36,12 @@ details.
 |-----|------|---------|-------------|
 | cert-manager.crds.enabled | bool | `true` |  |
 | cert-manager.enabled | bool | `true` |  |
+| gpu-operator.cdi.default | bool | `true` |  |
+| gpu-operator.cdi.enabled | bool | `true` |  |
+| gpu-operator.driver.enabled | bool | `false` |  |
+| gpu-operator.enabled | bool | `true` |  |
+| gpu-operator.hostPaths.driverInstallDir | string | `"/home/kubernetes/bin/nvidia"` |  |
+| gpu-operator.toolkit.installDir | string | `"/home/kubernetes/bin/nvidia"` |  |
 | ingress-nginx.controller.allowSnippetAnnotations | bool | `true` |  |
 | ingress-nginx.controller.config | object | `{}` |  |
 | ingress-nginx.controller.service.annotations | object | `{}` |  |
