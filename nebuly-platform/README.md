@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.12.3](https://img.shields.io/badge/Version-1.12.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.13.0](https://img.shields.io/badge/Version-1.13.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -311,6 +311,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.tolerations | list | `[]` |  |
 | eventIngestion.volumeMounts | list | `[]` |  |
 | eventIngestion.volumes | list | `[]` |  |
+| featureFlags.translationsEnabled | bool | `false` | If true, enable the translation feature. |
 | frontend.affinity | object | `{}` |  |
 | frontend.authApiUrl | string | `""` | The URL of the API used for authentication (login, SSO, etc.). |
 | frontend.backendApiUrl | string | `""` | The URL of the Backend API to which Frontend will make requests. |
@@ -472,6 +473,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | openAi.frustrationDetectionDeployment | string | `""` | The name of the OpenAI Deployment used to detect frustration. |
 | openAi.provider | string | `"azure"` | Allowed values: "openai", "azure" |
+| openAi.translationDeployment | string | `""` | The name of the OpenAI Deployment used to translate interactions. |
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |

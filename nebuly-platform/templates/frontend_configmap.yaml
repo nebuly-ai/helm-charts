@@ -21,6 +21,7 @@ data:
       "NEXT_PUBLIC_SENTRY_DSN": {{ .Values.frontend.sentry.dsn | quote }},
       "NEXT_PUBLIC_SENTRY_ENVIRONMENT": {{ .Values.frontend.sentry.environment | quote }},
       "NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE": {{ .Values.frontend.sentry.tracesSampleRate | quote }},
-      "NEXT_PUBLIC_SENTRY_REPLAY_SESSION_SAMPLE_RATE": {{ .Values.frontend.sentry.replaySessionSampleRate | quote }}
+      "NEXT_PUBLIC_SENTRY_REPLAY_SESSION_SAMPLE_RATE": {{ .Values.frontend.sentry.replaySessionSampleRate | quote }},
+      "NEXT_PUBLIC_ENABLE_TRANSLATIONS": {{ .Values.featureFlags.translationsEnabled | quote }}
     }
 

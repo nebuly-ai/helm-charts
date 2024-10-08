@@ -631,8 +631,6 @@ actionsProcessing:
   # -- Example: 24 -> process the last 24 hours of interactions.
   numHoursProcessed: 50
 
-  gpuModel: "A10" # TODO: this we'll be removed soon
-
   securityContext:
     runAsNonRoot: true
     allowPrivilegeEscalation: false
@@ -713,6 +711,8 @@ openAi:
   enabled: true
   # -- The name of the OpenAI Deployment used to detect frustration.
   frustrationDetectionDeployment: ""
+  # -- The name of the OpenAI Deployment used to translate interactions.
+  translationDeployment: ""
   # -- The endpoint of the OpenAI resource.
   endpoint: ""
   # -- The primary API Key of the OpenAI resource, used for authentication.
@@ -1045,6 +1045,11 @@ auth:
       name: ""
       clientIdKey: ""
       clientSecretKey: ""
+
+# @default -- Manage the feature flags of the platform.
+featureFlags:
+  # -- If true, enable the translation feature.
+  translationsEnabled: false
 
 # -- Settings for data reprocessing jobs required during
 # -- major platform upgrades.

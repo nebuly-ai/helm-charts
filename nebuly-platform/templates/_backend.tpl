@@ -64,11 +64,9 @@
   value: {{ .Values.telemetry.apiKey | quote }}
 - name: ANALYTICS_OVERRIDE_TENANT
   value: {{ include "telemetry.tenant" . | quote }}
-# Azure OpenAI
-- name: AZURE_OPENAI_DEPLOYMENT_INSIGHTS_GENERATOR
-  value: "" # TODO: remove me
-- name: AZURE_OPENAI_DEPLOYMENT_EMBEDDING_MODEL
-  value: "" # TODO: remove me
+# OpenAI
+- name: LLM_PROVIDER
+  value: {{ .Values.openAi.provider | quote }}
 - name: AZURE_OPENAI_ENDPOINT
   value: {{ .Values.openAi.endpoint | quote }}
 - name: AZURE_OPENAI_API_KEY
@@ -76,6 +74,15 @@
     secretKeyRef:
       name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "backend.fullname" .) }}
       key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
+- name: OPENAI_API_KEY
+  valueFrom:
+    secretKeyRef:
+      name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "backend.fullname" .) }}
+      key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
+- name: AZURE_OPENAI_DEPLOYMENT_TRANSLATION
+  value: {{ .Values.openAi.translationDeployment | quote }}
+- name: OPENAI_ORGANIZATION
+  value: ""
 # Misc
 - name: ENV
   value: "prod"
@@ -87,15 +94,6 @@
   value: "false"
 - name: OPENAPI_URL_ENABLED
   value: "false"
-# Temporary - TODO: to remove after backend cleanup
-- name: LLM_PROVIDER
-  value: "openai"
-- name: OPENAI_API_KEY
-  value: ""
-- name: OPENAI_ORGANIZATION
-  value: ""
-- name: AZURE_OPENAI_DEPLOYMENT_TRANSLATION
-  value: ""
 {{- if .Values.backend.rootPath }}
 - name: ROOT_PATH
   value: "{{ .Values.backend.rootPath }}"
