@@ -709,8 +709,13 @@ openAi:
   provider: azure
   # -- If true, enable the OpenAI integration.
   enabled: true
+  # @deprecated
   # -- The name of the OpenAI Deployment used to detect frustration.
   frustrationDetectionDeployment: ""
+  # -- The name of the GPT-4o deployment.
+  gpt4oDeployment: ""
+  # -- The name of the GPT-4o Mini deployment.
+  gpt4oMiniDeployment: ""
   # -- The name of the OpenAI Deployment used to translate interactions.
   translationDeployment: ""
   # -- The endpoint of the OpenAI resource.
