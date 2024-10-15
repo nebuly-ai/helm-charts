@@ -1,15 +1,15 @@
 dependencies:
 - name: strimzi-kafka-operator
   repository: oci://quay.io/strimzi-helm
-  version: 0.40.0
+  version: 0.43.0
 - name: bootstrap-aws
   repository: file://../bootstrap-aws
-  version: 0.1.4
+  version: 0.2.0
 - name: bootstrap-azure
   repository: file://../bootstrap-azure
   version: 0.1.0
 - name: bootstrap-gcp
   repository: file://../bootstrap-gcp
   version: 0.1.0
-digest: sha256:53a3e5354a681154f6b648d5e2bdb9f9663aef5f5d9d36d49130b1586763b96f
-generated: "2024-09-26T15:59:50.734236+02:00"
+digest: sha256:884f61c654cac9f6341b1d45d841327c74a2b20a412c2145c7bfe7f78c65ec73
+generated: "2024-10-15T10:03:05.214612+02:00"

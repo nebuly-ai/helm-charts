@@ -22,11 +22,11 @@ sources:
 
 dependencies:
   - name: strimzi-kafka-operator
-    version: ~0.40.0
+    version: <=1.0.0
     repository: oci://quay.io/strimzi-helm
     condition: strimzi.enabled
   - name: bootstrap-aws
-    version: ~0.1.0
+    version: ~0.2.0
     condition: bootstrap-aws.enabled
     repository: "file://../bootstrap-aws"
   - name: bootstrap-azure
