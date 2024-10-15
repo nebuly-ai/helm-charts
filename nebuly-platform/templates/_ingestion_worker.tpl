@@ -82,6 +82,10 @@
   value: "{{ .Values.openAi.endpoint }}"
 - name: OPENAI_DEPLOYMENT_FRUSTRATION
   value: "{{ .Values.openAi.frustrationDetectionDeployment }}"
+- name: OPENAI_DEPLOYMENT_GPT40
+  value: {{ .Values.openAi.gpt4oDeployment | quote }}
+- name: OPENAI_DEPLOYMENT_GPT40_MINI
+  value: {{ .Values.openAi.gpt4oMiniDeployment | quote }}
 - name: AZURE_OPENAI_API_KEY
   valueFrom:
     secretKeyRef:
