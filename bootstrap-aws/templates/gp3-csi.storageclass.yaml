@@ -1,0 +1,14 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gp3-csi
+  namespace: {{ include "bootstrap.namespace" . }}
+provisioner: ebs.csi.aws.com
+allowVolumeExpansion: true
+parameters:
+  fsType: ext4
+  type: gp3
+  encrypted: "true"
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
