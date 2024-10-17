@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.14.0](https://img.shields.io/badge/Version-1.14.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.14.1](https://img.shields.io/badge/Version-1.14.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -401,6 +401,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.existingSecret | object | - | [external] Use an existing secret for Kafka authentication. |
 | kafka.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | kafka.external | bool | `false` | If true, deploy a Kafka cluster together with the platform services. Otherwise, use an existing Kafka cluster. |
+| kafka.nameOverride | string | `""` | with the provided value. |
 | kafka.rack.topologyKey | string | `"topology.kubernetes.io/zone"` |  |
 | kafka.replicas | int | `3` | The number of Kafka brokers in the cluster. |
 | kafka.resources.limits.memory | string | `"2048Mi"` |  |

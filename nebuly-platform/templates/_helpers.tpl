@@ -8,7 +8,7 @@
 Expand the name of the chart.
 */}}
 {{- define "nebuly-platform.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- .Chart.Name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{- define "nebuly-platform.namespace" -}}

@@ -1,5 +1,5 @@
 {{- define "kafka.fullname" -}}
-{{- printf "%s-%s" .Release.Name "kafka" | trunc 63 | trimSuffix "-" }}
+{{- default (printf "%s-%s" .Release.Name "kafka") .Values.kafka.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end -}}
 
 {{- define "kafka.user" -}}

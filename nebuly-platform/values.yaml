@@ -750,6 +750,9 @@ analyticDatabase:
 
 # @default -- -
 kafka:
+  # -- If provided, override the default name of the Kafka cluster
+  # -- with the provided value.
+  nameOverride: ""
   # -- If true, deploy a Kafka cluster together with the platform services. Otherwise,
   # use an existing Kafka cluster.
   external: false
