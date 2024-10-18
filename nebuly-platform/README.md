@@ -450,9 +450,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | lionLinguist.podSecurityContext.fsGroup | int | `101` |  |
 | lionLinguist.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | lionLinguist.replicaCount | int | `1` |  |
-| lionLinguist.resources.limits.memory | string | `"6Gi"` |  |
+| lionLinguist.resources.limits.memory | string | `"2Gi"` |  |
 | lionLinguist.resources.requests.cpu | string | `"1000m"` |  |
-| lionLinguist.resources.requests.memory | string | `"2Gi"` |  |
 | lionLinguist.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | lionLinguist.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | lionLinguist.securityContext.runAsNonRoot | bool | `true` |  |
