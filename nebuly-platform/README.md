@@ -471,9 +471,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. |
 | openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
 | openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| openAi.frustrationDetectionDeployment | string | `""` | The name of the OpenAI Deployment used to detect frustration. |
 | openAi.gpt4oDeployment | string | `""` | The name of the GPT-4o deployment. |
-| openAi.gpt4oMiniDeployment | string | `""` | The name of the GPT-4o Mini deployment. |
 | openAi.provider | string | `"azure"` | Allowed values: "openai", "azure" |
 | openAi.translationDeployment | string | `""` | The name of the OpenAI Deployment used to translate interactions. |
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |

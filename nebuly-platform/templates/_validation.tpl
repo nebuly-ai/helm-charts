@@ -26,6 +26,7 @@
 {{/* Azure OpenAI */}}
 {{- if .Values.openAi.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.openAi.endpoint" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.openAi.gpt4oDeployment" .) -}}
 {{- end -}}
 {{/* Ingestion Worker*/}}
 {{- $messages = append $messages (include "chart.validateValues.actionsProcessing.modelsCache" .) -}}
@@ -144,6 +145,12 @@ values: openAi.endpoint
 values: openAi.endpoint
   `endpoint` should be a valid URL.
 {{- end -}}
+{{- end -}}
+{{- end -}}
+{{- define "chart.validateValues.openAi.gpt4oDeployment" -}}
+{{- if empty .Values.openAi.gpt4oDeployment  -}}
+values: openAi.gpt4oDeployment
+  `gpt4oDeployment` is required and should be a non-empty string
 {{- end -}}
 {{- end -}}
 
