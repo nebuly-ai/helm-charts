@@ -4,4 +4,8 @@
 
 ### Breaking changes
 
-* Rename value `deploymentFrustration` to `gpt4oDeployment`
+* Rename value `openai.deploymentFrustration` to `openai.gpt4oDeployment`
+* Rename value `actionsProcessing` to `primaryProcessing`
+* Merge values `ingestionWorker.topicsClustering`
+  and `ingestionWorker.suggestionsGeneration` into
+  `secondaryProcessing`

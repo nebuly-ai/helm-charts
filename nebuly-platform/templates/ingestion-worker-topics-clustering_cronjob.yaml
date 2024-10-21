@@ -49,6 +49,7 @@ spec:
               env:
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
                 {{ include "lionLinguist.commonEnv" . | nindent 18 }}
+                {{ include "batchJobs.commonEnv" . | nindent 18 }}
               resources:
                 {{- toYaml .Values.ingestionWorker.topicsClustering.resources | nindent 18 }}
               volumeMounts:

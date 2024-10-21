@@ -79,6 +79,11 @@ spec:
               value: {{ .Values.lionLinguist.sentry.tracesSampleRate | quote }}
             - name: SENTRY_PROFILES_SAMPLE_RATE
               value: {{ .Values.lionLinguist.sentry.profilesSampleRate | quote }}
+            # AI Models
+            - name: "MODEL_PROVIDER"
+              value: {{ .Values.aiModels.registry | quote }}
+            - name: MODELS_CACHE_DIR
+              value: "/var/cache/nebuly"
             {{- include "lionLinguist.commonEnv" . | nindent 12 }}
           readinessProbe:
             httpGet:
