@@ -151,11 +151,6 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| actionsProcessing | object | - | Settings related to the CronJob for processing the actions of the collected interactions. |
-| actionsProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
-| actionsProcessing.modelsCache | object | `{"enabled":false,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
-| actionsProcessing.numHoursProcessed | int | `50` | Example: 24 -> process the last 24 hours of interactions. |
-| actionsProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | aiModels | object | `{"aws":{"bucketName":""},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":14},"registry":"","sync":{"affinity":{},"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.2.0"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
 | aiModels.azure | object | - | Config of the Azure Storage model registry. |
@@ -354,7 +349,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
 | ingestionWorker.image.tag | string | `"v1.28.1"` |  |
-| ingestionWorker.lionLinguistRetryAttempts | int | `10` | lion linguist service. |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
@@ -381,19 +375,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.stage4.resources.limits.memory | string | `"585Mi"` |  |
 | ingestionWorker.stage4.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage4.resources.requests.memory | string | `"585Mi"` |  |
-| ingestionWorker.suggestionsGeneration.affinity | object | `{}` |  |
-| ingestionWorker.suggestionsGeneration.nodeSelector | object | `{}` |  |
-| ingestionWorker.suggestionsGeneration.resources.limits."nvidia.com/gpu" | int | `1` |  |
-| ingestionWorker.suggestionsGeneration.resources.limits.memory | string | `"8Gi"` |  |
-| ingestionWorker.suggestionsGeneration.resources.requests.cpu | int | `1` |  |
-| ingestionWorker.suggestionsGeneration.schedule | string | `"0 3 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| ingestionWorker.suggestionsGeneration.tolerations[0].effect | string | `"NoSchedule"` |  |
-| ingestionWorker.suggestionsGeneration.tolerations[0].key | string | `"nvidia.com/gpu"` |  |
-| ingestionWorker.suggestionsGeneration.tolerations[0].operator | string | `"Exists"` |  |
 | ingestionWorker.thresholds | object | `{"intentClustering":0.25,"intentMergeClusters":0.2,"subjectClustering":0.3,"subjectMergeClusters":0.3}` | Thresholds for tuning the data-processing pipeline. |
 | ingestionWorker.tolerations | list | `[]` |  |
-| ingestionWorker.topicsClustering | object | - | Settings related to the CronJob for clustering topics. |
-| ingestionWorker.topicsClustering.schedule | string | `"0 1 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
 | kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
@@ -479,7 +462,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
 | postUpgrade | object | `{"refreshRoTables":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}}` | Post-upgrade hooks settings. |
 | postUpgrade.refreshRoTables | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}` | If True, run a post-install jop that runs a full refresh of the backend RO tables. |
-| reprocessing | object | `{"actions":{"enabled":false},"suggestions":{"enabled":false},"topics":{"enabled":false}}` | major release. |
+| primaryProcessing | object | - | Settings related to the Primary processing CronJobs. |
+| primaryProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
+| primaryProcessing.modelsCache | object | `{"enabled":false,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
+| primaryProcessing.numHoursProcessed | int | `50` | Example: 24 -> process the last 24 hours of interactions. |
+| primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| reprocessing | object | `{"modelSuggestions":{"enabled":false},"topicsAndActions":{"enabled":false}}` | major release. |
+| secondaryProcessing | object | - | Settings related to the Primary processing CronJobs. |
+| secondaryProcessing.schedule | string | `"0 2 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.existingSecret | object | - | Use an existing secret for the Azure Key Vault authentication. |

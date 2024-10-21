@@ -366,39 +366,6 @@ ingestionWorker:
     intentClustering: 0.25
     intentMergeClusters: 0.2
 
-  # -- Settings related to the CronJob for clustering topics.
-  # @default -- -
-  topicsClustering:
-    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
-    schedule: "0 1 * * *" # Every day at 1:00 AM
-    resources:
-      requests:
-        cpu: 1
-      limits:
-        nvidia.com/gpu: 1
-        memory: 8Gi
-    tolerations:
-      - effect: NoSchedule
-        key: nvidia.com/gpu
-        operator: Exists
-    affinity: { }
-    nodeSelector: { }
-
-  suggestionsGeneration:
-    # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
-    schedule: "0 3 * * *" # Every day ad 3:00 AM
-    resources:
-      requests:
-        cpu: 1
-      limits:
-        nvidia.com/gpu: 1
-        memory: 8Gi
-    tolerations:
-      - effect: NoSchedule
-        key: nvidia.com/gpu
-        operator: Exists
-    affinity: { }
-    nodeSelector: { }
 
   replicaCount: 1
   image:
@@ -604,10 +571,9 @@ aiModels:
       clientIdKey: ""
       clientSecretKey: ""
 
-
-# -- Settings related to the CronJob for processing the actions of the collected interactions.
+# -- Settings related to the Primary processing CronJobs.
 # @default -- -
-actionsProcessing:
+primaryProcessing:
   # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
   schedule: "0 23 * * *" # Every day at 11:00 PM
   backoffLimit: 1
@@ -665,6 +631,50 @@ actionsProcessing:
       key: nvidia.com/gpu
       operator: Exists
   nodeSelector: { }
+
+# -- Settings related to the Primary processing CronJobs.
+# @default -- -
+secondaryProcessing:
+  # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+  schedule: "0 2 * * *" # Every day at 2:00 AM
+  backoffLimit: 1
+  resources:
+    requests:
+      cpu: 1
+    limits:
+      nvidia.com/gpu: 1
+
+  podAnnotations: { }
+  podLabels: { }
+  podSecurityContext:
+    runAsNonRoot: true
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+
+  # Additional volumes
+  volumes: [ ]
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+  # Additional volumeMounts
+  volumeMounts: [ ]
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  affinity: { }
+  tolerations:
+    - effect: NoSchedule
+      key: nvidia.com/gpu
+      operator: Exists
+  nodeSelector: { }
+
 
 imagePullSecrets: [ ]
 # - name: my-secret-name
@@ -1054,11 +1064,9 @@ featureFlags:
 # -- Keep everything disabled by default unless you're upgrading the platform to a
 # -- major release.
 reprocessing:
-  actions:
+  modelSuggestions:
     enabled: false
-  suggestions:
-    enabled: false
-  topics:
+  topicsAndActions:
     enabled: false
 
 # -- Post-upgrade hooks settings.

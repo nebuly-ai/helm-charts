@@ -1,33 +1,33 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobActionsProcessing.fullname" . }}
+  name: {{ include "jobEnrichInteractions.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{- include "jobActionsProcessing.labels" . | nindent 4 }}
+    {{- include "jobEnrichInteractions.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.actionsProcessing.schedule | quote }}
+  schedule: {{ .Values.primaryProcessing.schedule | quote }}
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobActionsProcessing.labels" . | nindent 10 }}
+        {{- include "jobEnrichInteractions.labels" . | nindent 10 }}
     spec:
-      backoffLimit: {{ .Values.actionsProcessing.backoffLimit }}
+      backoffLimit: {{ .Values.primaryProcessing.backoffLimit }}
       template:
         metadata:
-          {{- with .Values.actionsProcessing.podAnnotations }}
+          {{- with .Values.primaryProcessing.podAnnotations }}
           annotations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobActionsProcessing.labels" . | nindent 14 }}
-            {{- with .Values.actionsProcessing.podLabels }}
+            {{- include "jobEnrichInteractions.labels" . | nindent 14 }}
+            {{- with .Values.primaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
         spec:
-          hostIPC: {{ .Values.actionsProcessing.hostIPC }}
+          hostIPC: {{ .Values.primaryProcessing.hostIPC }}
           serviceAccountName: {{ .Values.serviceAccount.name }}
           restartPolicy: Never
           {{- with .Values.imagePullSecrets }}
@@ -35,14 +35,14 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           securityContext:
-            {{- toYaml .Values.actionsProcessing.podSecurityContext | nindent 12 }}
+            {{- toYaml .Values.primaryProcessing.podSecurityContext | nindent 12 }}
           containers:
             - name: {{ .Chart.Name }}
               securityContext:
-                {{- toYaml .Values.actionsProcessing.securityContext | nindent 16 }}
-              image: "{{ .Values.actionsProcessing.image.repository }}:{{ .Values.actionsProcessing.image.tag | default .Chart.AppVersion }}"
-              command: [ "python", "jobs/process_actions.py" ]
-              imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
+                {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
+              image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
+              command: [ "python", "jobs/process_enrich_interactions.py" ]
+              imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
               - name: MODEL_NAME
                 value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
@@ -64,7 +64,7 @@ spec:
                 {{ include "aiModels.gcp.env" . | nindent 16 }}
               {{- end }}
               resources:
-                {{- toYaml .Values.actionsProcessing.resources | nindent 18 }}
+                {{- toYaml .Values.primaryProcessing.resources | nindent 18 }}
               volumeMounts:
                 - name: vllm-report-usage
                   mountPath: /nonexistent
@@ -76,7 +76,7 @@ spec:
                 - name: models-cache
                   mountPath: /var/cache/nebuly
                   readOnly: false
-              {{- with .Values.actionsProcessing.volumeMounts }}
+              {{- with .Values.primaryProcessing.volumeMounts }}
                 {{- toYaml . | nindent 18 }}
               {{- end }}
           volumes:
@@ -88,24 +88,24 @@ spec:
                 secretName: {{ include "kafka.fullname" . }}-cluster-ca-cert
           {{- end }}
             - name: models-cache
-          {{- if .Values.actionsProcessing.modelsCache.enabled }}
+          {{- if .Values.primaryProcessing.modelsCache.enabled }}
               persistentVolumeClaim:
                 claimName: {{ include "ingestionWorker.fullname" . }}
           {{- else }}
               emptyDir: { }
           {{- end }}
-          {{- with .Values.actionsProcessing.volumes }}
+          {{- with .Values.primaryProcessing.volumes }}
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.actionsProcessing.nodeSelector }}
+          {{- with .Values.primaryProcessing.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.actionsProcessing.affinity }}
+          {{- with .Values.primaryProcessing.affinity }}
           affinity:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.actionsProcessing.tolerations }}
+          {{- with .Values.primaryProcessing.tolerations }}
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}

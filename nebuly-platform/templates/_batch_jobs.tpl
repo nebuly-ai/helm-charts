@@ -16,7 +16,7 @@
 - name: THRESHOLD_MERGE_CLUSTERS_V2
   value: "0.25"
 - name: PROCESS_LAST_N_HOURS
-  value: {{ .Values.actionsProcessing.numHoursProcessed | quote }}
+  value: {{ .Values.primaryProcessing.numHoursProcessed | quote }}
 
 # Topic Settings
 - name: TOPIC_FIRST_GENERATION_QUERIES_CHUNK_SIZE
