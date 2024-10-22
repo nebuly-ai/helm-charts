@@ -84,6 +84,10 @@ spec:
               value: {{ .Values.aiModels.registry | quote }}
             - name: MODELS_CACHE_DIR
               value: "/var/cache/nebuly"
+            - name: SENTENCE_TRANSFORMERS_HOME
+              value: "/tmp/hf"
+            - name: HF_HOME
+              value: "/tmp/hf"
             {{- include "lionLinguist.commonEnv" . | nindent 12 }}
           readinessProbe:
             httpGet:

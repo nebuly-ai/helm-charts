@@ -118,4 +118,8 @@
   value: {{ .Values.aiModels.registry | quote }}
 - name: MODELS_CACHE_DIR
   value: "/var/cache/nebuly"
+- name: SENTENCE_TRANSFORMERS_HOME
+  value: "/tmp/hf"
+- name: HF_HOME
+  value: "/tmp/hf"
 {{- end -}}
