@@ -4,10 +4,10 @@
 
 ### Breaking changes
 
-* Rename value `openai.deploymentFrustration` to `openai.gpt4oDeployment`
+* Rename value `openai.frustrationDetectionDeployment` to `openai.gpt4oDeployment`
 * Rename value `actionsProcessing` to `primaryProcessing`
-* Merge values `ingestionWorker.secondaryProcessing`
-  and `ingestionWorker.secondaryProcessing` into
+* Merge values `ingestionWorker.topicsClustering`
+  and `ingestionWorker.suggestionsGeneration` into
   `secondaryProcessing`
 * New `reprocessing` format:
   ```yaml
