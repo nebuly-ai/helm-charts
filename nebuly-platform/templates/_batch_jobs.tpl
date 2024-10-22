@@ -19,6 +19,78 @@
   value: {{ .Values.primaryProcessing.numHoursProcessed | quote }}
 
 
+# Model Suggestions Settings
+- name: MODEL_ISSUE_MAX_DATA
+  value: "5000"
+- name: MODEL_ISSUE_MAX_TOPICS
+  value: "200"
+- name: MODEL_ISSUE_MAX_LLM_ISSUES_GENERATION_ITERATIONS
+  value: "10"
+- name: MODEL_ISSUE_ASYNC_BATCH_SIZE
+  value: "40"
+- name: MODEL_ISSUE_LOCAL_MODEL_NAME
+  value: "model-issues-classifier"
+- name: MODEL_ISSUE_LOCAL_MODEL_VERSION
+  value: "2"
+- name: MODEL_ISSUE_LOCAL_MODEL_TEMPERATURE
+  value: "0.5"
+- name: MODEL_ISSUE_LOCAL_MODEL_GENERATIONS
+  value: "3"
+- name: MODEL_ISSUE_CLASSIFIER_KIND
+  value: "local_model_majority_vote"
+- name: MODEL_ISSUE_VARIABLE_CLASSIFIER
+  value: "false"
+
+# Topics
+- name: TOPIC_FIRST_GENERATION_QUERIES_CHUNK_SIZE
+  value: "1000"
+- name: TOPIC_ASSIGNMENT_QUERIES_CHUNK_SIZE
+  value: "5000"
+- name: TOPIC_MIN_PERCENTAGE_SPLIT
+  value: "0.35"
+- name: TOPIC_MAX_PERCENTAGE_REMOVE
+  value: "0.01"
+- name: TOPIC_MIN_N_SPLIT
+  value: "100"
+- name: TOPIC_LOCAL_MODEL_NAME
+  value: topics-classifier
+- name: TOPIC_LOCAL_MODEL_VERSION
+  value: "1"
+- name: TOPIC_LOCAL_MODEL_TEMPERATURE
+  value: "0.5"
+- name: TOPIC_LOCAL_MODEL_GENERATIONS
+  value: "3"
+- name: TOPIC_CLASSIFIER_KIND
+  value: "local_model_majority_vote"
+- name: TOPIC_VARIABLE_CLASSIFIER
+  value: "false"
+
+
+# Intent settings
+- name: INTENT_FIRST_GENERATION_QUERIES_CHUNK_SIZE
+  value: "1000"
+- name: INTENT_ASSIGNMENT_QUERIES_CHUNK_SIZE
+  value: "5000"
+- name: INTENT_MIN_PERCENTAGE_SPLIT
+  value: "0.3"
+- name: INTENT_MAX_PERCENTAGE_REMOVE
+  value: "0.01"
+- name: INTENT_MIN_N_SPLIT
+  value: "100"
+- name: INTENT_LOCAL_MODEL_NAME
+  value: "intents-classifier"
+- name: INTENT_LOCAL_MODEL_VERSION
+  value: "1"
+- name: INTENT_LOCAL_MODEL_TEMPERATURE
+  value: "0.5"
+- name: INTENT_LOCAL_MODEL_GENERATIONS
+  value: "3"
+- name: INTENT_CLASSIFIER_KIND
+  value: "local_model_majority_vote"
+- name: INTENT_VARIABLE_CLASSIFIER
+  value: "false"
+
+
 # OpenAI
 - name: OPENAI_PROVIDER
   value: {{ .Values.openAi.provider | quote }}
@@ -28,7 +100,7 @@
   value: "{{ .Values.openAi.endpoint }}"
 - name: OPENAI_DEPLOYMENT_FRUSTRATION
   value: "{{ .Values.openAi.gpt4oDeployment }}"
-- name: OPENAI_DEPLOYMENT_GPT40
+- name: OPENAI_DEPLOYMENT_GPT4O
   value: {{ .Values.openAi.gpt4oDeployment | quote }}
 - name: AZURE_OPENAI_API_KEY
   valueFrom:

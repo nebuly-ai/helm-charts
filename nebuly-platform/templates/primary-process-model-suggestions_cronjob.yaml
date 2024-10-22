@@ -48,27 +48,6 @@ spec:
                   value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
                 - name: MODEL_VERSION
                   value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
-                # Model Suggestions Settings
-                - name: MODEL_ISSUE_MAX_DATA
-                  value: "5000"
-                - name: MODEL_ISSUE_MAX_TOPICS
-                  value: "200"
-                - name: MODEL_ISSUE_MAX_LLM_ISSUES_GENERATION_ITERATIONS
-                  value: "10"
-                - name: MODEL_ISSUE_ASYNC_BATCH_SIZE
-                  value: "40"
-                - name: MODEL_ISSUE_LOCAL_MODEL_NAME
-                  value: "model-issues-classifier"
-                - name: MODEL_ISSUE_LOCAL_MODEL_VERSION
-                  value: "2"
-                - name: MODEL_ISSUE_LOCAL_MODEL_TEMPERATURE
-                  value: "0.5"
-                - name: MODEL_ISSUE_LOCAL_MODEL_GENERATIONS
-                  value: "3"
-                - name: MODEL_ISSUE_CLASSIFIER_KIND
-                  value: "local_model_majority_vote"
-                - name: MODEL_ISSUE_VARIABLE_CLASSIFIER
-                  value: "false"
               {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
               {{ include "batchJobs.commonEnv" . | nindent 16 }}
               {{ include "lionLinguist.commonEnv" . | nindent 16 }}
