@@ -43,11 +43,33 @@ spec:
               command: [ "python", "jobs/process_topics_and_actions.py" ]
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
-                {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
-                {{ include "lionLinguist.commonEnv" . | nindent 18 }}
-                {{ include "batchJobs.commonEnv" . | nindent 18 }}
+                - name: TOPIC_FIRST_GENERATION_QUERIES_CHUNK_SIZE
+                  value: "1000"
+                - name: TOPIC_ASSIGNMENT_QUERIES_CHUNK_SIZE
+                  value: "5000"
+                - name: TOPIC_MIN_PERCENTAGE_SPLIT
+                  value: "0.35"
+                - name: TOPIC_MAX_PERCENTAGE_REMOVE
+                  value: "0.01"
+                - name: TOPIC_MIN_N_SPLIT
+                  value: "100"
+                - name: TOPIC_LOCAL_MODEL_NAME
+                  value: topics-classifier
+                - name: TOPIC_LOCAL_MODEL_VERSION
+                  value: "1"
+                - name: TOPIC_LOCAL_MODEL_TEMPERATURE
+                  value: "0.5"
+                - name: TOPIC_LOCAL_MODEL_GENERATIONS
+                  value: "3"
+                - name: TOPIC_CLASSIFIER_KIND
+                  value: "local_model_majority_vote"
+                - name: TOPIC_VARIABLE_CLASSIFIER
+                  value: "false"
+                {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
+                {{ include "lionLinguist.commonEnv" . | nindent 16 }}
+                {{ include "batchJobs.commonEnv" . | nindent 16 }}
               resources:
-                {{- toYaml .Values.secondaryProcessing.resources | nindent 18 }}
+                {{- toYaml .Values.secondaryProcessing.resources | nindent 16 }}
               volumeMounts:
                 - name: models-cache
                   mountPath: /var/cache/nebuly

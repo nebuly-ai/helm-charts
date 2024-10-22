@@ -48,6 +48,28 @@ spec:
                   value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
                 - name: MODEL_VERSION
                   value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
+                - name: INTENT_FIRST_GENERATION_QUERIES_CHUNK_SIZE
+                  value: "1000"
+                - name: INTENT_ASSIGNMENT_QUERIES_CHUNK_SIZE
+                  value: "5000"
+                - name: INTENT_MIN_PERCENTAGE_SPLIT
+                  value: "0.3"
+                - name: INTENT_MAX_PERCENTAGE_REMOVE
+                  value: "0.01"
+                - name: INTENT_MIN_N_SPLIT
+                  value: "100"
+                - name: INTENT_LOCAL_MODEL_NAME
+                  value: "intents-classifier"
+                - name: INTENT_LOCAL_MODEL_VERSION
+                  value: "1"
+                - name: INTENT_LOCAL_MODEL_TEMPERATURE
+                  value: "0.5"
+                - name: INTENT_LOCAL_MODEL_GENERATIONS
+                  value: "3"
+                - name: INTENT_CLASSIFIER_KIND
+                  value: "local_model_majority_vote"
+                - name: INTENT_VARIABLE_CLASSIFIER
+                  value: "false"
               {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
               {{ include "batchJobs.commonEnv" . | nindent 16 }}
               {{ include "lionLinguist.commonEnv" . | nindent 16 }}
