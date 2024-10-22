@@ -1,9 +1,5 @@
 {{- define "lionLinguist.commonEnv" -}}
 # Models
-- name: "MODEL_PROVIDER"
-  value: {{ .Values.aiModels.registry | quote }}
-- name: MODELS_CACHE_DIR
-  value: "/var/cache/nebuly"
 - name: EMBEDDING_WARNING_MODEL_NAME
   value: {{ .Values.aiModels.modelEmbeddingWarnings.name | quote }}
 - name: EMBEDDING_WARNING_MODEL_VERSION
@@ -16,11 +12,6 @@
   value: {{ .Values.aiModels.modelEmbeddingTopic.name | quote }}
 - name: EMBEDDING_TOPIC_MODEL_VERSION
   value: {{ .Values.aiModels.modelEmbeddingTopic.version | quote }}
-# HF Env vars
-- name: SENTENCE_TRANSFORMERS_HOME
-  value: "/tmp/hf"
-- name: HF_HOME
-  value: "/tmp/hf"
 {{- if eq .Values.aiModels.registry  "azure_ml" }}
 {{ include "aiModels.azureml.env" . }}
 {{- end }}

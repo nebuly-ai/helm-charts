@@ -29,7 +29,7 @@
 {{- $messages = append $messages (include "chart.validateValues.openAi.gpt4oDeployment" .) -}}
 {{- end -}}
 {{/* Ingestion Worker*/}}
-{{- $messages = append $messages (include "chart.validateValues.actionsProcessing.modelsCache" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.primaryProcessing.modelsCache" .) -}}
 {{/* Lion Linguist */}}
 {{- $messages = append $messages (include "chart.validateValues.lionLinguist.modelsCache" .) -}}
 {{/* AI Models */}}
@@ -181,9 +181,9 @@ values: frontend.backendApiUrl
 
 
 {{/* Ingestion Worker validation. */}}
-{{- define "chart.validateValues.actionsProcessing.modelsCache" -}}
-{{- if and (empty .Values.actionsProcessing.modelsCache.storageClassName) (.Values.actionsProcessing.modelsCache.enabled) -}}
-values: actionsProcessing.modelsCache.storageClassName
+{{- define "chart.validateValues.primaryProcessing.modelsCache" -}}
+{{- if and (empty .Values.primaryProcessing.modelsCache.storageClassName) (.Values.primaryProcessing.modelsCache.enabled) -}}
+values: primaryProcessing.modelsCache.storageClassName
   `storageClassName` is required and should be a non-empty string
 {{- end -}}
 {{- end -}}

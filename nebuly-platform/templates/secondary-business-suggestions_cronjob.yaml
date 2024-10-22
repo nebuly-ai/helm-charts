@@ -1,29 +1,29 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobTopicsClustering.fullname" . }}
+  name: {{ include "jobProcessBusinessSuggestions.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{- include "jobTopicsClustering.labels" . | nindent 4 }}
+    {{- include "jobProcessBusinessSuggestions.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.ingestionWorker.topicsClustering.schedule | quote }}
+  schedule: {{ .Values.secondaryProcessing.schedule | quote }}
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobTopicsClustering.labels" . | nindent 10 }}
+        {{- include "jobProcessBusinessSuggestions.labels" . | nindent 10 }}
     spec:
       backoffLimit: 0
       template:
         metadata:
-          {{- with .Values.ingestionWorker.podAnnotations }}
+          {{- with .Values.secondaryProcessing.podAnnotations }}
           annotations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobTopicsClustering.labels" . | nindent 14 }}
-            {{- with .Values.ingestionWorker.podLabels }}
+            {{- include "jobProcessBusinessSuggestions.labels" . | nindent 14 }}
+            {{- with .Values.secondaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
         spec:
@@ -34,44 +34,41 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           securityContext:
-            {{- toYaml .Values.ingestionWorker.podSecurityContext | nindent 12 }}
+            {{- toYaml .Values.secondaryProcessing.podSecurityContext | nindent 12 }}
           containers:
             - name: {{ .Chart.Name }}
               securityContext:
-                {{- toYaml .Values.ingestionWorker.securityContext | nindent 16 }}
-              image: "{{ .Values.actionsProcessing.image.repository }}:{{ .Values.actionsProcessing.image.tag | default .Chart.AppVersion }}"
-              command: [ "python", "jobs/process_categories.py" ]
-              imagePullPolicy: {{ .Values.actionsProcessing.image.pullPolicy }}
-              ports:
-                - name: http
-                  containerPort: {{ .Values.ingestionWorker.service.port }}
-                  protocol: TCP
+                {{- toYaml .Values.secondaryProcessing.securityContext | nindent 16 }}
+              image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
+              command: [ "python", "jobs/process_business_suggestions.py" ]
+              imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
                 {{ include "ingestionWorker.commonEnv" . | nindent 18 }}
                 {{ include "lionLinguist.commonEnv" . | nindent 18 }}
+                {{ include "batchJobs.commonEnv" . | nindent 18 }}
               resources:
-                {{- toYaml .Values.ingestionWorker.topicsClustering.resources | nindent 18 }}
+                {{- toYaml .Values.secondaryProcessing.resources | nindent 18 }}
               volumeMounts:
                 - name: models-cache
                   mountPath: /var/cache/nebuly
-              {{- with .Values.ingestionWorker.volumeMounts }}
+              {{- with .Values.secondaryProcessing.volumeMounts }}
                 {{- toYaml . | nindent 16 }}
               {{- end }}
           volumes:
             - name: models-cache
               emptyDir: {}
-          {{- with .Values.ingestionWorker.volumes }}
+          {{- with .Values.secondaryProcessing.volumes }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.topicsClustering.nodeSelector }}
+          {{- with .Values.secondaryProcessing.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.topicsClustering.affinity }}
+          {{- with .Values.secondaryProcessing.affinity }}
           affinity:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.ingestionWorker.topicsClustering.tolerations }}
+          {{- with .Values.secondaryProcessing.tolerations }}
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}

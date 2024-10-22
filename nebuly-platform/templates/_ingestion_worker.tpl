@@ -69,48 +69,6 @@
   value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}"
 - name: BACKEND_URL
   value: "http://{{ include "backend.fullname" . }}:{{ .Values.backend.service.port }}"
-- name: LION_LINGUIST_URL
-  value: "http://{{ include "lionLinguist.fullname" . }}:{{ .Values.backend.service.port }}"
-- name: LION_LINGUIST_RETRY_ATTEMPTS
-  value: "{{ .Values.ingestionWorker.lionLinguistRetryAttempts }}"
-# Azure OpenAI
-- name: OPENAI_PROVIDER
-  value: {{ .Values.openAi.provider | quote }}
-- name: AZURE_OPENAI_API_VERSION
-  value: "{{ .Values.openAi.apiVersion }}"
-- name: AZURE_OPENAI_ENDPOINT
-  value: "{{ .Values.openAi.endpoint }}"
-- name: OPENAI_DEPLOYMENT_FRUSTRATION
-  value: "{{ .Values.openAi.gpt4oDeployment }}"
-- name: OPENAI_DEPLOYMENT_GPT40
-  value: {{ .Values.openAi.gpt4oDeployment | quote }}
-- name: AZURE_OPENAI_API_KEY
-  valueFrom:
-    secretKeyRef:
-      name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
-- name: OPENAI_API_KEY
-  valueFrom:
-    secretKeyRef:
-      name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
-# Thresholds
-- name: THRESHOLD_SUBJECT_CLUSTERING
-  value: {{ .Values.ingestionWorker.thresholds.subjectClustering | quote }}
-- name: THRESHOLD_SUBJECT_MERGE_CLUSTERS
-  value: {{ .Values.ingestionWorker.thresholds.subjectMergeClusters | quote }}
-- name: THRESHOLD_INTENT_CLUSTERING
-  value: {{ .Values.ingestionWorker.thresholds.intentClustering | quote }}
-- name: THRESHOLD_INTENT_MERGE_CLUSTERS
-  value: {{ .Values.ingestionWorker.thresholds.intentMergeClusters | quote }}
-
-- name: INTENT_BATCH_SIZE
-  value: "5000"
-- name: THRESHOLD_CLUSTERING_V2
-  value: "0.3"
-- name: THRESHOLD_MERGE_CLUSTERS_V2
-  value: "0.25"
-
 # Sentry
 - name: SENTRY_ENABLED
   value: {{ .Values.ingestionWorker.sentry.enabled | quote }}
