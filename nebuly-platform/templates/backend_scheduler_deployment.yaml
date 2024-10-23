@@ -51,8 +51,6 @@ spec:
               value: "nebuly-backend-scheduler"
             - name: "JOB_METRICS_ENABLED"
               value: "true"
-            - name: "TENANT"
-              value: {{ .Release.Name | quote }}
             # Common env
             {{ include "backend.commonEnv" . | nindent 12 }}
           livenessProbe:

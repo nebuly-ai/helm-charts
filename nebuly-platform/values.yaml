@@ -1054,11 +1054,6 @@ auth:
       clientIdKey: ""
       clientSecretKey: ""
 
-# @default -- Manage the feature flags of the platform.
-featureFlags:
-  # -- If true, enable the translation feature.
-  translationsEnabled: false
-
 # -- Settings for data reprocessing jobs required during
 # -- major platform upgrades.
 # -- Keep everything disabled by default unless you're upgrading the platform to a

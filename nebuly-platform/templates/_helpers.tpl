@@ -338,3 +338,16 @@ app.kubernetes.io/component: nebuly-frontend
 {{- end }}
 
 
+
+{{/*
+*********************************************************************
+* Feature Flags
+*********************************************************************
+*/}}
+{{- define "featureTranslationsEnabled" -}}
+{{- if empty .Values.openAi.translationDeployment -}}
+false
+{{- else -}}
+true
+{{- end -}}
+{{- end -}}
