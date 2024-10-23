@@ -7,9 +7,9 @@ dependencies:
   version: 0.2.0
 - name: bootstrap-azure
   repository: file://../bootstrap-azure
-  version: 0.1.0
+  version: 0.1.1
 - name: bootstrap-gcp
   repository: file://../bootstrap-gcp
   version: 0.1.0
-digest: sha256:884f61c654cac9f6341b1d45d841327c74a2b20a412c2145c7bfe7f78c65ec73
-generated: "2024-10-15T10:03:05.214612+02:00"
+digest: sha256:842ba36eec35193d17d01eab8d89ee40efaa985dac047f7404e8b298edd81b6e
+generated: "2024-10-23T10:33:40.893701+02:00"
