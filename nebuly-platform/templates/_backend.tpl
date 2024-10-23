@@ -14,6 +14,9 @@
   value: "{{ .Values.analyticDatabase.name }}"
 - name: ANALYTICS_SERVER
   value: "{{ .Values.analyticDatabase.server }}"
+# Misc (TODO: remove)
+- name: TENANT
+  value: {{ include "telemetry.tenant" . | quote }}
 # OTEL
 - name: OTEL_ENABLED
   value: "{{ .Values.otel.enabled }}"

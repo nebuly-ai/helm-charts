@@ -13,6 +13,9 @@
   value: "{{ .Values.ingestionWorker.numWorkersInteractions }}"
 - name: NUMBER_OF_WORKERS_FEEDBACK_ACTIONS
   value: "{{ .Values.ingestionWorker.numWorkersFeedbackActions }}"
+# Misc (TODO: remove)
+- name: TENANT
+  value: {{ include "telemetry.tenant" . | quote }}
 # OTEL
 - name: OTEL_SERVICE_NAME
   value: "nebuly-ingestion-worker"
