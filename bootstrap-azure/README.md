@@ -1,6 +1,6 @@
 # Microsoft Azure - Kubernetes bootstrap
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
 
 Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependencies required for installing [Nebuly Platform](https://nebuly.com).
 
@@ -46,7 +46,32 @@ details.
 | ingress-nginx.enabled | bool | `true` |  |
 | nameOverride | string | `""` | Override the name of the chart. |
 | namespaceOverride | string | `""` | Override the namespace. |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].key | string | `"feature.node.kubernetes.io/pci-10de.present"` |  |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].operator | string | `"In"` |  |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[0].matchExpressions[0].values[0] | string | `"true"` |  |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[1].matchExpressions[0].key | string | `"feature.node.kubernetes.io/cpu-model.vendor_id"` |  |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[1].matchExpressions[0].operator | string | `"In"` |  |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[1].matchExpressions[0].values[0] | string | `"NVIDIA"` |  |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[2].matchExpressions[0].key | string | `"nvidia.com/gpu.present"` |  |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[2].matchExpressions[0].operator | string | `"In"` |  |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[2].matchExpressions[0].values[0] | string | `"true"` |  |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[3].matchExpressions[0].key | string | `"kubernetes.azure.com/accelerator"` |  |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[3].matchExpressions[0].operator | string | `"In"` |  |
+| nvidia-device-plugin.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms[3].matchExpressions[0].values[0] | string | `"nvidia"` |  |
 | nvidia-device-plugin.enabled | bool | `true` |  |
+| nvidia-device-plugin.tolerations[0].key | string | `"CriticalAddonsOnly"` |  |
+| nvidia-device-plugin.tolerations[0].operator | string | `"Exists"` |  |
+| nvidia-device-plugin.tolerations[1].effect | string | `"NoSchedule"` |  |
+| nvidia-device-plugin.tolerations[1].key | string | `"nvidia.com/gpu"` |  |
+| nvidia-device-plugin.tolerations[1].operator | string | `"Exists"` |  |
+| nvidia-device-plugin.tolerations[2].effect | string | `"NoSchedule"` |  |
+| nvidia-device-plugin.tolerations[2].key | string | `"sku"` |  |
+| nvidia-device-plugin.tolerations[2].operator | string | `"Equal"` |  |
+| nvidia-device-plugin.tolerations[2].value | string | `"gpu"` |  |
+| nvidia-device-plugin.tolerations[3].effect | string | `"NoSchedule"` |  |
+| nvidia-device-plugin.tolerations[3].key | string | `"kubernetes.azure.com/scalesetpriority"` |  |
+| nvidia-device-plugin.tolerations[3].operator | string | `"Equal"` |  |
+| nvidia-device-plugin.tolerations[3].value | string | `"spot"` |  |
 
 ## Source Code
 

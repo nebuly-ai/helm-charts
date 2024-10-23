@@ -10,6 +10,50 @@ annotations: { }
 nvidia-device-plugin:
   enabled: true
 
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          # --- Defaults --- #
+          - matchExpressions:
+              - key: feature.node.kubernetes.io/pci-10de.present
+                operator: In
+                values:
+                  - "true"
+          - matchExpressions:
+              - key: feature.node.kubernetes.io/cpu-model.vendor_id
+                operator: In
+                values:
+                  - "NVIDIA"
+          - matchExpressions:
+              - key: "nvidia.com/gpu.present"
+                operator: In
+                values:
+                  - "true"
+          # --- Customs additional for Azure --- #
+          - matchExpressions:
+              - key: "kubernetes.azure.com/accelerator"
+                operator: In
+                values:
+                  - "nvidia"
+
+  tolerations:
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - key: nvidia.com/gpu
+      operator: Exists
+      effect: NoSchedule
+    - key: "sku"
+      operator: "Equal"
+      value: "gpu"
+      effect: "NoSchedule"
+    - key: "kubernetes.azure.com/scalesetpriority"
+      operator: "Equal"
+      value: "spot"
+      effect: "NoSchedule"
+
+
+
 ingress-nginx:
   enabled: true
   controller:
