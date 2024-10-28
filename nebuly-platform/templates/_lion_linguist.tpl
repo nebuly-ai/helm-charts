@@ -4,9 +4,9 @@
   value: {{ .Values.aiModels.modelEmbeddingWarnings.name | quote }}
 - name: EMBEDDING_WARNING_MODEL_VERSION
   value: {{ .Values.aiModels.modelEmbeddingWarnings.version | quote }}
-- name: EMBEDDING_INTENT_MODEL_NAME
+- name: EMBEDDING_ACTION_MODEL_NAME
   value: {{ .Values.aiModels.modelEmbeddingIntents.name | quote }}
-- name: EMBEDDING_INTENT_MODEL_VERSION
+- name: EMBEDDING_ACTION_MODEL_VERSION
   value: {{ .Values.aiModels.modelEmbeddingIntents.version | quote }}
 - name: EMBEDDING_TOPIC_MODEL_NAME
   value: {{ .Values.aiModels.modelEmbeddingTopic.name | quote }}

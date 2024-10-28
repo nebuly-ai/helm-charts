@@ -20,7 +20,7 @@
 
 
 # Model Suggestions Settings
-- name: MODEL_ISSUE_MAX_DATA
+- name: MODEL_ISSUE_ASSIGNMENT_CHUNK_SIZE
   value: "5000"
 - name: MODEL_ISSUE_MAX_TOPICS
   value: "200"
@@ -40,6 +40,8 @@
   value: "local_model_majority_vote"
 - name: MODEL_ISSUE_VARIABLE_CLASSIFIER
   value: "false"
+- name: MODEL_ISSUE_CLASSIFIER_MAX_CANDIDATES_PER_BATCH
+  value: "50"
 
 # Topics
 - name: TOPIC_FIRST_GENERATION_QUERIES_CHUNK_SIZE
@@ -66,29 +68,44 @@
   value: "false"
 
 
-# Intent settings
-- name: INTENT_FIRST_GENERATION_QUERIES_CHUNK_SIZE
+# Action settings
+- name: ACTION_FIRST_GENERATION_QUERIES_CHUNK_SIZE
   value: "1000"
-- name: INTENT_ASSIGNMENT_QUERIES_CHUNK_SIZE
+- name: ACTION_ASSIGNMENT_QUERIES_CHUNK_SIZE
   value: "5000"
-- name: INTENT_MIN_PERCENTAGE_SPLIT
+- name: ACTION_MIN_PERCENTAGE_SPLIT
   value: "0.3"
-- name: INTENT_MAX_PERCENTAGE_REMOVE
+- name: ACTION_MAX_PERCENTAGE_REMOVE
   value: "0.01"
-- name: INTENT_MIN_N_SPLIT
+- name: ACTION_MIN_N_SPLIT
   value: "100"
-- name: INTENT_LOCAL_MODEL_NAME
+- name: ACTION_LOCAL_MODEL_NAME
   value: "intents-classifier"
+- name: ACTION_LOCAL_MODEL_VERSION
+  value: "1"
+- name: ACTION_LOCAL_MODEL_TEMPERATURE
+  value: "0.5"
+- name: ACTION_LOCAL_MODEL_GENERATIONS
+  value: "3"
+- name: ACTION_CLASSIFIER_KIND
+  value: "local_model_majority_vote"
+- name: ACTION_VARIABLE_CLASSIFIER
+  value: "false"
+
+
+# Intent Settings
+- name: INTENT_ASSIGNMENT_CHUNK_SIZE
+  value: "5000"
+- name: INTENT_MAX_TOPICS
+  value: "200"
+- name: INTENT_LOCAL_MODEL_NAME
+  value: "intent-classifier"
 - name: INTENT_LOCAL_MODEL_VERSION
   value: "1"
 - name: INTENT_LOCAL_MODEL_TEMPERATURE
   value: "0.5"
 - name: INTENT_LOCAL_MODEL_GENERATIONS
   value: "3"
-- name: INTENT_CLASSIFIER_KIND
-  value: "local_model_majority_vote"
-- name: INTENT_VARIABLE_CLASSIFIER
-  value: "false"
 
 
 # OpenAI
