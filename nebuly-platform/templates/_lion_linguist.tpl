@@ -8,6 +8,10 @@
   value: {{ .Values.aiModels.modelEmbeddingIntents.name | quote }}
 - name: EMBEDDING_INTENT_MODEL_VERSION
   value: {{ .Values.aiModels.modelEmbeddingIntents.version | quote }}
+  - name: EMBEDDING_ACTION_MODEL_NAME
+  value: {{ .Values.aiModels.modelEmbeddingIntents.name | quote }}
+- name: EMBEDDING_ACTION_MODEL_VERSION
+  value: {{ .Values.aiModels.modelEmbeddingIntents.version | quote }}
 - name: EMBEDDING_TOPIC_MODEL_NAME
   value: {{ .Values.aiModels.modelEmbeddingTopic.name | quote }}
 - name: EMBEDDING_TOPIC_MODEL_VERSION
