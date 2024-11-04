@@ -46,6 +46,8 @@ spec:
             - {{ .Values.aiModels.modelEmbeddingTopic.name }}:{{ .Values.aiModels.modelEmbeddingTopic.version }}
             - {{ .Values.aiModels.modelEmbeddingIntents.name }}:{{ .Values.aiModels.modelEmbeddingIntents.version }}
             - {{ .Values.aiModels.modelInferenceInteractions.name }}:{{ .Values.aiModels.modelInferenceInteractions.version }}
+            - {{ .Values.aiModels.modelIssuesClassifier.name }}:{{ .Values.aiModels.modelIssuesClassifier.version }}
+            - {{ .Values.aiModels.modelIntentClassifier.name }}:{{ .Values.aiModels.modelIntentClassifier.version }}
             - --target-registry
             - {{ .Values.aiModels.registry }}
           imagePullPolicy: {{ .Values.aiModels.sync.image.pullPolicy }}
