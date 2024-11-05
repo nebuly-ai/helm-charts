@@ -773,6 +773,8 @@ kafka:
   # -- The number of Kafka brokers in the cluster.
   replicas: 3
 
+  affinity: {}
+
   # -- The storage class used for the Kafka and Zookeeper storage.
   # @default -- -
   storage:
@@ -798,6 +800,7 @@ kafka:
   # @default -- -
   zookeeper:
     replicas: 3
+    affinity: {}
     storage:
       type: persistent-claim
       size: 10Gi

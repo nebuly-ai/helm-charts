@@ -8,6 +8,9 @@ metadata:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
   zookeeper:
+    template:
+      pod:
+        affinity: {{- toYaml .Values.kafka.affinity | nindent 10 }}
     replicas: {{ .Values.kafka.zookeeper.replicas }}
     storage:
       {{- toYaml .Values.kafka.zookeeper.storage | nindent 6 }}
@@ -17,6 +20,9 @@ spec:
     userOperator: {}
     topicOperator: {}
   kafka:
+    template:
+      pod:
+        affinity: {{- toYaml .Values.kafka.affinity | nindent 10 }}
     replicas: {{ .Values.kafka.replicas }}
     listeners:
       - name: plain

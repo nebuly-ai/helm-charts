@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.15.12](https://img.shields.io/badge/Version-1.15.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.15.13](https://img.shields.io/badge/Version-1.15.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -378,6 +378,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
+| kafka.affinity | object | `{}` |  |
 | kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
 | kafka.config."replica.selector.class" | string | `"org.apache.kafka.common.replica.RackAwareReplicaSelector"` |  |
 | kafka.existingSecret | object | - | [external] Use an existing secret for Kafka authentication. |
@@ -411,6 +412,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry3.name | string | `"events-retry-3"` | The name of the Kafka topic. |
 | kafka.topicEventsRetry3.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.topicEventsRetry3.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
+| kafka.zookeeper.affinity | object | `{}` |  |
 | kafka.zookeeper.replicas | int | `3` |  |
 | kafka.zookeeper.resources.limits.memory | string | `"2048Mi"` |  |
 | kafka.zookeeper.resources.requests.cpu | string | `"100m"` |  |
