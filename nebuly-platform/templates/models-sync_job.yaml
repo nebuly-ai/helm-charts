@@ -92,7 +92,7 @@ spec:
             {{- toYaml .Values.aiModels.sync.resources | nindent 12 }}
           {{- with .Values.aiModels.sync.volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 12 }}
+            {{- toYaml . | nindent 14 }}
           {{- end }}
       {{- with .Values.aiModels.sync.volumes }}
       volumes:
