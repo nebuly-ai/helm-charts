@@ -196,9 +196,9 @@ platform.nebuly.com/processing-stage: secondary
 * Cronjob Primary - Enrich Interactions
 *********************************************************************
 */}}
-{{- define "jobPrimaryEnrichInteractions" -}}
-{{- include "nebuly-platform.selectorLabels" . }}
-{{- include "primaryProcessing.commonLabels" . }}
+{{- define "jobPrimaryEnrichInteractions.labels" -}}
+{{ include "nebuly-platform.selectorLabels" . }}
+{{ include "primaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-enrich-interactions
 {{- end }}
 
@@ -212,8 +212,8 @@ app.kubernetes.io/component: job-enrich-interactions
 *********************************************************************
 */}}
 {{- define "jobPrimaryProcessIntents.labels" -}}
-{{- include "nebuly-platform.selectorLabels" . }}
-{{- include "primaryProcessing.commonLabels" . }}
+{{ include "nebuly-platform.selectorLabels" . }}
+{{ include "primaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-process-intents
 {{- end }}
 
@@ -227,8 +227,8 @@ app.kubernetes.io/component: job-process-intents
 *********************************************************************
 */}}
 {{- define "jobPrimaryProcessModelSuggestions.labels" -}}
-{{- include "nebuly-platform.selectorLabels" . }}
-{{- include "primaryProcessing.commonLabels" . }}
+{{ include "nebuly-platform.selectorLabels" . }}
+{{ include "primaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-process-model-suggestions
 {{- end }}
 
@@ -242,8 +242,8 @@ app.kubernetes.io/component: job-process-model-suggestions
 *********************************************************************
 */}}
 {{- define "jobSecondaryProcessBusinessSuggestions.labels" -}}
-{{- include "nebuly-platform.selectorLabels" . }}
-{{- include "secondaryProcessing.commonLabels" . }}
+{{ include "nebuly-platform.selectorLabels" . }}
+{{ include "secondaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-process-business-suggestions
 {{- end }}
 
@@ -257,8 +257,8 @@ app.kubernetes.io/component: job-process-business-suggestions
 *********************************************************************
 */}}
 {{- define "jobSecondaryProcessModerationSuggestions.labels" -}}
-{{- include "nebuly-platform.selectorLabels" . }}
-{{- include "secondaryProcessing.commonLabels" . }}
+{{ include "nebuly-platform.selectorLabels" . }}
+{{ include "secondaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-process-moderation-suggestions
 {{- end }}
 
@@ -272,8 +272,8 @@ app.kubernetes.io/component: job-process-moderation-suggestions
 *********************************************************************
 */}}
 {{- define "jobSecondaryProcessTopicsAndActions.labels" -}}
-{{- include "nebuly-platform.selectorLabels" . }}
-{{- include "secondaryProcessing.commonLabels" . }}
+{{ include "nebuly-platform.selectorLabels" . }}
+{{ include "secondaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-process-topics-and-actions
 {{- end }}
 
