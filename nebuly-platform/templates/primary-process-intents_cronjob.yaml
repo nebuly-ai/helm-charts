@@ -1,10 +1,10 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobProcessIntents.fullname" . }}
+  name: {{ include "jobPrimaryProcessIntents.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{- include "jobProcessIntents.labels" . | nindent 4 }}
+    {{- include "jobPrimaryProcessIntents.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
@@ -12,7 +12,7 @@ spec:
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobProcessIntents.labels" . | nindent 10 }}
+        {{- include "jobPrimaryProcessIntents.labels" . | nindent 10 }}
     spec:
       backoffLimit: {{ .Values.primaryProcessing.backoffLimit }}
       template:
@@ -22,7 +22,7 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobProcessIntents.labels" . | nindent 14 }}
+            {{- include "jobPrimaryProcessIntents.labels" . | nindent 14 }}
             {{- with .Values.primaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}

@@ -183,18 +183,26 @@ app.kubernetes.io/component: nebuly-ingestion-worker
 {{- printf "%s-%s" .Release.Name "primary-models-cache" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{- define "primaryProcessing.commonLabels" -}}
+platform.nebuly.com/processing-stage: primary
+{{- end }}
+
+{{- define "secondaryProcessing.commonLabels" -}}
+platform.nebuly.com/processing-stage: secondary
+{{- end }}
 
 {{/*
 *********************************************************************
 * Cronjob Primary - Enrich Interactions
 *********************************************************************
 */}}
-{{- define "jobEnrichInteractions.labels" -}}
+{{- define "jobPrimaryEnrichInteractions" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
+{{- include "primaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-enrich-interactions
 {{- end }}
 
-{{- define "jobEnrichInteractions.fullname" -}}
+{{- define "jobPrimaryEnrichInteractions.fullname" -}}
 {{- printf "%s-%s" .Release.Name "enrich-interactions" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -203,12 +211,13 @@ app.kubernetes.io/component: job-enrich-interactions
 * Cronjob Primary - Process Intents
 *********************************************************************
 */}}
-{{- define "jobProcessIntents.labels" -}}
+{{- define "jobPrimaryProcessIntents.labels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
+{{- include "primaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-process-intents
 {{- end }}
 
-{{- define "jobProcessIntents.fullname" -}}
+{{- define "jobPrimaryProcessIntents.fullname" -}}
 {{- printf "%s-%s" .Release.Name "process-intents" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -217,12 +226,13 @@ app.kubernetes.io/component: job-process-intents
 * Cronjob Primary - Process Model Suggestions
 *********************************************************************
 */}}
-{{- define "jobProcessModelSuggestions.labels" -}}
+{{- define "jobPrimaryProcessModelSuggestions.labels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
+{{- include "primaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-process-model-suggestions
 {{- end }}
 
-{{- define "jobProcessModelSuggestions.fullname" -}}
+{{- define "jobPrimaryProcessModelSuggestions.fullname" -}}
 {{- printf "%s-%s" .Release.Name "process-model-suggestions" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -231,12 +241,13 @@ app.kubernetes.io/component: job-process-model-suggestions
 * Cronjob Secondary - Process Business Suggestions
 *********************************************************************
 */}}
-{{- define "jobProcessBusinessSuggestions.labels" -}}
+{{- define "jobSecondaryProcessBusinessSuggestions.labels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
+{{- include "secondaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-process-business-suggestions
 {{- end }}
 
-{{- define "jobProcessBusinessSuggestions.fullname" -}}
+{{- define "jobSecondaryProcessBusinessSuggestions.fullname" -}}
 {{- printf "%s-%s" .Release.Name "process-business-suggestions" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -245,12 +256,13 @@ app.kubernetes.io/component: job-process-business-suggestions
 * Cronjob Secondary - Process Moderation Suggestions
 *********************************************************************
 */}}
-{{- define "jobProcessModerationSuggestions.labels" -}}
+{{- define "jobSecondaryProcessModerationSuggestions.labels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
+{{- include "secondaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-process-moderation-suggestions
 {{- end }}
 
-{{- define "jobProcessModerationSuggestions.fullname" -}}
+{{- define "jobSecondaryProcessModerationSuggestions.fullname" -}}
 {{- printf "%s-%s" .Release.Name "process-moderation-suggestions" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -259,12 +271,13 @@ app.kubernetes.io/component: job-process-moderation-suggestions
 * Cronjob Secondary - Process Topics and Actions
 *********************************************************************
 */}}
-{{- define "jobProcessTopicsAndActions.labels" -}}
+{{- define "jobSecondaryProcessTopicsAndActions.labels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
+{{- include "secondaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-process-topics-and-actions
 {{- end }}
 
-{{- define "jobProcessTopicsAndActions.fullname" -}}
+{{- define "jobSecondaryProcessTopicsAndActions.fullname" -}}
 {{- printf "%s-%s" .Release.Name "process-topics-and-actions" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 

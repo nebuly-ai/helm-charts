@@ -1,10 +1,10 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobProcessBusinessSuggestions.fullname" . }}
+  name: {{ include "jobSecondaryProcessBusinessSuggestions.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{- include "jobProcessBusinessSuggestions.labels" . | nindent 4 }}
+    {{- include "jobSecondaryProcessBusinessSuggestions.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
@@ -12,7 +12,7 @@ spec:
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobProcessBusinessSuggestions.labels" . | nindent 10 }}
+        {{- include "jobSecondaryProcessBusinessSuggestions.labels" . | nindent 10 }}
     spec:
       backoffLimit: 0
       template:
@@ -22,7 +22,7 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobProcessBusinessSuggestions.labels" . | nindent 14 }}
+            {{- include "jobSecondaryProcessBusinessSuggestions.labels" . | nindent 14 }}
             {{- with .Values.secondaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
