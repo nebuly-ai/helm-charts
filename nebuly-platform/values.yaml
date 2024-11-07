@@ -473,6 +473,14 @@ aiModels:
     name: "intent-classifier"
     version: "1"
 
+  modelTopicClassifier:
+    name: "topic-classifier"
+    version: "1"
+
+  modelActionClassifier:
+    name: "action-classifier"
+    version: "1"
+
   # -- Config of the AWS S3 model registry.
   # @default -- -
   aws:
