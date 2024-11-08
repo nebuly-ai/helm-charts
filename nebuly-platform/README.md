@@ -151,7 +151,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| aiModels | object | `{"aws":{"bucketName":""},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":15},"modelIntentClassifier":{"name":"intent-classifier","version":"1"},"modelIssuesClassifier":{"name":"model-issues-classifier","version":"2"},"registry":"","sync":{"affinity":{},"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.2.0"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
+| aiModels | object | `{"aws":{"bucketName":""},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":16},"modelIntentClassifier":{"name":"intent-classifier","version":"1"},"modelIssuesClassifier":{"name":"model-issues-classifier","version":"2"},"registry":"","sync":{"affinity":{},"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.2.0"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
 | aiModels.azure | object | - | Config of the Azure Storage model registry. |
 | aiModels.azure.managedIdentityClientId | string | `""` | The client ID of the Azure managed identity used to access the Azure Storage account. |
@@ -242,7 +242,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.39.6"` |  |
+| backend.image.tag | string | `"v1.40.4"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -312,7 +312,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.41.5"` |  |
+| frontend.image.tag | string | `"v1.43.8"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
