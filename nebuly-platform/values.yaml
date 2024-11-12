@@ -788,7 +788,7 @@ kafka:
   # -- The number of Kafka brokers in the cluster.
   replicas: 3
 
-  affinity: {}
+  affinity: { }
 
   # -- The storage class used for the Kafka and Zookeeper storage.
   # @default -- -
@@ -815,7 +815,7 @@ kafka:
   # @default -- -
   zookeeper:
     replicas: 3
-    affinity: {}
+    affinity: { }
     storage:
       type: persistent-claim
       size: 10Gi
@@ -904,6 +904,10 @@ telemetry:
   # -- If True, enable telemetry collection. Collected telemetry data consists
   # of anonymous usage statistics and error reports.
   enabled: false
+  # -- If True, enable the Promtail log collector. Only logs from Nebuly's
+  # containers will be collected.
+  promtail:
+    enabled: false
   # -- Code of the tenant to which the telemetry data will be associated.
   tenant: ""
   # -- The API key used to authenticate with the telemetry service.

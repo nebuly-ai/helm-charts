@@ -351,6 +351,25 @@ app.kubernetes.io/component: nebuly-frontend
 {{- end }}
 
 
+{{/*
+*********************************************************************
+* Promtail
+*********************************************************************
+*/}}
+{{- define "promtail.labels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+{{- end }}
+
+{{- define "promtail.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: promtail
+{{- end }}
+
+{{- define "promtail.fullname" -}}
+{{- printf "%s-%s" .Release.Name "promtail" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+
 
 {{/*
 *********************************************************************

@@ -1,0 +1,43 @@
+{{ if .Values.telemetry.promtail.enabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "promtail.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "promtail.labels" . }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "promtail.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "promtail.labels" . }}
+rules:
+  - apiGroups: [ "" ]
+    resources:
+      - nodes
+      - services
+      - pods
+    verbs:
+      - get
+      - watch
+      - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "promtail.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{ include "promtail.labels" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "promtail.fullname" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ include "promtail.fullname" . }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
