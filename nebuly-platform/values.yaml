@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.39.6"
+    tag: "v1.40.4"
 
   podAnnotations: { }
   podLabels: { }
@@ -109,7 +109,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.41.5"
+    tag: "v1.43.8"
 
   podAnnotations: { }
   podLabels: { }
@@ -371,7 +371,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.33.1
+    tag: v1.35.0
 
   podAnnotations: { }
   podLabels: { }
@@ -463,7 +463,7 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: 15
+    version: 16
 
   modelIssuesClassifier:
     name: "model-issues-classifier"
