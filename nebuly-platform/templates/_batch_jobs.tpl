@@ -18,6 +18,11 @@
 - name: PROCESS_LAST_N_HOURS
   value: {{ .Values.primaryProcessing.numHoursProcessed | quote }}
 
+# Job version
+- name: MODEL_ISSUE_PROCESSING_VERSION
+  value: "v2"
+- name: TOPIC_AND_ACTION_PROCESSING_VERSION
+  value: "v1"
 
 # Model Suggestions Settings
 - name: MODEL_ISSUE_ASSIGNMENT_CHUNK_SIZE
