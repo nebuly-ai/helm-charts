@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.16.0](https://img.shields.io/badge/Version-1.16.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.16.1](https://img.shields.io/badge/Version-1.16.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -190,12 +190,13 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.adminUserPassword | string | `"admin"` | The password of the initial admin user. |
 | auth.adminUserUsername | string | `"admin@nebuly.ai"` | The username of the initial admin user. |
 | auth.affinity | object | `{}` |  |
+| auth.corsAllowOrigins | list | `[]` | If provided, add a CORS middleware to the auth service with the specified origins.  If empty, the CORS middleware will be disabled, and it will be assumed that CORS headers and settings are managed by the Ingress controller. |
 | auth.existingSecret | object | - | Use an existing secret for the database authentication. |
 | auth.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.fullnameOverride | string | `""` |  |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.10.0"` |  |
+| auth.image.tag | string | `"v1.10.1"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.loginModes | string | `"password"` | as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`. |
@@ -239,10 +240,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.volumeMounts | list | `[]` |  |
 | auth.volumes | list | `[]` |  |
 | backend.affinity | object | `{}` |  |
+| backend.corsAllowOrigins | list | `[]` | If provided, add a CORS middleware to the auth service with the specified origins.  If empty, the CORS middleware will be disabled, and it will be assumed that CORS headers and settings are managed by the Ingress controller. |
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.40.4"` |  |
+| backend.image.tag | string | `"v1.40.5"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
