@@ -96,6 +96,11 @@ spec:
               value: {{ .Values.auth.sentry.tracesSampleRate | quote }}
             - name: SENTRY_PROFILES_SAMPLE_RATE
               value: {{ .Values.auth.sentry.profilesSampleRate | quote }}
+            # CORS
+            {{- if .Values.auth.corsAllowOrigins }}
+            - name: CORS_ALLOW_ORIGINS
+              value: {{ .Values.auth.corsAllowOrigins | toJson | quote }}
+            {{- end }}
             # Auth
             - name: "JWT_SIGNING_KEY_PATH"
               value: "/app/resources/private-key.pem"

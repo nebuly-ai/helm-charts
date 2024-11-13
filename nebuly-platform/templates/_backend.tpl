@@ -101,4 +101,8 @@
 - name: ROOT_PATH
   value: "{{ .Values.backend.rootPath }}"
 {{- end }}
+{{- if .Values.backend.corsAllowOrigins }}
+- name: CORS_ALLOW_ORIGINS
+  value: {{ .Values.backend.corsAllowOrigins | toJson | quote }}
+{{- end }}
 {{- end -}}

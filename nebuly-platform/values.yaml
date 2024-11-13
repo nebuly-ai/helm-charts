@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.40.4"
+    tag: "v1.40.5"
 
   podAnnotations: { }
   podLabels: { }
@@ -66,6 +66,13 @@ backend:
   tolerations: [ ]
 
   affinity: { }
+
+  # -- If provided, add a CORS middleware to the auth service with the
+  # specified origins.
+  #
+  # If empty, the CORS middleware will be disabled, and it will be assumed that
+  # CORS headers and settings are managed by the Ingress controller.
+  corsAllowOrigins: []
 
   ingress:
     enabled: false
@@ -371,7 +378,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.35.0
+    tag: v1.35.3
 
   podAnnotations: { }
   podLabels: { }
@@ -472,6 +479,14 @@ aiModels:
   modelIntentClassifier:
     name: "intent-classifier"
     version: "2"
+
+  modelTopicClassifier:
+    name: "topic-classifier"
+    version: "1"
+
+  modelActionClassifier:
+    name: "action-classifier"
+    version: "1"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
@@ -588,7 +603,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.33.1
+    tag: v1.35.3
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -950,6 +965,13 @@ auth:
   # (see auth.existingSecret value below).
   postgresPassword: ""
 
+  # -- If provided, add a CORS middleware to the auth service with the
+  # specified origins.
+  #
+  # If empty, the CORS middleware will be disabled, and it will be assumed that
+  # CORS headers and settings are managed by the Ingress controller.
+  corsAllowOrigins: []
+
   # -- Use an existing secret for the database authentication.
   # @default -- -
   existingSecret:
@@ -966,7 +988,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.10.0"
+    tag: "v1.10.1"
 
   podAnnotations: { }
   podLabels: { }
