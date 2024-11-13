@@ -78,25 +78,25 @@
 - name: INTENT_LOCAL_MODEL_NAME
   value: "intent-classifier"
 - name: INTENT_LOCAL_MODEL_VERSION
-  value: "1"
+  value: "2"
 - name: INTENT_CLASSIFIER_KIND
   value: "local_model_majority_vote"
 
 
 # Sub Intent Settings
 - name: SUB_INTENT_LOCAL_MODEL_NAME
-  value: "topic-classifier"
+  value: "intent-classifier"
 - name: SUB_INTENT_LOCAL_MODEL_VERSION
-  value: "1"
+  value: "2"
 - name: SUB_INTENT_CLASSIFIER_KIND
   value: "local_model_majority_vote"
 
 
 # Sub Sub Intent Settings
 - name: SUB_SUB_INTENT_LOCAL_MODEL_NAME
-  value: "topic-classifier"
+  value: "intent-classifier"
 - name: SUB_SUB_INTENT_LOCAL_MODEL_VERSION
-  value: "1"
+  value: "2"
 - name: SUB_SUB_INTENT_CLASSIFIER_KIND
   value: "local_model_majority_vote"
 
