@@ -63,7 +63,13 @@
 # Mixpanel
 - name: MIXPANEL_ENABLED
   value: {{ .Values.telemetry.enabled | quote }}
-- name: MIXPANEL_TOKEN
+- name: MIXPANEL_MODE
+  value: "proxy"
+- name: MIXPANEL_PROXY_URL
+  value: "https://tunnel.monitor.nebuly.com/mixpanel"
+- name: MIXPANEL_USERNAME
+  value: {{ .Values.telemetry.tenant | quote }}
+- name: MIXPANEL_PASSWORD
   value: {{ .Values.telemetry.apiKey | quote }}
 - name: ANALYTICS_OVERRIDE_TENANT
   value: {{ include "telemetry.tenant" . | quote }}
