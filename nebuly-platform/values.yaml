@@ -478,7 +478,7 @@ aiModels:
 
   modelIntentClassifier:
     name: "intent-classifier"
-    version: "1"
+    version: "2"
 
   modelTopicClassifier:
     name: "topic-classifier"
