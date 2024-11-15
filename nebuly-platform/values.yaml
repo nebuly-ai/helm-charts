@@ -72,7 +72,7 @@ backend:
   #
   # If empty, the CORS middleware will be disabled, and it will be assumed that
   # CORS headers and settings are managed by the Ingress controller.
-  corsAllowOrigins: []
+  corsAllowOrigins: [ ]
 
   ingress:
     enabled: false
@@ -904,14 +904,14 @@ telemetry:
   # -- If True, enable telemetry collection. Collected telemetry data consists
   # of anonymous usage statistics and error reports.
   enabled: false
-  # -- If True, enable the Promtail log collector. Only logs from Nebuly's
-  # containers will be collected.
-  promtail:
-    enabled: false
   # -- Code of the tenant to which the telemetry data will be associated.
   tenant: ""
   # -- The API key used to authenticate with the telemetry service.
   apiKey: ""
+  # -- If True, enable the Promtail log collector. Only logs from Nebuly's
+  # containers will be collected.
+  promtail:
+    enabled: true
 
 # @default -- -
 auth:
@@ -974,7 +974,7 @@ auth:
   #
   # If empty, the CORS middleware will be disabled, and it will be assumed that
   # CORS headers and settings are managed by the Ingress controller.
-  corsAllowOrigins: []
+  corsAllowOrigins: [ ]
 
   # -- Use an existing secret for the database authentication.
   # @default -- -

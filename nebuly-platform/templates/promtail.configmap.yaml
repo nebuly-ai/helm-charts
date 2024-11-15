@@ -1,11 +1,11 @@
-{{ if .Values.telemetry.promtail.enabled }}
+{{ if and .Values.telemetry.enabled .Values.telemetry.promtail.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "promtail.fullname" . }}-config
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "promtail.labels" . }}
+    {{- include "promtail.labels" . | nindent 4 }}
 data:
   promtail.yaml: {{ include "promtail.config" . | quote }}
 {{- end }}

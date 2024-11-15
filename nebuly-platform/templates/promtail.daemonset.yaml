@@ -1,4 +1,4 @@
-{{ if .Values.telemetry.promtail.enabled }}
+{{ if and .Values.telemetry.enabled .Values.telemetry.promtail.enabled }}
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -12,6 +12,8 @@ spec:
     metadata:
       labels:
         {{- include "promtail.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include "promtail.config" . | sha256sum }}
     spec:
       serviceAccountName: {{ include "promtail.fullname" . }}
       tolerations:

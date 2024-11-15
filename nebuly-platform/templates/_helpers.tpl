@@ -358,6 +358,7 @@ app.kubernetes.io/component: nebuly-frontend
 */}}
 {{- define "promtail.labels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: promtail
 {{- end }}
 
 {{- define "promtail.selectorLabels" -}}

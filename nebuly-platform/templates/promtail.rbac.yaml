@@ -1,11 +1,11 @@
-{{ if .Values.telemetry.promtail.enabled }}
+{{ if and .Values.telemetry.enabled .Values.telemetry.promtail.enabled }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: {{ include "promtail.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{ include "promtail.labels" . }}
+    {{- include "promtail.labels" .  | nindent 4 }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -13,7 +13,7 @@ metadata:
   name: {{ include "promtail.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{ include "promtail.labels" . }}
+    {{- include "promtail.labels" .  | nindent 4 }}
 rules:
   - apiGroups: [ "" ]
     resources:
@@ -31,7 +31,7 @@ metadata:
   name: {{ include "promtail.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{ include "promtail.labels" . }}
+    {{- include "promtail.labels" .  | nindent 4 }}
 subjects:
   - kind: ServiceAccount
     name: {{ include "promtail.fullname" . }}
