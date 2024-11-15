@@ -26,9 +26,9 @@
 
 # Model Suggestions Settings
 - name: MODEL_SUGGESTION_LOCAL_MODEL_NAME
-  value: {{ .Values.ingestionWorker.aiModels.modelIssuesClassifier.name | quote }} 
+  value: {{ .Values.aiModels.modelIssuesClassifier.name | quote }}
 - name: MODEL_SUGGESTION_LOCAL_MODEL_VERSION
-  value: {{ .Values.ingestionWorker.aiModels.modelIssuesClassifier.version | quote }} 
+  value: {{ .Values.aiModels.modelIssuesClassifier.version | quote }}
 - name: MODEL_SUGGESTION_CLASSIFIER_KIND
   value: "local_model_majority_vote"
 - name: MODEL_SUGGESTION_VARIABLE_CLASSIFIER
@@ -37,9 +37,9 @@
 
 # Model Issue sub category Settings
 - name: MODEL_ISSUE_SUB_CATEGORY_LOCAL_MODEL_NAME
-  value: {{ .Values.ingestionWorker.aiModels.modelIssuesClassifier.name | quote }} 
+  value: {{ .Values.aiModels.modelIssuesClassifier.name | quote }}
 - name: MODEL_ISSUE_SUB_CATEGORY_LOCAL_MODEL_VERSION
-  value: {{ .Values.ingestionWorker.aiModels.modelIssuesClassifier.version | quote }} 
+  value: {{ .Values.aiModels.modelIssuesClassifier.version | quote }}
 - name: MODEL_ISSUE_SUB_CATEGORY_CLASSIFIER_KIND
   value: "local_model_majority_vote"
 - name: MODEL_ISSUE_SUB_CATEGORY_VARIABLE_CLASSIFIER
@@ -48,9 +48,9 @@
 
 # Topic Settings
 - name: TOPIC_LOCAL_MODEL_NAME
-  value: {{ .Values.ingestionWorker.aiModels.modelTopicClassifier.name | quote }} 
+  value: {{ .Values.aiModels.modelTopicClassifier.name | quote }}
 - name: TOPIC_LOCAL_MODEL_VERSION
-  value: {{ .Values.ingestionWorker.aiModels.modelTopicClassifier.version | quote }} 
+  value: {{ .Values.aiModels.modelTopicClassifier.version | quote }}
 - name: TOPIC_CLASSIFIER_KIND
   value: "local_model_majority_vote"
 - name: TOPIC_VARIABLE_CLASSIFIER
@@ -59,9 +59,9 @@
 
 # Sub Topic Settings
 - name: SUB_TOPIC_LOCAL_MODEL_NAME
-  value: {{ .Values.ingestionWorker.aiModels.modelTopicClassifier.name | quote }} 
+  value: {{ .Values.aiModels.modelTopicClassifier.name | quote }}
 - name: SUB_TOPIC_LOCAL_MODEL_VERSION
-  value: {{ .Values.ingestionWorker.aiModels.modelTopicClassifier.version | quote }} 
+  value: {{ .Values.aiModels.modelTopicClassifier.version | quote }}
 - name: SUB_TOPIC_CLASSIFIER_KIND
   value: "local_model_majority_vote"
 - name: SUB_TOPIC_VARIABLE_CLASSIFIER
@@ -70,9 +70,9 @@
 
 # Action Settings
 - name: ACTION_LOCAL_MODEL_NAME
-  value: {{ .Values.ingestionWorker.aiModels.modelActionClassifier.name | quote }} 
+  value: {{ .Values.aiModels.modelActionClassifier.name | quote }}
 - name: ACTION_LOCAL_MODEL_VERSION
-  value: {{ .Values.ingestionWorker.aiModels.modelActionClassifier.version | quote }} 
+  value: {{ .Values.aiModels.modelActionClassifier.version | quote }}
 - name: ACTION_CLASSIFIER_KIND
   value: "local_model_majority_vote"
 - name: ACTION_VARIABLE_CLASSIFIER
@@ -81,27 +81,27 @@
 
 # Intent Settings
 - name: INTENT_LOCAL_MODEL_NAME
-  value: {{ .Values.ingestionWorker.aiModels.modelIntentClassifier.name | quote }} 
+  value: {{ .Values.aiModels.modelIntentClassifier.name | quote }}
 - name: INTENT_LOCAL_MODEL_VERSION
-  value: {{ .Values.ingestionWorker.aiModels.modelIntentClassifier.version | quote }} 
+  value: {{ .Values.aiModels.modelIntentClassifier.version | quote }}
 - name: INTENT_CLASSIFIER_KIND
   value: "local_model_majority_vote"
 
 
 # Sub Intent Settings
 - name: SUB_INTENT_LOCAL_MODEL_NAME
-  value: {{ .Values.ingestionWorker.aiModels.modelIntentClassifier.name | quote }} 
+  value: {{ .Values.aiModels.modelIntentClassifier.name | quote }}
 - name: SUB_INTENT_LOCAL_MODEL_VERSION
-  value: {{ .Values.ingestionWorker.aiModels.modelIntentClassifier.version | quote }} 
+  value: {{ .Values.aiModels.modelIntentClassifier.version | quote }}
 - name: SUB_INTENT_CLASSIFIER_KIND
   value: "local_model_majority_vote"
 
 
 # Sub Sub Intent Settings
 - name: SUB_SUB_INTENT_LOCAL_MODEL_NAME
-  value: {{ .Values.ingestionWorker.aiModels.modelIntentClassifier.name | quote }} 
+  value: {{ .Values.aiModels.modelIntentClassifier.name | quote }}
 - name: SUB_SUB_INTENT_LOCAL_MODEL_VERSION
-  value: {{ .Values.ingestionWorker.aiModels.modelIntentClassifier.version | quote }} 
+  value: {{ .Values.aiModels.modelIntentClassifier.version | quote }}
 - name: SUB_SUB_INTENT_CLASSIFIER_KIND
   value: "local_model_majority_vote"
 
