@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.17.0
+
+### Features
+
+* New LLMs
+* Improved telemetry authentication
+
+### Breaking changes
+
+* A new API Key is required for the telemetry.
+
 ## v1.15.0
 
 ### Breaking changes
