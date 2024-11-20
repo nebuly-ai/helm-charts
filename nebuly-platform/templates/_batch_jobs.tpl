@@ -23,7 +23,7 @@
   value: "v2"
 - name: TOPIC_AND_ACTION_PROCESSING_VERSION
   value: {{ .Values.ingestionWorker.settings.topicsAndActionsVersion | quote }}
-- name: ENABLE_SUB_TOPICS
+- name: ENABLE_SUB_TOPIC
   value: {{ .Values.ingestionWorker.settings.enableSubTopic | quote }}
 - name: TOPIC_USE_ONLY_CUSTOM
   value: {{ .Values.ingestionWorker.settings.topicUseOnlyCustom | quote }}
