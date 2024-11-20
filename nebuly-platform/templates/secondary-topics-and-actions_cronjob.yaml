@@ -47,28 +47,28 @@ spec:
                 {{ include "lionLinguist.commonEnv" . | nindent 16 }}
                 {{ include "batchJobs.commonEnv" . | nindent 16 }}
               resources:
-                {{- toYaml .Values.secondaryProcessing.resources | nindent 16 }}
+                {{- toYaml .Values.primaryProcessing.resources | nindent 16 }}
               volumeMounts:
                 - name: models-cache
                   mountPath: /var/cache/nebuly
-              {{- with .Values.secondaryProcessing.volumeMounts }}
+              {{- with .Values.primaryProcessing.volumeMounts }}
                 {{- toYaml . | nindent 16 }}
               {{- end }}
           volumes:
             - name: models-cache
               emptyDir: {}
-          {{- with .Values.secondaryProcessing.volumes }}
+          {{- with .Values.primaryProcessing.volumes }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.secondaryProcessing.nodeSelector }}
+          {{- with .Values.primaryProcessing.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.secondaryProcessing.affinity }}
+          {{- with .Values.primaryProcessing.affinity }}
           affinity:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.secondaryProcessing.tolerations }}
+          {{- with .Values.primaryProcessing.tolerations }}
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
