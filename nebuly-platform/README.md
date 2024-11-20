@@ -311,6 +311,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.affinity | object | `{}` |  |
 | frontend.authApiUrl | string | `""` | The URL of the API used for authentication (login, SSO, etc.). |
 | frontend.backendApiUrl | string | `""` | The URL of the Backend API to which Frontend will make requests. |
+| frontend.faviconPath | string | `"/favicon.svc"` | The relative path to the favicon file. |
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
@@ -340,6 +341,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.sentry.replaySessionSampleRate | int | `0` | The sample rate for replay sessions. |
 | frontend.service.port | int | `80` |  |
 | frontend.service.type | string | `"ClusterIP"` |  |
+| frontend.title | string | `"Nebuly"` | The title of the application. |
 | frontend.tolerations | list | `[]` |  |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |

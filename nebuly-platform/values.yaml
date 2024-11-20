@@ -113,6 +113,11 @@ frontend:
 
   replicaCount: 1
 
+  # -- The relative path to the favicon file.
+  faviconPath: "/favicon.svc"
+  # -- The title of the application.
+  title: "Nebuly"
+
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent

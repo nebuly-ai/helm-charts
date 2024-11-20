@@ -23,6 +23,8 @@ data:
       "NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE": {{ .Values.frontend.sentry.tracesSampleRate | quote }},
       "NEXT_PUBLIC_SENTRY_REPLAY_SESSION_SAMPLE_RATE": {{ .Values.frontend.sentry.replaySessionSampleRate | quote }},
       "NEXT_PUBLIC_ENABLE_LLM_ISSUES_V2": "true",
+      "NEXT_PUBLIC_APP_FAVICON": {{ .Values.frontend.faviconPath | quote }},
+      "NEXT_PUBLIC_APP_TITLE": {{ .Values.frontend.title | quote }},
       "NEXT_PUBLIC_ENABLE_TRANSLATIONS": {{ include "featureTranslationsEnabled" . | quote }},
       "NEXT_PUBLIC_ENABLE_CONVERSATIONS" : "true"
     }
