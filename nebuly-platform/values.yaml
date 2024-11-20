@@ -1103,8 +1103,6 @@ auth:
 reprocessing:
   modelSuggestions:
     enabled: false
-  topicsAndActions:
-    enabled: false
 
 # -- Post-upgrade hooks settings.
 postUpgrade:

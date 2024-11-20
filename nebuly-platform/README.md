@@ -474,7 +474,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | primaryProcessing.modelsCache | object | `{"enabled":false,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | primaryProcessing.numHoursProcessed | int | `50` | Example: 24 -> process the last 24 hours of interactions. |
 | primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| reprocessing | object | `{"modelSuggestions":{"enabled":false},"topicsAndActions":{"enabled":false}}` | major release. |
+| reprocessing | object | `{"modelSuggestions":{"enabled":false}}` | major release. |
 | secondaryProcessing | object | - | Settings related to the Primary processing CronJobs. |
 | secondaryProcessing.schedule | string | `"0 2 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
