@@ -373,6 +373,11 @@ ingestionWorker:
     intentClustering: 0.25
     intentMergeClusters: 0.2
 
+  settings:
+    topicsAndActionsVersion: v1
+    enableSubTopic: false
+    topicUseOnlyCustom: false
+    subTopicUseOnlyCustom: false
 
   replicaCount: 1
   image:
@@ -482,7 +487,7 @@ aiModels:
 
   modelTopicClassifier:
     name: "topic-classifier"
-    version: "1"
+    version: "2"
 
   modelActionClassifier:
     name: "action-classifier"

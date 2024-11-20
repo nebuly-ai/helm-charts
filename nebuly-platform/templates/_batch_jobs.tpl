@@ -18,11 +18,19 @@
 - name: PROCESS_LAST_N_HOURS
   value: {{ .Values.primaryProcessing.numHoursProcessed | quote }}
 
-# Job version
+# Feature Flags
 - name: MODEL_ISSUE_PROCESSING_VERSION
   value: "v2"
 - name: TOPIC_AND_ACTION_PROCESSING_VERSION
-  value: "v1"
+  value: {{ .Values.ingestionWorker.settings.topicsAndActionsVersion | quote }}
+- name: ENABLE_SUB_TOPICS
+  value: {{ .Values.ingestionWorker.settings.enableSubTopic | quote }}
+- name: TOPIC_USE_ONLY_CUSTOM
+  value: {{ .Values.ingestionWorker.settings.topicUseOnlyCustom | quote }}
+- name: SUB_TOPIC_USE_ONLY_CUSTOM
+  value: {{ .Values.ingestionWorker.settings.subTopicUseOnlyCustom | quote }}
+- name: ENABLE_FULL_INTENTS
+  value: "false"
 
 # Model Suggestions Settings
 - name: MODEL_SUGGESTION_LOCAL_MODEL_NAME
@@ -50,6 +58,8 @@
 - name: TOPIC_LOCAL_MODEL_NAME
   value: {{ .Values.aiModels.modelTopicClassifier.name | quote }}
 - name: TOPIC_LOCAL_MODEL_VERSION
+  value: {{ .Values.aiModels.modelTopicClassifier.version | quote }}
+- name: SUB_TOPIC_LOCAL_MODEL_VERSION
   value: {{ .Values.aiModels.modelTopicClassifier.version | quote }}
 - name: TOPIC_CLASSIFIER_KIND
   value: "local_model_majority_vote"
