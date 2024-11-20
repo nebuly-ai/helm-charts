@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.42.9"
+    tag: "v1.42.13"
 
   podAnnotations: { }
   podLabels: { }
@@ -113,10 +113,15 @@ frontend:
 
   replicaCount: 1
 
+  # -- The relative path to the favicon file.
+  faviconPath: "/favicon.svc"
+  # -- The title of the application.
+  title: "Nebuly"
+
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.45.6"
+    tag: "v1.45.9"
 
   podAnnotations: { }
   podLabels: { }
@@ -201,7 +206,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: v1.9.0
+    tag: v1.9.1
 
   podAnnotations: { }
   podLabels: { }
@@ -373,12 +378,17 @@ ingestionWorker:
     intentClustering: 0.25
     intentMergeClusters: 0.2
 
+  settings:
+    topicsAndActionsVersion: v1
+    enableSubTopic: false
+    topicUseOnlyCustom: false
+    subTopicUseOnlyCustom: false
 
   replicaCount: 1
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.35.3
+    tag: v1.37.0
 
   podAnnotations: { }
   podLabels: { }
@@ -482,7 +492,7 @@ aiModels:
 
   modelTopicClassifier:
     name: "topic-classifier"
-    version: "1"
+    version: "2"
 
   modelActionClassifier:
     name: "action-classifier"
@@ -603,7 +613,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.35.3
+    tag: v1.37.0
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -992,7 +1002,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.12.1"
+    tag: "v1.12.2"
 
   podAnnotations: { }
   podLabels: { }
@@ -1097,8 +1107,6 @@ auth:
 # -- major release.
 reprocessing:
   modelSuggestions:
-    enabled: false
-  topicsAndActions:
     enabled: false
 
 # -- Post-upgrade hooks settings.
