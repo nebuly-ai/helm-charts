@@ -12,6 +12,7 @@
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresPassword" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.microsoft" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.okta" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.auth.addMember" .) -}}
 {{/* Analytic DB */}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.server" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.name" .) -}}
@@ -68,6 +69,13 @@ values: auth.loginModes
 {{- if and (not .Values.auth.okta.enabled) (contains "okta" .Values.auth.loginModes) -}}
 values: auth.loginModes
   `loginModes` cannot contain "okta" when `auth.okta.enabled` is false
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.auth.addMember" -}}
+{{- if and (.Values.auth.addMembersEnabled) (not (contains "password" .Values.auth.loginModes)) -}}
+values: auth.addMembersEnabled
+  `addMembersEnabled` can't be set to true if `password` is not in `loginModes`
 {{- end -}}
 {{- end -}}
 

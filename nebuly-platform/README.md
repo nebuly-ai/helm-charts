@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.18.7](https://img.shields.io/badge/Version-1.18.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.18.8](https://img.shields.io/badge/Version-1.18.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -186,6 +186,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | analyticDatabase.server | string | `""` | The host of the database used to store analytic data. |
 | analyticDatabase.user | string | `""` | The user for connecting to the database. |
 | annotations | object | `{}` | Extra annotations that will be added to all resources. |
+| auth.addMembersEnabled | bool | `false` | If True, enable the admin panel for inviting new members to the platform. |
 | auth.adminUserEnabled | bool | `false` | If true, an initial admin user with username/password login will be created. |
 | auth.adminUserPassword | string | `"admin"` | The password of the initial admin user. |
 | auth.adminUserUsername | string | `"admin@nebuly.ai"` | The username of the initial admin user. |
@@ -244,7 +245,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.42.19"` |  |
+| backend.image.tag | string | `"v1.42.22"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -315,7 +316,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.45.16"` |  |
+| frontend.image.tag | string | `"v1.46.0"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |

@@ -26,6 +26,7 @@ data:
       "NEXT_PUBLIC_APP_FAVICON": {{ .Values.frontend.faviconPath | quote }},
       "NEXT_PUBLIC_APP_TITLE": {{ .Values.frontend.title | quote }},
       "NEXT_PUBLIC_ENABLE_TRANSLATIONS": {{ include "featureTranslationsEnabled" . | quote }},
+      "NEXT_PUBLIC_ENABLE_ADD_MEMBER": {{ .Values.auth.addMembersEnabled | quote }},
       "NEXT_PUBLIC_ENABLE_CONVERSATIONS" : "true"
     }
 
