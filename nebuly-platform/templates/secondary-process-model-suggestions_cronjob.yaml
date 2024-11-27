@@ -1,33 +1,33 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobPrimaryProcessIntents.fullname" . }}
+  name: {{ include "jobProcessModelSuggestions.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{- include "jobPrimaryProcessIntents.labels" . | nindent 4 }}
+    {{- include "jobProcessModelSuggestions.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.primaryProcessing.schedule | quote }}
+  schedule: {{ .Values.secondaryProcessing.schedule | quote }}
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobPrimaryProcessIntents.labels" . | nindent 10 }}
+        {{- include "jobProcessModelSuggestions.labels" . | nindent 10 }}
     spec:
-      backoffLimit: {{ .Values.primaryProcessing.backoffLimit }}
+      backoffLimit: {{ .Values.secondaryProcessing.backoffLimit }}
       template:
         metadata:
-          {{- with .Values.primaryProcessing.podAnnotations }}
+          {{- with .Values.secondaryProcessing.podAnnotations }}
           annotations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobPrimaryProcessIntents.labels" . | nindent 14 }}
-            {{- with .Values.primaryProcessing.podLabels }}
+            {{- include "jobProcessModelSuggestions.labels" . | nindent 14 }}
+            {{- with .Values.secondaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
         spec:
-          hostIPC: {{ .Values.primaryProcessing.hostIPC }}
+          hostIPC: {{ .Values.secondaryProcessing.hostIPC }}
           serviceAccountName: {{ .Values.serviceAccount.name }}
           restartPolicy: Never
           {{- with .Values.imagePullSecrets }}
@@ -35,13 +35,13 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           securityContext:
-            {{- toYaml .Values.primaryProcessing.podSecurityContext | nindent 12 }}
+            {{- toYaml .Values.secondaryProcessing.podSecurityContext | nindent 12 }}
           containers:
             - name: {{ .Chart.Name }}
               securityContext:
-                {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
+                {{- toYaml .Values.secondaryProcessing.securityContext | nindent 16 }}
               image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
-              command: [ "python", "jobs/process_intents.py" ]
+              command: [ "python", "jobs/process_model_suggestions.py" ]
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
                 - name: MODEL_NAME
@@ -76,7 +76,7 @@ spec:
                 - name: models-cache
                   mountPath: /var/cache/nebuly
                   readOnly: false
-              {{- with .Values.primaryProcessing.volumeMounts }}
+              {{- with .Values.secondaryProcessing.volumeMounts }}
                 {{- toYaml . | nindent 18 }}
               {{- end }}
           volumes:
@@ -94,18 +94,18 @@ spec:
           {{- else }}
               emptyDir: { }
           {{- end }}
-          {{- with .Values.primaryProcessing.volumes }}
+          {{- with .Values.secondaryProcessing.volumes }}
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.primaryProcessing.nodeSelector }}
+          {{- with .Values.secondaryProcessing.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.primaryProcessing.affinity }}
+          {{- with .Values.secondaryProcessing.affinity }}
           affinity:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.primaryProcessing.tolerations }}
+          {{- with .Values.secondaryProcessing.tolerations }}
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}

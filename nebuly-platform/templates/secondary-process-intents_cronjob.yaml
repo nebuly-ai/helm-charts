@@ -1,10 +1,10 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobPrimaryProcessModelSuggestions.fullname" . }}
+  name: {{ include "jobProcessIntents.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{- include "jobPrimaryProcessModelSuggestions.labels" . | nindent 4 }}
+    {{- include "jobProcessIntents.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
@@ -12,7 +12,7 @@ spec:
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobPrimaryProcessModelSuggestions.labels" . | nindent 10 }}
+        {{- include "jobProcessIntents.labels" . | nindent 10 }}
     spec:
       backoffLimit: {{ .Values.primaryProcessing.backoffLimit }}
       template:
@@ -22,7 +22,7 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobPrimaryProcessModelSuggestions.labels" . | nindent 14 }}
+            {{- include "jobProcessIntents.labels" . | nindent 14 }}
             {{- with .Values.primaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
@@ -41,7 +41,7 @@ spec:
               securityContext:
                 {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
               image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
-              command: [ "python", "jobs/process_model_suggestions.py" ]
+              command: [ "python", "jobs/process_intents.py" ]
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
                 - name: MODEL_NAME

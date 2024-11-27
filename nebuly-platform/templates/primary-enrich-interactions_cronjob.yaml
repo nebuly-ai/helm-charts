@@ -1,10 +1,10 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobPrimaryEnrichInteractions.fullname" . }}
+  name: {{ include "jobEnrichInteractions.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{- include "jobPrimaryEnrichInteractions.labels" . | nindent 4 }}
+    {{- include "jobEnrichInteractions.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
@@ -12,7 +12,7 @@ spec:
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobPrimaryEnrichInteractions.labels" . | nindent 10 }}
+        {{- include "jobEnrichInteractions.labels" . | nindent 10 }}
     spec:
       backoffLimit: {{ .Values.primaryProcessing.backoffLimit }}
       template:
@@ -22,7 +22,7 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobPrimaryEnrichInteractions.labels" . | nindent 14 }}
+            {{- include "jobEnrichInteractions.labels" . | nindent 14 }}
             {{- with .Values.primaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
