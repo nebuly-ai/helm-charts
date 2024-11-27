@@ -208,12 +208,12 @@ app.kubernetes.io/component: job-enrich-interactions
 
 {{/*
 *********************************************************************
-* Cronjob Primary - Process Intents
+* Cronjob Secondary - Process Intents
 *********************************************************************
 */}}
 {{- define "jobProcessIntents.labels" -}}
 {{ include "nebuly-platform.selectorLabels" . }}
-{{ include "primaryProcessing.commonLabels" . }}
+{{ include "secondaryProcessing.commonLabels" . }}
 app.kubernetes.io/component: job-process-intents
 {{- end }}
 
