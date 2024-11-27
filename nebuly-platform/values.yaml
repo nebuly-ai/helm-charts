@@ -118,6 +118,8 @@ frontend:
   # -- The title of the application.
   title: "Nebuly"
 
+  customIntentConfig: { }
+
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
