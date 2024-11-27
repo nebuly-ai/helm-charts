@@ -97,15 +97,15 @@ spec:
           {{- with .Values.secondaryProcessing.volumes }}
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.secondaryProcessing.nodeSelector }}
+          {{- with .Values.primaryProcessing.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.secondaryProcessing.affinity }}
+          {{- with .Values.primaryProcessing.affinity }}
           affinity:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.secondaryProcessing.tolerations }}
+          {{- with .Values.primaryProcessing.tolerations }}
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
