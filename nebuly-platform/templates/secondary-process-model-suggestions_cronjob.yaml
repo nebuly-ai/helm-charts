@@ -1,34 +1,33 @@
-{{- if .Values.reprocessing.modelSuggestions.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: "reprocess-model-suggestions"
+  name: {{ include "jobProcessModelSuggestions.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{- include "jobPrimaryProcessModelSuggestions.labels" . | nindent 4 }}
+    {{- include "jobProcessModelSuggestions.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  schedule: 0 0 29 2 1 # Never
+  schedule: {{ .Values.secondaryProcessing.schedule | quote }}
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobPrimaryProcessModelSuggestions.labels" . | nindent 10 }}
+        {{- include "jobProcessModelSuggestions.labels" . | nindent 10 }}
     spec:
-      backoffLimit: {{ .Values.primaryProcessing.backoffLimit }}
+      backoffLimit: {{ .Values.secondaryProcessing.backoffLimit }}
       template:
         metadata:
-          {{- with .Values.primaryProcessing.podAnnotations }}
+          {{- with .Values.secondaryProcessing.podAnnotations }}
           annotations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobPrimaryProcessModelSuggestions.labels" . | nindent 14 }}
-            {{- with .Values.primaryProcessing.podLabels }}
+            {{- include "jobProcessModelSuggestions.labels" . | nindent 14 }}
+            {{- with .Values.secondaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
         spec:
-          hostIPC: {{ .Values.primaryProcessing.hostIPC }}
+          hostIPC: {{ .Values.secondaryProcessing.hostIPC }}
           serviceAccountName: {{ .Values.serviceAccount.name }}
           restartPolicy: Never
           {{- with .Values.imagePullSecrets }}
@@ -36,36 +35,22 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           securityContext:
-            {{- toYaml .Values.primaryProcessing.podSecurityContext | nindent 12 }}
+            {{- toYaml .Values.secondaryProcessing.podSecurityContext | nindent 12 }}
           containers:
             - name: {{ .Chart.Name }}
               securityContext:
-                {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
+                {{- toYaml .Values.secondaryProcessing.securityContext | nindent 16 }}
               image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
-              command:
-                - python
-                - minkmaze
-                - process
-                - model-suggestions
-                - nebuly
-                - --reprocess
+              command: [ "python", "jobs/process_model_suggestions.py" ]
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
-              {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
-              {{ include "batchJobs.commonEnv" . | nindent 16 }}
-              {{ include "lionLinguist.commonEnv" . | nindent 16 }}
-                - name: MODEL_PROVIDER
-                  value: {{ .Values.aiModels.registry | quote }}
-                - name: MODELS_CACHE_DIR
-                  value: "/var/cache/nebuly"
-                - name: GPU_MODEL
-                  value: {{ .Values.primaryProcessing.gpuModel | quote }}
                 - name: MODEL_NAME
                   value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
                 - name: MODEL_VERSION
                   value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
-                - name: PROCESS_LAST_N_HOURS
-                  value: {{ .Values.primaryProcessing.numHoursProcessed | quote }}
+              {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
+              {{ include "batchJobs.commonEnv" . | nindent 16 }}
+              {{ include "lionLinguist.commonEnv" . | nindent 16 }}
               {{- if eq .Values.aiModels.registry  "azure_ml" }}
                 {{ include "aiModels.azureml.env" . | nindent 16 }}
               {{- end }}
@@ -81,6 +66,8 @@ spec:
               resources:
                 {{- toYaml .Values.primaryProcessing.resources | nindent 18 }}
               volumeMounts:
+                - name: vllm-report-usage
+                  mountPath: /nonexistent
               {{- if not .Values.kafka.external }}
                 - name: kafka-cluster-ca-cert
                   mountPath: "/etc/kafka"
@@ -89,10 +76,12 @@ spec:
                 - name: models-cache
                   mountPath: /var/cache/nebuly
                   readOnly: false
-              {{- with .Values.primaryProcessing.volumeMounts }}
+              {{- with .Values.secondaryProcessing.volumeMounts }}
                 {{- toYaml . | nindent 18 }}
               {{- end }}
           volumes:
+            - name: vllm-report-usage
+              emptyDir: {}
           {{- if not .Values.kafka.external }}
             - name: kafka-cluster-ca-cert
               secret:
@@ -105,7 +94,7 @@ spec:
           {{- else }}
               emptyDir: { }
           {{- end }}
-          {{- with .Values.primaryProcessing.volumes }}
+          {{- with .Values.secondaryProcessing.volumes }}
             {{- toYaml . | nindent 14 }}
           {{- end }}
           {{- with .Values.primaryProcessing.nodeSelector }}
@@ -120,4 +109,3 @@ spec:
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-{{- end }}
