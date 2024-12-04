@@ -390,7 +390,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.37.1
+    tag: v1.38.1
 
   podAnnotations: { }
   podLabels: { }
@@ -488,13 +488,9 @@ aiModels:
     name: "model-issues-classifier"
     version: "2"
 
-  modelIntentClassifier:
-    name: "intent-classifier"
-    version: "2"
-
   modelTopicClassifier:
     name: "topic-classifier"
-    version: "2"
+    version: "3"
 
   modelActionClassifier:
     name: "action-classifier"
