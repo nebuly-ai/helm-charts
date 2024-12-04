@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.43.0"
+    tag: "v1.44.2"
 
   podAnnotations: { }
   podLabels: { }
@@ -738,8 +738,6 @@ secretsStore:
 # process the collected data.
 # @default -- -
 openAi:
-  # -- Allowed values: "openai", "azure"
-  provider: azure
   # -- If true, enable the OpenAI integration.
   enabled: true
   # -- The name of the GPT-4o deployment.

@@ -74,21 +74,14 @@
 - name: ANALYTICS_OVERRIDE_TENANT
   value: {{ include "telemetry.tenant" . | quote }}
 # OpenAI
-- name: LLM_PROVIDER
-  value: {{ .Values.openAi.provider | quote }}
-- name: AZURE_OPENAI_ENDPOINT
+- name: OPENAI_BASE_URL
   value: {{ .Values.openAi.endpoint | quote }}
-- name: AZURE_OPENAI_API_KEY
-  valueFrom:
-    secretKeyRef:
-      name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "backend.fullname" .) }}
-      key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
 - name: OPENAI_API_KEY
   valueFrom:
     secretKeyRef:
       name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "backend.fullname" .) }}
-      key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
-- name: AZURE_OPENAI_DEPLOYMENT_TRANSLATION
+      key: {{ .Values.openAi.existingSecret.apiKey | default "openai-api-key" }}
+- name: OPENAI_DEPLOYMENT_TRANSLATION
   value: {{ .Values.openAi.translationDeployment | quote }}
 - name: OPENAI_ORGANIZATION
   value: ""

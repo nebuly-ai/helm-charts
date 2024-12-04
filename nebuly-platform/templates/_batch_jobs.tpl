@@ -44,26 +44,19 @@
 
 
 # OpenAI
-- name: OPENAI_PROVIDER
-  value: {{ .Values.openAi.provider | quote }}
-- name: AZURE_OPENAI_API_VERSION
+- name: OPENAI_API_VERSION
   value: "{{ .Values.openAi.apiVersion }}"
-- name: AZURE_OPENAI_ENDPOINT
+- name: OPENAI_BASE_URL
   value: "{{ .Values.openAi.endpoint }}"
 - name: OPENAI_DEPLOYMENT_FRUSTRATION
   value: "{{ .Values.openAi.gpt4oDeployment }}"
 - name: OPENAI_DEPLOYMENT_GPT4O
   value: {{ .Values.openAi.gpt4oDeployment | quote }}
-- name: AZURE_OPENAI_API_KEY
-  valueFrom:
-    secretKeyRef:
-      name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
 - name: OPENAI_API_KEY
   valueFrom:
     secretKeyRef:
       name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.openAi.existingSecret.apiKey | default "azure-openai-api-key" }}
+      key: {{ .Values.openAi.existingSecret.apiKey | default "openai-api-key" }}
 
 # Models
 - name: MODEL_PROVIDER
