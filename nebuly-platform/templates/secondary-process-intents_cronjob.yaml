@@ -8,7 +8,7 @@ metadata:
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.primaryProcessing.schedule | quote }}
+  schedule: {{ .Values.secondaryProcessing.schedule | quote }}
   jobTemplate:
     metadata:
       labels:
@@ -17,13 +17,13 @@ spec:
       backoffLimit: {{ .Values.primaryProcessing.backoffLimit }}
       template:
         metadata:
-          {{- with .Values.primaryProcessing.podAnnotations }}
+          {{- with .Values.secondaryProcessing.podAnnotations }}
           annotations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
             {{- include "jobProcessIntents.labels" . | nindent 14 }}
-            {{- with .Values.primaryProcessing.podLabels }}
+            {{- with .Values.secondaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
         spec:
@@ -35,11 +35,11 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           securityContext:
-            {{- toYaml .Values.primaryProcessing.podSecurityContext | nindent 12 }}
+            {{- toYaml .Values.secondaryProcessing.podSecurityContext | nindent 12 }}
           containers:
             - name: {{ .Chart.Name }}
               securityContext:
-                {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
+                {{- toYaml .Values.secondaryProcessing.securityContext | nindent 16 }}
               image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
               command: [ "python", "jobs/process_intents.py" ]
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
