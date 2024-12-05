@@ -387,7 +387,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.38.5
+    tag: v1.38.8
 
   podAnnotations: { }
   podLabels: { }
