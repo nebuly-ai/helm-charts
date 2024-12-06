@@ -371,7 +371,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.sentry.environment | string | `""` | The name of the Sentry environment. |
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
-| ingestionWorker.settings.topicsAndActionsVersion | string | `"v1"` |  |
+| ingestionWorker.settings.topicsAndActionsVersion | string | `"v2"` |  |
 | ingestionWorker.stage1.resources.limits.memory | string | `"585Mi"` |  |
 | ingestionWorker.stage1.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage1.resources.requests.memory | string | `"585Mi"` |  |

@@ -381,7 +381,7 @@ ingestionWorker:
     intentMergeClusters: 0.2
 
   settings:
-    topicsAndActionsVersion: v1
+    topicsAndActionsVersion: v2
 
   replicaCount: 1
   image:
