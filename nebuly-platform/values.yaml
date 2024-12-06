@@ -491,7 +491,7 @@ aiModels:
 
   modelActionClassifier:
     name: "action-classifier"
-    version: "1"
+    version: "2"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
