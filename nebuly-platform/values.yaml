@@ -387,7 +387,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.38.8
+    tag: v1.38.9
 
   podAnnotations: { }
   podLabels: { }
@@ -481,17 +481,13 @@ aiModels:
     name: "interaction-analyzer-7b-v2"
     version: 16
 
-  modelIssuesClassifier:
-    name: "model-issues-classifier"
-    version: "2"
-
   modelTopicClassifier:
     name: "topic-classifier"
-    version: "3"
+    version: "4"
 
   modelActionClassifier:
     name: "action-classifier"
-    version: "2"
+    version: "5"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
