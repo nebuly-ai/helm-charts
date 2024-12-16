@@ -26,9 +26,9 @@
 
 # Model Suggestions Settings
 - name: MODEL_SUGGESTION_LOCAL_MODEL_NAME
-  value: {{ .Values.aiModels.modelIssuesClassifier.name | quote }}
+  value: {{ .Values.aiModels.modelActionClassifier.name | quote }}
 - name: MODEL_SUGGESTION_LOCAL_MODEL_VERSION
-  value: {{ .Values.aiModels.modelIssuesClassifier.version | quote }}
+  value: {{ .Values.aiModels.modelActionClassifier.version | quote }}
 
 # Topic Settings
 - name: TOPIC_LOCAL_MODEL_NAME
