@@ -479,7 +479,7 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: 16
+    version: 17
 
   modelTopicClassifier:
     name: "topic-classifier"
