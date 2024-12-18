@@ -62,6 +62,7 @@ spec:
                 claimName: {{ include "primaryProcessing.modelsCache.name" . }}
           {{- else }}
               emptyDir: { }
+          {{- end }}
           {{- with .Values.primaryProcessing.volumes }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
