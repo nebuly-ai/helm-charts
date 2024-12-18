@@ -609,7 +609,7 @@ primaryProcessing:
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
     enabled: false
-    size: 64Gi
+    size: 128Gi
     storageClassName: ""
 
   # -- The number of previous hours that the actions processing job will process.
