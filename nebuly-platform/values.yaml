@@ -627,6 +627,7 @@ primaryProcessing:
   podLabels: { }
   podSecurityContext:
     runAsNonRoot: true
+    fsGroup: 101
 
   # Additional volumes
   volumes: [ ]
@@ -672,6 +673,7 @@ secondaryProcessing:
   podLabels: { }
   podSecurityContext:
     runAsNonRoot: true
+    fsGroup: 101
 
   securityContext:
     runAsNonRoot: true
