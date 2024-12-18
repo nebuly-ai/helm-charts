@@ -49,7 +49,7 @@ spec:
                 - model-suggestions
                 - nebuly
                 - --reprocess
-              imagePullPolicy: {{ .Values.secondaryProcessing.image.pullPolicy }}
+              imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
               {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
               {{ include "batchJobs.commonEnv" . | nindent 16 }}
