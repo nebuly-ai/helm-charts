@@ -99,7 +99,7 @@ spec:
             - name: models-cache
           {{- if .Values.primaryProcessing.modelsCache.enabled }}
               persistentVolumeClaim:
-                claimName: {{ include "ingestionWorker.fullname" . }}
+                claimName: {{ include "primaryProcessing.modelsCache.name" . }}
           {{- else }}
               emptyDir: { }
           {{- end }}

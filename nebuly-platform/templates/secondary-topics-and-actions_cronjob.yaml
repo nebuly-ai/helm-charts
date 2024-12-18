@@ -57,7 +57,11 @@ spec:
               {{- end }}
           volumes:
             - name: models-cache
-              emptyDir: {}
+          {{- if .Values.primaryProcessing.modelsCache.enabled }}
+              persistentVolumeClaim:
+                claimName: {{ include "primaryProcessing.modelsCache.name" . }}
+          {{- else }}
+              emptyDir: { }
           {{- with .Values.primaryProcessing.volumes }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
