@@ -57,9 +57,9 @@ spec:
               {{- end }}
           volumes:
             - name: models-cache
-          {{- if .Values.primaryProcessing.modelsCache.enabled }}
+          {{- if .Values.secondaryProcessing.modelsCache.enabled }}
               persistentVolumeClaim:
-                claimName: {{ include "primaryProcessing.modelsCache.name" . }}
+                claimName: {{ include "secondaryProcessing.modelsCache.name" . }}
           {{- else }}
               emptyDir: { }
           {{- end }}

@@ -669,6 +669,12 @@ secondaryProcessing:
     limits:
       nvidia.com/gpu: 1
 
+  # -- Settings of the PVC used to cache AI models.
+  modelsCache:
+    enabled: false
+    size: 64Gi
+    storageClassName: ""
+
   podAnnotations: { }
   podLabels: { }
   podSecurityContext:

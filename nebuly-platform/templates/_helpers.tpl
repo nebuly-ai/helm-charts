@@ -183,6 +183,10 @@ app.kubernetes.io/component: nebuly-ingestion-worker
 {{- printf "%s-%s" .Release.Name "primary-models-cache" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{- define "secondaryProcessing.modelsCache.name" -}}
+{{- printf "%s-%s" .Release.Name "secondary-models-cache" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
 {{- define "primaryProcessing.commonLabels" -}}
 platform.nebuly.com/processing-stage: primary
 {{- end }}
