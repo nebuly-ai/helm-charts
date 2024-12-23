@@ -601,6 +601,7 @@ primaryProcessing:
   # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
   schedule: "0 23 * * *" # Every day at 11:00 PM
   backoffLimit: 1
+  activeDeadlineSeconds: 10800 # 3 hours
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
@@ -663,6 +664,7 @@ secondaryProcessing:
   # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
   schedule: "0 2 * * *" # Every day at 2:00 AM
   backoffLimit: 1
+  activeDeadlineSeconds: 10800 # 3 hours
   resources:
     requests:
       cpu: 1

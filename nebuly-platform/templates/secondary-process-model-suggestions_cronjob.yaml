@@ -15,6 +15,7 @@ spec:
         {{- include "jobProcessModelSuggestions.labels" . | nindent 10 }}
     spec:
       backoffLimit: {{ .Values.secondaryProcessing.backoffLimit }}
+      activeDeadlineSeconds: {{ .Values.secondaryProcessing.activeDeadlineSeconds }}
       template:
         metadata:
           {{- with .Values.secondaryProcessing.podAnnotations }}
