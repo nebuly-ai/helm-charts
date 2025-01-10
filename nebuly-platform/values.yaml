@@ -114,7 +114,7 @@ frontend:
   replicaCount: 1
 
   # -- The default aggregation level of the platform.
-  defaultAggregation: "interactions"
+  defaultAggregation: "interaction"
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # -- The title of the application.
