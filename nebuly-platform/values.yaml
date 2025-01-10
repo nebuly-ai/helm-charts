@@ -387,7 +387,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.39.2
+    tag: v1.40.5
 
   podAnnotations: { }
   podLabels: { }
@@ -487,7 +487,7 @@ aiModels:
 
   modelActionClassifier:
     name: "action-classifier"
-    version: "5"
+    version: "6"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
@@ -605,7 +605,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.39.2
+    tag: v1.40.5
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
