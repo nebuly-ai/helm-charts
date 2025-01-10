@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.23.0](https://img.shields.io/badge/Version-1.23.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.23.1](https://img.shields.io/badge/Version-1.23.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -313,6 +313,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.authApiUrl | string | `""` | The URL of the API used for authentication (login, SSO, etc.). |
 | frontend.backendApiUrl | string | `""` | The URL of the Backend API to which Frontend will make requests. |
 | frontend.customIntentConfig | object | `{}` |  |
+| frontend.defaultAggregation | string | `"interactions"` | The default aggregation level of the platform. |
 | frontend.faviconPath | string | `"/favicon.svc"` | The relative path to the favicon file. |
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |

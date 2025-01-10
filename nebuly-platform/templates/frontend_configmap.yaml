@@ -30,6 +30,7 @@ data:
       {{- if not (empty .Values.frontend.customIntentConfig) }}
       "CUSTOM_INTENT_CONFIG": {{ .Values.frontend.customIntentConfig | toJson }},
       {{- end }}
-      "NEXT_PUBLIC_ENABLE_CONVERSATIONS" : "true"
+      "NEXT_PUBLIC_ENABLE_CONVERSATIONS" : "true",
+      "NEXT_PUBLIC_DEFAULT_AGGREGATION": {{ .Values.frontend.defaultAggregation | quote }}
     }
 
