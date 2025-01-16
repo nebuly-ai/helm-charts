@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.50.3"
+    tag: "v1.50.4"
 
   podAnnotations: { }
   podLabels: { }
@@ -115,6 +115,8 @@ frontend:
 
   # -- The default aggregation level of the platform.
   defaultAggregation: "interaction"
+  # -- If set to true, enable the AI summarization feature.
+  enableAiSummary: false
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # -- The title of the application.
@@ -125,7 +127,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.48.9"
+    tag: "v1.48.10"
 
   podAnnotations: { }
   podLabels: { }
