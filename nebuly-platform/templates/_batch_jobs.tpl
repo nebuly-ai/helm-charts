@@ -23,6 +23,10 @@
   value: "v2"
 - name: TOPIC_AND_ACTION_PROCESSING_VERSION
   value: {{ .Values.ingestionWorker.settings.topicsAndActionsVersion | quote }}
+- name: BUSINESS_SUGGESTION_PROCESSING_VERSION
+  value: "v2"
+- name: MODERATION_SUGGESTION_PROCESSING_VERSION
+  value: "v2"
 
 # Model Suggestions Settings
 - name: MODEL_SUGGESTION_LOCAL_MODEL_NAME
