@@ -483,7 +483,7 @@ aiModels:
 
   modelTopicClassifier:
     name: "topic-classifier"
-    version: "4"
+    version: "5"
 
   modelActionClassifier:
     name: "action-classifier"
@@ -605,7 +605,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.40.5
+    tag: v1.40.8
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
