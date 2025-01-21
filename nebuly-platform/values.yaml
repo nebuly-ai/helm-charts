@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.51.1"
+    tag: "v1.51.3"
 
   podAnnotations: { }
   podLabels: { }
@@ -127,7 +127,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.49.2"
+    tag: "v1.49.3"
 
   podAnnotations: { }
   podLabels: { }
