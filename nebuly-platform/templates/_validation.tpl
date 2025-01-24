@@ -31,8 +31,6 @@
 {{- end -}}
 {{/* Ingestion Worker*/}}
 {{- $messages = append $messages (include "chart.validateValues.primaryProcessing.modelsCache" .) -}}
-{{/* Lion Linguist */}}
-{{- $messages = append $messages (include "chart.validateValues.lionLinguist.modelsCache" .) -}}
 {{/* AI Models */}}
 {{- $messages = append $messages (include "chart.validateValues.aiModels.registry" .) -}}
 {{- if .Values.aiModels.sync.enabled -}}
@@ -217,14 +215,6 @@ values: aiModels.sync.source.clientSecret
 {{- end -}}
 {{- end -}}
 
-
-{{/* Lion Linguist validation. */}}
-{{- define "chart.validateValues.lionLinguist.modelsCache" -}}
-{{- if empty .Values.lionLinguist.modelsCache.storageClassName -}}
-values: lionLinguist.modelsCache.storageClassName
-  `storageClassName` is required and should be a non-empty string
-{{- end -}}
-{{- end -}}
 
 {{/* Backend validation. */}}
 {{- define "chart.validateValues.telemetry" -}}

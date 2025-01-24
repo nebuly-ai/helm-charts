@@ -112,28 +112,16 @@ app.kubernetes.io/component: nebuly-backend-scheduler
 {{- printf "%s-%s" .Release.Name "backend-scheduler" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-
 {{/*
 *********************************************************************
-* Lion Linguist
+* Model Registry
 *********************************************************************
 */}}
-{{- define "lionLinguist.labels" -}}
-{{- include "lionLinguist.selectorLabels" . }}
+{{- define "modelRegistry.fullname" -}}
+{{- printf "%s-%s" .Release.Name "model-registry" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "lionLinguist.selectorLabels" -}}
-{{- include "nebuly-platform.selectorLabels" . }}
-app.kubernetes.io/component: nebuly-lion-linguist
-{{- end }}
 
-{{- define "lionLinguist.fullname" -}}
-{{- if .Values.lionLinguist.fullnameOverride }}
-{{- .Values.lionLinguist.fullnameOverride | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s" .Release.Name "lion-linguist" | trunc 63 | trimSuffix "-" }}
-{{- end }}
-{{- end }}
 
 {{/*
 *********************************************************************

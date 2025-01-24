@@ -47,8 +47,6 @@
 # Internal services
 - name: TENANT_REGISTRY_URL
   value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}"
-- name: LION_LINGUIST_URL
-  value: "http://{{ include "lionLinguist.fullname" . }}:{{ .Values.auth.service.port }}"
 # Sentry
 - name: SENTRY_ENABLED
   value: {{ .Values.backend.sentry.enabled | quote }}

@@ -10,12 +10,12 @@
 - name: "AZURE_CLIENT_ID"
   valueFrom:
     secretKeyRef:
-      name: {{ (tpl .Values.aiModels.azureml.existingSecret.name . ) | default (include "lionLinguist.fullname" .) }}
+      name: {{ (tpl .Values.aiModels.azureml.existingSecret.name . ) | default (include "modelRegistry.fullname" .) }}
       key: {{ .Values.aiModels.azureml.existingSecret.clientIdKey | default "azure-client-id" }}
 - name: "AZURE_CLIENT_SECRET"
   valueFrom:
     secretKeyRef:
-      name: {{ (tpl .Values.aiModels.azureml.existingSecret.name . ) | default (include "lionLinguist.fullname" .) }}
+      name: {{ (tpl .Values.aiModels.azureml.existingSecret.name . ) | default (include "modelRegistry.fullname" .) }}
       key: {{ .Values.aiModels.azureml.existingSecret.clientSecretKey | default "azure-client-secret" }}
 {{- end -}}
 {{- define "aiModels.azure_storage.env" -}}
@@ -31,6 +31,16 @@
 {{- define "aiModels.aws.env" -}}
 - name: "AWS_S3_BUCKET_NAME"
   value: {{ .Values.aiModels.aws.bucketName | quote }}
+- name: "AWS_ACCESS_KEY_ID"
+  valueFrom:
+    secretKeyRef:
+      name: {{ (tpl .Values.aiModels.aws.existingSecret.name . ) | default (include "modelRegistry.fullname" .) }}
+      key: {{ .Values.aiModels.aws.existingSecret.accessKeyIdKey | default "aws-access-key-id" }}
+- name: "AWS_SECRET_ACCESS_KEY"
+  valueFrom:
+    secretKeyRef:
+      name: {{ (tpl .Values.aiModels.aws.existingSecret.name . ) | default (include "modelRegistry.fullname" .) }}
+      key: {{ .Values.aiModels.aws.existingSecret.secretAccessKeyKey | default "aws-secret-access-key" }}
 {{- end -}}
 {{- define "aiModels.gcp.env" -}}
 - name: "GCP_BUCKET_NAME"
