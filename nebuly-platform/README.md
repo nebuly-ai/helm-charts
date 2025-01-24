@@ -357,6 +357,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.affinity | object | `{}` |  |
 | ingestionWorker.deploymentStrategy.type | string | `"Recreate"` |  |
 | ingestionWorker.fullnameOverride | string | `""` |  |
+| ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
 | ingestionWorker.image.tag | string | `"v1.40.20"` |  |

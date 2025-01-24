@@ -298,6 +298,10 @@ ingestionWorker:
   deploymentStrategy:
     type: Recreate
 
+  # -- Customize the path of the file used for health checks.
+  # -- Example: /mnt/health-check/healthy.timestamp
+  healthCheckPath: ""
+
   # -- Thresholds for tuning the data-processing pipeline.
   thresholds:
     subjectClustering: 0.3

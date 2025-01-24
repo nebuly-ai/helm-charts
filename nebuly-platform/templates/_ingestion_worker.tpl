@@ -6,6 +6,10 @@
   value: "false"
 - name: TOUCH_EVERY_SECONDS
   value: "10"
+{{- if .Values.ingestionWorker.healthCheckPath }}
+- name: HEALTH_CHECK_PATH
+  value: "{{ .Values.ingestionWorker.healthCheckPath }}"
+{{- end }}
 # Workers
 - name: NUMBER_OF_WORKERS_ACTIONS
   value: "{{ .Values.ingestionWorker.numWorkersActions }}"
