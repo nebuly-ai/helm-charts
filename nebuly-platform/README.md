@@ -151,8 +151,12 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| aiModels | object | `{"aws":{"bucketName":""},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelActionClassifier":{"name":"action-classifier","version":"6"},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":18},"modelTopicClassifier":{"name":"topic-classifier","version":"5"},"registry":"","sync":{"affinity":{},"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.2.0"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
+| aiModels | object | `{"aws":{"bucketName":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelActionClassifier":{"name":"action-classifier","version":"6"},"modelEmbeddingIntents":{"name":"intent-embedding","version":3},"modelEmbeddingTopic":{"name":"topic-embedding","version":4},"modelEmbeddingWarnings":{"name":"warning-embedding","version":1},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":18},"modelTopicClassifier":{"name":"topic-classifier","version":"5"},"registry":"","sync":{"affinity":{},"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.2.0"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
+| aiModels.aws.existingSecret | object | `{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}` | linked to an IAM Role with the required permissions. |
+| aiModels.aws.existingSecret.accessKeyIdKey | string | `""` | The key of the secret containing the AWS Access Key ID. |
+| aiModels.aws.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| aiModels.aws.existingSecret.secretAccessKeyKey | string | `""` | The key of the secret containing the AWS Secret Access Key. |
 | aiModels.azure | object | - | Config of the Azure Storage model registry. |
 | aiModels.azure.managedIdentityClientId | string | `""` | The client ID of the Azure managed identity used to access the Azure Storage account. |
 | aiModels.azure.storageAccountName | string | `""` | The name of the Azure Storage account. |
@@ -429,33 +433,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.zookeeper.storage.deleteClaim | bool | `false` |  |
 | kafka.zookeeper.storage.size | string | `"10Gi"` |  |
 | kafka.zookeeper.storage.type | string | `"persistent-claim"` |  |
-| lionLinguist.affinity | object | `{}` |  |
-| lionLinguist.deploymentStrategy.type | string | `"Recreate"` |  |
-| lionLinguist.fullnameOverride | string | `""` |  |
-| lionLinguist.image.pullPolicy | string | `"IfNotPresent"` |  |
-| lionLinguist.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-lion-linguist"` |  |
-| lionLinguist.image.tag | string | `"v0.5.0"` |  |
-| lionLinguist.maxConcurrentRequests | int | `8` | The maximum number of concurrent requests that the service will handle. |
-| lionLinguist.modelsCache | object | `{"accessModes":["ReadWriteMany","ReadWriteOnce"],"enabled":true,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
-| lionLinguist.nodeSelector | object | `{}` |  |
-| lionLinguist.podAnnotations | object | `{}` |  |
-| lionLinguist.podLabels | object | `{}` |  |
-| lionLinguist.podSecurityContext.fsGroup | int | `101` |  |
-| lionLinguist.podSecurityContext.runAsNonRoot | bool | `true` |  |
-| lionLinguist.replicaCount | int | `1` |  |
-| lionLinguist.resources.limits.memory | string | `"2Gi"` |  |
-| lionLinguist.resources.requests.cpu | string | `"200m"` |  |
-| lionLinguist.securityContext.allowPrivilegeEscalation | bool | `false` |  |
-| lionLinguist.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| lionLinguist.securityContext.runAsNonRoot | bool | `true` |  |
-| lionLinguist.sentry | object | `{"dsn":"","enabled":false,"environment":"","profilesSampleRate":0,"tracesSampleRate":0}` | Settings of the Sentry integration. |
-| lionLinguist.sentry.dsn | string | `""` | The DSN of the Sentry project |
-| lionLinguist.sentry.enabled | bool | `false` | If true, enable the Sentry integration. |
-| lionLinguist.sentry.environment | string | `""` | The name of the Sentry environment. |
-| lionLinguist.service.port | int | `80` |  |
-| lionLinguist.service.type | string | `"ClusterIP"` |  |
-| lionLinguist.volumeMounts | list | `[]` |  |
-| lionLinguist.volumes | list | `[]` |  |
 | namespaceOverride | string | `""` | Override the namespace. |
 | openAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. |
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |

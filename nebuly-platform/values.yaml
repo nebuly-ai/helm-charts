@@ -285,85 +285,6 @@ eventIngestion:
     tracesSampleRate: 0
 
 
-lionLinguist:
-  fullnameOverride: ""
-
-  replicaCount: 1
-
-  deploymentStrategy:
-    type: Recreate
-
-  # -- The maximum number of concurrent requests that the service will handle.
-  maxConcurrentRequests: 8
-
-  # -- Settings of the PVC used to cache AI models.
-  modelsCache:
-    enabled: true
-    size: 64Gi
-    storageClassName: ""
-    accessModes:
-      - ReadWriteMany
-      - ReadWriteOnce
-
-  image:
-    repository: ghcr.io/nebuly-ai/nebuly-lion-linguist
-    pullPolicy: IfNotPresent
-    tag: "v0.5.0"
-
-  podAnnotations: { }
-  podLabels: { }
-
-  podSecurityContext:
-    fsGroup: 101
-    runAsNonRoot: true
-
-  securityContext:
-    runAsNonRoot: true
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-        - "ALL"
-  # readOnlyRootFilesystem: true
-  # runAsUser: 1000
-
-  service:
-    type: ClusterIP
-    port: 80
-
-  # Additional volumes on the output Deployment definition.
-  volumes: [ ]
-  # - name: foo
-  #   secret:
-  #     secretName: mysecret
-  #     optional: false
-
-  # Additional volumeMounts on the output Deployment definition.
-  volumeMounts: [ ]
-  # - name: foo
-  #   mountPath: "/etc/foo"
-  #   readOnly: true
-
-  resources:
-    requests:
-      cpu: 200m
-    limits:
-      memory: 2Gi
-  nodeSelector: { }
-
-  affinity: { }
-
-  # -- Settings of the Sentry integration.
-  sentry:
-    # -- If true, enable the Sentry integration.
-    enabled: false
-    # -- The DSN of the Sentry project
-    dsn: ""
-    # -- The name of the Sentry environment.
-    environment: ""
-    profilesSampleRate: 0
-    tracesSampleRate: 0
-
-
 ingestionWorker:
   # -- The number of workers (e.g. coroutines) used to process interactions.
   numWorkersInteractions: 20
@@ -497,6 +418,16 @@ aiModels:
   # @default -- -
   aws:
     bucketName: ""
+    # -- Optionally use an existing secret for AWS S3 authentication.
+    # -- If no secret is provided, the services will default to using the Service Account
+    # -- linked to an IAM Role with the required permissions.
+    existingSecret:
+      # -- Name of the secret. Can be templated.
+      name: ""
+      # -- The key of the secret containing the AWS Access Key ID.
+      accessKeyIdKey: ""
+      # -- The key of the secret containing the AWS Secret Access Key.
+      secretAccessKeyKey: ""
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
