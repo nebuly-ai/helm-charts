@@ -29,6 +29,10 @@
   value: {{ .Values.aiModels.azure.managedIdentityClientId | quote }}
 {{- end -}}
 {{- define "aiModels.aws.env" -}}
+{{- if .Values.aiModels.aws.endpointUrl }}
+- name: "AWS_S3_ENDPOINT_URL"
+  value: {{ .Values.aiModels.aws.endpointUrl | quote }}
+{{- end }}
 - name: "AWS_S3_BUCKET_NAME"
   value: {{ .Values.aiModels.aws.bucketName | quote }}
 - name: "AWS_ACCESS_KEY_ID"

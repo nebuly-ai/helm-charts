@@ -421,7 +421,11 @@ aiModels:
   # -- Config of the AWS S3 model registry.
   # @default -- -
   aws:
+    # -- The name of the AWS S3 bucket.
     bucketName: ""
+    # -- Optional AWS S3 endpoint URL. The URL should not include
+    # -- the bucket name. Example: "https://my-domain.com:9444"
+    endpointUrl: ""
     # -- Optionally use an existing secret for AWS S3 authentication.
     # -- If no secret is provided, the services will default to using the Service Account
     # -- linked to an IAM Role with the required permissions.
