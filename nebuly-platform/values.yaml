@@ -499,6 +499,11 @@ aiModels:
     affinity: { }
     tolerations: [ ]
     nodeSelector: { }
+    # -- Additional environment variables, in the standard Kubernetes format.
+    # -- Example:
+    # - name: MY_ENV_VAR
+    #   value: "my-value"
+    env: { }
     podSecurityContext:
       runAsNonRoot: true
     # -- Additional volumes

@@ -88,6 +88,9 @@ spec:
             {{- if eq .Values.aiModels.registry "gcp_bucket" }}
             {{- include "aiModels.gcp.env" . | nindent 12 }}
             {{- end }}
+            {{ if .Values.aiModels.sync.env }}
+            {{- toYaml .Values.aiModels.sync.env | nindent 12 }}
+            {{ end }}
           resources:
             {{- toYaml .Values.aiModels.sync.resources | nindent 12 }}
           {{- with .Values.aiModels.sync.volumeMounts }}
