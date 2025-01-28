@@ -482,7 +482,7 @@ aiModels:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-models-sync
       pullPolicy: IfNotPresent
-      tag: v0.4.0
+      tag: v0.4.1
     resources:
       requests:
         memory: 4Gi
