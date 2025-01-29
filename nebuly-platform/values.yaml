@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.52.1"
+    tag: "v1.53.6"
 
   podAnnotations: { }
   podLabels: { }
@@ -117,6 +117,9 @@ frontend:
   defaultAggregation: "interaction"
   # -- If set to true, enable the AI summarization feature.
   enableAiSummary: false
+  # -- Feature flag to activate the old risky behavior page.
+  # -- Used for retro-compatibility.
+  enableOldRiskyBehavior: false
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # -- The title of the application.
@@ -127,7 +130,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.49.3"
+    tag: "v1.49.9"
 
   podAnnotations: { }
   podLabels: { }

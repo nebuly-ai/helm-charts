@@ -32,6 +32,7 @@ data:
       {{- end }}
       "NEXT_PUBLIC_ENABLE_CONVERSATIONS" : "true",
       "NEXT_PUBLIC_DEFAULT_AGGREGATION": {{ .Values.frontend.defaultAggregation | quote }},
-      "NEXT_PUBLIC_ENABLE_AI_SUMMARY": {{ .Values.frontend.enableAiSummary | quote }}
+      "NEXT_PUBLIC_ENABLE_AI_SUMMARY": {{ .Values.frontend.enableAiSummary | quote }},
+      "NEXT_PUBLIC_ENABLE_OLD_RISKY_BEHAVIOR": {{ .Values.frontend.enableOldRiskyBehavior | quote }}
     }
 
