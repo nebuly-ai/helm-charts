@@ -397,18 +397,6 @@ aiModels:
   # -- Available values are: "azure_ml", "aws_s3", "azure_storage", "gcp_bucket"
   registry: ""
 
-  modelEmbeddingWarnings:
-    name: "warning-embedding"
-    version: 1
-
-  modelEmbeddingIntents:
-    name: "intent-embedding"
-    version: 3
-
-  modelEmbeddingTopic:
-    name: "topic-embedding"
-    version: 4
-
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
     version: 18

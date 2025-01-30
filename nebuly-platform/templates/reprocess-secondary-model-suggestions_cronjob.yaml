@@ -54,7 +54,6 @@ spec:
               env:
               {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
               {{ include "batchJobs.commonEnv" . | nindent 16 }}
-              {{ include "lionLinguist.commonEnv" . | nindent 16 }}
                 - name: MODEL_PROVIDER
                   value: {{ .Values.aiModels.registry | quote }}
                 - name: MODELS_CACHE_DIR

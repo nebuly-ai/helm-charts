@@ -51,7 +51,6 @@ spec:
                   value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
               {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
               {{ include "batchJobs.commonEnv" . | nindent 16 }}
-              {{ include "lionLinguist.commonEnv" . | nindent 16 }}
               {{- if eq .Values.aiModels.registry  "azure_ml" }}
                 {{ include "aiModels.azureml.env" . | nindent 16 }}
               {{- end }}

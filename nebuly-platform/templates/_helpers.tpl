@@ -198,20 +198,6 @@ app.kubernetes.io/component: job-enrich-interactions
 {{- printf "%s-%s" .Release.Name "enrich-interactions" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{/*
-*********************************************************************
-* Cronjob Secondary - Process Intents
-*********************************************************************
-*/}}
-{{- define "jobProcessIntents.labels" -}}
-{{ include "nebuly-platform.selectorLabels" . }}
-{{ include "secondaryProcessing.commonLabels" . }}
-app.kubernetes.io/component: job-process-intents
-{{- end }}
-
-{{- define "jobProcessIntents.fullname" -}}
-{{- printf "%s-%s" .Release.Name "process-intents" | trunc 63 | trimSuffix "-" }}
-{{- end }}
 
 {{/*
 *********************************************************************
@@ -228,35 +214,6 @@ app.kubernetes.io/component: job-process-model-suggestions
 {{- printf "%s-%s" .Release.Name "process-model-suggestions" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{/*
-*********************************************************************
-* Cronjob Secondary - Process Business Suggestions
-*********************************************************************
-*/}}
-{{- define "jobProcessBusinessSuggestions.labels" -}}
-{{ include "nebuly-platform.selectorLabels" . }}
-{{ include "secondaryProcessing.commonLabels" . }}
-app.kubernetes.io/component: job-process-business-suggestions
-{{- end }}
-
-{{- define "jobProcessBusinessSuggestions.fullname" -}}
-{{- printf "%s-%s" .Release.Name "process-business-suggestions" | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{/*
-*********************************************************************
-* Cronjob Secondary - Process Moderation Suggestions
-*********************************************************************
-*/}}
-{{- define "jobProcessModerationSuggestions.labels" -}}
-{{ include "nebuly-platform.selectorLabels" . }}
-{{ include "secondaryProcessing.commonLabels" . }}
-app.kubernetes.io/component: job-process-moderation-suggestions
-{{- end }}
-
-{{- define "jobProcessModerationSuggestions.fullname" -}}
-{{- printf "%s-%s" .Release.Name "process-moderation-suggestions" | trunc 63 | trimSuffix "-" }}
-{{- end }}
 
 {{/*
 *********************************************************************

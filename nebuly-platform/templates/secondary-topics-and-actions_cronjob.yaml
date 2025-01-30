@@ -46,7 +46,6 @@ spec:
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
                 {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
-                {{ include "lionLinguist.commonEnv" . | nindent 16 }}
                 {{ include "batchJobs.commonEnv" . | nindent 16 }}
               resources:
                 {{- toYaml .Values.primaryProcessing.resources | nindent 16 }}
