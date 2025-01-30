@@ -71,4 +71,16 @@
   value: "/tmp/hf"
 - name: HF_HOME
   value: "/tmp/hf"
+{{- if eq .Values.aiModels.registry  "azure_ml" }}
+{{ include "aiModels.azureml.env" . }}
+{{- end }}
+{{- if eq .Values.aiModels.registry  "azure_storage" }}
+{{ include "aiModels.azure_storage.env" . }}
+{{- end }}
+{{- if eq .Values.aiModels.registry  "aws_s3" }}
+{{ include "aiModels.aws.env" . }}
+{{- end }}
+{{- if eq .Values.aiModels.registry  "gcp_bucket" }}
+{{ include "aiModels.gcp.env" . }}
+{{- end }}
 {{- end -}}

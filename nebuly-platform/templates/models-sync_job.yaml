@@ -42,9 +42,6 @@ spec:
           image: "{{ .Values.aiModels.sync.image.repository }}:{{ .Values.aiModels.sync.image.tag | default .Chart.AppVersion }}"
           command:
             - models-sync
-            - {{ .Values.aiModels.modelEmbeddingWarnings.name }}:{{ .Values.aiModels.modelEmbeddingWarnings.version }}
-            - {{ .Values.aiModels.modelEmbeddingTopic.name }}:{{ .Values.aiModels.modelEmbeddingTopic.version }}
-            - {{ .Values.aiModels.modelEmbeddingIntents.name }}:{{ .Values.aiModels.modelEmbeddingIntents.version }}
             - {{ .Values.aiModels.modelInferenceInteractions.name }}:{{ .Values.aiModels.modelInferenceInteractions.version }}
             - {{ .Values.aiModels.modelTopicClassifier.name }}:{{ .Values.aiModels.modelTopicClassifier.version }}
             - {{ .Values.aiModels.modelActionClassifier.name }}:{{ .Values.aiModels.modelActionClassifier.version }}

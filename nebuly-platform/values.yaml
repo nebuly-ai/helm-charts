@@ -319,7 +319,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.40.22
+    tag: v1.41.6
 
   podAnnotations: { }
   podLabels: { }
@@ -396,18 +396,6 @@ aiModels:
   # -- The kind of registry used to store the AI models.
   # -- Available values are: "azure_ml", "aws_s3", "azure_storage", "gcp_bucket"
   registry: ""
-
-  modelEmbeddingWarnings:
-    name: "warning-embedding"
-    version: 1
-
-  modelEmbeddingIntents:
-    name: "intent-embedding"
-    version: 3
-
-  modelEmbeddingTopic:
-    name: "topic-embedding"
-    version: 4
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
@@ -556,7 +544,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.40.22
+    tag: v1.41.6
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
     enabled: false

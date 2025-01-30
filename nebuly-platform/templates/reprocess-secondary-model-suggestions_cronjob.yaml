@@ -54,7 +54,6 @@ spec:
               env:
               {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
               {{ include "batchJobs.commonEnv" . | nindent 16 }}
-              {{ include "lionLinguist.commonEnv" . | nindent 16 }}
                 - name: MODEL_PROVIDER
                   value: {{ .Values.aiModels.registry | quote }}
                 - name: MODELS_CACHE_DIR
@@ -65,18 +64,6 @@ spec:
                   value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
                 - name: PROCESS_LAST_N_HOURS
                   value: {{ .Values.primaryProcessing.numHoursProcessed | quote }}
-              {{- if eq .Values.aiModels.registry  "azure_ml" }}
-                {{ include "aiModels.azureml.env" . | nindent 16 }}
-              {{- end }}
-              {{- if eq .Values.aiModels.registry  "azure_storage" }}
-                {{ include "aiModels.azure_storage.env" . | nindent 16 }}
-              {{- end }}
-              {{- if eq .Values.aiModels.registry  "aws_s3" }}
-                {{ include "aiModels.aws.env" . | nindent 16 }}
-              {{- end }}
-              {{- if eq .Values.aiModels.registry  "gcp_bucket" }}
-                {{ include "aiModels.gcp.env" . | nindent 16 }}
-              {{- end }}
               resources:
                 {{- toYaml .Values.primaryProcessing.resources | nindent 18 }}
               volumeMounts:
