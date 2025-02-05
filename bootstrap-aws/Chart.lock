@@ -1,21 +1,21 @@
 dependencies:
 - name: cluster-autoscaler
   repository: https://kubernetes.github.io/autoscaler
-  version: 9.37.0
+  version: 9.46.0
 - name: metrics-server
   repository: https://kubernetes-sigs.github.io/metrics-server/
-  version: 3.12.1
+  version: 3.12.2
 - name: nvidia-device-plugin
   repository: https://nvidia.github.io/k8s-device-plugin
   version: 0.15.1
 - name: secrets-store-csi-driver
   repository: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
-  version: 1.4.5
+  version: 1.4.8
 - name: ingress-nginx
   repository: https://kubernetes.github.io/ingress-nginx
-  version: 4.10.4
+  version: 4.10.6
 - name: cert-manager
   repository: https://charts.jetstack.io
-  version: v1.15.3
-digest: sha256:be7e2afccdcf6f499f49d4ded799e7315cc3a2edbe5cbea07a79f6831f719d11
-generated: "2024-09-12T12:11:43.993731+02:00"
+  version: v1.15.5
+digest: sha256:d1e5f4d27d7591a4f259df2177b042976e1573eb788fcd2cd33e0354e9ff3a25
+generated: "2025-02-05T11:36:25.492953+01:00"

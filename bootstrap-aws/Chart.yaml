@@ -24,7 +24,7 @@ sources:
 
 dependencies:
   - name: cluster-autoscaler
-    version: ~9.37
+    version: ~9
     repository: https://kubernetes.github.io/autoscaler
     condition: cluster-autoscaler.enabled
   - name: metrics-server
