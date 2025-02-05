@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.53.10"
+    tag: "v1.54.1"
 
   podAnnotations: { }
   podLabels: { }
@@ -130,7 +130,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.49.10"
+    tag: "v1.50.0"
 
   podAnnotations: { }
   podLabels: { }
@@ -319,7 +319,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.41.7
+    tag: v1.41.9
 
   podAnnotations: { }
   podLabels: { }
