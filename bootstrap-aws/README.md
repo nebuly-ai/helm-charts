@@ -1,6 +1,6 @@
 # AWS - Kubernetes bootstrap
 
-![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
 
 Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependencies required for installing [Nebuly Platform](https://nebuly.com).
 
@@ -13,7 +13,7 @@ Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependenci
 | https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.15.2 |
 | https://kubernetes-sigs.github.io/metrics-server/ | metrics-server | ~3.12 |
 | https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts | secrets-store-csi-driver | ~1.4 |
-| https://kubernetes.github.io/autoscaler | cluster-autoscaler | ~9.37 |
+| https://kubernetes.github.io/autoscaler | cluster-autoscaler | ~9 |
 | https://kubernetes.github.io/ingress-nginx | ingress-nginx | ~4.10 |
 | https://nvidia.github.io/k8s-device-plugin | nvidia-device-plugin | ~0.15.0 |
 
