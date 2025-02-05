@@ -1,3 +1,11 @@
+{{- define "secondaryProcessing.modelSuggestions.schedule" -}}
+{{ (default .Values.secondaryProcessing.schedule .Values.secondaryProcessing.modelSuggestions.schedule)  | quote }}
+{{- end -}}
+
+{{- define "secondaryProcessing.topicsAndActions.schedule" -}}
+{{ (default .Values.secondaryProcessing.schedule .Values.secondaryProcessing.topicsAndActions.schedule)  | quote }}
+{{- end -}}
+
 {{- define "batchJobs.commonEnv" -}}
 # Thresholds
 - name: THRESHOLD_SUBJECT_CLUSTERING

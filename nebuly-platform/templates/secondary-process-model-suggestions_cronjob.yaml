@@ -8,7 +8,7 @@ metadata:
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.secondaryProcessing.schedule | quote }}
+  schedule: {{ include "secondaryProcessing.modelSuggestions.schedule" . }}
   jobTemplate:
     metadata:
       labels:

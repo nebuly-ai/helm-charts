@@ -615,6 +615,16 @@ secondaryProcessing:
     size: 64Gi
     storageClassName: ""
 
+  modelSuggestions:
+    # -- If provided, overrides the schedule of the Model Suggestions CronJob.
+    # -- Otherwise, use the schedule specified in `secondaryProcessing.schedule`.
+    schedule: ""
+
+  topicsAndActions:
+    # -- If provided, overrides the schedule of the Topics and Actions CronJob.
+    # -- Otherwise, use the schedule specified in `secondaryProcessing.schedule`.
+    schedule: ""
+
   podAnnotations: { }
   podLabels: { }
   podSecurityContext:
