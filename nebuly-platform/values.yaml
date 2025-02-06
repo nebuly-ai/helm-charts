@@ -541,6 +541,11 @@ primaryProcessing:
   schedule: "0 23 * * *" # Every day at 11:00 PM
   backoffLimit: 1
   activeDeadlineSeconds: 10800 # 3 hours
+  # -- Additional environment variables, in the standard Kubernetes format.
+  # -- Example:
+  # - name: MY_ENV_VAR
+  #   value: "my-value"
+  env: { }
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
@@ -608,6 +613,12 @@ secondaryProcessing:
       cpu: 1
     limits:
       nvidia.com/gpu: 1
+
+  # -- Additional environment variables, in the standard Kubernetes format.
+  # -- Example:
+  # - name: MY_ENV_VAR
+  #   value: "my-value"
+  env: { }
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:

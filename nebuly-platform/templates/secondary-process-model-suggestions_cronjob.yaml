@@ -49,6 +49,9 @@ spec:
                   value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
                 - name: MODEL_VERSION
                   value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
+              {{- if .Values.secondaryProcessing.env }}
+                {{- toYaml .Values.secondaryProcessing.env | nindent 16 }}
+              {{- end }}
               {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
               {{ include "batchJobs.commonEnv" . | nindent 16 }}
               resources:
