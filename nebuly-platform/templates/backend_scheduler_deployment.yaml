@@ -51,6 +51,8 @@ spec:
               value: "nebuly-backend-scheduler"
             - name: "JOB_METRICS_ENABLED"
               value: "true"
+            - name: "JOB_USE_NEW_TYPE_OF_RISK_ENABLED"
+              value: {{ .Values.frontend.enableNewTypeOfRisk | quote }}
             # Common env
             {{ include "backend.commonEnv" . | nindent 12 }}
           livenessProbe:
