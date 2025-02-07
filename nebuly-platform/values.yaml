@@ -403,7 +403,7 @@ aiModels:
 
   modelTopicClassifier:
     name: "topic-classifier"
-    version: "5"
+    version: "6"
 
   modelActionClassifier:
     name: "action-classifier"
