@@ -72,10 +72,10 @@
   value: "/etc/kafka/ca.crt"
 {{- end }}
 # Platform services
-- name: TENANT_REGISTRY_URL
-  value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}"
+- name: "TENANT_REGISTRY_URL"
+  value: {{ include "authService.url" . }}
 - name: BACKEND_URL
-  value: "http://{{ include "backend.fullname" . }}:{{ .Values.backend.service.port }}"
+  value: {{ include "backend.url" . }}
 # Sentry
 - name: SENTRY_ENABLED
   value: {{ .Values.ingestionWorker.sentry.enabled | quote }}

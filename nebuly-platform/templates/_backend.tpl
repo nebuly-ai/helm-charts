@@ -45,8 +45,8 @@
 - name: OAUTH_JWKS_URL
   value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}/auth/well-known/jwk.json"
 # Internal services
-- name: TENANT_REGISTRY_URL
-  value: "http://{{ include "authService.fullname" . }}:{{ .Values.auth.service.port }}"
+- name: "TENANT_REGISTRY_URL"
+  value: {{ include "authService.url" . }}
 # Sentry
 - name: SENTRY_ENABLED
   value: {{ .Values.backend.sentry.enabled | quote }}

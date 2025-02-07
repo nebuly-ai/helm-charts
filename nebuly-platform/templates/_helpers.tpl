@@ -85,6 +85,10 @@ helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
 app.kubernetes.io/component: nebuly-backend
 {{- end }}
 
+{{- define "backend.url" -}}
+http://{{ include "backend.fullname" . }}.{{ include "nebuly-platform.namespace" . }}.svc.cluster.local:{{ .Values.auth.service.port }}
+{{- end }}
+
 {{- define "backend.fullname" -}}
 {{- if .Values.backend.fullnameOverride }}
 {{- .Values.backend.fullnameOverride | trunc 63 | trimSuffix "-" }}
@@ -257,6 +261,10 @@ app.kubernetes.io/component: models-sync
 {{- define "authService.selectorLabels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
 app.kubernetes.io/component: nebuly-auth-service
+{{- end }}
+
+{{- define "authService.url" -}}
+http://{{ include "authService.fullname" . }}.{{ include "nebuly-platform.namespace" . }}.svc.cluster.local:{{ .Values.auth.service.port }}
 {{- end }}
 
 {{- define "authService.fullname" -}}
