@@ -53,12 +53,16 @@ spec:
               resources:
                 {{- toYaml .Values.primaryProcessing.resources | nindent 16 }}
               volumeMounts:
+                - name: vllm-report-usage
+                  mountPath: /nonexistent
                 - name: models-cache
                   mountPath: /var/cache/nebuly
               {{- with .Values.primaryProcessing.volumeMounts }}
                 {{- toYaml . | nindent 16 }}
               {{- end }}
           volumes:
+            - name: vllm-report-usage
+              emptyDir: {}
             - name: models-cache
           {{- if .Values.primaryProcessing.modelsCache.enabled }}
               persistentVolumeClaim:
