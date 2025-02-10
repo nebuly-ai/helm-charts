@@ -2,10 +2,10 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: "reprocess-model-suggestions"
+  name: reprocess-model-suggestions
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{- include "jobProcessModelSuggestions.labels" . | nindent 4 }}
+    {{- include "primaryProcessing.commonLabels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
@@ -13,19 +13,19 @@ spec:
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobProcessModelSuggestions.labels" . | nindent 10 }}
+        {{- include "primaryProcessing.commonLabels" . | nindent 10 }}
     spec:
-      backoffLimit: {{ .Values.secondaryProcessing.backoffLimit }}
-      activeDeadlineSeconds: {{ .Values.secondaryProcessing.activeDeadlineSeconds }}
+      backoffLimit: {{ .Values.primaryProcessing.backoffLimit }}
+      activeDeadlineSeconds: {{ .Values.primaryProcessing.activeDeadlineSeconds }}
       template:
         metadata:
-          {{- with .Values.secondaryProcessing.podAnnotations }}
+          {{- with .Values.primaryProcessing.podAnnotations }}
           annotations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobProcessModelSuggestions.labels" . | nindent 14 }}
-            {{- with .Values.secondaryProcessing.podLabels }}
+            {{- include "jobEnrichInteractions.labels" . | nindent 14 }}
+            {{- with .Values.primaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
         spec:
@@ -37,39 +37,35 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           securityContext:
-            {{- toYaml .Values.secondaryProcessing.podSecurityContext | nindent 12 }}
+            {{- toYaml .Values.primaryProcessing.podSecurityContext | nindent 12 }}
           containers:
             - name: {{ .Chart.Name }}
               securityContext:
-                {{- toYaml .Values.secondaryProcessing.securityContext | nindent 16 }}
+                {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
               image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
               command:
                 - python
                 - minkmaze
                 - process
-                - model-suggestions
+                - llm-issues
                 - nebuly
                 - --reprocess
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
-              {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
-              {{ include "batchJobs.commonEnv" . | nindent 16 }}
-              {{- if .Values.secondaryProcessing.env }}
-                {{- toYaml .Values.secondaryProcessing.env | nindent 16 }}
-              {{- end }}
-                - name: MODEL_PROVIDER
-                  value: {{ .Values.aiModels.registry | quote }}
-                - name: MODELS_CACHE_DIR
-                  value: "/var/cache/nebuly"
                 - name: MODEL_NAME
                   value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
                 - name: MODEL_VERSION
                   value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
-                - name: PROCESS_LAST_N_HOURS
-                  value: {{ .Values.primaryProcessing.numHoursProcessed | quote }}
+              {{- if .Values.primaryProcessing.env }}
+                {{- toYaml .Values.primaryProcessing.env | nindent 16 }}
+              {{- end }}
+              {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
+              {{ include "batchJobs.commonEnv" . | nindent 16 }}
               resources:
                 {{- toYaml .Values.primaryProcessing.resources | nindent 18 }}
               volumeMounts:
+                - name: vllm-report-usage
+                  mountPath: /nonexistent
               {{- if not .Values.kafka.external }}
                 - name: kafka-cluster-ca-cert
                   mountPath: "/etc/kafka"
@@ -78,34 +74,36 @@ spec:
                 - name: models-cache
                   mountPath: /var/cache/nebuly
                   readOnly: false
-              {{- with .Values.secondaryProcessing.volumeMounts }}
+              {{- with .Values.primaryProcessing.volumeMounts }}
                 {{- toYaml . | nindent 18 }}
               {{- end }}
           volumes:
+            - name: vllm-report-usage
+              emptyDir: {}
           {{- if not .Values.kafka.external }}
             - name: kafka-cluster-ca-cert
               secret:
                 secretName: {{ include "kafka.fullname" . }}-cluster-ca-cert
           {{- end }}
             - name: models-cache
-          {{- if .Values.secondaryProcessing.modelsCache.enabled }}
+          {{- if .Values.primaryProcessing.modelsCache.enabled }}
               persistentVolumeClaim:
-                claimName: {{ include "secondaryProcessing.modelsCache.name" . }}
+                claimName: {{ include "primaryProcessing.modelsCache.name" . }}
           {{- else }}
               emptyDir: { }
           {{- end }}
-          {{- with .Values.secondaryProcessing.volumes }}
+          {{- with .Values.primaryProcessing.volumes }}
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.secondaryProcessing.nodeSelector }}
+          {{- with .Values.primaryProcessing.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.secondaryProcessing.affinity }}
+          {{- with .Values.primaryProcessing.affinity }}
           affinity:
             {{- toYaml . | nindent 14 }}
           {{- end }}
-          {{- with .Values.secondaryProcessing.tolerations }}
+          {{- with .Values.primaryProcessing.tolerations }}
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
