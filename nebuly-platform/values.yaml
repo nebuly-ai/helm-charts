@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.55.0"
+    tag: "v1.55.2"
 
   podAnnotations: { }
   podLabels: { }
@@ -131,7 +131,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.50.3"
+    tag: "v1.50.5"
 
   podAnnotations: { }
   podLabels: { }
@@ -320,7 +320,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.42.4
+    tag: v1.42.5
 
   podAnnotations: { }
   podLabels: { }
@@ -550,7 +550,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.42.4
+    tag: v1.42.5
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
     enabled: false
