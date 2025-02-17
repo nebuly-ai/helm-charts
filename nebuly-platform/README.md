@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.28.2](https://img.shields.io/badge/Version-1.28.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.29.0](https://img.shields.io/badge/Version-1.29.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -460,7 +460,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | primaryProcessing.modelsCache | object | `{"enabled":false,"size":"128Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | primaryProcessing.numHoursProcessed | int | `50` | Example: 24 -> process the last 24 hours of interactions. |
 | primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| reprocessing | object | `{"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false}}` | major release. |
+| reprocessing | object | `{"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | major release. |
 | secondaryProcessing | object | - | Settings related to the Primary processing CronJobs. |
 | secondaryProcessing.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |
 | secondaryProcessing.modelSuggestions.schedule | string | `""` | Otherwise, use the schedule specified in `secondaryProcessing.schedule`. |
