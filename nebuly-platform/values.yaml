@@ -320,7 +320,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.42.5
+    tag: v1.43.4
 
   podAnnotations: { }
   podLabels: { }
@@ -550,7 +550,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.42.5
+    tag: v1.43.4
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
     enabled: false
