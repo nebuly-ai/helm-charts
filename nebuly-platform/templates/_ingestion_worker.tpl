@@ -46,6 +46,8 @@
     secretKeyRef:
       name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
       key: {{ .Values.analyticDatabase.existingSecret.passwordKey | default "analytic-database-password" }}
+- name: "STATEMENT_TIMEOUT_SECONDS"
+  value: "{{ .Values.analyticDatabase.statementTimeoutSeconds }}"
 # Kafka Settings
 - name: KAFKA_SOCKET_KEEPALIVE_ENABLED
   value: "{{ .Values.kafka.socketKeepAliveEnabled }}"

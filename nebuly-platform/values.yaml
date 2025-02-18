@@ -320,7 +320,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.43.4
+    tag: v1.43.9
 
   podAnnotations: { }
   podLabels: { }
@@ -550,7 +550,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.43.4
+    tag: v1.43.9
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
     enabled: false
@@ -737,6 +737,8 @@ analyticDatabase:
   # -- The password for the database user. To be provided only when not using an existing secret
   # (see analyticDatabase.existingSecret value below).
   password: ""
+  # -- The timeout in seconds for the database queries.
+  statementTimeoutSeconds: 120
   # -- Use an existing secret for the database authentication.
   # @default -- -
   existingSecret:
