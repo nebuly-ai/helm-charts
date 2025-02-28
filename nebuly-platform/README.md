@@ -253,7 +253,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.55.3"` |  |
+| backend.image.tag | string | `"v1.56.0"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -289,7 +289,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
 | eventIngestion.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-event-ingestion"` |  |
-| eventIngestion.image.tag | string | `"v1.9.5"` |  |
+| eventIngestion.image.tag | string | `"v1.10.0"` |  |
 | eventIngestion.ingress.annotations | object | `{}` |  |
 | eventIngestion.ingress.className | string | `""` |  |
 | eventIngestion.ingress.enabled | bool | `false` |  |
@@ -302,7 +302,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.podLabels | object | `{}` |  |
 | eventIngestion.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | eventIngestion.replicaCount | int | `1` |  |
-| eventIngestion.resources.limits.memory | string | `"1024Mi"` |  |
+| eventIngestion.resources.limits.memory | string | `"256Mi"` |  |
 | eventIngestion.resources.requests.cpu | string | `"100m"` |  |
 | eventIngestion.rootPath | string | `""` | Example: "/backend-service" |
 | eventIngestion.securityContext.allowPrivilegeEscalation | bool | `false` |  |
@@ -366,7 +366,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.43.23"` |  |
+| ingestionWorker.image.tag | string | `"v1.45.0"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
@@ -385,15 +385,12 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
 | ingestionWorker.settings.topicsAndActionsVersion | string | `"v2"` |  |
-| ingestionWorker.stage1.resources.limits.memory | string | `"585Mi"` |  |
+| ingestionWorker.stage1.resources.limits.memory | string | `"1024Mi"` |  |
 | ingestionWorker.stage1.resources.requests.cpu | string | `"100m"` |  |
-| ingestionWorker.stage1.resources.requests.memory | string | `"585Mi"` |  |
-| ingestionWorker.stage2.resources.limits.memory | string | `"585Mi"` |  |
+| ingestionWorker.stage1.resources.requests.memory | string | `"1024Mi"` |  |
+| ingestionWorker.stage2.resources.limits.memory | string | `"1024Mi"` |  |
 | ingestionWorker.stage2.resources.requests.cpu | string | `"100m"` |  |
-| ingestionWorker.stage2.resources.requests.memory | string | `"585Mi"` |  |
-| ingestionWorker.stage4.resources.limits.memory | string | `"585Mi"` |  |
-| ingestionWorker.stage4.resources.requests.cpu | string | `"100m"` |  |
-| ingestionWorker.stage4.resources.requests.memory | string | `"585Mi"` |  |
+| ingestionWorker.stage2.resources.requests.memory | string | `"1024Mi"` |  |
 | ingestionWorker.thresholds | object | `{"intentClustering":0.25,"intentMergeClusters":0.2,"subjectClustering":0.3,"subjectMergeClusters":0.3}` | Thresholds for tuning the data-processing pipeline. |
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.volumeMounts | list | `[]` |  |
