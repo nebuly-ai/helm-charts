@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.55.3"
+    tag: "v1.57.0"
 
   podAnnotations: { }
   podLabels: { }
@@ -131,7 +131,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.50.7"
+    tag: "v1.50.13"
 
   podAnnotations: { }
   podLabels: { }
@@ -216,7 +216,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: "v1.9.5"
+    tag: "v1.9.6"
 
   podAnnotations: { }
   podLabels: { }
@@ -254,7 +254,7 @@ eventIngestion:
     requests:
       cpu: 100m
     limits:
-      memory: 1024Mi
+      memory: 256Mi
   nodeSelector: { }
 
   tolerations: [ ]
@@ -320,7 +320,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.43.23
+    tag: v1.46.0
 
   podAnnotations: { }
   podLabels: { }
@@ -358,23 +358,16 @@ ingestionWorker:
     resources:
       requests:
         cpu: 100m
-        memory: 585Mi
+        memory: 1024Mi
       limits:
-        memory: 585Mi
+        memory: 1024Mi
   stage2:
     resources:
       requests:
         cpu: 100m
-        memory: 585Mi
+        memory: 1024Mi
       limits:
-        memory: 585Mi
-  stage4:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 585Mi
-      limits:
-        memory: 585Mi
+        memory: 1024Mi
   nodeSelector: { }
 
   tolerations: [ ]
@@ -550,7 +543,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.43.23
+    tag: v1.46.0
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
     enabled: false
