@@ -223,4 +223,3 @@ values: telemetry.apiKey
   `apiKey` is required when telemetry is enabled and should be a non-empty string.
 {{- end -}}
 {{- end -}}
-

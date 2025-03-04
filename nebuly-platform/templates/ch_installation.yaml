@@ -1,0 +1,119 @@
+apiVersion: "clickhouse.altinity.com/v1"
+kind: "ClickHouseInstallation"
+metadata:
+  name: platform
+  labels:
+    app.kubernetes.io/component: clickhouse
+    app.kubernetes.io/part-of: nebuly-platform
+spec:
+  configuration:
+    zookeeper:
+      nodes:
+        - host: keeper-platform
+          port: 2181
+    users:
+      {{ printf "%s/password" .Values.clickhouse.auth.backupsUser.username }}: {{ .Values.clickhouse.auth.backupsUser.password}}
+      {{ printf "%s/networks/ip" .Values.clickhouse.auth.backupsUser.username }}:
+        - ::/0
+      {{ printf "%s/password" .Values.clickhouse.auth.nebulyUser.username}}: {{ .Values.clickhouse.auth.nebulyUser.password}}
+      {{ print "%s/named_collection_control" .Values.clickhouse.auth.nebulyUser.username }}: 1
+      {{ printf "%s/networks/ip" .Values.clickhouse.auth.nebulyUser.username }}:
+        - ::/0
+    clusters:
+      - name: default
+        layout:
+          shardsCount: 1
+          replicasCount: {{ .Values.clickhouse.replicasCount }}
+        templates:
+          podTemplate: clickhouse-24.12.5
+          volumeClaimTemplate: data
+    settings:
+      max_server_memory_usage_to_ram_ratio: "0.7"
+
+  templates:
+    podTemplates:
+      - name: clickhouse-24.12.5
+        metadata:
+          annotations:
+            prometheus.io/scrape: "true"
+            prometheus.io/port: "8888"
+            prometheus.io/path: "/metrics"
+            # need separate prometheus scrape config, look to https://github.com/prometheus/prometheus/issues/3756
+            clickhouse.backup/scrape: "true"
+            clickhouse.backup/port: "7171"
+            clickhouse.backup/path: "/metrics"
+        spec:
+          tolerations:
+            {{ toYaml .Values.clickhouse.tolerations | nindent 12 }}
+          affinity:
+            {{ toYaml .Values.clickhouse.affinity | nindent 12 }}
+          volumes:
+            {{ toYaml .Values.clickhouse.volumes | nindent 12 }}
+          containers:
+            - name: clickhouse-backup
+              image: altinity/clickhouse-backup:2.6.5
+              args: [ "server" ]
+              env:
+                - name: LOG_LEVEL
+                  value: "debug"
+                - name: ALLOW_EMPTY_BACKUPS
+                  value: "true"
+                - name: API_LISTEN
+                  value: "0.0.0.0:7171"
+                # INSERT INTO system.backup_actions to execute backup
+                - name: API_CREATE_INTEGRATION_TABLES
+                  value: "true"
+                - name: BACKUPS_TO_KEEP_LOCAL
+                  value: {{ .Values.clickhouse.backups.numToKeepLocal | quote }}
+                - name: BACKUPS_TO_KEEP_REMOTE
+                  value: {{ .Values.clickhouse.backups.numToKeepRemote | quote }}
+                # Storage config
+                - name: REMOTE_STORAGE
+                  value: "azblob"
+                - name: AZBLOB_ACCOUNT_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: nebuly-platform-credentials
+                      key: backups-storage-account-access-key
+                # Storage config
+                - name: AZBLOB_ACCOUNT_NAME
+                  value: nblprdplatformbackups
+                - name: AZBLOB_CONTAINER
+                  value: clickhouse
+                # Restore settings
+                # - name: RESTORE_DATABASE_MAPPING
+                #   value: "system:system,information_schema:information_schema,default:default,analytics:analytics_restored,analytics-dev:analytics_dev_restored"
+                # {shard} macro defined by clickhouse-operator
+                - name: AZBLOB_PATH
+                  value: backup/shard-{shard}
+              ports:
+                # require to avoid double scraping clickhouse and clickhouse-backup containers
+                - name: backup-rest
+                  containerPort: 7171
+              volumeMounts:
+                - name: data
+                  mountPath: /var/lib/clickhouse
+                {{ toYaml .Values.clickhouse.volumeMounts | nindent 16 }}
+            - name: clickhouse
+              image: clickhouse/clickhouse-server:24.12.5-alpine
+              env:
+                - name: PGSSLCERT
+                  value: /tmp/postgresql.crt
+                - name: CLICKHOUSE_DB
+                  value: {{ .Values.clickhouse.databaseName }}
+              resources:
+                {{- toYaml .Values.clickhouse.resources | nindent 16 }}
+              volumeMounts:
+                - name: data
+                  mountPath: /var/lib/clickhouse
+                {{ toYaml .Values.clickhouse.volumeMounts | nindent 16 }}
+
+    volumeClaimTemplates:
+      - name: data
+        spec:
+          storageClassName: {{ .Values.clickhouse.storage.storageClassName }}
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: {{ .Values.clickhouse.storage.size }}

@@ -1093,6 +1093,88 @@ strimzi:
 clickhouse:
   enabled: false
 
+  # -- The name of the ClickHouse database.
+  databaseName: "analytics"
+
+  replicasCount: 1
+
+  tolerations: [ ]
+
+  # -- Additional volumes on the ClickHouse pods.
+  volumes: [ ]
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # --  Additional volumeMounts on ClickHouse pods.
+  volumeMounts: [ ]
+    # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  affinity: { }
+
+  auth:
+    # -- Credentials of the user used by Nebuly to access the ClickHouse database.
+    nebulyUser:
+      username: "nebulyadmin"
+      password: "nebuly"
+    # -- Credentials of the user used to create backups.
+    backupsUser:
+      username: "backups"
+      password: "nebuly"
+
+  # -- Backups configuration.
+  backups:
+    enabled: false
+
+    # -- Number of backups to keep locally.
+    # -- Default: keep last day (e.g. last 4 backups).
+    numToKeepLocal: 4
+    # -- Number of backups to keep on the remote cloud storage.
+    # -- Default: keep last 30 days (e.g. last 120 backups).
+    numToKeepRemote: 120
+    # -- The schedule of the job. The format is the same as the Kubernetes CronJob schedule.
+    # -- Default: every 4 hours
+    schedule: "0 */4 * * *"
+
+  storage:
+    size: 128Gi
+    storageClassName: "default"
+
+  resources:
+    requests:
+      memory: 13Gi
+    limits:
+      memory: 13Gi
+
+  keeper:
+    enabled: false
+    replicas: 1
+
+    tolerations: [ ]
+
+    # -- Additional volumes on the ClickHouse Keeper pods.
+    volumes: [ ]
+    # - name: foo
+    #   secret:
+    #     secretName: mysecret
+    #     optional: false
+
+    # --  Additional volumeMounts on ClickHouse Keeper pods.
+    volumeMounts: [ ]
+      # - name: foo
+      #   mountPath: "/etc/foo"
+    #   readOnly: true
+
+    affinity: { }
+
+    # -- Storage configuration of the ClickHouse Keeper instances.
+    storage:
+      size: 32Gi
+      storageClassName: "default"
+
 # -- If True, install the Chart `nebuly-ai/bootstrap-aws`, which
 # -- installs all the dependencies required for installing nebuly-platform on
 # --- an EKS cluster on AWS.
