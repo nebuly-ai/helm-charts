@@ -1,3 +1,3 @@
 {{- define "clickhouse.name" -}}
-platform
+nebuly
 {{- end -}}

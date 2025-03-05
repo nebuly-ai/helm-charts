@@ -8,6 +8,14 @@ spec:
     podTemplates:
       - name: {{ printf "clickhouse-%s" .Values.clickhouse.keeper.version }}
         spec:
+          {{- with .Values.clickhouse.keeper.affinity }}
+            affinity:
+                {{ toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.clickhouse.keeper.tolerations }}
+            tolerations:
+                {{ toYaml . | nindent 12 }}
+          {{- end }}
           containers:
             - name: clickhouse-keeper
               image: {{ printf "clickhouse/clickhouse-keeper:%s" .Values.clickhouse.keeper.version }}

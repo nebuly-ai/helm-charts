@@ -1105,7 +1105,6 @@ clickhouse:
   # -- ClickHouse log level.
   logLevel: debug
 
-  tolerations: [ ]
 
   # -- Additional volumes on the ClickHouse pods.
   volumes: [ ]
@@ -1121,6 +1120,7 @@ clickhouse:
   #   readOnly: true
 
   affinity: { }
+  tolerations: [ ]
 
   auth:
     # -- Credentials of the user used by Nebuly to access the ClickHouse database.
@@ -1173,6 +1173,7 @@ clickhouse:
       limits:
         memory: 4Gi
 
+    affinity: { }
     tolerations: [ ]
 
     # -- Additional volumes on the ClickHouse Keeper pods.
@@ -1188,7 +1189,6 @@ clickhouse:
       #   mountPath: "/etc/foo"
     #   readOnly: true
 
-    affinity: { }
 
     # -- Storage configuration of the ClickHouse Keeper instances.
     storage:
