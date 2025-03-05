@@ -350,6 +350,6 @@ true
 *********************************************************************
 */}}
 {{- define "clickhouse.labels" -}}
-{{ include "nebuly-platform.selectorLabels" . }}
+{{- include "nebuly-platform.selectorLabels" . }}
 app.kubernetes.io/component: clickhouse
-{{- end }}
+{{- end -}}

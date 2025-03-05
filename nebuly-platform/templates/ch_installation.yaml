@@ -17,14 +17,14 @@ spec:
       {{ printf "%s/networks/ip" .Values.clickhouse.auth.backupsUser.username }}:
         - ::/0
       {{ printf "%s/password" .Values.clickhouse.auth.nebulyUser.username}}: {{ .Values.clickhouse.auth.nebulyUser.password}}
-      {{ print "%s/named_collection_control" .Values.clickhouse.auth.nebulyUser.username }}: 1
+      {{ printf "%s/named_collection_control" .Values.clickhouse.auth.nebulyUser.username }}: 1
       {{ printf "%s/networks/ip" .Values.clickhouse.auth.nebulyUser.username }}:
         - ::/0
     clusters:
       - name: default
         layout:
           shardsCount: 1 # Sharding is currently not supported by Nebuly Platform
-          replicasCount: {{ .Values.clickhouse.replicasCount }}
+          replicasCount: {{ .Values.clickhouse.replicas }}
         templates:
           podTemplate: {{ printf "clickhouse-%s" .Values.clickhouse.version }}
           volumeClaimTemplate: data
@@ -44,12 +44,18 @@ spec:
             clickhouse.backup/port: "7171"
             clickhouse.backup/path: "/metrics"
         spec:
+          {{- with .Values.clickhouse.tolerations }}
           tolerations:
-            {{ toYaml .Values.clickhouse.tolerations | nindent 12 }}
+            {{ toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.clickhouse.affinity}}
           affinity:
-            {{ toYaml .Values.clickhouse.affinity | nindent 12 }}
+            {{ toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.clickhouse.volumeMounts }}
           volumes:
-            {{ toYaml .Values.clickhouse.volumes | nindent 12 }}
+            {{ toYaml . | nindent 12 }}
+          {{- end }}
           containers:
             {{- if .Values.clickhouse.backups.enabled }}
             - name: clickhouse-backup
@@ -109,7 +115,10 @@ spec:
               volumeMounts:
                 - name: data
                   mountPath: /var/lib/clickhouse
-                {{ toYaml .Values.clickhouse.volumeMounts | nindent 16 }}
+                {{- with .Values.clickhouse.volumeMounts }}
+                {{ toYaml . | nindent 16 }}
+                {{- end }}
+
 
     volumeClaimTemplates:
       - name: data

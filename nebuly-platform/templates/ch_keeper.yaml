@@ -1,0 +1,37 @@
+{{- if .Values.clickhouse.keeper.enabled }}
+apiVersion: "clickhouse-keeper.altinity.com/v1"
+kind: "ClickHouseKeeperInstallation"
+metadata:
+  name: {{ include "clickhouse.name" . }}
+spec:
+  templates:
+    podTemplates:
+      - name: {{ printf "clickhouse-%s" .Values.clickhouse.keeper.version }}
+        spec:
+          containers:
+            - name: clickhouse-keeper
+              image: {{ printf "clickhouse/clickhouse-keeper:%s" .Values.clickhouse.keeper.version }}
+              resources:
+                {{ toYaml .Values.clickhouse.keeper.resources | nindent 16 }}
+              volumeMounts:
+                - name: data
+                  mountPath: /var/lib/clickhouse-keeper
+
+    volumeClaimTemplates:
+      - name: data
+        spec:
+          storageClassName: {{ .Values.clickhouse.keeper.storage.storageClassName }}
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: {{ .Values.clickhouse.storage.storageClassName }}
+  configuration:
+    clusters:
+      - name: default
+        templates:
+          podTemplate: {{ printf "clickhouse-%s" .Values.clickhouse.keeper.version }}
+          volumeClaimTemplate: data
+        layout:
+          replicasCount: {{ .Values.clickhouse.keeper.replicas }}
+{{- end }}

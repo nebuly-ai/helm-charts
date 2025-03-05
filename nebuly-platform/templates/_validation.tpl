@@ -234,7 +234,7 @@ values: telemetry.apiKey
 
 {{/* ClickHouse validation. */}}
 {{- define "chart.validateValues.clickhouse.replicas" -}}
-{{- if and (gt .Values.clickhouse.replicasCount 1) (not .Values.clickhouse.keeper.enabled) -}}
+{{- if and (gt .Values.clickhouse.replicas 1) (not .Values.clickhouse.keeper.enabled) -}}
 values: clickhouse.replicas
   `replicas` should be 1 when `clickhouse.keeper.enabled` is false
 {{- end -}}

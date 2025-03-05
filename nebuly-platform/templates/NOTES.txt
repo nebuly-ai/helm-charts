@@ -18,9 +18,10 @@ You can enable it by setting the value `backend.ingress.enabled` to `true`.
 You can enable it by setting the value `eventIngestion.ingress.enabled` to `true`.
 {{ end }}
 
+
 {{- /* --------------------------------------------*/ -}}
 {{- /* ClickHouse warnings */ -}}
-{{- /* --------------------------------------------*/-}}
+{{- /* --------------------------------------------*/ -}}
 {{- if .Values.clickhouse.enabled -}}
 
 {{- if eq .Values.clickhouse.storage.storageClassName "default" -}}

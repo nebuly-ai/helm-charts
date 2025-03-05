@@ -1100,7 +1100,7 @@ clickhouse:
   databaseName: analytics
 
   # -- The number of ClickHouse replicas.
-  replicasCount: 1
+  replicas: 1
 
   # -- ClickHouse log level.
   logLevel: debug
@@ -1151,6 +1151,7 @@ clickhouse:
     # -- Default: every 4 hours
     schedule: "0 */4 * * *"
 
+  # -- Persistent storage settings.
   storage:
     size: 128Gi
     storageClassName: "default"
@@ -1164,6 +1165,13 @@ clickhouse:
   keeper:
     enabled: false
     replicas: 1
+
+    # -- The ClickHouse Keeper version to use (Docker image tag).
+    version: "25.1.5.31"
+
+    resources:
+      limits:
+        memory: 4Gi
 
     tolerations: [ ]
 
