@@ -1,7 +1,7 @@
 apiVersion: "clickhouse.altinity.com/v1"
 kind: "ClickHouseInstallation"
 metadata:
-  name: platform
+  name: {{ include "clickhouse.name" . }}
   labels:
     {{ include "clickhouse.labels" . | nindent 4 }}
 spec:
@@ -23,7 +23,7 @@ spec:
     clusters:
       - name: default
         layout:
-          shardsCount: 1
+          shardsCount: 1 # Sharding is currently not supported by Nebuly Platform
           replicasCount: {{ .Values.clickhouse.replicasCount }}
         templates:
           podTemplate: {{ printf "clickhouse-%s" .Values.clickhouse.version }}

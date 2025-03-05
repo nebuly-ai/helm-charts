@@ -1136,6 +1136,11 @@ clickhouse:
   backups:
     enabled: false
 
+    # -- The kind of storage used to store backups.
+    # -- Possible values are: "aws_s3", "gcp_bucket", "azure_storage".
+    remoteStorage: ""
+
+
     # -- Number of backups to keep locally.
     # -- Default: keep last day (e.g. last 4 backups).
     numToKeepLocal: 4

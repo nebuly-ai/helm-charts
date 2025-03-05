@@ -40,6 +40,9 @@
 {{/* ClickHouse */}}
 {{- if .Values.clickhouse.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.clickhouse.replicas" .) -}}
+{{- if .Values.clickhouse.backups.enabled -}}
+{{- $messages = append $messages (include "chart.validateValues.clickhouse.backups.remoteStorage" .) -}}
+{{- end -}}
 {{- end -}}
 
 {{- $messages = without $messages "" -}}
@@ -234,5 +237,12 @@ values: telemetry.apiKey
 {{- if and (gt .Values.clickhouse.replicasCount 1) (not .Values.clickhouse.keeper.enabled) -}}
 values: clickhouse.replicas
   `replicas` should be 1 when `clickhouse.keeper.enabled` is false
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.clickhouse.backups.remoteStorage" -}}
+{{- if not (contains .Values.clickhouse.backups.remoteStorage "aws_s3 azure_storage gcp_bucket") -}}
+values: clickhouse.backups.remoteStorage
+  `remoteStorage` should be one of the following values: aws_s3, azure_storage, gcp_bucket
 {{- end -}}
 {{- end -}}
