@@ -1140,6 +1140,19 @@ clickhouse:
     # -- Possible values are: "aws_s3", "gcp_bucket", "azure_storage".
     remoteStorage: ""
 
+    azure:
+      # -- The name of the Azure Storage account.
+      storageAccountName: ""
+      # -- The name of the Azure Storage container.
+      storageContainerName: ""
+      # -- The storage account key.
+      storageAccountKey: ""
+      # -- Use an existing secret for the Azure Storage authentication.
+      existingSecret:
+        # -- Name of the secret. Can be templated.
+        name: ""
+        # -- The key of the secret containing the Azure Storage Account Key.
+        storageAccountKeyKey: ""
 
     # -- Number of backups to keep locally.
     # -- Default: keep last day (e.g. last 4 backups).

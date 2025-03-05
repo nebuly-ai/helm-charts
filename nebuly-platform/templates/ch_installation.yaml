@@ -2,7 +2,8 @@
 apiVersion: "clickhouse.altinity.com/v1"
 kind: "ClickHouseInstallation"
 metadata:
-  name: {{ include "clickhouse.name" . }}
+  name: {{ include "clickhouse.fullName" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
     {{ include "clickhouse.labels" . | nindent 4 }}
 spec:
@@ -10,7 +11,7 @@ spec:
     {{- if .Values.clickhouse.keeper.enabled }}
     zookeeper:
       nodes:
-        - host: {{ printf "keeper-%s" (include "clickhouse.name" . ) }}
+        - host: {{ printf "keeper-%s" (include "clickhouse.fullName" . ) }}
           port: 2181
     {{- end }}
     users:
@@ -76,25 +77,14 @@ spec:
                   value: {{ .Values.clickhouse.backups.numToKeepLocal | quote }}
                 - name: BACKUPS_TO_KEEP_REMOTE
                   value: {{ .Values.clickhouse.backups.numToKeepRemote | quote }}
-                # Storage config
-                - name: REMOTE_STORAGE
-                  value: "azblob"
-                - name: AZBLOB_ACCOUNT_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: nebuly-platform-credentials
-                      key: backups-storage-account-access-key
-                # Storage config
-                - name: AZBLOB_ACCOUNT_NAME
-                  value: nblprdplatformbackups
-                - name: AZBLOB_CONTAINER
-                  value: clickhouse
+                # RemoteStorage config
+                {{- if eq .Values.clickhouse.backups.remoteStorage "azure_storage" }}
+                {{ include "clickhouse.backups.azure.env" . | nindent 16 }}
+                {{- end }}
                 # Restore settings
                 # - name: RESTORE_DATABASE_MAPPING
                 #   value: "system:system,information_schema:information_schema,default:default,analytics:analytics_restored,analytics-dev:analytics_dev_restored"
                 # {shard} macro defined by clickhouse-operator
-                - name: AZBLOB_PATH
-                  value: backup/shard-{shard}
               ports:
                 # require to avoid double scraping clickhouse and clickhouse-backup containers
                 - name: backup-rest
@@ -102,7 +92,9 @@ spec:
               volumeMounts:
                 - name: data
                   mountPath: /var/lib/clickhouse
-                {{ toYaml .Values.clickhouse.volumeMounts | nindent 16 }}
+                {{- with .Values.clickhouse.volumeMounts }}
+                {{ toYaml . | nindent 16 }}
+                {{- end }}
             {{- end }}
             - name: clickhouse
               image: {{ printf "clickhouse/clickhouse-server:%s" .Values.clickhouse.version }}
@@ -121,8 +113,6 @@ spec:
                 {{- with .Values.clickhouse.volumeMounts }}
                 {{ toYaml . | nindent 16 }}
                 {{- end }}
-
-
     volumeClaimTemplates:
       - name: data
         spec:

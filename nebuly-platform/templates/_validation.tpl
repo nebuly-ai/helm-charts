@@ -241,6 +241,10 @@ values: clickhouse.replicas
 {{- end -}}
 
 {{- define "chart.validateValues.clickhouse.backups.remoteStorage" -}}
+{{- if empty .Values.clickhouse.backups.remoteStorage  -}}
+values: clickhouse.backups.remoteStorage
+  `remoteStorage` is required when backups is enabled, and should be a non-empty string
+{{- end -}}
 {{- if not (contains .Values.clickhouse.backups.remoteStorage "aws_s3 azure_storage gcp_bucket") -}}
 values: clickhouse.backups.remoteStorage
   `remoteStorage` should be one of the following values: aws_s3, azure_storage, gcp_bucket

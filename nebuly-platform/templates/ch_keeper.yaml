@@ -2,7 +2,8 @@
 apiVersion: "clickhouse-keeper.altinity.com/v1"
 kind: "ClickHouseKeeperInstallation"
 metadata:
-  name: {{ include "clickhouse.name" . }}
+  name: {{ include "clickhouse.fullName" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
 spec:
   templates:
     podTemplates:
@@ -26,7 +27,6 @@ spec:
               volumeMounts:
                 - name: data
                   mountPath: /var/lib/clickhouse-keeper
-
     volumeClaimTemplates:
       - name: data
         spec:
