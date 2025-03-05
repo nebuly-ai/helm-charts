@@ -3,14 +3,15 @@ kind: "ClickHouseInstallation"
 metadata:
   name: platform
   labels:
-    app.kubernetes.io/component: clickhouse
-    app.kubernetes.io/part-of: nebuly-platform
+    {{ include "clickhouse.labels" . | nindent 4 }}
 spec:
   configuration:
+    {{- if .Values.clickhouse.keeper.enabled }}
     zookeeper:
       nodes:
-        - host: keeper-platform
+        - host: keeper-platform # TODO
           port: 2181
+    {{- end }}
     users:
       {{ printf "%s/password" .Values.clickhouse.auth.backupsUser.username }}: {{ .Values.clickhouse.auth.backupsUser.password}}
       {{ printf "%s/networks/ip" .Values.clickhouse.auth.backupsUser.username }}:
@@ -25,14 +26,14 @@ spec:
           shardsCount: 1
           replicasCount: {{ .Values.clickhouse.replicasCount }}
         templates:
-          podTemplate: clickhouse-24.12.5
+          podTemplate: {{ printf "clickhouse-%s" .Values.clickhouse.version }}
           volumeClaimTemplate: data
     settings:
       max_server_memory_usage_to_ram_ratio: "0.7"
 
   templates:
     podTemplates:
-      - name: clickhouse-24.12.5
+      - name: {{ printf "clickhouse-%s" .Values.clickhouse.version }}
         metadata:
           annotations:
             prometheus.io/scrape: "true"
@@ -50,12 +51,13 @@ spec:
           volumes:
             {{ toYaml .Values.clickhouse.volumes | nindent 12 }}
           containers:
+            {{- if .Values.clickhouse.backups.enabled }}
             - name: clickhouse-backup
               image: altinity/clickhouse-backup:2.6.5
               args: [ "server" ]
               env:
                 - name: LOG_LEVEL
-                  value: "debug"
+                  value: {{ .Values.clickhouse.logLevel }}
                 - name: ALLOW_EMPTY_BACKUPS
                   value: "true"
                 - name: API_LISTEN
@@ -94,8 +96,9 @@ spec:
                 - name: data
                   mountPath: /var/lib/clickhouse
                 {{ toYaml .Values.clickhouse.volumeMounts | nindent 16 }}
+            {{- end }}
             - name: clickhouse
-              image: clickhouse/clickhouse-server:24.12.5-alpine
+              image: {{ printf "clickhouse/clickhouse-server:%s" .Values.clickhouse.version }}
               env:
                 - name: PGSSLCERT
                   value: /tmp/postgresql.crt

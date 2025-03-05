@@ -284,6 +284,32 @@ The command removes all the Kubernetes components associated with the chart and 
 | bootstrap-aws | object | `{"enabled":false}` | - an EKS cluster on AWS. |
 | bootstrap-azure | object | `{"enabled":false}` | - an AKS cluster on Microsoft Azure. |
 | bootstrap-gcp | object | `{"enabled":false}` | - an GKE cluster on Google Cloud Platform. |
+| clickhouse.affinity | object | `{}` |  |
+| clickhouse.auth.backupsUser | object | `{"password":"nebuly","username":"backups"}` | Credentials of the user used to create backups. |
+| clickhouse.auth.nebulyUser | object | `{"password":"nebuly","username":"nebulyadmin"}` | Credentials of the user used by Nebuly to access the ClickHouse database. |
+| clickhouse.backups | object | `{"enabled":false,"numToKeepLocal":4,"numToKeepRemote":120,"schedule":"0 */4 * * *"}` | Backups configuration. |
+| clickhouse.backups.numToKeepLocal | int | `4` | Default: keep last day (e.g. last 4 backups). |
+| clickhouse.backups.numToKeepRemote | int | `120` | Default: keep last 30 days (e.g. last 120 backups). |
+| clickhouse.backups.schedule | string | `"0 */4 * * *"` | Default: every 4 hours |
+| clickhouse.databaseName | string | `"analytics"` | The name of the ClickHouse database. |
+| clickhouse.enabled | bool | `false` |  |
+| clickhouse.keeper.affinity | object | `{}` |  |
+| clickhouse.keeper.enabled | bool | `false` |  |
+| clickhouse.keeper.replicas | int | `1` |  |
+| clickhouse.keeper.storage | object | `{"size":"32Gi","storageClassName":"default"}` | Storage configuration of the ClickHouse Keeper instances. |
+| clickhouse.keeper.tolerations | list | `[]` |  |
+| clickhouse.keeper.volumeMounts | list | `[]` | Additional volumeMounts on ClickHouse Keeper pods. |
+| clickhouse.keeper.volumes | list | `[]` | Additional volumes on the ClickHouse Keeper pods. |
+| clickhouse.logLevel | string | `"debug"` | ClickHouse log level. |
+| clickhouse.replicasCount | int | `1` | The number of ClickHouse replicas. |
+| clickhouse.resources.limits.memory | string | `"13Gi"` |  |
+| clickhouse.resources.requests.memory | string | `"13Gi"` |  |
+| clickhouse.storage.size | string | `"128Gi"` |  |
+| clickhouse.storage.storageClassName | string | `"default"` |  |
+| clickhouse.tolerations | list | `[]` |  |
+| clickhouse.version | string | `"24.12.5-alpine"` | The ClickHouse version to use (Docker image tag). |
+| clickhouse.volumeMounts | list | `[]` | Additional volumeMounts on ClickHouse pods. |
+| clickhouse.volumes | list | `[]` | Additional volumes on the ClickHouse pods. |
 | clusterIssuer | object | `{"email":"support@nebuly.ai","enabled":false,"name":"letsencrypt"}` | Optional cert-manager cluster issuer. @default -- |
 | eventIngestion.affinity | object | `{}` |  |
 | eventIngestion.fullnameOverride | string | `""` |  |

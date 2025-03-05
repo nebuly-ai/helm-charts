@@ -1093,10 +1093,17 @@ strimzi:
 clickhouse:
   enabled: false
 
-  # -- The name of the ClickHouse database.
-  databaseName: "analytics"
+  # -- The ClickHouse version to use (Docker image tag).
+  version: "24.12.5-alpine"
 
+  # -- The name of the ClickHouse database.
+  databaseName: analytics
+
+  # -- The number of ClickHouse replicas.
   replicasCount: 1
+
+  # -- ClickHouse log level.
+  logLevel: debug
 
   tolerations: [ ]
 

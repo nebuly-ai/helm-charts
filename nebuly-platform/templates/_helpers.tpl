@@ -341,3 +341,15 @@ false
 true
 {{- end -}}
 {{- end -}}
+
+
+
+{{/*
+*********************************************************************
+* ClickHouse
+*********************************************************************
+*/}}
+{{- define "clickhouse.labels" -}}
+{{ include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: clickhouse
+{{- end }}

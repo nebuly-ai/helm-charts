@@ -37,6 +37,10 @@
 {{- $messages = append $messages (include "chart.validateValues.aiModels.sync.source.clientId" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.aiModels.sync.source.clientSecret" .) -}}
 {{- end -}}
+{{/* ClickHouse */}}
+{{- if .Values.clickhouse.enabled -}}
+{{- $messages = append $messages (include "chart.validateValues.clickhouse.replicas" .) -}}
+{{- end -}}
 
 {{- $messages = without $messages "" -}}
 {{- $message := join "\n" $messages -}}
@@ -221,5 +225,14 @@ values: aiModels.sync.source.clientSecret
 {{- if and (empty .Values.telemetry.apiKey) (.Values.telemetry.enabled)  -}}
 values: telemetry.apiKey
   `apiKey` is required when telemetry is enabled and should be a non-empty string.
+{{- end -}}
+{{- end -}}
+
+
+{{/* ClickHouse validation. */}}
+{{- define "chart.validateValues.clickhouse.replicas" -}}
+{{- if and (gt .Values.clickhouse.replicasCount 1) (not .Values.clickhouse.keeper.enabled) -}}
+values: clickhouse.replicas
+  `replicas` should be 1 when `clickhouse.keeper.enabled` is false
 {{- end -}}
 {{- end -}}
