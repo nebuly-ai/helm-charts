@@ -111,8 +111,10 @@ spec:
                   value: /tmp/postgresql.crt
                 - name: CLICKHOUSE_DB
                   value: {{ .Values.clickhouse.databaseName }}
+              {{- with .Values.clickhouse.resources }}
               resources:
-                {{- toYaml .Values.clickhouse.resources | nindent 16 }}
+                {{ toYaml . | nindent 16 }}
+              {{- end }}
               volumeMounts:
                 - name: data
                   mountPath: /var/lib/clickhouse

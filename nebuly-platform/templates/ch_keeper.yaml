@@ -19,8 +19,10 @@ spec:
           containers:
             - name: clickhouse-keeper
               image: {{ printf "clickhouse/clickhouse-keeper:%s" .Values.clickhouse.keeper.version }}
+              {{ with .Values.clickhouse.keeper.resources }}
               resources:
-                {{ toYaml .Values.clickhouse.keeper.resources | nindent 16 }}
+                {{ toYaml . | nindent 16 }}
+              {{ end }}
               volumeMounts:
                 - name: data
                   mountPath: /var/lib/clickhouse-keeper
