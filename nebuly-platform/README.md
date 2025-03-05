@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.29.4](https://img.shields.io/badge/Version-1.29.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.29.5](https://img.shields.io/badge/Version-1.29.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -253,7 +253,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.57.0"` |  |
+| backend.image.tag | string | `"v1.57.3"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -329,7 +329,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.50.13"` |  |
+| frontend.image.tag | string | `"v1.50.19"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
