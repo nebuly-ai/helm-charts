@@ -10,7 +10,7 @@ spec:
     {{- if .Values.clickhouse.keeper.enabled }}
     zookeeper:
       nodes:
-        - host: keeper-platform # TODO
+        - host: {{ printf "keeper-%s" (include "clickhouse.name" . ) }}
           port: 2181
     {{- end }}
     users:
