@@ -1134,11 +1134,22 @@ clickhouse:
 
   # -- Backups configuration.
   backups:
+    # -- If True, enable the backups of the ClickHouse database.
     enabled: false
-
     # -- The kind of storage used to store backups.
     # -- Possible values are: "aws_s3", "gcp_bucket", "azure_storage".
     remoteStorage: ""
+    # -- Number of backups to keep locally.
+    # -- Default: keep last day (e.g. last 4 backups).
+    numToKeepLocal: 4
+    # -- Number of backups to keep on the remote cloud storage.
+    # -- Default: keep last 30 days (e.g. last 120 backups).
+    numToKeepRemote: 120
+    # -- The schedule of the job. The format is the same as the Kubernetes CronJob schedule.
+    # -- Default: every 4 hours
+    schedule: "0 */4 * * *"
+    # -- The day of the week when the full backup is performed (1=Monday, 7=Sunday).
+    fullBackupWeekday: 7
 
     # -- Config of the Azure Storage used for storing backups remotely.
     # @default -- -
@@ -1182,17 +1193,6 @@ clickhouse:
         accessKeyIdKey: ""
         # -- The key of the secret containing the AWS Secret Access Key.
         secretAccessKeyKey: ""
-
-
-    # -- Number of backups to keep locally.
-    # -- Default: keep last day (e.g. last 4 backups).
-    numToKeepLocal: 4
-    # -- Number of backups to keep on the remote cloud storage.
-    # -- Default: keep last 30 days (e.g. last 120 backups).
-    numToKeepRemote: 120
-    # -- The schedule of the job. The format is the same as the Kubernetes CronJob schedule.
-    # -- Default: every 4 hours
-    schedule: "0 */4 * * *"
 
   # -- Persistent storage settings.
   storage:

@@ -287,7 +287,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.affinity | object | `{}` |  |
 | clickhouse.auth.backupsUser | object | `{"password":"nebuly","username":"backups"}` | Credentials of the user used to create backups. |
 | clickhouse.auth.nebulyUser | object | `{"password":"nebuly","username":"nebulyadmin"}` | Credentials of the user used by Nebuly to access the ClickHouse database. |
-| clickhouse.backups | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"existingSecret":{"name":"","storageAccountKeyKey":""},"storageAccountKey":"","storageAccountName":"","storageContainerName":""},"enabled":false,"gcp":{"bucketName":"","projectName":""},"numToKeepLocal":4,"numToKeepRemote":120,"remoteStorage":"","schedule":"0 */4 * * *"}` | Backups configuration. |
+| clickhouse.backups | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"existingSecret":{"name":"","storageAccountKeyKey":""},"storageAccountKey":"","storageAccountName":"","storageContainerName":""},"enabled":false,"fullBackupWeekday":7,"gcp":{"bucketName":"","projectName":""},"numToKeepLocal":4,"numToKeepRemote":120,"remoteStorage":"","schedule":"0 */4 * * *"}` | Backups configuration. |
 | clickhouse.backups.aws | object | - | Config of the AWS Bucket used for storing backups remotely. |
 | clickhouse.backups.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
 | clickhouse.backups.aws.endpointUrl | string | `""` | the bucket name. Example: "https://my-domain.com:9444" |
@@ -302,6 +302,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.backups.azure.storageAccountKey | string | `""` | The storage account key. |
 | clickhouse.backups.azure.storageAccountName | string | `""` | The name of the Azure Storage account. |
 | clickhouse.backups.azure.storageContainerName | string | `""` | The name of the Azure Storage container. |
+| clickhouse.backups.enabled | bool | `false` | If True, enable the backups of the ClickHouse database. |
+| clickhouse.backups.fullBackupWeekday | int | `7` | The day of the week when the full backup is performed (1=Monday, 7=Sunday). |
 | clickhouse.backups.gcp | object | - | Config of the GCP Storage used for storing backups remotely. |
 | clickhouse.backups.gcp.bucketName | string | `""` | The name of the GCP bucket. |
 | clickhouse.backups.gcp.projectName | string | `""` | The name of the GCP project containing the bucket. |

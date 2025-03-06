@@ -5,7 +5,7 @@ metadata:
   name: {{ include "clickhouse.fullName" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{ include "clickhouse.labels" . | nindent 4 }}
+    {{- include "clickhouse.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
@@ -34,9 +34,21 @@ spec:
             - name: clickhouse-server
               image: {{ printf "clickhouse/clickhouse-server:%s" .Values.clickhouse.version }}
               imagePullPolicy: IfNotPresent
-              envFrom:
-                - configMapRef:
-                    name: clickhouse-backups-create-env
+              env:
+                - name: CLICKHOUSE_PORT
+                  value: "9000"
+                  # Use first replica in each shard
+                - name: CLICKHOUSE_SERVICES
+                  value: {{ range $i, $e := until (.Values.clickhouse.replicas | int) }}{{ if $i }},{{ end }}chi-{{ include "clickhouse.fullName" $ }}-default-0-{{ $i }}{{ end }}
+                  # Full + Incremental config
+                - name: MAKE_INCREMENT_BACKUP
+                  value: "1"
+                - name: FULL_BACKUP_WEEKDAY
+                  value: {{ .Values.clickhouse.backups.fullBackupWeekday | quote }}
+                - name: BACKUP_USER
+                  value: {{ .Values.clickhouse.auth.backupsUser.username | quote }}
+                - name: BACKUP_PASSWORD
+                  value: {{ .Values.clickhouse.auth.backupsUser.password | quote }}
               volumeMounts:
                 - name: clickhouse-backup-cron
                   mountPath: /bin/create-backup.sh

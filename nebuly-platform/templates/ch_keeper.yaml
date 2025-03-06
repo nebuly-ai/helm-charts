@@ -4,6 +4,8 @@ kind: "ClickHouseKeeperInstallation"
 metadata:
   name: {{ include "clickhouse.fullName" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "clickhouse.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
