@@ -17,3 +17,10 @@
 - name: AZBLOB_PATH
   value: backup/shard-{shard}
 {{- end -}}
+
+{{- define "clickhouse.backups.gcp.env" -}}
+- name: REMOTE_STORAGE
+  value: "gcs"
+- name: GCS_BUCKET
+  value: {{ .Values.clickhouse.backups.gcp.bucketName | quote }}
+{{- end -}}

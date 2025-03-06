@@ -422,7 +422,7 @@ aiModels:
       # -- The key of the secret containing the AWS Secret Access Key.
       secretAccessKeyKey: ""
 
-  # -- Config of the AWS S3 model registry.
+  # -- Config of the GCP Storage model registry.
   # @default -- -
   gcp:
     # -- The name of the GCP bucket.
@@ -1140,6 +1140,8 @@ clickhouse:
     # -- Possible values are: "aws_s3", "gcp_bucket", "azure_storage".
     remoteStorage: ""
 
+    # -- Config of the Azure Storage used for storing backups remotely.
+    # @default -- -
     azure:
       # -- The name of the Azure Storage account.
       storageAccountName: ""
@@ -1153,6 +1155,14 @@ clickhouse:
         name: ""
         # -- The key of the secret containing the Azure Storage Account Key.
         storageAccountKeyKey: ""
+
+    # -- Config of the GCP Storage used for storing backups remotely.
+    # @default -- -
+    gcp:
+      # -- The name of the GCP bucket.
+      bucketName: ""
+      # -- The name of the GCP project containing the bucket.
+      projectName: ""
 
     # -- Number of backups to keep locally.
     # -- Default: keep last day (e.g. last 4 backups).
