@@ -1164,6 +1164,26 @@ clickhouse:
       # -- The name of the GCP project containing the bucket.
       projectName: ""
 
+    # -- Config of the AWS Bucket used for storing backups remotely.
+    # @default -- -
+    aws:
+      # -- The name of the AWS S3 bucket.
+      bucketName: ""
+      # -- Optional AWS S3 endpoint URL. The URL should not include
+      # -- the bucket name. Example: "https://my-domain.com:9444"
+      endpointUrl: ""
+      # -- Optionally use an existing secret for AWS S3 authentication.
+      # -- If no secret is provided, the services will default to using the Service Account
+      # -- linked to an IAM Role with the required permissions.
+      existingSecret:
+        # -- Name of the secret. Can be templated.
+        name: ""
+        # -- The key of the secret containing the AWS Access Key ID.
+        accessKeyIdKey: ""
+        # -- The key of the secret containing the AWS Secret Access Key.
+        secretAccessKeyKey: ""
+
+
     # -- Number of backups to keep locally.
     # -- Default: keep last day (e.g. last 4 backups).
     numToKeepLocal: 4

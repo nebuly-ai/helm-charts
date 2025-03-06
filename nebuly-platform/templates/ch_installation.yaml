@@ -84,6 +84,9 @@ spec:
                 {{- if eq .Values.clickhouse.backups.remoteStorage "gcp_bucket" }}
                 {{ include "clickhouse.backups.gcp.env" . | nindent 16 }}
                 {{- end }}
+                {{- if eq .Values.clickhouse.backups.remoteStorage "aws_s3" }}
+                {{ include "clickhouse.backups.aws.env" . | nindent 16 }}
+                {{- end }}
                 # Restore settings
                 # - name: RESTORE_DATABASE_MAPPING
                 #   value: "system:system,information_schema:information_schema,default:default,analytics:analytics_restored,analytics-dev:analytics_dev_restored"

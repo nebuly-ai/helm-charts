@@ -287,7 +287,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.affinity | object | `{}` |  |
 | clickhouse.auth.backupsUser | object | `{"password":"nebuly","username":"backups"}` | Credentials of the user used to create backups. |
 | clickhouse.auth.nebulyUser | object | `{"password":"nebuly","username":"nebulyadmin"}` | Credentials of the user used by Nebuly to access the ClickHouse database. |
-| clickhouse.backups | object | `{"azure":{"existingSecret":{"name":"","storageAccountKeyKey":""},"storageAccountKey":"","storageAccountName":"","storageContainerName":""},"enabled":false,"gcp":{"bucketName":"","projectName":""},"numToKeepLocal":4,"numToKeepRemote":120,"remoteStorage":"","schedule":"0 */4 * * *"}` | Backups configuration. |
+| clickhouse.backups | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"existingSecret":{"name":"","storageAccountKeyKey":""},"storageAccountKey":"","storageAccountName":"","storageContainerName":""},"enabled":false,"gcp":{"bucketName":"","projectName":""},"numToKeepLocal":4,"numToKeepRemote":120,"remoteStorage":"","schedule":"0 */4 * * *"}` | Backups configuration. |
+| clickhouse.backups.aws | object | - | Config of the AWS Bucket used for storing backups remotely. |
+| clickhouse.backups.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
+| clickhouse.backups.aws.endpointUrl | string | `""` | the bucket name. Example: "https://my-domain.com:9444" |
+| clickhouse.backups.aws.existingSecret | object | `{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}` | linked to an IAM Role with the required permissions. |
+| clickhouse.backups.aws.existingSecret.accessKeyIdKey | string | `""` | The key of the secret containing the AWS Access Key ID. |
+| clickhouse.backups.aws.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| clickhouse.backups.aws.existingSecret.secretAccessKeyKey | string | `""` | The key of the secret containing the AWS Secret Access Key. |
 | clickhouse.backups.azure | object | - | Config of the Azure Storage used for storing backups remotely. |
 | clickhouse.backups.azure.existingSecret | object | `{"name":"","storageAccountKeyKey":""}` | Use an existing secret for the Azure Storage authentication. |
 | clickhouse.backups.azure.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
