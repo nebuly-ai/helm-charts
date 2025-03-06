@@ -1,0 +1,47 @@
+{{- if .Values.clickhouse.backups.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "clickhouse.fullName" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{ include "clickhouse.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.clickhouse.backups.schedule }}
+  concurrencyPolicy: "Forbid"
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "clickhouse.labels" . | nindent 8 }}
+    spec:
+      backoffLimit: 1
+      completions: 1
+      parallelism: 1
+      template:
+        metadata:
+          labels:
+            {{- include "clickhouse.labels" . | nindent 12 }}
+        spec:
+          restartPolicy: Never
+          volumes:
+            # Mount configmap containing backup script
+            - name: clickhouse-backup-cron
+              configMap:
+                name: {{ include "clickhouse.fullName" . }}-backups
+          containers:
+            - name: clickhouse-server
+              image: {{ printf "clickhouse/clickhouse-server:%s" .Values.clickhouse.version }}
+              imagePullPolicy: IfNotPresent
+              envFrom:
+                - configMapRef:
+                    name: clickhouse-backups-create-env
+              volumeMounts:
+                - name: clickhouse-backup-cron
+                  mountPath: /bin/create-backup.sh
+                  subPath: create-backup.sh
+              command:
+                - bash
+                - /bin/create-backup.sh
+{{- end }}
