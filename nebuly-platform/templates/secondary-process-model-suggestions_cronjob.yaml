@@ -45,10 +45,6 @@ spec:
               command: [ "python", "jobs/process_model_suggestions.py" ]
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
-                - name: MODEL_NAME
-                  value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
-                - name: MODEL_VERSION
-                  value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
               {{- if .Values.secondaryProcessing.env }}
                 {{- toYaml .Values.secondaryProcessing.env | nindent 16 }}
               {{- end }}
