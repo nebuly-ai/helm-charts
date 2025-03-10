@@ -359,7 +359,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.tolerations | list | `[]` |  |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
-| fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"replicaCount":1,"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | always running Deployment. |
+| fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"replicaCount":1,"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | always running Deployment. |
 | fullProcessing.enabled | bool | `false` | with an always running Deployment. |
 | fullProcessing.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |
 | fullProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |

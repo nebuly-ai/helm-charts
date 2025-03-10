@@ -536,6 +536,12 @@ fullProcessing:
   # -- with an always running Deployment.
   enabled: false
 
+  resources:
+    requests:
+      cpu: 1
+    limits:
+      nvidia.com/gpu: 1
+
   fullnameOverride: ""
 
   replicaCount: 1
