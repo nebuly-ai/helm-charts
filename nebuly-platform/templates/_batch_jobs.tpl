@@ -42,6 +42,12 @@
 - name: MODEL_SUGGESTION_LOCAL_MODEL_VERSION
   value: {{ .Values.aiModels.modelActionClassifier.version | quote }}
 
+# Model enrich interactions
+- name: MODEL_NAME
+  value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
+- name: MODEL_VERSION
+  value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
+
 # Topic Settings
 - name: TOPIC_LOCAL_MODEL_NAME
   value: {{ .Values.aiModels.modelTopicClassifier.name | quote }}

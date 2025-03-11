@@ -51,10 +51,6 @@ spec:
                 - nebuly
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
-                - name: MODEL_NAME
-                  value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
-                - name: MODEL_VERSION
-                  value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
               {{- if .Values.primaryProcessing.env }}
                 {{- toYaml .Values.primaryProcessing.env | nindent 16 }}
               {{- end }}

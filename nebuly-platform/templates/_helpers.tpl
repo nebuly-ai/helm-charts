@@ -171,12 +171,29 @@ app.kubernetes.io/component: nebuly-ingestion-worker
 {{- end }}
 {{- end }}
 
-{{- define "primaryProcessing.modelsCache.name" -}}
-{{- printf "%s-%s" .Release.Name "primary-models-cache" | trunc 63 | trimSuffix "-" }}
+{{- define "fullProcessing.fullname" -}}
+{{- if .Values.ingestionWorker.fullnameOverride }}
+{{- .Values.fullProcessing.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name "full-processing" | trunc 63 | trimSuffix "-" }}
+{{- end }}
 {{- end }}
 
-{{- define "secondaryProcessing.modelsCache.name" -}}
-{{- printf "%s-%s" .Release.Name "secondary-models-cache" | trunc 63 | trimSuffix "-" }}
+{{- define "fullProcessing.labels" -}}
+{{- include "fullProcessing.selectorLabels" . }}
+{{- end }}
+
+{{- define "fullProcessing.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: nebuly-full-processing
+{{- end }}
+
+{{- define "fullProcessing.modelsCache.name" -}}
+{{- printf "%s-%s" .Release.Name "full-processing-models-cache" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "primaryProcessing.modelsCache.name" -}}
+{{- printf "%s-%s" .Release.Name "primary-models-cache" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{- define "primaryProcessing.commonLabels" -}}
