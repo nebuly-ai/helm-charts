@@ -1,4 +1,4 @@
-{{- if .Values.primaryProcessing.modelsCache.enabled }}
+{{- if and (not .Values.fullProcessing.enabled) .Values.primaryProcessing.modelsCache.enabled }}
 # PVC for caching AI Models used for inference.
 kind: PersistentVolumeClaim
 apiVersion: v1

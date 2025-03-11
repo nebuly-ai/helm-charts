@@ -528,6 +528,72 @@ aiModels:
       clientIdKey: ""
       clientSecretKey: ""
 
+# -- Settings related to the runtime full-processing mode,
+# -- which replaces the primary and secondary processing CronJobs with an
+# -- always running Deployment.
+fullProcessing:
+  # -- If true, replaces the primary and secondary processing CronJobs
+  # -- with an always running Deployment.
+  enabled: false
+
+  resources:
+    requests:
+      cpu: 1
+    limits:
+      nvidia.com/gpu: 1
+
+  fullnameOverride: ""
+
+  deploymentStrategy:
+    type: Recreate
+
+  modelsCache:
+    enabled: false
+    size: 128Gi
+    storageClassName: ""
+
+  podAnnotations: { }
+  podLabels: { }
+
+  # -- Additional environment variables, in the standard Kubernetes format.
+  # -- Example:
+  # - name: MY_ENV_VAR
+  #   value: "my-value"
+  env: { }
+
+  # Additional volumes
+  volumes: [ ]
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+  # Additional volumeMounts
+  volumeMounts: [ ]
+  # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  podSecurityContext:
+    runAsNonRoot: true
+    fsGroup: 101
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+
+  # -- Set to True when running on multiple GPUs.
+  hostIPC: false
+
+  affinity: { }
+  tolerations:
+    - effect: NoSchedule
+      key: nvidia.com/gpu
+      operator: Exists
+  nodeSelector: { }
+
 # -- Settings related to the Primary processing CronJobs.
 # @default -- -
 primaryProcessing:
@@ -544,6 +610,7 @@ primaryProcessing:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
     tag: v1.47.3
+
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
     enabled: false

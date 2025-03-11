@@ -1,0 +1,108 @@
+{{- if .Values.fullProcessing.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fullProcessing.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "fullProcessing.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  replicas: 1
+  strategy:
+    {{- .Values.fullProcessing.deploymentStrategy | toYaml | nindent 4 }}
+  selector:
+    matchLabels:
+      {{- include "fullProcessing.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.fullProcessing.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "fullProcessing.labels" . | nindent 8 }}
+        {{- with .Values.fullProcessing.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      hostIPC: {{ .Values.fullProcessing.hostIPC }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.fullProcessing.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name | quote }}
+          securityContext:
+            {{- toYaml .Values.fullProcessing.securityContext | nindent 12 }}
+          command:
+            - python
+            - entrypoints/entrypoint_loop_jobs.py
+          image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
+          env:
+            {{- if .Values.fullProcessing.env }}
+            {{ toYaml .Values.fullProcessing.env | nindent 12 }}
+            {{- end }}
+            {{- include "ingestionWorker.commonEnv" . | nindent 12 }}
+            {{ include "batchJobs.commonEnv" . | nindent 12 }}
+          livenessProbe:
+            exec:
+              command:
+                - python
+                - app/health_check.py
+                - "60" # max allowed stale seconds
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.fullProcessing.resources | nindent 12 }}
+          volumeMounts:
+            - name: vllm-report-usage
+              mountPath: /nonexistent
+            - name: models-cache
+              mountPath: /var/cache/nebuly
+              readOnly: false
+          {{- if not .Values.kafka.external }}
+            - name: kafka-cluster-ca-cert
+              mountPath: "/etc/kafka"
+              readOnly: true
+          {{- end }}
+          {{- with .Values.fullProcessing.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+
+      volumes:
+        - name: vllm-report-usage
+          emptyDir: {}
+        - name: models-cache
+      {{- if .Values.fullProcessing.modelsCache.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "fullProcessing.modelsCache.name" . }}
+      {{- else }}
+          emptyDir: { }
+      {{- end }}
+      {{- if not .Values.kafka.external }}
+        - name: kafka-cluster-ca-cert
+          secret:
+            secretName: {{ include "kafka.fullname" . }}-cluster-ca-cert
+      {{- end }}
+      {{- with .Values.fullProcessing.volumes }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.fullProcessing.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.fullProcessing.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.fullProcessing.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end -}}
