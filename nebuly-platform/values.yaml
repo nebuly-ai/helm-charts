@@ -544,8 +544,6 @@ fullProcessing:
 
   fullnameOverride: ""
 
-  replicaCount: 1
-
   deploymentStrategy:
     type: Recreate
 

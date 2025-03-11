@@ -9,7 +9,7 @@ metadata:
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.fullProcessing.replicaCount }}
+  replicas: 1
   strategy:
     {{- .Values.fullProcessing.deploymentStrategy | toYaml | nindent 4 }}
   selector:
