@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "clickhouse.fullName" . }}
+  name: {{ include "clickhouse.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
     {{- include "clickhouse.labels" . | nindent 4 }}
@@ -29,7 +29,7 @@ spec:
             # Mount configmap containing backup script
             - name: clickhouse-backup-cron
               configMap:
-                name: {{ include "clickhouse.fullName" . }}-backups
+                name: {{ include "clickhouse.fullname" . }}-backups
           containers:
             - name: clickhouse-server
               image: {{ printf "clickhouse/clickhouse-server:%s" .Values.clickhouse.version }}
@@ -39,7 +39,7 @@ spec:
                   value: "9000"
                   # Use first replica in each shard
                 - name: CLICKHOUSE_SERVICES
-                  value: {{ range $i, $e := until (.Values.clickhouse.replicas | int) }}{{ if $i }},{{ end }}chi-{{ include "clickhouse.fullName" $ }}-default-0-{{ $i }}{{ end }}
+                  value: {{ include "clickhouse.fullname" $ }}-default-0-0
                   # Full + Incremental config
                 - name: MAKE_INCREMENT_BACKUP
                   value: "1"

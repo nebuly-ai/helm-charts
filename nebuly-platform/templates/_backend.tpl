@@ -26,7 +26,7 @@
   value: "{{ .Values.otel.exporterOtlpMetricsEndpoint }}"
 - name: OTEL_METRICS_EXPORTER
   value: "otlp"
-# Old Auth0 stuff, to be removed as soon as we leave Auth0
+# Auth0 stuff
 - name: AUTH0_ENABLED
   value: "false"
 - name: OAUTH_CLIENT_ID
@@ -101,5 +101,17 @@
 {{- if .Values.backend.corsAllowOrigins }}
 - name: CORS_ALLOW_ORIGINS
   value: {{ .Values.backend.corsAllowOrigins | toJson | quote }}
+{{- end }}
+{{- if .Values.clickhouse.enabled }}
+- name: CLICKHOUSE_ENABLED
+  value: "true"
+- name: CLICKHOUSE_SERVER
+  value: {{ range $i, $e := until (.Values.clickhouse.replicas | int) }}{{ if $i }},{{ end }}chi-{{ include "clickhouse.fullname" $ }}-default-0-{{ $i }}{{ end }}
+- name: CLICKHOUSE_DB
+  value: {{ .Values.clickhouse.databaseName | quote }}
+- name: CLICKHOUSE_USER
+  value: {{ .Values.clickhouse.auth.nebulyUser.username | quote }}
+- name: CLICKHOUSE_PASSWORD
+  value: {{ .Values.clickhouse.auth.nebulyUser.password | quote }}
 {{- end }}
 {{- end -}}

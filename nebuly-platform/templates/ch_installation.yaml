@@ -2,7 +2,7 @@
 apiVersion: "clickhouse.altinity.com/v1"
 kind: "ClickHouseInstallation"
 metadata:
-  name: {{ include "clickhouse.fullName" . }}
+  name: {{ include "clickhouse.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
     {{- include "clickhouse.labels" . | nindent 4 }}
@@ -13,7 +13,7 @@ spec:
     {{- if .Values.clickhouse.keeper.enabled }}
     zookeeper:
       nodes:
-        - host: {{ printf "keeper-%s" (include "clickhouse.fullName" . ) }}
+        - host: {{ printf "keeper-%s" (include "clickhouse.fullname" . ) }}
           port: 2181
     {{- end }}
     users:

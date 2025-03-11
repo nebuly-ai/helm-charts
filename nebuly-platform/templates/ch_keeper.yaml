@@ -2,7 +2,7 @@
 apiVersion: "clickhouse-keeper.altinity.com/v1"
 kind: "ClickHouseKeeperInstallation"
 metadata:
-  name: {{ include "clickhouse.fullName" . }}
+  name: {{ include "clickhouse.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
     {{- include "clickhouse.labels" . | nindent 4 }}
