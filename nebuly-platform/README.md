@@ -370,7 +370,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.47.24"` |  |
+| ingestionWorker.image.tag | string | `"v1.47.26"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
@@ -391,6 +391,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.settings.enableDbCache | bool | `true` | use DB as cache in aggregates jobs, disable for huge data volumes. |
 | ingestionWorker.settings.enrichInteractionBatchSize | int | `10000` | batch size of interactions loaded in each step of enrich interactions. |
 | ingestionWorker.settings.entitiesBatchSize | int | `20000` | batch size of entities loaded in each step of aggregate jobs. |
+| ingestionWorker.settings.loopJobsSleepSeconds | int | `0` | sleep between jobs when using loop jobs entrypoint |
 | ingestionWorker.stage1.resources.limits.memory | string | `"1024Mi"` |  |
 | ingestionWorker.stage1.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage1.resources.requests.memory | string | `"1024Mi"` |  |

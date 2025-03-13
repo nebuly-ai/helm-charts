@@ -308,17 +308,19 @@ ingestionWorker:
 
   settings:
     # -- use DB as cache in aggregates jobs, disable for huge data volumes.
-    enableDbCache: True 
+    enableDbCache: true 
     # -- batch size of entities loaded in each step of aggregate jobs.
     entitiesBatchSize: 20000
     # -- batch size of interactions loaded in each step of enrich interactions.
     enrichInteractionBatchSize: 10000
+    # -- sleep between jobs when using loop jobs entrypoint
+    loopJobsSleepSeconds: 0
 
   replicaCount: 1
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.47.24
+    tag: v1.47.26
 
   podAnnotations: { }
   podLabels: { }
@@ -607,7 +609,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.47.24
+    tag: v1.47.26
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
