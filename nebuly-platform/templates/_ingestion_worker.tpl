@@ -89,4 +89,7 @@
   value: {{ .Values.ingestionWorker.sentry.tracesSampleRate | quote }}
 - name: SENTRY_PROFILES_SAMPLE_RATE
   value: {{ .Values.ingestionWorker.sentry.profilesSampleRate | quote }}
+{{- with .Values.ingestionWorker.env }}
+{{ toYaml . }}
+{{- end }}
 {{- end -}}

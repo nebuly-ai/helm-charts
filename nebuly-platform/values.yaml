@@ -297,6 +297,12 @@ ingestionWorker:
   # -- The number of workers (e.g. coroutines) used to process feedback actions.
   numWorkersFeedbackActions: 10
 
+  # -- Additional environment variables, in the standard Kubernetes format.
+  # -- Example:
+  # - name: MY_ENV_VAR
+  #   value: "my-value"
+  env: {}
+
   fullnameOverride: ""
 
   deploymentStrategy:

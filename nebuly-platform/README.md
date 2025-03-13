@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.30.0](https://img.shields.io/badge/Version-1.30.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.30.1](https://img.shields.io/badge/Version-1.30.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -413,6 +413,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | imagePullSecrets | list | `[]` |  |
 | ingestionWorker.affinity | object | `{}` |  |
 | ingestionWorker.deploymentStrategy.type | string | `"Recreate"` |  |
+| ingestionWorker.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |
 | ingestionWorker.fullnameOverride | string | `""` |  |
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
