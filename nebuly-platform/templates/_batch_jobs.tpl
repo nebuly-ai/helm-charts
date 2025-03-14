@@ -35,7 +35,7 @@
 - name: ENRICH_INTERACTION_BATCH_SIZE
   value: {{ .Values.ingestionWorker.settings.enrichInteractionBatchSize}}
 - name: LOOP_JOBS_SLEEP_SECONDS
-  value: {{ .Values.fullProcessing.settings.processingDelay}}
+  value: {{ .Values.fullProcessing.settings.processingDelaySeconds}}
 
 
 # OpenAI

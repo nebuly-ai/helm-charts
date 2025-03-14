@@ -542,7 +542,7 @@ fullProcessing:
 
   settings:
     # -- Seconds of delay between processing.
-    processingDelay: 0
+    processingDelaySeconds: 0
 
   resources:
     requests:
