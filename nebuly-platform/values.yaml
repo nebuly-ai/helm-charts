@@ -307,7 +307,7 @@ ingestionWorker:
   healthCheckPath: ""
 
   settings:
-    # -- Use DB as cache in aggregates jobs, disable for project with more than 1M interactions.
+    # -- Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions.
     enableDbCache: true 
     # -- Batch size of entities loaded in each step of aggregate jobs.
     entitiesBatchSize: 20000
