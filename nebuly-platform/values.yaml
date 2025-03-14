@@ -312,21 +312,19 @@ ingestionWorker:
   # -- Example: /mnt/health-check/healthy.timestamp
   healthCheckPath: ""
 
-  # -- Thresholds for tuning the data-processing pipeline.
-  thresholds:
-    subjectClustering: 0.3
-    subjectMergeClusters: 0.3
-    intentClustering: 0.25
-    intentMergeClusters: 0.2
-
   settings:
-    topicsAndActionsVersion: v2
+    # -- Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions.
+    enableDbCache: true 
+    # -- Batch size of entities loaded in each step of aggregate jobs.
+    entitiesBatchSize: 20000
+    # -- Batch size of interactions loaded in each step of enrich interactions.
+    enrichInteractionBatchSize: 10000
 
   replicaCount: 1
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.47.9
+    tag: v1.47.27
 
   podAnnotations: { }
   podLabels: { }
@@ -542,6 +540,10 @@ fullProcessing:
   # -- with an always running Deployment.
   enabled: false
 
+  settings:
+    # -- Seconds of delay between processing.
+    processingDelay: 0
+
   resources:
     requests:
       cpu: 1
@@ -615,17 +617,13 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.47.9
+    tag: v1.47.27
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
     enabled: false
     size: 128Gi
     storageClassName: ""
-
-  # -- The number of previous hours that the actions processing job will process.
-  # -- Example: 24 -> process the last 24 hours of interactions.
-  numHoursProcessed: 50
 
   securityContext:
     runAsNonRoot: true
