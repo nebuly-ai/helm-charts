@@ -389,7 +389,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.sentry.environment | string | `""` | The name of the Sentry environment. |
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
-| ingestionWorker.settings.enableDbCache | bool | `true` | Use DB as cache in aggregates jobs, disable for project with more than 1M interactions. |
+| ingestionWorker.settings.enableDbCache | bool | `true` | Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions. |
 | ingestionWorker.settings.enrichInteractionBatchSize | int | `10000` | Batch size of interactions loaded in each step of enrich interactions. |
 | ingestionWorker.settings.entitiesBatchSize | int | `20000` | Batch size of entities loaded in each step of aggregate jobs. |
 | ingestionWorker.stage1.resources.limits.memory | string | `"1024Mi"` |  |
