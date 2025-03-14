@@ -307,14 +307,12 @@ ingestionWorker:
   healthCheckPath: ""
 
   settings:
-    # -- use DB as cache in aggregates jobs, disable for huge data volumes.
+    # -- Use DB as cache in aggregates jobs, disable for huge data volumes.
     enableDbCache: true 
-    # -- batch size of entities loaded in each step of aggregate jobs.
+    # -- Batch size of entities loaded in each step of aggregate jobs.
     entitiesBatchSize: 20000
-    # -- batch size of interactions loaded in each step of enrich interactions.
+    # -- Batch size of interactions loaded in each step of enrich interactions.
     enrichInteractionBatchSize: 10000
-    # -- sleep between jobs when using loop jobs entrypoint
-    loopJobsSleepSeconds: 0
 
   replicaCount: 1
   image:
@@ -535,6 +533,10 @@ fullProcessing:
   # -- If true, replaces the primary and secondary processing CronJobs
   # -- with an always running Deployment.
   enabled: false
+
+  settings:
+    # -- Seconds of delay between processing.
+    processingDelay: 0
 
   resources:
     requests:

@@ -359,10 +359,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.tolerations | list | `[]` |  |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
-| fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | always running Deployment. |
+| fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"settings":{"processingDelay":0},"tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | always running Deployment. |
 | fullProcessing.enabled | bool | `false` | with an always running Deployment. |
 | fullProcessing.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |
 | fullProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
+| fullProcessing.settings.processingDelay | int | `0` | Seconds of delay between processing. |
 | imagePullSecrets | list | `[]` |  |
 | ingestionWorker.affinity | object | `{}` |  |
 | ingestionWorker.deploymentStrategy.type | string | `"Recreate"` |  |
@@ -388,10 +389,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.sentry.environment | string | `""` | The name of the Sentry environment. |
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
-| ingestionWorker.settings.enableDbCache | bool | `true` | use DB as cache in aggregates jobs, disable for huge data volumes. |
-| ingestionWorker.settings.enrichInteractionBatchSize | int | `10000` | batch size of interactions loaded in each step of enrich interactions. |
-| ingestionWorker.settings.entitiesBatchSize | int | `20000` | batch size of entities loaded in each step of aggregate jobs. |
-| ingestionWorker.settings.loopJobsSleepSeconds | int | `0` | sleep between jobs when using loop jobs entrypoint |
+| ingestionWorker.settings.enableDbCache | bool | `true` | Use DB as cache in aggregates jobs, disable for huge data volumes. |
+| ingestionWorker.settings.enrichInteractionBatchSize | int | `10000` | Batch size of interactions loaded in each step of enrich interactions. |
+| ingestionWorker.settings.entitiesBatchSize | int | `20000` | Batch size of entities loaded in each step of aggregate jobs. |
 | ingestionWorker.stage1.resources.limits.memory | string | `"1024Mi"` |  |
 | ingestionWorker.stage1.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage1.resources.requests.memory | string | `"1024Mi"` |  |
