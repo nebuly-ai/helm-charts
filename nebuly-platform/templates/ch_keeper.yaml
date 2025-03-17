@@ -39,7 +39,7 @@ spec:
             - ReadWriteOnce
           resources:
             requests:
-              storage: {{ .Values.clickhouse.storage.storageClassName }}
+              storage: {{ .Values.clickhouse.keeper.storage.size }}
   configuration:
     clusters:
       - name: default
