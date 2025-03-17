@@ -6,6 +6,7 @@
 {{- $messages = append $messages (include "chart.validateValues.frontend.backendApiUrl" .) -}}
 {{/* Backend */}}
 {{- $messages = append $messages (include "chart.validateValues.telemetry" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.backend.multiTenancy" .) -}}
 {{/* Auth Service */}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresServer" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresUser" .) -}}
@@ -221,6 +222,13 @@ values: aiModels.sync.source.clientSecret
 {{- if and (empty .Values.telemetry.apiKey) (.Values.telemetry.enabled)  -}}
 values: telemetry.apiKey
   `apiKey` is required when telemetry is enabled and should be a non-empty string.
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.backend.multiTenancy" -}}
+{{- if not (contains .Values.backend.settings.multiTenancyMode "dynamic_schema static_schema") -}}
+values: backend.settings.multiTenancyMode
+  `multiTenancyMode` should be one of the following values: dynamic_schema, static_schema
 {{- end -}}
 {{- end -}}
 

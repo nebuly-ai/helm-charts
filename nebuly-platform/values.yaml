@@ -24,6 +24,9 @@ backend:
     pullPolicy: IfNotPresent
     tag: "v1.57.29"
 
+  settings:
+    multiTenancyMode: "dynamic_schema"
+
   podAnnotations: { }
   podLabels: { }
 

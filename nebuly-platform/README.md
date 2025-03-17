@@ -278,6 +278,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.sentry.environment | string | `""` | The name of the Sentry environment. |
 | backend.service.port | int | `80` |  |
 | backend.service.type | string | `"ClusterIP"` |  |
+| backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
 | backend.tolerations | list | `[]` |  |
 | backend.volumeMounts | list | `[]` |  |
 | backend.volumes | list | `[]` |  |

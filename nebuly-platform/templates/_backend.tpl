@@ -1,5 +1,7 @@
 {{- define "backend.commonEnv" -}}
 # Database
+- name: "MULTI_TENANCY_MODE"
+  value: {{ .Values.backend.settings.multiTenancyMode | quote }}
 - name: "ANALYTICS_USER"
   valueFrom:
     secretKeyRef:
