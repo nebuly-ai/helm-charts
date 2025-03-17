@@ -29,13 +29,13 @@
 
 # Jobs Settings
 - name: ENABLE_DB_CACHE
-  value: {{ .Values.ingestionWorker.settings.enableDbCache}}
+  value: {{ .Values.ingestionWorker.settings.enableDbCache | quote }}
 - name: ENTITIES_BATCH_SIZE
-  value: {{ .Values.ingestionWorker.settings.entitiesBatchSize}}
+  value: {{ .Values.ingestionWorker.settings.entitiesBatchSize | quote }}
 - name: ENRICH_INTERACTION_BATCH_SIZE
-  value: {{ .Values.ingestionWorker.settings.enrichInteractionBatchSize}}
+  value: {{ .Values.ingestionWorker.settings.enrichInteractionBatchSize | quote }}
 - name: LOOP_JOBS_SLEEP_SECONDS
-  value: {{ .Values.fullProcessing.settings.processingDelaySeconds}}
+  value: {{ .Values.fullProcessing.settings.processingDelaySeconds | quote }}
 
 
 # OpenAI
