@@ -40,10 +40,6 @@ spec:
           command:
             - python
             - app/backend_pre_start.py
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
           env:
             # Common env
             {{ include "backend.commonEnv" . | nindent 12 }}
