@@ -253,7 +253,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.57.23"` |  |
+| backend.image.tag | string | `"v1.57.29"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -278,6 +278,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.sentry.environment | string | `""` | The name of the Sentry environment. |
 | backend.service.port | int | `80` |  |
 | backend.service.type | string | `"ClusterIP"` |  |
+| backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
 | backend.tolerations | list | `[]` |  |
 | backend.volumeMounts | list | `[]` |  |
 | backend.volumes | list | `[]` |  |
@@ -336,7 +337,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
 | eventIngestion.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-event-ingestion"` |  |
-| eventIngestion.image.tag | string | `"v1.9.6"` |  |
+| eventIngestion.image.tag | string | `"v1.10.0"` |  |
 | eventIngestion.ingress.annotations | object | `{}` |  |
 | eventIngestion.ingress.className | string | `""` |  |
 | eventIngestion.ingress.enabled | bool | `false` |  |
@@ -376,7 +377,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.50.26"` |  |
+| frontend.image.tag | string | `"v1.50.38"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -406,10 +407,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.tolerations | list | `[]` |  |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
-| fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | always running Deployment. |
+| fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"settings":{"processingDelaySeconds":0},"tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | always running Deployment. |
 | fullProcessing.enabled | bool | `false` | with an always running Deployment. |
 | fullProcessing.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |
 | fullProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
+| fullProcessing.settings.processingDelaySeconds | int | `0` | Seconds of delay between processing. |
 | imagePullSecrets | list | `[]` |  |
 | ingestionWorker.affinity | object | `{}` |  |
 | ingestionWorker.deploymentStrategy.type | string | `"Recreate"` |  |
@@ -418,7 +420,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.47.9"` |  |
+| ingestionWorker.image.tag | string | `"v1.47.28"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
@@ -436,14 +438,15 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.sentry.environment | string | `""` | The name of the Sentry environment. |
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
-| ingestionWorker.settings.topicsAndActionsVersion | string | `"v2"` |  |
+| ingestionWorker.settings.enableDbCache | bool | `true` | Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions. |
+| ingestionWorker.settings.enrichInteractionBatchSize | int | `10000` | Batch size of interactions loaded in each step of enrich interactions. |
+| ingestionWorker.settings.entitiesBatchSize | int | `20000` | Batch size of entities loaded in each step of aggregate jobs. |
 | ingestionWorker.stage1.resources.limits.memory | string | `"1024Mi"` |  |
 | ingestionWorker.stage1.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage1.resources.requests.memory | string | `"1024Mi"` |  |
 | ingestionWorker.stage2.resources.limits.memory | string | `"1024Mi"` |  |
 | ingestionWorker.stage2.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage2.resources.requests.memory | string | `"1024Mi"` |  |
-| ingestionWorker.thresholds | object | `{"intentClustering":0.25,"intentMergeClusters":0.2,"subjectClustering":0.3,"subjectMergeClusters":0.3}` | Thresholds for tuning the data-processing pipeline. |
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
@@ -508,7 +511,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | primaryProcessing.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |
 | primaryProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | primaryProcessing.modelsCache | object | `{"enabled":false,"size":"128Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
-| primaryProcessing.numHoursProcessed | int | `50` | Example: 24 -> process the last 24 hours of interactions. |
 | primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | reprocessing | object | `{"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | major release. |
 | secondaryProcessing | object | - | Settings related to the Primary processing CronJobs. |
