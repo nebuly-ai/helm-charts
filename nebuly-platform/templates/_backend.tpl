@@ -108,7 +108,9 @@
 - name: CLICKHOUSE_ENABLED
   value: "true"
 - name: CLICKHOUSE_SERVER
-  value: {{ range $i, $e := until (.Values.clickhouse.replicas | int) }}{{ if $i }},{{ end }}chi-{{ include "clickhouse.fullname" $ }}-default-0-{{ $i }}{{ end }}
+  value: "clickhouse-{{ include "clickhouse.fullname" $ }}"
+- name: CLICKHOUSE_MIGRATION_SERVERS
+  value: '[{{ range $i, $e := until (.Values.clickhouse.replicas | int) }}{{ if $i }},{{ end }}"chi-{{ include "clickhouse.fullname" $ }}-default-0-{{ $i }}"{{ end }}]'
 - name: CLICKHOUSE_DB
   value: {{ .Values.clickhouse.databaseName | quote }}
 - name: CLICKHOUSE_USER
