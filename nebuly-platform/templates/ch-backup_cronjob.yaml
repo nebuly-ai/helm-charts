@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "clickhouse.fullname" . }}
+  name: {{ include "clickhouse.fullname" . }}-backup
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
     {{- include "clickhouse.labels" . | nindent 4 }}
@@ -39,7 +39,7 @@ spec:
                   value: "9000"
                   # Use first replica in each shard
                 - name: CLICKHOUSE_SERVICES
-                  value: {{ include "clickhouse.fullname" $ }}-default-0-0
+                  value: chi-{{ include "clickhouse.fullname" $ }}-default-0-0
                   # Full + Incremental config
                 - name: MAKE_INCREMENT_BACKUP
                   value: "1"
