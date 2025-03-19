@@ -33,7 +33,7 @@ spec:
           podTemplate: {{ printf "clickhouse-%s" .Values.clickhouse.version }}
           volumeClaimTemplate: data
     settings:
-      max_server_memory_usage_to_ram_ratio: "0.7"
+      max_server_memory_usage_to_ram_ratio: "0.8"
 
   templates:
     podTemplates:
