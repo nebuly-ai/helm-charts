@@ -48,6 +48,7 @@ spec:
             clickhouse.backup/port: "7171"
             clickhouse.backup/path: "/metrics"
         spec:
+          serviceAccountName: {{ .Values.serviceAccount.name }}
           {{- with .Values.clickhouse.tolerations }}
           tolerations:
             {{ toYaml . | nindent 12 }}
