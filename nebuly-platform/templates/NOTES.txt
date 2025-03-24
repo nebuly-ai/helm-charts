@@ -17,3 +17,32 @@ You can enable it by setting the value `backend.ingress.enabled` to `true`.
 [WARNING] Event Ingestion ingress is not enabled, the event ingestion APIs won't be accessible from outside the cluster.
 You can enable it by setting the value `eventIngestion.ingress.enabled` to `true`.
 {{ end }}
+
+
+{{- /* --------------------------------------------*/ -}}
+{{- /* ClickHouse warnings */ -}}
+{{- /* --------------------------------------------*/ -}}
+{{- if .Values.clickhouse.enabled -}}
+
+{{- if eq .Values.clickhouse.storage.storageClassName "default" -}}
+[WARNING] ClickHouse storageClassName is set to `default`, it is recommended to use a custom storage class.
+Update the value `clickhouse.storage.storageClassName` to a custom storage class.
+{{- end -}}
+
+{{- if and .Values.clickhouse.keeper.enabled (eq .Values.clickhouse.keeper.storage.storageClassName "default") -}}
+[WARNING] ClickHouse Keeper storageClassName is set to `default`, it is recommended to use a custom storage class.
+Update the value `clickhouse.keeper.storage.storageClassName` to a custom storage class.
+{{- end -}}
+
+{{- if eq .Values.clickhouse.auth.nebulyUser.password "nebuly"}}
+[WARNING] ClickHouse Nebuly user password is set to the default value `nebuly`, it is recommended to use a custom password.
+Update the value `clickhouse.auth.nebulyUser.password` to a custom password.
+{{- end -}}
+
+{{- if and .Values.clickhouse.backups.enabled (eq .Values.clickhouse.auth.backupsUser.password "nebuly") }}
+[WARNING] ClickHouse Backups user password is set to the default value `nebuly`, it is recommended to use a custom password.
+Update the value `clickhouse.auth.backupsUser.password` to a custom password.
+{{- end -}}
+
+{{- end -}}
+

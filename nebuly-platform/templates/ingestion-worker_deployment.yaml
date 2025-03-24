@@ -43,10 +43,6 @@ spec:
             - entrypoints/entrypoint_1.py
           image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.ingestionWorker.service.port }}
-              protocol: TCP
           env:
             {{- include "ingestionWorker.commonEnv" . | nindent 12 }}
           livenessProbe:
@@ -78,10 +74,6 @@ spec:
             - entrypoints/entrypoint_2.py
           image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.ingestionWorker.service.port }}
-              protocol: TCP
           env:
             {{- include "ingestionWorker.commonEnv" . | nindent 12 }}
           livenessProbe:

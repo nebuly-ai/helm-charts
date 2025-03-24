@@ -173,7 +173,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | aiModels.azureml.subscriptionId | string | `""` | The subscription ID of the Azure Machine Learning Workspace. |
 | aiModels.azureml.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Machine Learning Workspace is located. To be provided only when not using an existing secret (see azureml.existingSecret value below). |
 | aiModels.azureml.workspace | string | `""` | The name of the Azure Machine Learning Workspace. |
-| aiModels.gcp | object | - | Config of the AWS S3 model registry. |
+| aiModels.gcp | object | - | Config of the GCP Storage model registry. |
 | aiModels.gcp.bucketName | string | `""` | The name of the GCP bucket. |
 | aiModels.gcp.projectName | string | `""` | The name of the GCP project containing the bucket. |
 | aiModels.registry | string | `""` | Available values are: "azure_ml", "aws_s3", "azure_storage", "gcp_bucket" |
@@ -285,6 +285,53 @@ The command removes all the Kubernetes components associated with the chart and 
 | bootstrap-aws | object | `{"enabled":false}` | - an EKS cluster on AWS. |
 | bootstrap-azure | object | `{"enabled":false}` | - an AKS cluster on Microsoft Azure. |
 | bootstrap-gcp | object | `{"enabled":false}` | - an GKE cluster on Google Cloud Platform. |
+| clickhouse.affinity | object | `{}` |  |
+| clickhouse.auth.backupsUser | object | `{"password":"nebuly","username":"backups"}` | Credentials of the user used to create backups. |
+| clickhouse.auth.nebulyUser | object | `{"password":"nebuly","username":"nebulyadmin"}` | Credentials of the user used by Nebuly to access the ClickHouse database. |
+| clickhouse.backups | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"existingSecret":{"name":"","storageAccountKeyKey":""},"storageAccountKey":"","storageAccountName":"","storageContainerName":""},"enabled":false,"fullBackupWeekday":7,"gcp":{"bucketName":"","projectName":""},"numToKeepLocal":4,"numToKeepRemote":120,"remoteStorage":"","schedule":"0 */4 * * *"}` | Backups configuration. |
+| clickhouse.backups.aws | object | - | Config of the AWS Bucket used for storing backups remotely. |
+| clickhouse.backups.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
+| clickhouse.backups.aws.endpointUrl | string | `""` | the bucket name. Example: "https://my-domain.com:9444" |
+| clickhouse.backups.aws.existingSecret | object | `{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}` | linked to an IAM Role with the required permissions. |
+| clickhouse.backups.aws.existingSecret.accessKeyIdKey | string | `""` | The key of the secret containing the AWS Access Key ID. |
+| clickhouse.backups.aws.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| clickhouse.backups.aws.existingSecret.secretAccessKeyKey | string | `""` | The key of the secret containing the AWS Secret Access Key. |
+| clickhouse.backups.azure | object | - | Config of the Azure Storage used for storing backups remotely. |
+| clickhouse.backups.azure.existingSecret | object | `{"name":"","storageAccountKeyKey":""}` | Use an existing secret for the Azure Storage authentication. |
+| clickhouse.backups.azure.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| clickhouse.backups.azure.existingSecret.storageAccountKeyKey | string | `""` | The key of the secret containing the Azure Storage Account Key. |
+| clickhouse.backups.azure.storageAccountKey | string | `""` | The storage account key. |
+| clickhouse.backups.azure.storageAccountName | string | `""` | The name of the Azure Storage account. |
+| clickhouse.backups.azure.storageContainerName | string | `""` | The name of the Azure Storage container. |
+| clickhouse.backups.enabled | bool | `false` | If True, enable the backups of the ClickHouse database. |
+| clickhouse.backups.fullBackupWeekday | int | `7` | The day of the week when the full backup is performed (1=Monday, 7=Sunday). |
+| clickhouse.backups.gcp | object | - | Config of the GCP Storage used for storing backups remotely. |
+| clickhouse.backups.gcp.bucketName | string | `""` | The name of the GCP bucket. |
+| clickhouse.backups.gcp.projectName | string | `""` | The name of the GCP project containing the bucket. |
+| clickhouse.backups.numToKeepLocal | int | `4` | Default: keep last day (e.g. last 4 backups). |
+| clickhouse.backups.numToKeepRemote | int | `120` | Default: keep last 30 days (e.g. last 120 backups). |
+| clickhouse.backups.remoteStorage | string | `""` | Possible values are: "aws_s3", "gcp_bucket", "azure_storage". |
+| clickhouse.backups.schedule | string | `"0 */4 * * *"` | Default: every 4 hours |
+| clickhouse.databaseName | string | `"analytics"` | The name of the ClickHouse database. |
+| clickhouse.enabled | bool | `false` |  |
+| clickhouse.keeper.affinity | object | `{}` |  |
+| clickhouse.keeper.enabled | bool | `false` |  |
+| clickhouse.keeper.replicas | int | `1` |  |
+| clickhouse.keeper.resources.limits.memory | string | `"4Gi"` |  |
+| clickhouse.keeper.storage | object | `{"size":"32Gi","storageClassName":"default"}` | Storage configuration of the ClickHouse Keeper instances. |
+| clickhouse.keeper.tolerations | list | `[]` |  |
+| clickhouse.keeper.version | string | `"25.1.5.31"` | The ClickHouse Keeper version to use (Docker image tag). |
+| clickhouse.keeper.volumeMounts | list | `[]` | Additional volumeMounts on ClickHouse Keeper pods. |
+| clickhouse.keeper.volumes | list | `[]` | Additional volumes on the ClickHouse Keeper pods. |
+| clickhouse.logLevel | string | `"debug"` | ClickHouse log level. |
+| clickhouse.replicas | int | `1` | The number of ClickHouse replicas. |
+| clickhouse.resources.limits.memory | string | `"13Gi"` |  |
+| clickhouse.resources.requests.memory | string | `"13Gi"` |  |
+| clickhouse.storage | object | `{"size":"128Gi","storageClassName":"default"}` | Persistent storage settings. |
+| clickhouse.tolerations | list | `[]` |  |
+| clickhouse.version | string | `"24.12.5-alpine"` | The ClickHouse version to use (Docker image tag). |
+| clickhouse.volumeMounts | list | `[]` | Additional volumeMounts on ClickHouse pods. |
+| clickhouse.volumes | list | `[]` | Additional volumes on the ClickHouse pods. |
 | clusterIssuer | object | `{"email":"support@nebuly.ai","enabled":false,"name":"letsencrypt"}` | Optional cert-manager cluster issuer. @default -- |
 | eventIngestion.affinity | object | `{}` |  |
 | eventIngestion.fullnameOverride | string | `""` |  |

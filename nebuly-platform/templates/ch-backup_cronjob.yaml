@@ -1,0 +1,59 @@
+{{- if and .Values.clickhouse.enabled .Values.clickhouse.backups.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "clickhouse.fullname" . }}-backup
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "clickhouse.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.clickhouse.backups.schedule }}
+  concurrencyPolicy: "Forbid"
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "clickhouse.labels" . | nindent 8 }}
+    spec:
+      backoffLimit: 1
+      completions: 1
+      parallelism: 1
+      template:
+        metadata:
+          labels:
+            {{- include "clickhouse.labels" . | nindent 12 }}
+        spec:
+          restartPolicy: Never
+          volumes:
+            # Mount configmap containing backup script
+            - name: clickhouse-backup-cron
+              configMap:
+                name: {{ include "clickhouse.fullname" . }}-backups
+          containers:
+            - name: clickhouse-server
+              image: {{ printf "clickhouse/clickhouse-server:%s" .Values.clickhouse.version }}
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: CLICKHOUSE_PORT
+                  value: "9000"
+                  # Use first replica in each shard
+                - name: CLICKHOUSE_SERVICES
+                  value: chi-{{ include "clickhouse.fullname" $ }}-default-0-0
+                  # Full + Incremental config
+                - name: MAKE_INCREMENT_BACKUP
+                  value: "1"
+                - name: FULL_BACKUP_WEEKDAY
+                  value: {{ .Values.clickhouse.backups.fullBackupWeekday | quote }}
+                - name: BACKUP_USER
+                  value: {{ .Values.clickhouse.auth.backupsUser.username | quote }}
+                - name: BACKUP_PASSWORD
+                  value: {{ .Values.clickhouse.auth.backupsUser.password | quote }}
+              volumeMounts:
+                - name: clickhouse-backup-cron
+                  mountPath: /bin/create-backup.sh
+                  subPath: create-backup.sh
+              command:
+                - bash
+                - /bin/create-backup.sh
+{{- end }}

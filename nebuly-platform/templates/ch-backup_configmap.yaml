@@ -1,0 +1,14 @@
+{{- if and .Values.clickhouse.enabled .Values.clickhouse.backups.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "clickhouse.fullname" . }}-backups
+  namespace: {{ include "nebuly-platform.namespace" .}}
+  labels:
+    {{- include "clickhouse.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+data:
+  create-backup.sh: |-
+    {{ .Files.Get "files/ch.backups.create.sh" | nindent 4 }}
+{{- end }}

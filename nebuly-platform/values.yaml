@@ -429,7 +429,7 @@ aiModels:
       # -- The key of the secret containing the AWS Secret Access Key.
       secretAccessKeyKey: ""
 
-  # -- Config of the AWS S3 model registry.
+  # -- Config of the GCP Storage model registry.
   # @default -- -
   gcp:
     # -- The name of the GCP bucket.
@@ -1163,6 +1163,154 @@ clusterIssuer:
 
 strimzi:
   enabled: false
+
+clickhouse:
+  enabled: false
+
+  # -- The ClickHouse version to use (Docker image tag).
+  version: "24.12.5-alpine"
+
+  # -- The name of the ClickHouse database.
+  databaseName: analytics
+
+  # -- The number of ClickHouse replicas.
+  replicas: 1
+
+  # -- ClickHouse log level.
+  logLevel: debug
+
+
+  # -- Additional volumes on the ClickHouse pods.
+  volumes: [ ]
+  # - name: foo
+  #   secret:
+  #     secretName: mysecret
+  #     optional: false
+
+  # --  Additional volumeMounts on ClickHouse pods.
+  volumeMounts: [ ]
+    # - name: foo
+  #   mountPath: "/etc/foo"
+  #   readOnly: true
+
+  affinity: { }
+  tolerations: [ ]
+
+  auth:
+    # -- Credentials of the user used by Nebuly to access the ClickHouse database.
+    nebulyUser:
+      username: "nebulyadmin"
+      password: "nebuly"
+    # -- Credentials of the user used to create backups.
+    backupsUser:
+      username: "backups"
+      password: "nebuly"
+
+  # -- Backups configuration.
+  backups:
+    # -- If True, enable the backups of the ClickHouse database.
+    enabled: false
+    # -- The kind of storage used to store backups.
+    # -- Possible values are: "aws_s3", "gcp_bucket", "azure_storage".
+    remoteStorage: ""
+    # -- Number of backups to keep locally.
+    # -- Default: keep last day (e.g. last 4 backups).
+    numToKeepLocal: 4
+    # -- Number of backups to keep on the remote cloud storage.
+    # -- Default: keep last 30 days (e.g. last 120 backups).
+    numToKeepRemote: 120
+    # -- The schedule of the job. The format is the same as the Kubernetes CronJob schedule.
+    # -- Default: every 4 hours
+    schedule: "0 */4 * * *"
+    # -- The day of the week when the full backup is performed (1=Monday, 7=Sunday).
+    fullBackupWeekday: 7
+
+    # -- Config of the Azure Storage used for storing backups remotely.
+    # @default -- -
+    azure:
+      # -- The name of the Azure Storage account.
+      storageAccountName: ""
+      # -- The name of the Azure Storage container.
+      storageContainerName: ""
+      # -- The storage account key.
+      storageAccountKey: ""
+      # -- Use an existing secret for the Azure Storage authentication.
+      existingSecret:
+        # -- Name of the secret. Can be templated.
+        name: ""
+        # -- The key of the secret containing the Azure Storage Account Key.
+        storageAccountKeyKey: ""
+
+    # -- Config of the GCP Storage used for storing backups remotely.
+    # @default -- -
+    gcp:
+      # -- The name of the GCP bucket.
+      bucketName: ""
+      # -- The name of the GCP project containing the bucket.
+      projectName: ""
+
+    # -- Config of the AWS Bucket used for storing backups remotely.
+    # @default -- -
+    aws:
+      # -- The name of the AWS S3 bucket.
+      bucketName: ""
+      # -- Optional AWS S3 endpoint URL. The URL should not include
+      # -- the bucket name. Example: "https://my-domain.com:9444"
+      endpointUrl: ""
+      # -- Optionally use an existing secret for AWS S3 authentication.
+      # -- If no secret is provided, the services will default to using the Service Account
+      # -- linked to an IAM Role with the required permissions.
+      existingSecret:
+        # -- Name of the secret. Can be templated.
+        name: ""
+        # -- The key of the secret containing the AWS Access Key ID.
+        accessKeyIdKey: ""
+        # -- The key of the secret containing the AWS Secret Access Key.
+        secretAccessKeyKey: ""
+
+  # -- Persistent storage settings.
+  storage:
+    size: 128Gi
+    storageClassName: "default"
+
+  resources:
+    requests:
+      memory: 13Gi
+    limits:
+      memory: 13Gi
+
+  keeper:
+    enabled: false
+    replicas: 1
+
+    # -- The ClickHouse Keeper version to use (Docker image tag).
+    version: "25.1.5.31"
+
+    resources:
+      limits:
+        memory: 4Gi
+
+    affinity: { }
+    tolerations: [ ]
+
+    # -- Additional volumes on the ClickHouse Keeper pods.
+    volumes: [ ]
+    # - name: foo
+    #   secret:
+    #     secretName: mysecret
+    #     optional: false
+
+    # --  Additional volumeMounts on ClickHouse Keeper pods.
+    volumeMounts: [ ]
+      # - name: foo
+      #   mountPath: "/etc/foo"
+    #   readOnly: true
+
+
+    # -- Storage configuration of the ClickHouse Keeper instances.
+    storage:
+      size: 32Gi
+      storageClassName: "default"
 
 # -- If True, install the Chart `nebuly-ai/bootstrap-aws`, which
 # -- installs all the dependencies required for installing nebuly-platform on

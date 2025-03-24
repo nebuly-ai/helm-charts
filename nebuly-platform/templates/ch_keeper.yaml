@@ -1,0 +1,51 @@
+{{- if .Values.clickhouse.keeper.enabled }}
+apiVersion: "clickhouse-keeper.altinity.com/v1"
+kind: "ClickHouseKeeperInstallation"
+metadata:
+  name: {{ include "clickhouse.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "clickhouse.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  templates:
+    podTemplates:
+      - name: {{ printf "clickhouse-%s" .Values.clickhouse.keeper.version }}
+        spec:
+          {{- with .Values.clickhouse.keeper.affinity }}
+            affinity:
+                {{ toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.clickhouse.keeper.tolerations }}
+            tolerations:
+                {{ toYaml . | nindent 12 }}
+          {{- end }}
+          containers:
+            - name: clickhouse-keeper
+              image: {{ printf "clickhouse/clickhouse-keeper:%s" .Values.clickhouse.keeper.version }}
+              {{ with .Values.clickhouse.keeper.resources }}
+              resources:
+                {{ toYaml . | nindent 16 }}
+              {{ end }}
+              volumeMounts:
+                - name: data
+                  mountPath: /var/lib/clickhouse-keeper
+    volumeClaimTemplates:
+      - name: data
+        spec:
+          storageClassName: {{ .Values.clickhouse.keeper.storage.storageClassName }}
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: {{ .Values.clickhouse.keeper.storage.size }}
+  configuration:
+    clusters:
+      - name: default
+        templates:
+          podTemplate: {{ printf "clickhouse-%s" .Values.clickhouse.keeper.version }}
+          volumeClaimTemplate: data
+        layout:
+          replicasCount: {{ .Values.clickhouse.keeper.replicas }}
+{{- end }}
