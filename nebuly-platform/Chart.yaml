@@ -25,6 +25,10 @@ dependencies:
     version: <=1.0.0
     repository: oci://quay.io/strimzi-helm
     condition: strimzi.enabled
+  - name: altinity-clickhouse-operator
+    version: ~0.24.4
+    repository: https://docs.altinity.com/clickhouse-operator
+    condition: clickhouse.enabled
   - name: bootstrap-aws
     version: ~0.3.0
     condition: bootstrap-aws.enabled
