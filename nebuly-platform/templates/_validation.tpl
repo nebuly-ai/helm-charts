@@ -12,6 +12,7 @@
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresUser" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresPassword" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.microsoft" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.auth.google" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.okta" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.addMember" .) -}}
 {{/* Analytic DB */}}
@@ -68,6 +69,21 @@ values: auth.postgresServer
 {{- if and (not .Values.auth.microsoft.enabled) (contains "microsoft" .Values.auth.loginModes) -}}
 values: auth.loginModes
   `loginModes` cannot contain "microsoft" when `auth.microsoft.enabled` is false
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.auth.google" -}}
+{{- if and (not .Values.auth.google.enabled) (contains "google" .Values.auth.loginModes) -}}
+values: auth.loginModes
+  `loginModes` cannot contain "google" when `auth.google.enabled` is false
+{{- end -}}
+{{- if and (.Values.auth.google.enabled) (empty .Values.auth.google.roleMapping) -}}
+values: auth.google.roleMapping
+  `roleMapping` is required when `auth.google.enabled` is true
+{{- end -}}
+{{- if and (.Values.auth.google.enabled) (empty .Values.auth.google.redirectUri) }}
+values: auth.google.redirectUri
+  `redirectUri` is required when `auth.google.enabled` is true
 {{- end -}}
 {{- end -}}
 

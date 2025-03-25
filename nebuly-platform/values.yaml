@@ -960,7 +960,8 @@ auth:
   # -- The password of the initial admin user.
   adminUserPassword: "admin"
   # -- The available login modes. Value must be string with the login mode specified
-  # -- as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`.
+  # -- as a comma-separated list.
+  # -- Possible values are: `password`, `microsoft`, `okta`, `google`.
   loginModes: "password"
   # -- If True, enable the admin panel for inviting new members to the platform.
   addMembersEnabled: false
@@ -1078,6 +1079,30 @@ auth:
 
   affinity: { }
 
+  # -- Google authentication configuration. Used when `auth.loginModes` contains "google".
+  google:
+    enabled: false
+    # -- The Client ID of the Google application. To be provided only when not using an existing secret
+    # (see google.existingSecret value below).
+    clientId: ""
+    # -- The Client Secret of the Google application. To be provided only when not using an existing secret
+    # (see google.existingSecret value below).
+    clientSecret: ""
+    # -- The callback URI of the SSO flow. Must be the same as the redirect URI configured for the
+    # Okta application. Must be in the following format:
+    # "https://<backend-domain>/auth/oauth/google/callback"
+    # Where <backend-domain> is the domain defined in `backend.ingress`.
+    redirectUri: ""
+    roleMapping: ""
+
+    # -- Use an existing secret for Google SSO authentication.
+    # @default -- -
+    existingSecret:
+      # -- Name of the secret. Can be templated.
+      name: ""
+      clientIdKey: ""
+      clientSecretKey: ""
+
   # -- Okta authentication configuration. Used when `auth.loginModes` contains "okta".
   okta:
     enabled: false
@@ -1091,7 +1116,7 @@ auth:
     issuer: ""
     # -- The callback URI of the SSO flow. Must be the same as the redirect URI configured for the
     # Okta application. Must be in the following format:
-    # "https://<backend-domain>/auth/oauth/microsoft/callback"
+    # "https://<backend-domain>/auth/oauth/okta/callback"
     # Where <backend-domain> is the domain defined in `backend.ingress`.
     redirectUri: ""
 

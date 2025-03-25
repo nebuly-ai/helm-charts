@@ -203,12 +203,18 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.existingSecret | object | - | Use an existing secret for the database authentication. |
 | auth.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.fullnameOverride | string | `""` |  |
+| auth.google | object | `{"clientId":"","clientSecret":"","enabled":false,"existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"redirectUri":"","roleMapping":""}` | Google authentication configuration. Used when `auth.loginModes` contains "google". |
+| auth.google.clientId | string | `""` | The Client ID of the Google application. To be provided only when not using an existing secret (see google.existingSecret value below). |
+| auth.google.clientSecret | string | `""` | The Client Secret of the Google application. To be provided only when not using an existing secret (see google.existingSecret value below). |
+| auth.google.existingSecret | object | - | Use an existing secret for Google SSO authentication. |
+| auth.google.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| auth.google.redirectUri | string | `""` | The callback URI of the SSO flow. Must be the same as the redirect URI configured for the Okta application. Must be in the following format: "https://<backend-domain>/auth/oauth/google/callback" Where <backend-domain> is the domain defined in `backend.ingress`. |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
 | auth.image.tag | string | `"v1.14.0"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
-| auth.loginModes | string | `"password"` | as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`. |
+| auth.loginModes | string | `"password"` | Possible values are: `password`, `microsoft`, `okta`, `google`. |
 | auth.microsoft | object | - | contains "microsoft". |
 | auth.microsoft.clientId | string | `""` | The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
 | auth.microsoft.clientSecret | string | `""` | The Client Secret of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
@@ -224,7 +230,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.okta.existingSecret | object | - | Use an existing secret for Okta SSO authentication. |
 | auth.okta.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.okta.issuer | string | `""` | The issuer of the Okta application. |
-| auth.okta.redirectUri | string | `""` | The callback URI of the SSO flow. Must be the same as the redirect URI configured for the Okta application. Must be in the following format: "https://<backend-domain>/auth/oauth/microsoft/callback" Where <backend-domain> is the domain defined in `backend.ingress`. |
+| auth.okta.redirectUri | string | `""` | The callback URI of the SSO flow. Must be the same as the redirect URI configured for the Okta application. Must be in the following format: "https://<backend-domain>/auth/oauth/okta/callback" Where <backend-domain> is the domain defined in `backend.ingress`. |
 | auth.podAnnotations | object | `{}` |  |
 | auth.podLabels | object | `{}` |  |
 | auth.podSecurityContext.runAsNonRoot | bool | `true` |  |
