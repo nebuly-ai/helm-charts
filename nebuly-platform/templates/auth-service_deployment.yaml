@@ -120,6 +120,8 @@ spec:
               value: {{ .Values.auth.microsoft.tenantId | quote }}
             - name: "MICROSOFT_OAUTH_SUCCESSFUL_LOGIN_REDIRECT_URL"
               value: {{ .Values.frontend.rootUrl | quote }}
+            - name: "MICROSOFT_OAUTH_ERROR_REDIRECT_URL"
+              value: {{ printf "%s/auth-error" .Values.frontend.rootUrl | quote }}
             - name: "MICROSOFT_OAUTH_CLIENT_ID"
               valueFrom:
                 secretKeyRef:
@@ -137,24 +139,26 @@ spec:
             # Okta OAuth
             - name: "LOGIN_REDIRECT_URL"
               value: "{{ .Values.frontend.rootUrl }}"
-            - name: "OAUTH_PROVIDER"
+            - name: "OAUTH_OAUTH_PROVIDER"
               value: "okta"
-            - name: "OKTA_ISSUER"
+            - name: "OKTA_OAUTH_ISSUER"
               value: {{ .Values.auth.okta.issuer | quote }}
-            - name: "OKTA_REDIRECT_URI"
+            - name: "OKTA_OAUTH_REDIRECT_URI"
               value: {{ .Values.auth.okta.redirectUri | quote }}
-            - name: "OKTA_SUCCESSFUL_LOGIN_REDIRECT_URL"
+            - name: "OKTA_OAUTH_SUCCESSFUL_LOGIN_REDIRECT_URL"
               value: {{ .Values.frontend.rootUrl | quote }}
-            - name: "OKTA_CLIENT_ID"
+            - name: "OKTA_OAUTH_CLIENT_ID"
               valueFrom:
                 secretKeyRef:
                   name: {{ (tpl .Values.auth.okta.existingSecret.name . ) | default (include "authService.fullname" .) }}
                   key: {{ .Values.auth.okta.existingSecret.clientIdKey | default "okta-oauth-client-id" }}
-            - name: "OKTA_CLIENT_SECRET"
+            - name: "OKTA_OAUTH_CLIENT_SECRET"
               valueFrom:
                 secretKeyRef:
                   name: {{ (tpl .Values.auth.okta.existingSecret.name . ) | default (include "authService.fullname" .) }}
                   key: {{ .Values.auth.okta.existingSecret.clientSecretKey | default "okta-oauth-client-secret" }}
+            - name: "OKTA_OAUTH_ERROR_REDIRECT_URL"
+              value: {{ printf "%s/auth-error" .Values.frontend.rootUrl | quote }}
             {{- end }}
             - name: "SLACK_NOTIFICATIONS_ENABLED"
               value: {{ .Values.telemetry.enabled | quote }}
