@@ -209,6 +209,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.existingSecret | object | - | Use an existing secret for Google SSO authentication. |
 | auth.google.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.google.redirectUri | string | `""` | The callback URI of the SSO flow. Must be the same as the redirect URI configured for the Okta application. Must be in the following format: "https://<backend-domain>/auth/oauth/google/callback" Where <backend-domain> is the domain defined in `backend.ingress`. |
+| auth.google.roleMapping | string | `""` | Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
 | auth.image.tag | string | `"v1.14.0"` |  |

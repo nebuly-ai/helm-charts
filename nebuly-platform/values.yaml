@@ -1093,6 +1093,8 @@ auth:
     # "https://<backend-domain>/auth/oauth/google/callback"
     # Where <backend-domain> is the domain defined in `backend.ingress`.
     redirectUri: ""
+    # -- The mapping between Nebuly roles and Google groups.
+    # -- Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>"
     roleMapping: ""
 
     # -- Use an existing secret for Google SSO authentication.
