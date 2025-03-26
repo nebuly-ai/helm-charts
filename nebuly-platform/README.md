@@ -384,7 +384,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.50.41"` |  |
+| frontend.image.tag | string | `"v1.51.0"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
