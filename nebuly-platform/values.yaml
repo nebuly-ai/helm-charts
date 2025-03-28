@@ -1193,6 +1193,9 @@ strimzi:
 
 clickhouse:
   enabled: false
+  # -- Flag to roll out clickhouse progressively on existing postgres
+  # -- installations (first deploy clickhouse, then enable it on backend)
+  active: true
 
   # -- The ClickHouse version to use (Docker image tag).
   version: "24.12.5-alpine"

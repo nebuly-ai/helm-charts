@@ -104,7 +104,7 @@
 - name: CORS_ALLOW_ORIGINS
   value: {{ .Values.backend.corsAllowOrigins | toJson | quote }}
 {{- end }}
-{{- if .Values.clickhouse.enabled }}
+{{- if and .Values.clickhouse.enabled .Values.clickhouse.active }}
 - name: CLICKHOUSE_ENABLED
   value: "true"
 - name: CLICKHOUSE_SERVER

@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.30.13](https://img.shields.io/badge/Version-1.30.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.30.14](https://img.shields.io/badge/Version-1.30.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -292,6 +292,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | bootstrap-aws | object | `{"enabled":false}` | - an EKS cluster on AWS. |
 | bootstrap-azure | object | `{"enabled":false}` | - an AKS cluster on Microsoft Azure. |
 | bootstrap-gcp | object | `{"enabled":false}` | - an GKE cluster on Google Cloud Platform. |
+| clickhouse.active | bool | `true` | installations (first deploy clickhouse, then enable it on backend) |
 | clickhouse.affinity | object | `{}` |  |
 | clickhouse.auth.backupsUser | object | `{"password":"nebuly","username":"backups"}` | Credentials of the user used to create backups. |
 | clickhouse.auth.nebulyUser | object | `{"password":"nebuly","username":"nebulyadmin"}` | Credentials of the user used by Nebuly to access the ClickHouse database. |
