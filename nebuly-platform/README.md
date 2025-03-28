@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.30.16](https://img.shields.io/badge/Version-1.30.16-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.31.0](https://img.shields.io/badge/Version-1.31.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -212,7 +212,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.14.0"` |  |
+| auth.image.tag | string | `"v1.14.2"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.loginModes | string | `"password"` | Possible values are: `password`, `microsoft`, `okta`, `google`. |
@@ -260,7 +260,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.58.8"` |  |
+| backend.image.tag | string | `"v1.59.3"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -379,13 +379,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.customIntentConfig | object | `{}` |  |
 | frontend.defaultAggregation | string | `"interaction"` | The default aggregation level of the platform. |
 | frontend.enableAiSummary | bool | `false` | If set to true, enable the AI summarization feature. |
+| frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
 | frontend.enableNewTypeOfRisk | bool | `false` |  |
 | frontend.enableOldRiskyBehavior | bool | `false` | Used for retro-compatibility. |
 | frontend.faviconPath | string | `"/favicon.svc"` | The relative path to the favicon file. |
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.51.0"` |  |
+| frontend.image.tag | string | `"v1.52.2"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |

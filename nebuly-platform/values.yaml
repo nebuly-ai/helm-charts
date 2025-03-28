@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.58.8"
+    tag: "v1.59.3"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -124,6 +124,8 @@ frontend:
   # -- Used for retro-compatibility.
   enableOldRiskyBehavior: false
   enableNewTypeOfRisk: false
+  # -- If True, hide LLM issues from users without the proper role.
+  enableLLMIssueHiding: false
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # -- The title of the application.
@@ -134,7 +136,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.51.0"
+    tag: "v1.52.2"
 
   podAnnotations: { }
   podLabels: { }
@@ -1033,7 +1035,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.14.0"
+    tag: "v1.14.2"
 
   podAnnotations: { }
   podLabels: { }
