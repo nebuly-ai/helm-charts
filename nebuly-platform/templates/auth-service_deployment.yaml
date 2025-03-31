@@ -158,7 +158,7 @@ spec:
             {{- end }}
             {{ if .Values.auth.okta.enabled }}
             # Okta OAuth
-            - name: "OAUTH_OAUTH_PROVIDER"
+            - name: "OAUTH_PROVIDER"
               value: "okta"
             - name: "OKTA_OAUTH_ISSUER"
               value: {{ .Values.auth.okta.issuer | quote }}
