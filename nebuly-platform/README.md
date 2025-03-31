@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.31.1](https://img.shields.io/badge/Version-1.31.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.31.2](https://img.shields.io/badge/Version-1.31.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -260,7 +260,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.59.3"` |  |
+| backend.image.tag | string | `"v1.59.4"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |

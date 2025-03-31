@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.59.3"
+    tag: "v1.59.4"
 
   settings:
     multiTenancyMode: "dynamic_schema"
