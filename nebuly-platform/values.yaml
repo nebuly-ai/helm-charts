@@ -768,23 +768,28 @@ secretsStore:
       clientIdKey: ""
       clientSecretKey: ""
 
-# -- Optional configuration for the Azure OpenAI integration.
+# -- Optional configuration for the OpenAI integration.
 # If enabled, the specified models on the OpenAI resource will be used to
 # process the collected data.
+# Both OpenAI and Azure OpenAI are supported.
 # @default -- -
 openAi:
   # -- If true, enable the OpenAI integration.
   enabled: true
-  # -- The name of the GPT-4o deployment.
+  # -- For Azure OpenAI: the name of the GPT-4o deployment.
+  # -- For OpenAI: `gpt-4o`.
   gpt4oDeployment: ""
-  # -- The name of the OpenAI Deployment used to translate interactions.
+  # -- For Azure OpenAI: the name of the OpenAI Deployment used to translate interactions.
+  # -- For OpenAI: the name of the OpenAI model used to translate interactions.
   translationDeployment: ""
   # -- The endpoint of the OpenAI resource.
+  # -- For Azure OpenAI: `https://<resource-name>.openai.azure.com/`.
+  # -- For OpenAI: `https://api.openai.com/v1`.
   endpoint: ""
   # -- The primary API Key of the OpenAI resource, used for authentication.
   # To be provided only when not using an existing secret (see openAi.existingSecret value below).
   apiKey: ""
-  # -- The version of the APIs to use
+  # -- The version of the APIs to use. Used only for Azure OpenAI.
   apiVersion: "2024-02-15-preview"
 
   # -- Use an existing secret for the Azure OpenAI authentication.

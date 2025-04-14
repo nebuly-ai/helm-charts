@@ -502,15 +502,15 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.zookeeper.storage.size | string | `"10Gi"` |  |
 | kafka.zookeeper.storage.type | string | `"persistent-claim"` |  |
 | namespaceOverride | string | `""` | Override the namespace. |
-| openAi | object | - | Optional configuration for the Azure OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. |
+| openAi | object | - | Optional configuration for the OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. Both OpenAI and Azure OpenAI are supported. |
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |
-| openAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use |
+| openAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use. Used only for Azure OpenAI. |
 | openAi.enabled | bool | `true` | If true, enable the OpenAI integration. |
-| openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. |
+| openAi.endpoint | string | `""` | For OpenAI: `https://api.openai.com/v1`. |
 | openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
 | openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| openAi.gpt4oDeployment | string | `""` | The name of the GPT-4o deployment. |
-| openAi.translationDeployment | string | `""` | The name of the OpenAI Deployment used to translate interactions. |
+| openAi.gpt4oDeployment | string | `""` | For OpenAI: `gpt-4o`. |
+| openAi.translationDeployment | string | `""` | For OpenAI: the name of the OpenAI model used to translate interactions. |
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
