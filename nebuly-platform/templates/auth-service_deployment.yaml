@@ -148,7 +148,7 @@ spec:
                   name: {{ (tpl .Values.auth.google.existingSecret.name . ) | default (include "authService.fullname" .) }}
                   key: {{ .Values.auth.google.existingSecret.clientSecretKey | default "google-oauth-client-secret" }}
             - name: "GOOGLE_OAUTH_ROLE_MAP"
-              value: {{ .Values.auth.google.roleMapping | quote }}
+              value: '{{ .Values.auth.google.roleMapping | quote }}'
             - name: "GOOGLE_OAUTH_REDIRECT_URI"
               value: {{ .Values.auth.google.redirectUri | quote }}
             - name: "GOOGLE_OAUTH_SUCCESSFUL_LOGIN_REDIRECT_URL"
