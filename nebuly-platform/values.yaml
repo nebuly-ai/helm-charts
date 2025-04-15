@@ -1156,6 +1156,11 @@ auth:
     clientSecret: ""
     # -- The ID of the Azure Tenant where the Microsoft Entra ID application is located.
     tenantId: ""
+    # -- Optional mapping between Nebuly roles and Microsoft Entra ID groups.
+    # -- If not provided, Nebuly roles will be read from the App Roles assigned to users
+    # -- in the Microsoft Entra ID application.
+    # -- Example: "viewer:<group-id>,admin:<group-id>,member:<group-id>"
+    roleMapping: ""
 
     # -- Use an existing secret for Microsoft Entra ID authentication.
     # @default -- -

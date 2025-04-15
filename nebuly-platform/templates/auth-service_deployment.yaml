@@ -132,6 +132,8 @@ spec:
                   key: {{ .Values.auth.microsoft.existingSecret.clientSecretKey | default "microsoft-oauth-client-secret" }}
             - name: "MICROSOFT_OAUTH_REDIRECT_URI"
               value: "{{ .Values.auth.microsoft.redirectUri }}"
+            - name: "MICROSOFT_OAUTH_ROLE_MAP"
+              value: '{{ .Values.auth.microsoft.roleMapping | quote }}'
             {{- end }}
             {{ if .Values.auth.google.enabled }}
             # Google Oauth

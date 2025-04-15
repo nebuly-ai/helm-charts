@@ -212,7 +212,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.14.2"` |  |
+| auth.image.tag | string | `"v1.15.0"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.loginModes | string | `"password"` | Possible values are: `password`, `microsoft`, `okta`, `google`. |
@@ -223,6 +223,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.microsoft.existingSecret | object | - | Use an existing secret for Microsoft Entra ID authentication. |
 | auth.microsoft.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.microsoft.redirectUri | string | `""` | The callback URI of the SSO flow. Must be the same as the redirect URI configured for the Microsoft Entra ID application. Must be in the following format: "https://<backend-domain>/auth/oauth/microsoft/callback" Where <backend-domain> is the domain defined in `backend.ingress`. |
+| auth.microsoft.roleMapping | string | `""` | Example: "viewer:<group-id>,admin:<group-id>,member:<group-id>" |
 | auth.microsoft.tenantId | string | `""` | The ID of the Azure Tenant where the Microsoft Entra ID application is located. |
 | auth.nodeSelector | object | `{}` |  |
 | auth.okta | object | `{"clientId":"","clientSecret":"","enabled":false,"existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"issuer":"","redirectUri":""}` | Okta authentication configuration. Used when `auth.loginModes` contains "okta". |
