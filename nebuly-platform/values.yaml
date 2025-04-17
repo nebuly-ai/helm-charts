@@ -11,8 +11,8 @@ serviceAccount:
   annotations: { }
 
 backend:
-  # -- Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix.
-  # -- Example: "/backend-service"
+  # -- Optionally, the base path of the Backend API when running behind a reverse proxy
+  # with a path prefix. Example: "/backend-service"
   rootPath: ""
 
   fullnameOverride: ""
@@ -120,8 +120,8 @@ frontend:
   defaultAggregation: "interaction"
   # -- If set to true, enable the AI summarization feature.
   enableAiSummary: false
-  # -- Feature flag to activate the old risky behavior page.
-  # -- Used for retro-compatibility.
+  # -- Feature flag to activate the old risky behavior page. Used for
+  # retro-compatibility.
   enableOldRiskyBehavior: false
   enableNewTypeOfRisk: false
   # -- If True, hide LLM issues from users without the proper role.
@@ -396,8 +396,8 @@ ingestionWorker:
 
 # -- Settings of the AI models used for inference.
 aiModels:
-  # -- The kind of registry used to store the AI models.
-  # -- Available values are: "azure_ml", "aws_s3", "azure_storage", "gcp_bucket"
+  # -- The kind of registry used to store the AI models. Available values are:
+  # "azure_ml", "aws_s3", "azure_storage", "gcp_bucket"
   registry: ""
 
   modelInferenceInteractions:
@@ -417,12 +417,12 @@ aiModels:
   aws:
     # -- The name of the AWS S3 bucket.
     bucketName: ""
-    # -- Optional AWS S3 endpoint URL. The URL should not include
-    # -- the bucket name. Example: "https://my-domain.com:9444"
+    # -- Optional AWS S3 endpoint URL. The URL should not include the bucket name.
+    # Example: "https://my-domain.com:9444"
     endpointUrl: ""
-    # -- Optionally use an existing secret for AWS S3 authentication.
-    # -- If no secret is provided, the services will default to using the Service Account
-    # -- linked to an IAM Role with the required permissions.
+    # -- Optionally use an existing secret for AWS S3 authentication. If no secret is
+    # provided, the services will default to using the Service Account linked to an IAM
+    # Role with the required permissions.
     existingSecret:
       # -- Name of the secret. Can be templated.
       name: ""
@@ -452,10 +452,9 @@ aiModels:
     managedIdentityClientId: ""
 
   # -- Settings for the Sync Job that pulls AI models from Nebuly's private registry
-  # -- and makes them available in your platform's registry.
-  # -- The Job checks if the specified model versions are available in your private
-  # -- registry. If not, it pulls them from Nebuly's registry and pushes them
-  # -- to your registry.
+  # and makes them available in your platform's registry. The Job checks if the
+  # specified model versions are available in your private registry. If not, it pulls
+  # them from Nebuly's registry and pushes them to your registry.
   # @default -- -
   sync:
     # -- Enable or disable the Sync Job. Default is false for compatibility reasons.
@@ -494,7 +493,7 @@ aiModels:
     tolerations: [ ]
     nodeSelector: { }
     # -- Additional environment variables, in the standard Kubernetes format.
-    # -- Example:
+    # Example:
     # - name: MY_ENV_VAR
     #   value: "my-value"
     env: { }
@@ -538,11 +537,11 @@ aiModels:
       clientSecretKey: ""
 
 # -- Settings related to the runtime full-processing mode,
-# -- which replaces the primary and secondary processing CronJobs with an
-# -- always running Deployment.
+# which replaces the primary and secondary processing CronJobs with an always running
+# Deployment.
 fullProcessing:
-  # -- If true, replaces the primary and secondary processing CronJobs
-  # -- with an always running Deployment.
+  # -- If true, replaces the primary and secondary processing CronJobs with an always
+  # running Deployment.
   enabled: false
 
   settings:
@@ -569,7 +568,7 @@ fullProcessing:
   podLabels: { }
 
   # -- Additional environment variables, in the standard Kubernetes format.
-  # -- Example:
+  # Example:
   # - name: MY_ENV_VAR
   #   value: "my-value"
   env: { }
@@ -615,7 +614,7 @@ primaryProcessing:
   backoffLimit: 1
   activeDeadlineSeconds: 10800 # 3 hours
   # -- Additional environment variables, in the standard Kubernetes format.
-  # -- Example:
+  # Example:
   # - name: MY_ENV_VAR
   #   value: "my-value"
   env: { }
@@ -685,7 +684,7 @@ secondaryProcessing:
       nvidia.com/gpu: 1
 
   # -- Additional environment variables, in the standard Kubernetes format.
-  # -- Example:
+  # Example:
   # - name: MY_ENV_VAR
   #   value: "my-value"
   env: { }
@@ -698,12 +697,12 @@ secondaryProcessing:
 
   modelSuggestions:
     # -- If provided, overrides the schedule of the Model Suggestions CronJob.
-    # -- Otherwise, use the schedule specified in `secondaryProcessing.schedule`.
+    # Otherwise, use the schedule specified in `secondaryProcessing.schedule`.
     schedule: ""
 
   topicsAndActions:
     # -- If provided, overrides the schedule of the Topics and Actions CronJob.
-    # -- Otherwise, use the schedule specified in `secondaryProcessing.schedule`.
+    # Otherwise, use the schedule specified in `secondaryProcessing.schedule`.
     schedule: ""
 
   podAnnotations: { }
@@ -777,14 +776,14 @@ openAi:
   # -- If true, enable the OpenAI integration.
   enabled: true
   # -- For Azure OpenAI: the name of the GPT-4o deployment.
-  # -- For OpenAI: `gpt-4o`.
+  # For OpenAI: `gpt-4o`.
   gpt4oDeployment: ""
   # -- For Azure OpenAI: the name of the OpenAI Deployment used to translate interactions.
-  # -- For OpenAI: the name of the OpenAI model used to translate interactions.
+  # For OpenAI: the name of the OpenAI model used to translate interactions.
   translationDeployment: ""
   # -- The endpoint of the OpenAI resource.
-  # -- For Azure OpenAI: `https://<resource-name>.openai.azure.com/`.
-  # -- For OpenAI: `https://api.openai.com/v1`.
+  # For Azure OpenAI: `https://<resource-name>.openai.azure.com/`.
+  # For OpenAI: `https://api.openai.com/v1`.
   endpoint: ""
   # -- The primary API Key of the OpenAI resource, used for authentication.
   # To be provided only when not using an existing secret (see openAi.existingSecret value below).
@@ -967,8 +966,8 @@ auth:
   # -- The password of the initial admin user.
   adminUserPassword: "admin"
   # -- The available login modes. Value must be string with the login mode specified
-  # -- as a comma-separated list.
-  # -- Possible values are: `password`, `microsoft`, `okta`, `google`.
+  # as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`,
+  # `google`.
   loginModes: "password"
   # -- If True, enable the admin panel for inviting new members to the platform.
   addMembersEnabled: false
@@ -1101,7 +1100,7 @@ auth:
     # Where <backend-domain> is the domain defined in `backend.ingress`.
     redirectUri: ""
     # -- The mapping between Nebuly roles and Google groups.
-    # -- Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>"
+    # Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>"
     roleMapping: ""
 
     # -- Use an existing secret for Google SSO authentication.
@@ -1157,9 +1156,9 @@ auth:
     # -- The ID of the Azure Tenant where the Microsoft Entra ID application is located.
     tenantId: ""
     # -- Optional mapping between Nebuly roles and Microsoft Entra ID groups.
-    # -- If not provided, Nebuly roles will be read from the App Roles assigned to users
-    # -- in the Microsoft Entra ID application.
-    # -- Example: "viewer:<group-id>,admin:<group-id>,member:<group-id>"
+    # If not provided, Nebuly roles will be read from the App Roles assigned to users
+    # in the Microsoft Entra ID application.
+    # Example: "viewer:<group-id>,admin:<group-id>,member:<group-id>"
     roleMapping: ""
 
     # -- Use an existing secret for Microsoft Entra ID authentication.
