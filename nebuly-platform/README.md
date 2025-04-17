@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.33.0](https://img.shields.io/badge/Version-1.33.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.34.0](https://img.shields.io/badge/Version-1.34.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -154,8 +154,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelActionClassifier":{"name":"action-classifier","version":"6"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":20},"modelTopicClassifier":{"name":"topic-classifier","version":"6"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
 | aiModels.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
-| aiModels.aws.endpointUrl | string | `""` | the bucket name. Example: "https://my-domain.com:9444" |
-| aiModels.aws.existingSecret | object | `{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}` | linked to an IAM Role with the required permissions. |
+| aiModels.aws.endpointUrl | string | `""` | Optional AWS S3 endpoint URL. The URL should not include the bucket name. Example: "https://my-domain.com:9444" |
+| aiModels.aws.existingSecret | object | `{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}` | Optionally use an existing secret for AWS S3 authentication. If no secret is provided, the services will default to using the Service Account linked to an IAM Role with the required permissions. |
 | aiModels.aws.existingSecret.accessKeyIdKey | string | `""` | The key of the secret containing the AWS Access Key ID. |
 | aiModels.aws.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | aiModels.aws.existingSecret.secretAccessKeyKey | string | `""` | The key of the secret containing the AWS Secret Access Key. |
@@ -176,10 +176,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | aiModels.gcp | object | - | Config of the GCP Storage model registry. |
 | aiModels.gcp.bucketName | string | `""` | The name of the GCP bucket. |
 | aiModels.gcp.projectName | string | `""` | The name of the GCP project containing the bucket. |
-| aiModels.registry | string | `""` | Available values are: "azure_ml", "aws_s3", "azure_storage", "gcp_bucket" |
-| aiModels.sync | object | - | to your registry. |
+| aiModels.registry | string | `""` | The kind of registry used to store the AI models. Available values are: "azure_ml", "aws_s3", "azure_storage", "gcp_bucket" |
+| aiModels.sync | object | - | Settings for the Sync Job that pulls AI models from Nebuly's private registry and makes them available in your platform's registry. The Job checks if the specified model versions are available in your private registry. If not, it pulls them from Nebuly's registry and pushes them to your registry. |
 | aiModels.sync.enabled | bool | `false` | Enable or disable the Sync Job. Default is false for compatibility reasons. |
-| aiModels.sync.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |
+| aiModels.sync.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
 | aiModels.sync.schedule | string | `"0 23 * * *"` | The schedule of the job. The format is the same as the Kubernetes CronJob schedule. |
 | aiModels.sync.source | object | `{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}}` | Source Nebuly models registry. |
 | aiModels.sync.source.existingSecret | object | - | Use an existing secret for the AzureML authentication. |
@@ -209,13 +209,13 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.existingSecret | object | - | Use an existing secret for Google SSO authentication. |
 | auth.google.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.google.redirectUri | string | `""` | The callback URI of the SSO flow. Must be the same as the redirect URI configured for the Okta application. Must be in the following format: "https://<backend-domain>/auth/oauth/google/callback" Where <backend-domain> is the domain defined in `backend.ingress`. |
-| auth.google.roleMapping | string | `""` | Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
+| auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
 | auth.image.tag | string | `"v1.15.1"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
-| auth.loginModes | string | `"password"` | Possible values are: `password`, `microsoft`, `okta`, `google`. |
+| auth.loginModes | string | `"password"` | The available login modes. Value must be string with the login mode specified as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`, `google`. |
 | auth.microsoft | object | - | contains "microsoft". |
 | auth.microsoft.clientId | string | `""` | The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
 | auth.microsoft.clientSecret | string | `""` | The Client Secret of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
@@ -223,6 +223,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.microsoft.existingSecret | object | - | Use an existing secret for Microsoft Entra ID authentication. |
 | auth.microsoft.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.microsoft.redirectUri | string | `""` | The callback URI of the SSO flow. Must be the same as the redirect URI configured for the Microsoft Entra ID application. Must be in the following format: "https://<backend-domain>/auth/oauth/microsoft/callback" Where <backend-domain> is the domain defined in `backend.ingress`. |
+| auth.microsoft.roleMapping | string | `""` | Optional mapping between Nebuly roles and Microsoft Entra ID groups. If not provided, Nebuly roles will be read from the App Roles assigned to users in the Microsoft Entra ID application. Example: "viewer:<group-id>,admin:<group-id>,member:<group-id>" |
 | auth.microsoft.tenantId | string | `""` | The ID of the Azure Tenant where the Microsoft Entra ID application is located. |
 | auth.nodeSelector | object | `{}` |  |
 | auth.okta | object | `{"clientId":"","clientSecret":"","enabled":false,"existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"issuer":"","redirectUri":""}` | Okta authentication configuration. Used when `auth.loginModes` contains "okta". |
@@ -275,7 +276,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.replicaCount | int | `1` |  |
 | backend.resources.limits.memory | string | `"1024Mi"` |  |
 | backend.resources.requests.cpu | string | `"100m"` |  |
-| backend.rootPath | string | `""` | Example: "/backend-service" |
+| backend.rootPath | string | `""` | Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix. Example: "/backend-service" |
 | backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | backend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | backend.securityContext.runAsNonRoot | bool | `true` |  |
@@ -381,7 +382,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.enableAiSummary | bool | `false` | If set to true, enable the AI summarization feature. |
 | frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
 | frontend.enableNewTypeOfRisk | bool | `false` |  |
-| frontend.enableOldRiskyBehavior | bool | `false` | Used for retro-compatibility. |
+| frontend.enableOldRiskyBehavior | bool | `false` | Feature flag to activate the old risky behavior page. Used for retro-compatibility. |
 | frontend.faviconPath | string | `"/favicon.svc"` | The relative path to the favicon file. |
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -416,9 +417,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.tolerations | list | `[]` |  |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
-| fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"settings":{"processingDelaySeconds":0},"tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | always running Deployment. |
-| fullProcessing.enabled | bool | `false` | with an always running Deployment. |
-| fullProcessing.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |
+| fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"settings":{"processingDelaySeconds":0},"tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | Settings related to the runtime full-processing mode, which replaces the primary and secondary processing CronJobs with an always running Deployment. |
+| fullProcessing.enabled | bool | `false` | If true, replaces the primary and secondary processing CronJobs with an always running Deployment. |
+| fullProcessing.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
 | fullProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | fullProcessing.settings.processingDelaySeconds | int | `0` | Seconds of delay between processing. |
 | imagePullSecrets | list | `[]` |  |
@@ -506,28 +507,28 @@ The command removes all the Kubernetes components associated with the chart and 
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |
 | openAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use. Used only for Azure OpenAI. |
 | openAi.enabled | bool | `true` | If true, enable the OpenAI integration. |
-| openAi.endpoint | string | `""` | For OpenAI: `https://api.openai.com/v1`. |
+| openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. For Azure OpenAI: `https://<resource-name>.openai.azure.com/`. For OpenAI: `https://api.openai.com/v1`. |
 | openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
 | openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| openAi.gpt4oDeployment | string | `""` | For OpenAI: `gpt-4o`. |
-| openAi.translationDeployment | string | `""` | For OpenAI: the name of the OpenAI model used to translate interactions. |
+| openAi.gpt4oDeployment | string | `""` | For Azure OpenAI: the name of the GPT-4o deployment. For OpenAI: `gpt-4o`. |
+| openAi.translationDeployment | string | `""` | For Azure OpenAI: the name of the OpenAI Deployment used to translate interactions. For OpenAI: the name of the OpenAI model used to translate interactions. |
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
 | postUpgrade | object | `{"refreshRoTables":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}}` | Post-upgrade hooks settings. |
 | postUpgrade.refreshRoTables | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}` | If True, run a post-install jop that runs a full refresh of the backend RO tables. |
 | primaryProcessing | object | - | Settings related to the Primary processing CronJobs. |
-| primaryProcessing.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |
+| primaryProcessing.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
 | primaryProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | primaryProcessing.modelsCache | object | `{"enabled":false,"size":"128Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | reprocessing | object | `{"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | major release. |
 | secondaryProcessing | object | - | Settings related to the Primary processing CronJobs. |
-| secondaryProcessing.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |
-| secondaryProcessing.modelSuggestions.schedule | string | `""` | Otherwise, use the schedule specified in `secondaryProcessing.schedule`. |
+| secondaryProcessing.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
+| secondaryProcessing.modelSuggestions.schedule | string | `""` | If provided, overrides the schedule of the Model Suggestions CronJob. Otherwise, use the schedule specified in `secondaryProcessing.schedule`. |
 | secondaryProcessing.modelsCache | object | `{"enabled":false,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | secondaryProcessing.schedule | string | `"0 2 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| secondaryProcessing.topicsAndActions.schedule | string | `""` | Otherwise, use the schedule specified in `secondaryProcessing.schedule`. |
+| secondaryProcessing.topicsAndActions.schedule | string | `""` | If provided, overrides the schedule of the Topics and Actions CronJob. Otherwise, use the schedule specified in `secondaryProcessing.schedule`. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.existingSecret | object | - | Use an existing secret for the Azure Key Vault authentication. |
