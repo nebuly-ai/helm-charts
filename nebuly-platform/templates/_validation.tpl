@@ -70,6 +70,14 @@ values: auth.postgresServer
 values: auth.loginModes
   `loginModes` cannot contain "microsoft" when `auth.microsoft.enabled` is false
 {{- end -}}
+{{- if and (.Values.auth.microsoft.enabled) (empty .Values.auth.microsoft.redirectUri) }}
+values: auth.microsoft.redirectUri
+  `redirectUri` is required when `auth.microsoft.enabled` is true
+{{- end -}}
+{{- if and (.Values.auth.microsoft.enabled) (empty .Values.auth.microsoft.tenantId) }}
+values: auth.microsoft.tenantId
+  `tenantId` is required when `auth.microsoft.enabled` is true
+{{- end -}}
 {{- end -}}
 
 {{- define "chart.validateValues.auth.google" -}}
