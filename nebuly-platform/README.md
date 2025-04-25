@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.34.3](https://img.shields.io/badge/Version-1.34.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.34.4](https://img.shields.io/badge/Version-1.34.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -277,6 +277,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.resources.limits.memory | string | `"1024Mi"` |  |
 | backend.resources.requests.cpu | string | `"100m"` |  |
 | backend.rootPath | string | `""` | Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix. Example: "/backend-service" |
+| backend.scheduler.resources.limits.memory | string | `"2048Mi"` |  |
+| backend.scheduler.resources.requests.cpu | string | `"100m"` |  |
 | backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | backend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | backend.securityContext.runAsNonRoot | bool | `true` |  |

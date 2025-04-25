@@ -64,6 +64,14 @@ backend:
       cpu: 100m
     limits:
       memory: 1024Mi
+
+  scheduler:
+    resources:
+      requests:
+        cpu: 100m
+      limits:
+        memory: 2048Mi
+
   nodeSelector: { }
 
   tolerations: [ ]
