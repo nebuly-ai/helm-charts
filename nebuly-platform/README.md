@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.34.2](https://img.shields.io/badge/Version-1.34.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.34.3](https://img.shields.io/badge/Version-1.34.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -323,6 +323,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.backups.schedule | string | `"0 */4 * * *"` | Default: every 4 hours |
 | clickhouse.databaseName | string | `"analytics"` | The name of the ClickHouse database. |
 | clickhouse.enabled | bool | `false` |  |
+| clickhouse.ingestionBatchSize | int | `25000` | The size of the batches used to ingest data into ClickHouse. |
 | clickhouse.keeper.affinity | object | `{}` |  |
 | clickhouse.keeper.enabled | bool | `false` |  |
 | clickhouse.keeper.replicas | int | `1` |  |

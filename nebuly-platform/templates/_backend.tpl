@@ -119,5 +119,7 @@
   value: {{ .Values.clickhouse.auth.nebulyUser.username | quote }}
 - name: CLICKHOUSE_PASSWORD
   value: {{ .Values.clickhouse.auth.nebulyUser.password | quote }}
+- name: CLICKHOUSE_INGESTION_BATCH_SIZE
+  value: {{ .Values.clickhouse.ingestionBatchSize | quote }}
 {{- end }}
 {{- end -}}
