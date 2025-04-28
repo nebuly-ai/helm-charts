@@ -953,6 +953,9 @@ kafka:
   existingSecret:
     # -- Name of the secret. Can be templated.
     name: ""
+    # -- The key of the secret containing the CA certificate (in PEM format)
+    # used for SSL authentication.
+    sslCaCertKey: ""
     saslUsernameKey: ""
     saslPasswordKey: ""
     saslGssapiKerberosKeytabKey: ""

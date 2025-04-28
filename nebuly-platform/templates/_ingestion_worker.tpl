@@ -49,10 +49,7 @@
 - name: "STATEMENT_TIMEOUT_SECONDS"
   value: "{{ .Values.analyticDatabase.statementTimeoutSeconds }}"
 # Kafka Settings
-- name: KAFKA_SOCKET_KEEPALIVE_ENABLED
-  value: "{{ .Values.kafka.socketKeepAliveEnabled }}"
-- name: KAFKA_BOOTSTRAP_SERVERS
-  value: {{ include "kafka.bootstrapServers" . }}
+{{ include "kafka.commonEnv" . }}
 - name: KAFKA_TOPIC_EVENTS_MAIN
   value: "{{ .Values.kafka.topicEventsMain.name }}"
 - name: KAFKA_TOPIC_EVENTS_RETRY_1
@@ -63,21 +60,6 @@
   value: "{{ .Values.kafka.topicEventsRetry3.name }}"
 - name: KAFKA_TOPIC_EVENTS_DLQ
   value: "{{ .Values.kafka.topicEventsDlq.name }}"
-- name: "KAFKA_SASL_MECHANISM"
-  value: {{ include "kafka.saslMechanism" . | quote }}
-{{- if eq .Values.kafka.saslMechanism "PLAIN" }}
-- name: "KAFKA_SASL_PASSWORD"
-  {{ include "kafka.saslPasswordEnv" . }}
-- name: "KAFKA_SASL_USERNAME"
-  {{ include "kafka.saslUsernameEnv" . }}
-{{- end }}
-{{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
-{{ include "kafka.saslGssapiEnv" . }}
-{{- end }}
-{{- if not .Values.kafka.external }}
-- name: "KAFKA_SSL_CA_PATH"
-  value: "/etc/kafka/ca.crt"
-{{- end }}
 # Platform services
 - name: "TENANT_REGISTRY_URL"
   value: {{ include "authService.url" . }}

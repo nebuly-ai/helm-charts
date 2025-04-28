@@ -39,7 +39,28 @@ valueFrom:
 {{- end -}}
 {{- end -}}
 
-{{- define "kafka.saslGssapiEnv" -}}
+{{- define "kafka.saslMechanism" -}}
+{{- if .Values.kafka.external -}}
+{{ .Values.kafka.saslMechanism }}
+{{- else -}}
+SCRAM-SHA-512
+{{- end -}}
+{{- end -}}
+
+{{- define "kafka.commonEnv" -}}
+- name: KAFKA_SOCKET_KEEPALIVE_ENABLED
+  value: {{ .Values.kafka.socketKeepAliveEnabled | quote }}
+- name: KAFKA_BOOTSTRAP_SERVERS
+  value: {{ include "kafka.bootstrapServers" . }}
+- name: "KAFKA_SASL_MECHANISM"
+  value: {{ include "kafka.saslMechanism" . | quote }}
+{{- if eq .Values.kafka.saslMechanism "PLAIN" }}
+- name: "KAFKA_SASL_PASSWORD"
+  {{ include "kafka.saslPasswordEnv" . }}
+- name: "KAFKA_SASL_USERNAME"
+  {{ include "kafka.saslUsernameEnv" . }}
+{{- end }}
+{{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
 - name: "KAFKA_SASL_GSSAPI_SERVICE_NAME"
   value: {{ .Values.kafka.saslGssapiServiceName | quote }}
 - name: "KAFKA_SASL_GSSAPI_PRINCIPAL"
@@ -48,12 +69,9 @@ valueFrom:
   value: /etc/krb5.conf
 - name: "KAFKA_SASL_GSSAPI_KEYTAB"
   value: /etc/krb5.keytab
-{{- end -}}
-
-{{- define "kafka.saslMechanism" -}}
-{{- if .Values.kafka.external -}}
-{{ .Values.kafka.saslMechanism }}
-{{- else -}}
-SCRAM-SHA-512
-{{- end -}}
+{{- end }}
+{{- if or (not .Values.kafka.external) (not (empty .Values.kafka.existingSecret.sslCaCertKey)) }}
+- name: "KAFKA_SSL_CA_PATH"
+  value: "/etc/kafka/ca.crt"
+{{- end }}
 {{- end -}}
