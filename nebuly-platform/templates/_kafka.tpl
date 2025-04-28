@@ -46,6 +46,8 @@ valueFrom:
   value: {{ .Values.kafka.saslGssapiKerberosPrincipal | quote }}
 - name: "KRB5_CONFIG"
   value: /etc/krb5.conf
+- name: "KAFKA_SASL_GSSAPI_KEYTAB"
+  value: /etc/krb5.keytab
 {{- end -}}
 
 {{- define "kafka.saslMechanism" -}}

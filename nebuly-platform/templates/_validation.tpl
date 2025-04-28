@@ -211,9 +211,9 @@ values: kafka.krb5Config
 {{- end -}}
 
 {{- define "chart.validateValues.kafka.saslGssapiKeytab" -}}
-{{- if and (empty .Values.kafka.saslGssapiKerberosKeytab) (empty .Values.kafka.existingSecret.name) -}}
-values: kafka.saslGssapiKerberosKeytab
-  `saslGssapiKerberosKeytab` is required when not using an existing secret and should be a non-empty string
+{{- if empty .Values.kafka.existingSecret.saslGssapiKerberosKeytabKey -}}
+values: kafka.existingSecret.saslGssapiKerberosKeytabKey
+  `saslGssapiKerberosKeytabKey` is required and should be a non-empty string
 {{- end -}}
 {{- end -}}
 

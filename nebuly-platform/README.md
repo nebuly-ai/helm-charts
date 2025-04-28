@@ -476,7 +476,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.resources.limits.memory | string | `"2048Mi"` |  |
 | kafka.resources.requests.cpu | string | `"100m"` |  |
 | kafka.resources.requests.memory | string | `"1024Mi"` |  |
-| kafka.saslGssapiKerberosKeytab | string | `""` | [external] Used only when saslMechanism is set to "GSSAPI". The keytab used for SASL GSSAPI authentication. |
 | kafka.saslGssapiKerberosPrincipal | string | `""` | [external] Used only when saslMechanism is set to "GSSAPI". The principal used for SASL GSSAPI authentication, including the realm. Example: "kafka/kafka.example.com@EXAMPLE.COM" |
 | kafka.saslGssapiServiceName | string | `""` | [external] Used only when saslMechanism is set to "GSSAPI". The service name used for SASL GSSAPI authentication, without the realm. Example: "kafka" |
 | kafka.saslMechanism | string | `"PLAIN"` | [external] The mechanism used for authentication. Allowed values are: "PLAIN", "GSSAPI", "SCRAM-SHA-512" |

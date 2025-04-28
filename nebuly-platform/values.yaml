@@ -945,9 +945,6 @@ kafka:
   # Example: "kafka/kafka.example.com@EXAMPLE.COM"
   saslGssapiKerberosPrincipal: ""
   # -- [external] Used only when saslMechanism is set to "GSSAPI".
-  # The keytab used for SASL GSSAPI authentication.
-  saslGssapiKerberosKeytab: ""
-  # -- [external] Used only when saslMechanism is set to "GSSAPI".
   # The Keberos configuration file used for SASL GSSAPI authentication.
   krb5Config: ""
 

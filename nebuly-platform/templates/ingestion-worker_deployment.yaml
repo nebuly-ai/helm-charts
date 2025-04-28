@@ -60,6 +60,9 @@ spec:
             - name: krb5-config
               mountPath: /etc/krb5.conf
               subPath: krb5.conf
+            - name: krb5-keytab
+              mountPath: /etc/krb5.keytab
+              subPath: {{ .Values.kafka.existingSecret.saslGssapiKerberosKeytabKey }}
           {{- end }}
           {{- if not .Values.kafka.external }}
             - name: kafka-cluster-ca-cert
@@ -96,6 +99,9 @@ spec:
             - name: krb5-config
               mountPath: /etc/krb5.conf
               subPath: krb5.conf
+            - name: krb5-keytab
+              mountPath: /etc/krb5.keytab
+              subPath: {{ .Values.kafka.existingSecret.saslGssapiKerberosKeytabKey }}
           {{- end }}
           {{- if not .Values.kafka.external }}
             - name: kafka-cluster-ca-cert
@@ -113,6 +119,11 @@ spec:
             items:
               - key: krb5.conf
                 path: krb5.conf
+        - name: krb5-keytab
+          secret:
+            secretName: {{ (tpl .Values.kafka.existingSecret.name . ) }}
+            items:
+              - key: {{ .Values.kafka.existingSecret.saslGssapiKerberosKeytabKey }}
       {{- end }}
       {{- if not .Values.kafka.external }}
         - name: kafka-cluster-ca-cert
