@@ -69,6 +69,12 @@
   {{ include "kafka.saslPasswordEnv" . }}
 - name: "KAFKA_SASL_USERNAME"
   {{ include "kafka.saslUsernameEnv" . }}
+{{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
+- name: "KAFKA_SASL_GSSAPI_SERVICE_NAME"
+  value: {{ .Values.kafka.saslGssapiServiceName | quote }}
+- name: "KAFKA_SASL_GSSAPI_PRINCIPAL"
+  value: {{ .Values.kafka.saslGssapiKerberosPrincipal | quote }}
+{{- end }}
 {{- if not .Values.kafka.external }}
 - name: "KAFKA_SSL_CA_PATH"
   value: "/etc/kafka/ca.crt"
