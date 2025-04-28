@@ -24,8 +24,16 @@
 {{- if .Values.kafka.external -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.bootstrapServers" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslMechanism" .) -}}
+{{- if eq .Values.kafka.saslMechanism "PLAIN" -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslUsername" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslPassword" .) -}}
+{{- end -}}
+{{- if eq .Values.kafka.saslMechanism "GSSAPI" -}}
+{{- $messages = append $messages (include "chart.validateValues.kafka.krb5Config" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.kafka.saslGssapiKeytab" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.kafka.saslGssapiService" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.kafka.saslGssapiPrincipal" .) -}}
+{{- end -}}
 {{- end -}}
 {{/* Azure OpenAI */}}
 {{- if .Values.openAi.enabled -}}
@@ -168,16 +176,44 @@ values: kafka.saslMechanism
 {{- end -}}
 
 {{- define "chart.validateValues.kafka.saslUsername" -}}
-{{- if and (eq .Values.kafka.saslMechanism "PLAIN") (empty .Values.kafka.saslUsername) (empty .Values.kafka.existingSecret.name) -}}
+{{- if and (empty .Values.kafka.saslUsername) (empty .Values.kafka.existingSecret.name) -}}
 values: kafka.saslUsername
   `saslUsername` is required when not using an existent secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
 
 {{- define "chart.validateValues.kafka.saslPassword" -}}
-{{- if and (eq .Values.kafka.saslMechanism "PLAIN") (empty .Values.kafka.saslPassword) (empty .Values.kafka.existingSecret.name) -}}
+{{- if and (empty .Values.kafka.saslPassword) (empty .Values.kafka.existingSecret.name) -}}
 values: kafka.saslPassword
   `saslPassword` is required when not using an existing secret and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.kafka.saslGssapiService" -}}
+{{- if empty .Values.kafka.saslGssapiServiceName -}}
+values: kafka.saslGssapiServiceName
+  `saslGssapiServiceName` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.kafka.saslGssapiPrincipal" -}}
+{{- if empty .Values.kafka.saslGssapiKerberosPrincipal -}}
+values: kafka.saslGssapiKerberosPrincipal
+  `saslGssapiKerberosPrincipal` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.kafka.krb5Config" -}}
+{{- if empty .Values.kafka.krb5Config -}}
+values: kafka.krb5Config
+  `krb5Config` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.kafka.saslGssapiKeytab" -}}
+{{- if and (empty .Values.kafka.saslGssapiKerberosKeytab) (empty .Values.kafka.existingSecret.name) -}}
+values: kafka.saslGssapiKerberosKeytab
+  `saslGssapiKerberosKeytab` is required when not using an existing secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
 

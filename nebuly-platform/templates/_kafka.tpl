@@ -18,7 +18,7 @@ nebuly-platform
 {{- if .Values.kafka.external -}}
 valueFrom:
     secretKeyRef:
-        name: {{ (tpl .Values.kafka.existingSecret.name .) | default (include "eventIngestion.fullname" .) }}
+        name: {{ (tpl .Values.kafka.existingSecret.name .) | default (include "externalKakfaSecretName" .) }}
         key: {{ .Values.kafka.existingSecret.saslUsernameKey | default "kafka-sasl-username" }}
 {{- else -}}
 value: {{ include "kafka.user" . | quote }}
@@ -29,7 +29,7 @@ value: {{ include "kafka.user" . | quote }}
 {{- if .Values.kafka.external -}}
 valueFrom:
     secretKeyRef:
-        name: {{ (tpl .Values.kafka.existingSecret.name .) | default (include "eventIngestion.fullname" .) }}
+        name: {{ (tpl .Values.kafka.existingSecret.name .) | default (include "externalKakfaSecretName" .) }}
         key: {{ .Values.kafka.existingSecret.saslPasswordKey | default "kafka-sasl-password" }}
 {{- else -}}
 valueFrom:
