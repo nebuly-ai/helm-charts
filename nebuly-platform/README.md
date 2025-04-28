@@ -468,6 +468,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.config."replica.selector.class" | string | `"org.apache.kafka.common.replica.RackAwareReplicaSelector"` |  |
 | kafka.existingSecret | object | - | [external] Use an existing secret for Kafka authentication. |
 | kafka.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| kafka.existingSecret.sslCaCertKey | string | `""` | The key of the secret containing the CA certificate (in PEM format) used for SSL authentication. |
 | kafka.external | bool | `false` | If true, deploy a Kafka cluster together with the platform services. Otherwise, use an existing Kafka cluster. |
 | kafka.krb5Config | string | `""` | [external] Used only when saslMechanism is set to "GSSAPI". The Keberos configuration file used for SASL GSSAPI authentication. |
 | kafka.nameOverride | string | `""` | with the provided value. |

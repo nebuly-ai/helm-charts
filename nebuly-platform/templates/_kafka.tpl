@@ -70,7 +70,7 @@ SCRAM-SHA-512
 - name: "KAFKA_SASL_GSSAPI_KEYTAB"
   value: /etc/krb5.keytab
 {{- end }}
-{{- if or (not .Values.kafka.external) (not (empty .Values.kafka.existingSecret.sslCaCertKey)) }}
+{{- if or (not .Values.kafka.external) (.Values.kafka.existingSecret.sslCaCertKey) }}
 - name: "KAFKA_SSL_CA_PATH"
   value: "/etc/kafka/ca.crt"
 {{- end }}
