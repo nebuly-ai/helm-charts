@@ -105,7 +105,6 @@ spec:
           {{- with .Values.ingestionWorker.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
-
       volumes:
       {{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
         - name: krb5-config

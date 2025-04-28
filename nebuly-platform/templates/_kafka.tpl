@@ -39,6 +39,15 @@ valueFrom:
 {{- end -}}
 {{- end -}}
 
+{{- define "kafka.saslGssapiEnv" -}}
+- name: "KAFKA_SASL_GSSAPI_SERVICE_NAME"
+  value: {{ .Values.kafka.saslGssapiServiceName | quote }}
+- name: "KAFKA_SASL_GSSAPI_PRINCIPAL"
+  value: {{ .Values.kafka.saslGssapiKerberosPrincipal | quote }}
+- name: "KRB5_CONFIG"
+  value: /etc/krb5.conf
+{{- end -}}
+
 {{- define "kafka.saslMechanism" -}}
 {{- if .Values.kafka.external -}}
 {{ .Values.kafka.saslMechanism }}

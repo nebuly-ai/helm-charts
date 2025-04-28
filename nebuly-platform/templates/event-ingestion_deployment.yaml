@@ -47,19 +47,16 @@ spec:
               value: {{ include "kafka.bootstrapServers" . }}
             - name: "KAFKA_SASL_MECHANISM"
               value: {{ include "kafka.saslMechanism" . | quote }}
+            - name: "KAFKA_SOCKET_KEEPALIVE_ENABLED"
+              value: {{ .Values.kafka.socketKeepAliveEnabled  | quote }}
+            {{- if eq .Values.kafka.saslMechanism "PLAIN" }}
             - name: "KAFKA_SASL_PASSWORD"
               {{- include "kafka.saslPasswordEnv" . | nindent 14 }}
             - name: "KAFKA_SASL_USERNAME"
               {{- include "kafka.saslUsernameEnv" . | nindent 14 }}
-            - name: "KAFKA_SOCKET_KEEPALIVE_ENABLED"
-              value: {{ .Values.kafka.socketKeepAliveEnabled  | quote }}
+            {{- end }}
             {{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
-            - name: "KAFKA_SASL_GSSAPI_SERVICE_NAME"
-              value: {{ .Values.kafka.saslGssapiServiceName | quote }}
-            - name: "KAFKA_SASL_GSSAPI_PRINCIPAL"
-              value: {{ .Values.kafka.saslGssapiKerberosPrincipal | quote }}
-            - name: "KRB5_CONFIG"
-              value: /etc/krb5.conf
+            {{- include "kafka.saslGssapiEnv" . | nindent 12 }}
             {{- end }}
             {{- if not .Values.kafka.external }}
             - name: "KAFKA_SSL_CA_PATH"
@@ -124,14 +121,14 @@ spec:
             {{- toYaml .Values.eventIngestion.resources | nindent 12 }}
           volumeMounts:
           {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
-          - name: krb5-config
-            mountPath: /etc/krb5.conf
-            subPath: krb5.conf
+            - name: krb5-config
+              mountPath: /etc/krb5.conf
+              subPath: krb5.conf
           {{- end }}
           {{- if not .Values.kafka.external }}
-           - name: kafka-cluster-ca-cert
-             mountPath: "/etc/kafka"
-             readOnly: true
+            - name: kafka-cluster-ca-cert
+              mountPath: "/etc/kafka"
+              readOnly: true
           {{- end }}
           {{- with .Values.eventIngestion.volumeMounts }}
             {{- toYaml . | nindent 12 }}

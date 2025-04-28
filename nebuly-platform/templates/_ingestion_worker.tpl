@@ -65,17 +65,14 @@
   value: "{{ .Values.kafka.topicEventsDlq.name }}"
 - name: "KAFKA_SASL_MECHANISM"
   value: {{ include "kafka.saslMechanism" . | quote }}
+{{- if eq .Values.kafka.saslMechanism "PLAIN" }}
 - name: "KAFKA_SASL_PASSWORD"
   {{ include "kafka.saslPasswordEnv" . }}
 - name: "KAFKA_SASL_USERNAME"
   {{ include "kafka.saslUsernameEnv" . }}
+{{- end }}
 {{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
-- name: "KAFKA_SASL_GSSAPI_SERVICE_NAME"
-  value: {{ .Values.kafka.saslGssapiServiceName | quote }}
-- name: "KAFKA_SASL_GSSAPI_PRINCIPAL"
-  value: {{ .Values.kafka.saslGssapiKerberosPrincipal | quote }}
-- name: "KRB5_CONFIG"
-  value: /etc/krb5.conf
+{{ include "kafka.saslGssapiEnv" . }}
 {{- end }}
 {{- if not .Values.kafka.external }}
 - name: "KAFKA_SSL_CA_PATH"
