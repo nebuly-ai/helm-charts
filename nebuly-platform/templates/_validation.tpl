@@ -23,6 +23,7 @@
 {{/* External Kafka */}}
 {{- if .Values.kafka.external -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.bootstrapServers" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.kafka.saslMechanism" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslUsername" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.kafka.saslPassword" .) -}}
 {{- end -}}
@@ -159,15 +160,22 @@ values: kafka.bootstrapServers
 {{- end -}}
 {{- end -}}
 
+{{- define "chart.validateValues.kafka.saslMechanism" -}}
+{{- if not (contains .Values.kafka.saslMechanism "PLAIN GSSAPI SCRAM-SHA-512") -}}
+values: kafka.saslMechanism
+    `saslMechanism` should be one of the following values: PLAIN, GSSAPI, SCRAM-SHA-512
+{{- end -}}
+{{- end -}}
+
 {{- define "chart.validateValues.kafka.saslUsername" -}}
-{{- if and (empty .Values.kafka.saslUsername) (empty .Values.kafka.existingSecret.name) -}}
+{{- if and (eq .Values.kafka.saslMechanism "PLAIN") (empty .Values.kafka.saslUsername) (empty .Values.kafka.existingSecret.name) -}}
 values: kafka.saslUsername
   `saslUsername` is required when not using an existent secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
 
 {{- define "chart.validateValues.kafka.saslPassword" -}}
-{{- if and (empty .Values.kafka.saslPassword) (empty .Values.kafka.existingSecret.name) -}}
+{{- if and (eq .Values.kafka.saslMechanism "PLAIN") (empty .Values.kafka.saslPassword) (empty .Values.kafka.existingSecret.name) -}}
 values: kafka.saslPassword
   `saslPassword` is required when not using an existing secret and should be a non-empty string
 {{- end -}}

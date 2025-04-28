@@ -475,6 +475,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.resources.limits.memory | string | `"2048Mi"` |  |
 | kafka.resources.requests.cpu | string | `"100m"` |  |
 | kafka.resources.requests.memory | string | `"1024Mi"` |  |
+| kafka.saslMechanism | string | `"PLAIN"` | [external] The mechanism used for authentication. Allowed values are: "PLAIN", "GSSAPI", "SCRAM-SHA-512" |
 | kafka.saslPassword | string | `""` | [external] The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.saslUsername | string | `""` | [external] The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.socketKeepAliveEnabled | bool | `true` | If true, the Kafka clients will use the keep alive feature. |

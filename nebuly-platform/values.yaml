@@ -931,6 +931,9 @@ kafka:
   # -- [external] The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
   # when not using an existing secret (see kafka.existingSecret value below).
   saslPassword: ""
+  # -- [external] The mechanism used for authentication. Allowed values are:
+  # "PLAIN", "GSSAPI", "SCRAM-SHA-512"
+  saslMechanism: "PLAIN"
 
   # -- [external] Use an existing secret for Kafka authentication.
   # @default -- -
