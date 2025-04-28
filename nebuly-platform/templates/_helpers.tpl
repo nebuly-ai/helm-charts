@@ -324,6 +324,10 @@ app.kubernetes.io/component: nebuly-frontend
 {{- printf "%s-%s" .Release.Name "external-kafka" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{- define "externalKakfaConfigMapName" -}}
+{{- printf "%s-%s" .Release.Name "external-kafka" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
 
 {{/*
 *********************************************************************

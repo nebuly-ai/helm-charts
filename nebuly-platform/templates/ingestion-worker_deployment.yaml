@@ -56,6 +56,11 @@ spec:
           resources:
             {{- toYaml .Values.ingestionWorker.stage1.resources | nindent 12 }}
           volumeMounts:
+          {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
+            - name: krb5-config
+              mountPath: /etc/krb5.conf
+              subPath: krb5.conf
+          {{- end }}
           {{- if not .Values.kafka.external }}
             - name: kafka-cluster-ca-cert
               mountPath: "/etc/kafka"
@@ -87,6 +92,11 @@ spec:
           resources:
             {{- toYaml .Values.ingestionWorker.stage2.resources | nindent 12 }}
           volumeMounts:
+          {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
+            - name: krb5-config
+              mountPath: /etc/krb5.conf
+              subPath: krb5.conf
+          {{- end }}
           {{- if not .Values.kafka.external }}
             - name: kafka-cluster-ca-cert
               mountPath: "/etc/kafka"
@@ -97,6 +107,14 @@ spec:
           {{- end }}
 
       volumes:
+      {{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
+        - name: krb5-config
+          configMap:
+            name: {{ include "externalKakfaConfigMapName" . }}
+            items:
+              - key: krb5.conf
+                path: krb5.conf
+      {{- end }}
       {{- if not .Values.kafka.external }}
         - name: kafka-cluster-ca-cert
           secret:

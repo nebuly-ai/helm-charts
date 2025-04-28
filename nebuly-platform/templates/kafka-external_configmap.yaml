@@ -1,0 +1,14 @@
+{{- if .Values.kafka.external }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "externalKakfaConfigMapName" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "nebuly-platform.selectorLabels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+data:
+  krb5.conf: |
+{{ .Values.kafka.krb5Config | indent 4 }}
+{{- end -}}

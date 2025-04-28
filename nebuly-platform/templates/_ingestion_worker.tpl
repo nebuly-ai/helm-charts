@@ -74,6 +74,8 @@
   value: {{ .Values.kafka.saslGssapiServiceName | quote }}
 - name: "KAFKA_SASL_GSSAPI_PRINCIPAL"
   value: {{ .Values.kafka.saslGssapiKerberosPrincipal | quote }}
+- name: "KRB5_CONFIG"
+  value: /etc/krb5.conf
 {{- end }}
 {{- if not .Values.kafka.external }}
 - name: "KAFKA_SSL_CA_PATH"

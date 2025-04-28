@@ -58,6 +58,8 @@ spec:
               value: {{ .Values.kafka.saslGssapiServiceName | quote }}
             - name: "KAFKA_SASL_GSSAPI_PRINCIPAL"
               value: {{ .Values.kafka.saslGssapiKerberosPrincipal | quote }}
+            - name: "KRB5_CONFIG"
+              value: /etc/krb5.conf
             {{- end }}
             {{- if not .Values.kafka.external }}
             - name: "KAFKA_SSL_CA_PATH"
@@ -106,7 +108,6 @@ spec:
             - name: "ROOT_PATH"
               value: {{ .Values.eventIngestion.rootPath }}
             {{- end }}
-
           livenessProbe:
             httpGet:
               path: /healthz
@@ -122,6 +123,11 @@ spec:
           resources:
             {{- toYaml .Values.eventIngestion.resources | nindent 12 }}
           volumeMounts:
+          {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
+          - name: krb5-config
+            mountPath: /etc/krb5.conf
+            subPath: krb5.conf
+          {{- end }}
           {{- if not .Values.kafka.external }}
            - name: kafka-cluster-ca-cert
              mountPath: "/etc/kafka"
@@ -131,6 +137,14 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
       volumes:
+      {{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
+        - name: krb5-config
+          configMap:
+            name: {{ include "externalKakfaConfigMapName" . }}
+            items:
+              - key: krb5.conf
+                path: krb5.conf
+      {{- end }}
       {{- if not .Values.kafka.external }}
         - name: kafka-cluster-ca-cert
           secret:
