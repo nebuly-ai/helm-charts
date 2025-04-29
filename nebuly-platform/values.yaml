@@ -229,7 +229,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: "v1.13.2"
+    tag: "v1.14.0"
 
   podAnnotations: { }
   podLabels: { }

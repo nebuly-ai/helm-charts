@@ -349,7 +349,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
 | eventIngestion.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-event-ingestion"` |  |
-| eventIngestion.image.tag | string | `"v1.13.2"` |  |
+| eventIngestion.image.tag | string | `"v1.14.0"` |  |
 | eventIngestion.ingress.annotations | object | `{}` |  |
 | eventIngestion.ingress.className | string | `""` |  |
 | eventIngestion.ingress.enabled | bool | `false` |  |
