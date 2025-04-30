@@ -43,20 +43,7 @@ spec:
               protocol: TCP
           env:
             # Kafka settings
-            - name: "KAFKA_BOOTSTRAP_SERVERS"
-              value: {{ include "kafka.bootstrapServers" . }}
-            - name: "KAFKA_SASL_PASSWORD"
-              {{- include "kafka.saslPasswordEnv" . | nindent 14 }}
-            - name: "KAFKA_SASL_USERNAME"
-              {{- include "kafka.saslUsernameEnv" . | nindent 14 }}
-            - name: "KAFKA_SASL_MECHANISM"
-              value: {{ include "kafka.saslMechanism" . | quote }}
-            - name: "KAFKA_SOCKET_KEEPALIVE_ENABLED"
-              value: {{ .Values.kafka.socketKeepAliveEnabled  | quote }}
-            {{- if not .Values.kafka.external }}
-            - name: "KAFKA_SSL_CA_PATH"
-              value: "/etc/kafka/ca.crt"
-            {{- end }}
+            {{ include "kafka.commonEnv" . | nindent 12 }}
             # Kafka topics
             - name: "KAFKA_TOPIC_EVENTS_MAIN"
               value: {{ .Values.kafka.topicEventsMain.name }}
@@ -100,7 +87,6 @@ spec:
             - name: "ROOT_PATH"
               value: {{ .Values.eventIngestion.rootPath }}
             {{- end }}
-
           livenessProbe:
             httpGet:
               path: /healthz
@@ -116,19 +102,49 @@ spec:
           resources:
             {{- toYaml .Values.eventIngestion.resources | nindent 12 }}
           volumeMounts:
-          {{- if not .Values.kafka.external }}
-           - name: kafka-cluster-ca-cert
-             mountPath: "/etc/kafka"
-             readOnly: true
+          {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
+            - name: krb5-config
+              mountPath: /etc/krb5.conf
+              subPath: krb5.conf
+            - name: krb5-keytab
+              mountPath: /etc/krb5.keytab
+              subPath: krb5.keytab
+          {{- end }}
+          {{- if or (not .Values.kafka.external) (.Values.kafka.existingSecret.sslCaCertKey) }}
+            - name: kafka-cluster-ca-cert
+              mountPath: "/etc/kafka"
+              readOnly: true
           {{- end }}
           {{- with .Values.eventIngestion.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
       volumes:
-      {{- if not .Values.kafka.external }}
+      {{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
+        - name: krb5-config
+          configMap:
+            name: {{ include "externalKakfaConfigMapName" . }}
+            items:
+              - key: krb5.conf
+                path: krb5.conf
+        - name: krb5-keytab
+          secret:
+            secretName: {{ (tpl .Values.kafka.existingSecret.name . ) }}
+            items:
+              - key: {{ .Values.kafka.existingSecret.saslGssapiKerberosKeytabKey }}
+                path: krb5.keytab
+      {{- end }}
+      {{- if and (not .Values.kafka.external) (not .Values.kafka.existingSecret.sslCaCertKey) }}
         - name: kafka-cluster-ca-cert
           secret:
             secretName: {{ include "kafka.fullname" . }}-cluster-ca-cert
+      {{- end }}
+      {{- if .Values.kafka.existingSecret.sslCaCertKey }}
+        - name: kafka-cluster-ca-cert
+          secret:
+            secretName: {{ (tpl .Values.kafka.existingSecret.name . ) }}
+            items:
+              - key: {{ .Values.kafka.existingSecret.sslCaCertKey }}
+                path: ca.crt
       {{- end }}
       {{- with .Values.eventIngestion.volumes }}
         {{- toYaml . | nindent 8 }}

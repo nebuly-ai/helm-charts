@@ -349,7 +349,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
 | eventIngestion.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-event-ingestion"` |  |
-| eventIngestion.image.tag | string | `"v1.13.2"` |  |
+| eventIngestion.image.tag | string | `"v1.14.0"` |  |
 | eventIngestion.ingress.annotations | object | `{}` |  |
 | eventIngestion.ingress.className | string | `""` |  |
 | eventIngestion.ingress.enabled | bool | `false` |  |
@@ -468,13 +468,18 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.config."replica.selector.class" | string | `"org.apache.kafka.common.replica.RackAwareReplicaSelector"` |  |
 | kafka.existingSecret | object | - | [external] Use an existing secret for Kafka authentication. |
 | kafka.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| kafka.existingSecret.sslCaCertKey | string | `""` | The key of the secret containing the CA certificate (in PEM format) used for SSL authentication. |
 | kafka.external | bool | `false` | If true, deploy a Kafka cluster together with the platform services. Otherwise, use an existing Kafka cluster. |
+| kafka.krb5Config | string | `""` | [external] Used only when saslMechanism is set to "GSSAPI". The Keberos configuration file used for SASL GSSAPI authentication. |
 | kafka.nameOverride | string | `""` | with the provided value. |
 | kafka.rack.topologyKey | string | `"topology.kubernetes.io/zone"` |  |
 | kafka.replicas | int | `3` | The number of Kafka brokers in the cluster. |
 | kafka.resources.limits.memory | string | `"2048Mi"` |  |
 | kafka.resources.requests.cpu | string | `"100m"` |  |
 | kafka.resources.requests.memory | string | `"1024Mi"` |  |
+| kafka.saslGssapiKerberosPrincipal | string | `""` | [external] Used only when saslMechanism is set to "GSSAPI". The principal used for SASL GSSAPI authentication, including the realm. Example: "kafka/kafka.example.com@EXAMPLE.COM" |
+| kafka.saslGssapiServiceName | string | `""` | [external] Used only when saslMechanism is set to "GSSAPI". The service name used for SASL GSSAPI authentication, without the realm. Example: "kafka" |
+| kafka.saslMechanism | string | `"PLAIN"` | [external] The mechanism used for authentication. Allowed values are: "PLAIN", "GSSAPI", "SCRAM-SHA-512" |
 | kafka.saslPassword | string | `""` | [external] The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.saslUsername | string | `""` | [external] The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.socketKeepAliveEnabled | bool | `true` | If true, the Kafka clients will use the keep alive feature. |

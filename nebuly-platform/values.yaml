@@ -229,7 +229,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: "v1.13.2"
+    tag: "v1.14.0"
 
   podAnnotations: { }
   podLabels: { }
@@ -314,7 +314,7 @@ ingestionWorker:
   # -- Example:
   # - name: MY_ENV_VAR
   #   value: "my-value"
-  env: {}
+  env: { }
 
   fullnameOverride: ""
 
@@ -327,7 +327,7 @@ ingestionWorker:
 
   settings:
     # -- Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions.
-    enableDbCache: true 
+    enableDbCache: true
     # -- Batch size of entities loaded in each step of aggregate jobs.
     entitiesBatchSize: 20000
     # -- Batch size of interactions loaded in each step of enrich interactions.
@@ -925,6 +925,10 @@ kafka:
 
   # -- [external] Comma separated list of Kafka brokers.
   bootstrapServers: ""
+  # -- [external] The mechanism used for authentication. Allowed values are:
+  # "PLAIN", "GSSAPI", "SCRAM-SHA-512"
+  saslMechanism: "PLAIN"
+
   # -- [external] The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
   # when not using an existing secret (see kafka.existingSecret value below).
   saslUsername: ""
@@ -932,13 +936,29 @@ kafka:
   # when not using an existing secret (see kafka.existingSecret value below).
   saslPassword: ""
 
+  # -- [external] Used only when saslMechanism is set to "GSSAPI".
+  # The service name used for SASL GSSAPI authentication, without the realm.
+  # Example: "kafka"
+  saslGssapiServiceName: ""
+  # -- [external] Used only when saslMechanism is set to "GSSAPI".
+  # The principal used for SASL GSSAPI authentication, including the realm.
+  # Example: "kafka/kafka.example.com@EXAMPLE.COM"
+  saslGssapiKerberosPrincipal: ""
+  # -- [external] Used only when saslMechanism is set to "GSSAPI".
+  # The Keberos configuration file used for SASL GSSAPI authentication.
+  krb5Config: ""
+
   # -- [external] Use an existing secret for Kafka authentication.
   # @default -- -
   existingSecret:
     # -- Name of the secret. Can be templated.
     name: ""
+    # -- The key of the secret containing the CA certificate (in PEM format)
+    # used for SSL authentication.
+    sslCaCertKey: ""
     saslUsernameKey: ""
     saslPasswordKey: ""
+    saslGssapiKerberosKeytabKey: ""
 
 # @default -- -
 otel:
@@ -1241,7 +1261,7 @@ clickhouse:
 
   # --  Additional volumeMounts on ClickHouse pods.
   volumeMounts: [ ]
-    # - name: foo
+  # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
 
@@ -1354,8 +1374,8 @@ clickhouse:
 
     # --  Additional volumeMounts on ClickHouse Keeper pods.
     volumeMounts: [ ]
-      # - name: foo
-      #   mountPath: "/etc/foo"
+    # - name: foo
+    #   mountPath: "/etc/foo"
     #   readOnly: true
 
 

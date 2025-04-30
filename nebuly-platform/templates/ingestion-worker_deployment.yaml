@@ -56,7 +56,15 @@ spec:
           resources:
             {{- toYaml .Values.ingestionWorker.stage1.resources | nindent 12 }}
           volumeMounts:
-          {{- if not .Values.kafka.external }}
+          {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
+            - name: krb5-config
+              mountPath: /etc/krb5.conf
+              subPath: krb5.conf
+            - name: krb5-keytab
+              mountPath: /etc/krb5.keytab
+              subPath: krb5.keytab
+          {{- end }}
+          {{- if or (not .Values.kafka.external) (.Values.kafka.existingSecret.sslCaCertKey) }}
             - name: kafka-cluster-ca-cert
               mountPath: "/etc/kafka"
               readOnly: true
@@ -87,7 +95,15 @@ spec:
           resources:
             {{- toYaml .Values.ingestionWorker.stage2.resources | nindent 12 }}
           volumeMounts:
-          {{- if not .Values.kafka.external }}
+          {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
+            - name: krb5-config
+              mountPath: /etc/krb5.conf
+              subPath: krb5.conf
+            - name: krb5-keytab
+              mountPath: /etc/krb5.keytab
+              subPath: krb5.keytab
+          {{- end }}
+          {{- if or (not .Values.kafka.external) (.Values.kafka.existingSecret.sslCaCertKey) }}
             - name: kafka-cluster-ca-cert
               mountPath: "/etc/kafka"
               readOnly: true
@@ -95,12 +111,33 @@ spec:
           {{- with .Values.ingestionWorker.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
-
       volumes:
-      {{- if not .Values.kafka.external }}
+      {{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
+        - name: krb5-config
+          configMap:
+            name: {{ include "externalKakfaConfigMapName" . }}
+            items:
+              - key: krb5.conf
+                path: krb5.conf
+        - name: krb5-keytab
+          secret:
+            secretName: {{ (tpl .Values.kafka.existingSecret.name . ) }}
+            items:
+              - key: {{ .Values.kafka.existingSecret.saslGssapiKerberosKeytabKey }}
+                path: krb5.keytab
+      {{- end }}
+      {{- if and (not .Values.kafka.external) (not .Values.kafka.existingSecret.sslCaCertKey) }}
         - name: kafka-cluster-ca-cert
           secret:
             secretName: {{ include "kafka.fullname" . }}-cluster-ca-cert
+      {{- end }}
+      {{- if .Values.kafka.existingSecret.sslCaCertKey }}
+        - name: kafka-cluster-ca-cert
+          secret:
+            secretName: {{ (tpl .Values.kafka.existingSecret.name . ) }}
+            items:
+              - key: {{ .Values.kafka.existingSecret.sslCaCertKey }}
+                path: ca.crt
       {{- end }}
       {{- with .Values.ingestionWorker.volumes }}
         {{- toYaml . | nindent 8 }}

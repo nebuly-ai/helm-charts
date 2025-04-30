@@ -18,7 +18,7 @@ nebuly-platform
 {{- if .Values.kafka.external -}}
 valueFrom:
     secretKeyRef:
-        name: {{ (tpl .Values.kafka.existingSecret.name .) | default (include "eventIngestion.fullname" .) }}
+        name: {{ (tpl .Values.kafka.existingSecret.name .) | default (include "externalKakfaSecretName" .) }}
         key: {{ .Values.kafka.existingSecret.saslUsernameKey | default "kafka-sasl-username" }}
 {{- else -}}
 value: {{ include "kafka.user" . | quote }}
@@ -29,7 +29,7 @@ value: {{ include "kafka.user" . | quote }}
 {{- if .Values.kafka.external -}}
 valueFrom:
     secretKeyRef:
-        name: {{ (tpl .Values.kafka.existingSecret.name .) | default (include "eventIngestion.fullname" .) }}
+        name: {{ (tpl .Values.kafka.existingSecret.name .) | default (include "externalKakfaSecretName" .) }}
         key: {{ .Values.kafka.existingSecret.saslPasswordKey | default "kafka-sasl-password" }}
 {{- else -}}
 valueFrom:
@@ -41,8 +41,37 @@ valueFrom:
 
 {{- define "kafka.saslMechanism" -}}
 {{- if .Values.kafka.external -}}
-PLAIN
+{{ .Values.kafka.saslMechanism }}
 {{- else -}}
 SCRAM-SHA-512
 {{- end -}}
+{{- end -}}
+
+{{- define "kafka.commonEnv" -}}
+- name: KAFKA_SOCKET_KEEPALIVE_ENABLED
+  value: {{ .Values.kafka.socketKeepAliveEnabled | quote }}
+- name: KAFKA_BOOTSTRAP_SERVERS
+  value: {{ include "kafka.bootstrapServers" . }}
+- name: "KAFKA_SASL_MECHANISM"
+  value: {{ include "kafka.saslMechanism" . | quote }}
+{{- if eq .Values.kafka.saslMechanism "PLAIN" }}
+- name: "KAFKA_SASL_PASSWORD"
+  {{ include "kafka.saslPasswordEnv" . }}
+- name: "KAFKA_SASL_USERNAME"
+  {{ include "kafka.saslUsernameEnv" . }}
+{{- end }}
+{{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
+- name: "KAFKA_SASL_GSSAPI_SERVICE_NAME"
+  value: {{ .Values.kafka.saslGssapiServiceName | quote }}
+- name: "KAFKA_SASL_GSSAPI_PRINCIPAL"
+  value: {{ .Values.kafka.saslGssapiKerberosPrincipal | quote }}
+- name: "KRB5_CONFIG"
+  value: /etc/krb5.conf
+- name: "KAFKA_SASL_GSSAPI_KEYTAB"
+  value: /etc/krb5.keytab
+{{- end }}
+{{- if or (not .Values.kafka.external) (.Values.kafka.existingSecret.sslCaCertKey) }}
+- name: "KAFKA_SSL_CA_PATH"
+  value: "/etc/kafka/ca.crt"
+{{- end }}
 {{- end -}}
