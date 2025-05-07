@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.66.3"
+    tag: "v1.66.4"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -112,6 +112,9 @@ backend:
     profilesSampleRate: 0
     tracesSampleRate: 0
 
+  # -- If interactionsDetailsAccessControlEnabled is true, the roles that are not allowed to access the interactions details.
+  interactionsDetailsAccessControlRoles: ["viewer", "member", "admin"]
+
 frontend:
   fullnameOverride: ""
 
@@ -134,6 +137,12 @@ frontend:
   enableNewTypeOfRisk: false
   # -- If True, hide LLM issues from users without the proper role.
   enableLLMIssueHiding: false
+  # -- If True, enable the interactions details access control feature. When enabled, not all the users will be able to access the interactions details.
+  enableInteractionsDetailsAccessControl: false
+  # -- Possible values: "disabled", "reason". When set to "reason", the users that are allowed to access the interactions details will need to provide a reason for accessing them.
+  interactionsDetailsAccessControlMode: "disabled"
+  # -- The roles that are not allowed to access the interactions details when enableInteractionsDetailsAccessControl is set to "true".
+  interactionsDetailsAccessControlRoles: ["member", "admin"]
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # -- The title of the application.
@@ -144,7 +153,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.54.5"
+    tag: "v1.54.7"
 
   podAnnotations: { }
   podLabels: { }
