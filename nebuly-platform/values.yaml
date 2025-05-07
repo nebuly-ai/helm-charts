@@ -836,6 +836,9 @@ kafka:
   # -- If false, deploy a Kafka cluster together with the platform services. Otherwise,
   # use an existing Kafka cluster.
   external: false
+  # -- The name of the user used by the services for connecting to the
+  # created kafka cluster.
+  user: "nebuly-platform"
 
   # -- The number of Kafka brokers in the cluster.
   replicas: 3

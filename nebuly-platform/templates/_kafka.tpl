@@ -3,7 +3,7 @@
 {{- end -}}
 
 {{- define "kafka.user" -}}
-nebuly-platform
+{{ .Values.kafka.user }}
 {{- end -}}
 
 {{- define "kafka.bootstrapServers" -}}
