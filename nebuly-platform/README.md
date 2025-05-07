@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.36.3](https://img.shields.io/badge/Version-1.36.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.36.4](https://img.shields.io/badge/Version-1.36.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -261,7 +261,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.66.3"` |  |
+| backend.image.tag | string | `"v1.66.4"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -269,6 +269,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | backend.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | backend.ingress.tls | list | `[]` |  |
+| backend.interactionsDetailsAccessControlRoles | string | `"[\"viewer\", \"member\", \"admin\"]"` | The roles of the interactions details access control feature. |
 | backend.nodeSelector | object | `{}` |  |
 | backend.podAnnotations | object | `{}` |  |
 | backend.podLabels | object | `{}` |  |
@@ -383,6 +384,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.customIntentConfig | object | `{}` |  |
 | frontend.defaultAggregation | string | `"interaction"` | The default aggregation level of the platform. |
 | frontend.enableAiSummary | bool | `false` | If set to true, enable the AI summarization feature. |
+| frontend.enableInteractionsDetailsAccessControl | bool | `false` | If True, enable the interactions details access control feature. |
 | frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
 | frontend.enableNewTypeOfRisk | bool | `false` |  |
 | frontend.enableOldRiskyBehavior | bool | `false` | Feature flag to activate the old risky behavior page. Used for retro-compatibility. |
@@ -390,7 +392,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.54.5"` |  |
+| frontend.image.tag | string | `"v1.54.7"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -398,6 +400,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | frontend.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | frontend.ingress.tls | list | `[]` |  |
+| frontend.interactionsDetailsAccessControlMode | string | `"disabled"` | The mode of the interactions details access control feature. |
+| frontend.interactionsDetailsAccessControlRoles | string | `"member, admin"` | The roles of the interactions details access control feature. |
 | frontend.nodeSelector | object | `{}` |  |
 | frontend.podAnnotations | object | `{}` |  |
 | frontend.podLabels | object | `{}` |  |
