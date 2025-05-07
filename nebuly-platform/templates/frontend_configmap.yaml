@@ -37,6 +37,6 @@ data:
       "NEXT_PUBLIC_ENABLE_LLM_ISSUE_HIDING": {{ .Values.frontend.enableLLMIssueHiding | quote }},
       "NEXT_PUBLIC_ENABLE_INTERACTIONS_DETAILS_ACCESS_CONTROL": {{ .Values.frontend.enableInteractionsDetailsAccessControl | quote }},
       "NEXT_PUBLIC_INTERACTIONS_DETAILS_ACCESS_CONTROL_MODE": {{ .Values.frontend.interactionsDetailsAccessControlMode | quote }},
-      "NEXT_PUBLIC_INTERACTIONS_DETAILS_ACCESS_CONTROL_ROLES": {{ .Values.frontend.interactionsDetailsAccessControlRoles | quote }}
+      "NEXT_PUBLIC_INTERACTIONS_DETAILS_ACCESS_CONTROL_ROLES": {{ join ", " .Values.frontend.interactionsDetailsAccessControlRoles | quote }}
     }
 

@@ -112,8 +112,8 @@ backend:
     profilesSampleRate: 0
     tracesSampleRate: 0
 
-  # -- If interactionsDetailsAccessControlEnabled is true, the roles that are allowed to access the interactions details.
-  interactionsDetailsAccessControlRoles: '["viewer", "member", "admin"]'
+  # -- If interactionsDetailsAccessControlEnabled is true, the roles that are not allowed to access the interactions details.
+  interactionsDetailsAccessControlRoles: ["viewer", "member", "admin"]
 
 frontend:
   fullnameOverride: ""
@@ -141,8 +141,8 @@ frontend:
   enableInteractionsDetailsAccessControl: false
   # -- Possible values: "disabled", "reason". When set to "reason", the users that are allowed to access the interactions details will need to provide a reason for accessing them.
   interactionsDetailsAccessControlMode: "disabled"
-  # -- The roles that are allowed to access the interactions details when enableInteractionsDetailsAccessControl is set to "true".
-  interactionsDetailsAccessControlRoles: "member, admin"
+  # -- The roles that are not allowed to access the interactions details when enableInteractionsDetailsAccessControl is set to "true".
+  interactionsDetailsAccessControlRoles: ["member", "admin"]
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # -- The title of the application.

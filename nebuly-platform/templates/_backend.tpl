@@ -25,7 +25,7 @@
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ENABLED
   value: {{ .Values.frontend.enableInteractionsDetailsAccessControl | quote }}
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ROLES
-  value: {{ .Values.backend.interactionsDetailsAccessControlRoles | quote }}
+  value: {{ .Values.backend.interactionsDetailsAccessControlRoles | toJson | quote }}
 # OTEL
 - name: OTEL_ENABLED
   value: "{{ .Values.otel.enabled }}"
