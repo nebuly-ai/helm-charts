@@ -46,8 +46,8 @@ spec:
               command:
                 - python
                 - minkmaze
-                - process
-                - llm-issues
+                - jobs
+                - issues
                 - nebuly
                 - --reprocess
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
