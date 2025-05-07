@@ -46,7 +46,7 @@ spec:
               command:
                 - python
                 - minkmaze
-                - aggregates
+                - jobs
                 - user-intelligence
                 - nebuly
                 - --reprocess
