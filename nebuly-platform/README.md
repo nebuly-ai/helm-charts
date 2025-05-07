@@ -269,7 +269,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | backend.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | backend.ingress.tls | list | `[]` |  |
-| backend.interactionsDetailsAccessControlRoles | string | `"[\"viewer\", \"member\", \"admin\"]"` | The roles of the interactions details access control feature. |
+| backend.interactionsDetailsAccessControlRoles | string | `"[\"viewer\", \"member\", \"admin\"]"` | If interactionsDetailsAccessControlEnabled is true, the roles that are allowed to access the interactions details. |
 | backend.nodeSelector | object | `{}` |  |
 | backend.podAnnotations | object | `{}` |  |
 | backend.podLabels | object | `{}` |  |
@@ -384,7 +384,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.customIntentConfig | object | `{}` |  |
 | frontend.defaultAggregation | string | `"interaction"` | The default aggregation level of the platform. |
 | frontend.enableAiSummary | bool | `false` | If set to true, enable the AI summarization feature. |
-| frontend.enableInteractionsDetailsAccessControl | bool | `false` | If True, enable the interactions details access control feature. |
+| frontend.enableInteractionsDetailsAccessControl | bool | `false` | If True, enable the interactions details access control feature. When enabled, not all the users will be able to access the interactions details. |
 | frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
 | frontend.enableNewTypeOfRisk | bool | `false` |  |
 | frontend.enableOldRiskyBehavior | bool | `false` | Feature flag to activate the old risky behavior page. Used for retro-compatibility. |
@@ -400,8 +400,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | frontend.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | frontend.ingress.tls | list | `[]` |  |
-| frontend.interactionsDetailsAccessControlMode | string | `"disabled"` | The mode of the interactions details access control feature. |
-| frontend.interactionsDetailsAccessControlRoles | string | `"member, admin"` | The roles of the interactions details access control feature. |
+| frontend.interactionsDetailsAccessControlMode | string | `"disabled"` | Possible values: "disabled", "reason". When set to "reason", the users that are allowed to access the interactions details will need to provide a reason for accessing them. |
+| frontend.interactionsDetailsAccessControlRoles | string | `"member, admin"` | The roles that are allowed to access the interactions details when enableInteractionsDetailsAccessControl is set to "true". |
 | frontend.nodeSelector | object | `{}` |  |
 | frontend.podAnnotations | object | `{}` |  |
 | frontend.podLabels | object | `{}` |  |

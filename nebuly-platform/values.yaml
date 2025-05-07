@@ -112,7 +112,7 @@ backend:
     profilesSampleRate: 0
     tracesSampleRate: 0
 
-  # -- The roles of the interactions details access control feature.
+  # -- If interactionsDetailsAccessControlEnabled is true, the roles that are allowed to access the interactions details.
   interactionsDetailsAccessControlRoles: '["viewer", "member", "admin"]'
 
 frontend:
@@ -137,11 +137,11 @@ frontend:
   enableNewTypeOfRisk: false
   # -- If True, hide LLM issues from users without the proper role.
   enableLLMIssueHiding: false
-  # -- If True, enable the interactions details access control feature.
+  # -- If True, enable the interactions details access control feature. When enabled, not all the users will be able to access the interactions details.
   enableInteractionsDetailsAccessControl: false
-  # -- The mode of the interactions details access control feature.
+  # -- Possible values: "disabled", "reason". When set to "reason", the users that are allowed to access the interactions details will need to provide a reason for accessing them.
   interactionsDetailsAccessControlMode: "disabled"
-  # -- The roles of the interactions details access control feature.
+  # -- The roles that are allowed to access the interactions details when enableInteractionsDetailsAccessControl is set to "true".
   interactionsDetailsAccessControlRoles: "member, admin"
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
