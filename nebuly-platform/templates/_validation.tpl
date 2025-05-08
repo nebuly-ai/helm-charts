@@ -48,6 +48,10 @@
 {{- $messages = append $messages (include "chart.validateValues.aiModels.sync.source.clientId" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.aiModels.sync.source.clientSecret" .) -}}
 {{- end -}}
+{{/* Interactions Access Control */}}
+{{- if .Values.interactionsAccessControl.enabled -}}
+{{- $messages = append $messages (include "chart.validateValues.interactionsAccessControl.mode" .) -}}
+{{- end -}}
 {{/* ClickHouse */}}
 {{- if .Values.clickhouse.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.clickhouse.replicas" .) -}}
@@ -307,6 +311,14 @@ values: backend.settings.multiTenancyMode
 {{- end -}}
 {{- end -}}
 
+
+{{/* Interactions access control validation. */}}
+{{- define "chart.validateValues.interactionsAccessControl.mode" -}}
+{{- if not (contains .Values.interactionsAccessControl.openDetailsMode "disabled reason") -}}
+values: interactionsAccessControl.mode
+  `mode` should be one of the following values: disabled, reason
+{{- end -}}
+{{- end -}}
 
 {{/* ClickHouse validation. */}}
 {{- define "chart.validateValues.clickhouse.replicas" -}}
