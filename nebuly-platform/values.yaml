@@ -1400,9 +1400,15 @@ interactionsAccessControl:
   # When set to "reason", the users that are allowed to access the interactions
   # details will need to provide a reason for accessing them.
   openDetailsMode: "disabled"
-  # -- The roles that are allowed to access the interactions details when
-  # the access control is enabled.
-  openDetailsAllowedRoles: ["member", "admin"]
+  # -- The roles that are subject to the open details mode when the access control is
+  # enabled.
+  #
+  # If the openDetailsMode is set to "reason", the users with the specified roles
+  # will be able to access the interactions details only if they provide a reason.
+  #
+  # If the openDetailsMode is set to "disabled", the users with the specified roles
+  # won't be able to access the interactions details.
+  openDetailsRoles: [ "member", "admin"]
   # -- The roles for which the input/output fields of the interactions are
   # redacted when the access control is enabled.
   redactedRoles: ["viewer", "member", "admin"]

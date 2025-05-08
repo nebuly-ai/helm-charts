@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.37.0](https://img.shields.io/badge/Version-1.37.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.37.1](https://img.shields.io/badge/Version-1.37.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -464,10 +464,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
-| interactionsAccessControl | object | `{"enabled":false,"openDetailsAllowedRoles":["member","admin"],"openDetailsMode":"disabled","redactedRoles":["viewer","member","admin"]}` | Settings for controlling the access to the users interactions stored in the  platform. |
+| interactionsAccessControl | object | `{"enabled":false,"openDetailsMode":"disabled","openDetailsRoles":["member","admin"],"redactedRoles":["viewer","member","admin"]}` | Settings for controlling the access to the users interactions stored in the  platform. |
 | interactionsAccessControl.enabled | bool | `false` | If true, enable the access control for the interactions, making their details available only to the users with the proper roles. |
-| interactionsAccessControl.openDetailsAllowedRoles | list | `["member","admin"]` | The roles that are allowed to access the interactions details when the access control is enabled. |
 | interactionsAccessControl.openDetailsMode | string | `"disabled"` | Possible values: "disabled", "reason". When set to "reason", the users that are allowed to access the interactions details will need to provide a reason for accessing them. |
+| interactionsAccessControl.openDetailsRoles | list | `["member","admin"]` | The roles that are subject to the open details mode when the access control is enabled.  If the openDetailsMode is set to "reason", the users with the specified roles will be able to access the interactions details only if they provide a reason.  If the openDetailsMode is set to "disabled", the users with the specified roles won't be able to access the interactions details. |
 | interactionsAccessControl.redactedRoles | list | `["viewer","member","admin"]` | The roles for which the input/output fields of the interactions are redacted when the access control is enabled. |
 | kafka.affinity | object | `{}` |  |
 | kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
