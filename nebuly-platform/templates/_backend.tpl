@@ -23,7 +23,7 @@
   value: {{ .Values.frontend.enableLLMIssueHiding | quote }}
 # Interactions details access control
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ENABLED
-  value: {{ .Values.frontend.enableInteractionsDetailsAccessControl | quote }}
+  value: {{ .Values.frontend.interactionDetailsAccessControl.enabled | quote }}
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ROLES
   value: {{ .Values.backend.interactionsDetailsAccessControlRoles | toJson | quote }}
 # OTEL
