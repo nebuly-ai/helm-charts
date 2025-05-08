@@ -137,12 +137,6 @@ frontend:
   enableNewTypeOfRisk: false
   # -- If True, hide LLM issues from users without the proper role.
   enableLLMIssueHiding: false
-  # -- If True, enable the interactions details access control feature. When enabled, not all the users will be able to access the interactions details.
-  enableInteractionsDetailsAccessControl: false
-  # -- Possible values: "disabled", "reason". When set to "reason", the users that are allowed to access the interactions details will need to provide a reason for accessing them.
-  interactionsDetailsAccessControlMode: "disabled"
-  # -- The roles that are not allowed to access the interactions details when enableInteractionsDetailsAccessControl is set to "true".
-  interactionsDetailsAccessControlRoles: ["member", "admin"]
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # -- The title of the application.
@@ -1395,6 +1389,24 @@ clickhouse:
     storage:
       size: 32Gi
       storageClassName: "default"
+
+# -- Settings for controlling the access to the users interactions stored in the
+#  platform.
+interactionsAccessControl:
+  # -- If true, enable the access control for the interactions, making their details
+  # available only to the users with the proper roles.
+  enabled: false
+  # -- Possible values: "disabled", "reason".
+  # When set to "reason", the users that are allowed to access the interactions
+  # details will need to provide a reason for accessing them.
+  openDetailsMode: "disabled"
+  # -- The roles that are allowed to access the interactions details when
+  # the access control is enabled.
+  openDetailsAllowedRoles: ["member", "admin"]
+  # -- The roles for which the input/output fields of the interactions are
+  # redacted when the access control is enabled.
+  redactedRoles: ["viewer", "member", "admin"]
+
 
 # -- If True, install the Chart `nebuly-ai/bootstrap-aws`, which
 # -- installs all the dependencies required for installing nebuly-platform on

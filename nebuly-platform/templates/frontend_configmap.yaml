@@ -35,8 +35,8 @@ data:
       "NEXT_PUBLIC_ENABLE_AI_SUMMARY": {{ .Values.frontend.enableAiSummary | quote }},
       "NEXT_PUBLIC_ENABLE_OLD_RISKY_BEHAVIOR": {{ .Values.frontend.enableOldRiskyBehavior | quote }},
       "NEXT_PUBLIC_ENABLE_LLM_ISSUE_HIDING": {{ .Values.frontend.enableLLMIssueHiding | quote }},
-      "NEXT_PUBLIC_ENABLE_INTERACTIONS_DETAILS_ACCESS_CONTROL": {{ .Values.frontend.enableInteractionsDetailsAccessControl | quote }},
-      "NEXT_PUBLIC_INTERACTIONS_DETAILS_ACCESS_CONTROL_MODE": {{ .Values.frontend.interactionsDetailsAccessControlMode | quote }},
-      "NEXT_PUBLIC_INTERACTIONS_DETAILS_ACCESS_CONTROL_ROLES": {{ join ", " .Values.frontend.interactionsDetailsAccessControlRoles | quote }}
+      "NEXT_PUBLIC_ENABLE_INTERACTIONS_DETAILS_ACCESS_CONTROL": {{ .Values.interactionsAccessControl.enabled | quote }},
+      "NEXT_PUBLIC_INTERACTIONS_DETAILS_ACCESS_CONTROL_MODE": {{ .Values.interactionsAccessControl.openDetailsMode | quote }},
+      "NEXT_PUBLIC_INTERACTIONS_DETAILS_ACCESS_CONTROL_ROLES": {{ join ", " .Values.interactionsAccessControl.openDetailsAllowedRoles | quote }}
     }
 
