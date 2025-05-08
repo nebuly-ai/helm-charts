@@ -23,9 +23,9 @@
   value: {{ .Values.frontend.enableLLMIssueHiding | quote }}
 # Interactions details access control
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ENABLED
-  value: {{ .Values.frontend.interactionDetailsAccessControl.enabled | quote }}
+  value: {{ .Values.interactionsAccessControl.enabled | quote }}
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ROLES
-  value: {{ .Values.backend.interactionsDetailsAccessControlRoles | toJson | quote }}
+  value: {{ .Values.interactionsAccessControl.redactedRoles | toJson | quote }}
 # OTEL
 - name: OTEL_ENABLED
   value: "{{ .Values.otel.enabled }}"

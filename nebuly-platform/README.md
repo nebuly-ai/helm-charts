@@ -384,7 +384,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.customIntentConfig | object | `{}` |  |
 | frontend.defaultAggregation | string | `"interaction"` | The default aggregation level of the platform. |
 | frontend.enableAiSummary | bool | `false` | If set to true, enable the AI summarization feature. |
-| frontend.enableInteractionsDetailsAccessControl | bool | `false` | If True, enable the interactions details access control feature. When enabled, not all the users will be able to access the interactions details. |
 | frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
 | frontend.enableNewTypeOfRisk | bool | `false` |  |
 | frontend.enableOldRiskyBehavior | bool | `false` | Feature flag to activate the old risky behavior page. Used for retro-compatibility. |
@@ -400,8 +399,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | frontend.ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | frontend.ingress.tls | list | `[]` |  |
-| frontend.interactionsDetailsAccessControlMode | string | `"disabled"` | Possible values: "disabled", "reason". When set to "reason", the users that are allowed to access the interactions details will need to provide a reason for accessing them. |
-| frontend.interactionsDetailsAccessControlRoles | list | `["member","admin"]` | The roles that are not allowed to access the interactions details when enableInteractionsDetailsAccessControl is set to "true". |
 | frontend.nodeSelector | object | `{}` |  |
 | frontend.podAnnotations | object | `{}` |  |
 | frontend.podLabels | object | `{}` |  |
@@ -467,6 +464,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |
+| interactionsAccessControl | object | `{"enabled":false,"openDetailsAllowedRoles":["member","admin"],"openDetailsMode":"disabled","redactedRoles":["viewer","member","admin"]}` | Settings for controlling the access to the users interactions stored in the  platform. |
+| interactionsAccessControl.enabled | bool | `false` | If true, enable the access control for the interactions, making their details available only to the users with the proper roles. |
+| interactionsAccessControl.openDetailsAllowedRoles | list | `["member","admin"]` | The roles that are allowed to access the interactions details when the access control is enabled. |
+| interactionsAccessControl.openDetailsMode | string | `"disabled"` | Possible values: "disabled", "reason". When set to "reason", the users that are allowed to access the interactions details will need to provide a reason for accessing them. |
+| interactionsAccessControl.redactedRoles | list | `["viewer","member","admin"]` | The roles for which the input/output fields of the interactions are redacted when the access control is enabled. |
 | kafka.affinity | object | `{}` |  |
 | kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
 | kafka.config."replica.selector.class" | string | `"org.apache.kafka.common.replica.RackAwareReplicaSelector"` |  |
