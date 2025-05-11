@@ -60,13 +60,13 @@ spec:
               path: /healthz
               port: http
             initialDelaySeconds: 10
-            periodSeconds: 15
+            periodSeconds: 3600
           readinessProbe:
             httpGet:
               path: /readyz
               port: http
             initialDelaySeconds: 10
-            periodSeconds: 10
+            periodSeconds: 3600
           resources:
             {{- toYaml .Values.backend.scheduler.resources | nindent 12 }}
           {{- with .Values.backend.volumeMounts }}
