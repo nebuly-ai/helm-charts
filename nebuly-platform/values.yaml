@@ -1203,11 +1203,12 @@ auth:
       clientIdKey: ""
       clientSecretKey: ""
 
-# -- Settings for data reprocessing jobs required during
-# -- major platform upgrades.
-# -- Keep everything disabled by default unless you're upgrading the platform to a
-# -- major release.
+# -- Settings for data reprocessing jobs required during major platform upgrades. Keep
+# everything disabled by default unless you're upgrading the platform to a major
+# release.
 reprocessing:
+  interactions:
+    enabled: false
   modelSuggestions:
     enabled: false
   modelIssues:
