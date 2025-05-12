@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.37.6](https://img.shields.io/badge/Version-1.37.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.38.0](https://img.shields.io/badge/Version-1.38.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -537,7 +537,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | primaryProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | primaryProcessing.modelsCache | object | `{"enabled":false,"size":"128Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| reprocessing | object | `{"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | major release. |
+| reprocessing | object | `{"interactions":{"enabled":false},"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | Settings for data reprocessing jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
 | secondaryProcessing | object | - | Settings related to the Primary processing CronJobs. |
 | secondaryProcessing.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
 | secondaryProcessing.modelSuggestions.schedule | string | `""` | If provided, overrides the schedule of the Model Suggestions CronJob. Otherwise, use the schedule specified in `secondaryProcessing.schedule`. |
