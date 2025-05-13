@@ -278,6 +278,15 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.resources.limits.memory | string | `"1024Mi"` |  |
 | backend.resources.requests.cpu | string | `"100m"` |  |
 | backend.rootPath | string | `""` | Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix. Example: "/backend-service" |
+| backend.scheduler.livenessProbe.failureThreshold | int | `10` |  |
+| backend.scheduler.livenessProbe.httpGet.path | string | `"/healthz"` |  |
+| backend.scheduler.livenessProbe.httpGet.port | string | `"http"` |  |
+| backend.scheduler.livenessProbe.initialDelaySeconds | int | `10` |  |
+| backend.scheduler.livenessProbe.periodSeconds | int | `15` |  |
+| backend.scheduler.readinessProbe.httpGet.path | string | `"/readyz"` |  |
+| backend.scheduler.readinessProbe.httpGet.port | string | `"http"` |  |
+| backend.scheduler.readinessProbe.initialDelaySeconds | int | `10` |  |
+| backend.scheduler.readinessProbe.periodSeconds | int | `10` |  |
 | backend.scheduler.resources.limits.memory | string | `"2048Mi"` |  |
 | backend.scheduler.resources.requests.cpu | string | `"100m"` |  |
 | backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |

@@ -56,17 +56,9 @@ spec:
             # Common env
             {{ include "backend.commonEnv" . | nindent 12 }}
           livenessProbe:
-            httpGet:
-              path: /healthz
-              port: http
-            initialDelaySeconds: 10
-            periodSeconds: 15
+            {{- .Values.backend.scheduler.livenessProbe | toYaml | nindent 12 }}
           readinessProbe:
-            httpGet:
-              path: /readyz
-              port: http
-            initialDelaySeconds: 10
-            periodSeconds: 10
+            {{- .Values.backend.scheduler.readinessProbe | toYaml | nindent 12 }}
           resources:
             {{- toYaml .Values.backend.scheduler.resources | nindent 12 }}
           {{- with .Values.backend.volumeMounts }}
