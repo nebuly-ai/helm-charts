@@ -1,0 +1,25 @@
+{{ if not .Values.kafka.external -}}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: {{ include "kafka.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+  labels:
+    strimzi.io/cluster: {{ include "kafka.fullname" . }}
+spec:
+  replicas: 3
+  roles:
+    - controller
+    - broker
+  storage:
+    type: jbod
+    volumes:
+      - id: 0
+        type: persistent-claim
+        size: {{ .Values.kafka.storage.size }}
+        deleteClaim: false
+        class: {{ .Values.kafka.storage.class }}
+        kraftMetadata: shared
+{{- end }}
