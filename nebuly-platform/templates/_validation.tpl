@@ -14,6 +14,9 @@
 {{- $messages = append $messages (include "chart.validateValues.auth.microsoft" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.google" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.okta" .) -}}
+{{- if .Values.auth.ldap.enabled -}}
+{{- $messages = append $messages (include "chart.validateValues.auth.ldap" .) -}}
+{{- end -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.addMember" .) -}}
 {{/* Analytic DB */}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.server" .) -}}
@@ -115,15 +118,34 @@ values: auth.loginModes
 {{- end -}}
 {{- end -}}
 
+{{- define "chart.validateValues.auth.ldap" -}}
+{{- if empty .Values.auth.ldap.searchBase }}
+values: auth.ldap.searchBase
+  `searchBase` is required and should be a non-empty string
+{{- end -}}
+{{- if empty .Values.auth.ldap.roleMapping }}
+values: auth.ldap.roleMapping
+  `roleMapping` is required and should be a non-empty string
+{{- end -}}
+{{- if empty .Values.auth.ldap.userObjectClass }}
+values: auth.ldap.userObjectClass
+  `userObjectClass` is required and should be a non-empty string
+{{- end -}}
+{{- if empty .Values.auth.ldap.groupObjectClass }}
+values: auth.ldap.groupObjectClass
+  `groupObjectClass` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
 {{- define "chart.validateValues.auth.addMember" -}}
-{{- if and (.Values.auth.addMembersEnabled) (not (contains "password" .Values.auth.loginModes)) -}}
+{{- if and (.Values.auth.addMembersEnabled) (not (contains "password" .Values.auth.loginModes)) }}
 values: auth.addMembersEnabled
   `addMembersEnabled` can't be set to true if `password` is not in `loginModes`
 {{- end -}}
 {{- end -}}
 
 {{- define "chart.validateValues.auth.postgresPassword" -}}
-{{- if and (empty .Values.auth.postgresPassword) (empty .Values.auth.existingSecret.name) -}}
+{{- if and (empty .Values.auth.postgresPassword) (empty .Values.auth.existingSecret.name) }}
 values: auth.postgresPassword
   `postgresPassword` is required when not using an existing secret and should be a non-empty string
 {{- end -}}
