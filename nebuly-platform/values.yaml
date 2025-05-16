@@ -999,6 +999,8 @@ telemetry:
   tenant: ""
   # -- The API key used to authenticate with the telemetry service.
   apiKey: ""
+  # -- The Google Tag Manager (GTM) Id.
+  gtmId: ""
   # -- If True, enable the Promtail log collector. Only logs from Nebuly's
   # containers will be collected.
   promtail:
