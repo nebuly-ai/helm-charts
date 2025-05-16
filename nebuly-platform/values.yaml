@@ -1014,7 +1014,7 @@ auth:
   adminUserPassword: "admin"
   # -- The available login modes. Value must be string with the login mode specified
   # as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`,
-  # `google`, `ldap`.
+  # `google`.
   loginModes: "password"
   # -- If True, enable the admin panel for inviting new members to the platform.
   addMembersEnabled: false
