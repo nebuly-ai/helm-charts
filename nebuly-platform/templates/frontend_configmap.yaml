@@ -30,6 +30,9 @@ data:
       {{- if not (empty .Values.frontend.customIntentConfig) }}
       "CUSTOM_INTENT_CONFIG": {{ .Values.frontend.customIntentConfig | toJson }},
       {{- end }}
+      {{- if not (empty .Values.telemetry.gtmId) }}
+      "NEXT_PUBLIC_GTM_ID": {{ .Values.telemetry.gtmId | quote }},
+      {{- end }}
       "NEXT_PUBLIC_ENABLE_CONVERSATIONS" : "true",
       "NEXT_PUBLIC_DEFAULT_AGGREGATION": {{ .Values.frontend.defaultAggregation | quote }},
       "NEXT_PUBLIC_ENABLE_AI_SUMMARY": {{ .Values.frontend.enableAiSummary | quote }},

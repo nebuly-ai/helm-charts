@@ -564,6 +564,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | strimzi.enabled | bool | `false` |  |
 | telemetry.apiKey | string | `""` | The API key used to authenticate with the telemetry service. |
 | telemetry.enabled | bool | `false` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
+| telemetry.gtmId | string | `""` | The Google Tag Manager (GTM) Id. |
 | telemetry.promtail | object | `{"enabled":true}` | If True, enable the Promtail log collector. Only logs from Nebuly's containers will be collected. |
 | telemetry.tenant | string | `""` | Code of the tenant to which the telemetry data will be associated. |
 
