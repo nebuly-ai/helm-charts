@@ -1086,7 +1086,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.15.3"
+    tag: "v1.17.1"
 
   podAnnotations: { }
   podLabels: { }
@@ -1139,7 +1139,7 @@ auth:
     host: ""
     # -- The port of the LDAP server.
     port: "389"
-    # -- TODO
+    # -- The LDAP search base to use. Example: `dc=example,dc=org`
     searchBase: ""
     # -- The name of the object class used for users.
     userObjectClass: ""

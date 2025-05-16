@@ -212,7 +212,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.15.3"` |  |
+| auth.image.tag | string | `"v1.17.1"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.ldap | object | `{"adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userObjectClass":""}` | LDAP authentication configuration. Used when `auth.loginModes` contains "ldap". |
@@ -223,7 +223,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.ldap.host | string | `""` | The address of LDAP server. |
 | auth.ldap.port | string | `"389"` | The port of the LDAP server. |
 | auth.ldap.roleMapping | string | `""` | Mapping between LDAP Roles and Nebuly roles. Example: `<ladp-admin>:admin, <ldap-member>:member, <ldap-viewer>:viewer`. |
-| auth.ldap.searchBase | string | `""` | TODO |
+| auth.ldap.searchBase | string | `""` | The LDAP search base to use. Example: `dc=example,dc=org` |
 | auth.ldap.userObjectClass | string | `""` | The name of the object class used for users. |
 | auth.loginModes | string | `"password"` | The available login modes. Value must be string with the login mode specified as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`, `google`, `ldap`. |
 | auth.microsoft | object | - | Microsoft Entra ID authentication configuration. Used when `auth.loginModes` contains "microsoft". |
