@@ -135,6 +135,33 @@ spec:
             - name: "MICROSOFT_OAUTH_ROLE_MAP"
               value: '{{ .Values.auth.microsoft.roleMapping | quote }}'
             {{- end }}
+            {{- if .Values.auth.ldap.enabled }}
+            # LDAP
+            - name: "LDAP_HOST"
+              value: {{ .Values.auth.ldap.host | quote }}
+            - name: "LDAP_PORT"
+              value: {{ .Values.auth.ldap.port | quote }}
+            - name: "LDAP_SEARCH_BASE"
+              value: {{ .Values.auth.ldap.searchBase | quote }}
+            - name: "LDAP_USER_OBJECT_CLASS"
+              value: {{ .Values.auth.ldap.userObjectClass | quote }}
+            - name: "LDAP_GROUP_OBJECT_CLASS"
+              value: {{ .Values.auth.ldap.groupObjectClass | quote }}
+            - name: "LDAP_ROLE_MAP"
+              value: {{ .Values.auth.ldap.roleMapping | quote }}
+            - name: "LDAP_ATTRIBUTE_MAP"
+              value: {{ .Values.auth.ldap.attributeMapping | quote }}
+            - name: "LDAP_ADMIN_USERNAME"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (tpl .Values.auth.ldap.existingSecret.name . ) | default (include "authService.fullname" .) }}
+                  key: {{ .Values.auth.ldap.existingSecret.adminUsernameKey | default "ldap-admin-username" }}
+            - name: "LDAP_ADMIN_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (tpl .Values.auth.ldap.existingSecret.name . ) | default (include "authService.fullname" .) }}
+                  key: {{ .Values.auth.ldap.existingSecret.adminPasswordKey | default "ldap-admin-password" }}
+            {{- end }}
             {{ if .Values.auth.google.enabled }}
             # Google Oauth
             - name: "OAUTH_PROVIDER"

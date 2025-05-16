@@ -126,7 +126,7 @@ backend:
     tracesSampleRate: 0
 
   # -- If interactionsDetailsAccessControlEnabled is true, the roles that are not allowed to access the interactions details.
-  interactionsDetailsAccessControlRoles: ["viewer", "member", "admin"]
+  interactionsDetailsAccessControlRoles: [ "viewer", "member", "admin" ]
 
 frontend:
   fullnameOverride: ""
@@ -1014,7 +1014,7 @@ auth:
   adminUserPassword: "admin"
   # -- The available login modes. Value must be string with the login mode specified
   # as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`,
-  # `google`.
+  # `google`, `ldap`.
   loginModes: "password"
   # -- If True, enable the admin panel for inviting new members to the platform.
   addMembersEnabled: false
@@ -1132,6 +1132,44 @@ auth:
 
   affinity: { }
 
+  # -- LDAP authentication configuration. Used when `auth.loginModes` contains "ldap".
+  ldap:
+    enabled: false
+    # -- The address of LDAP server.
+    host: ""
+    # -- The port of the LDAP server.
+    port: "389"
+    # -- TODO
+    searchBase: ""
+    # -- The name of the object class used for users.
+    userObjectClass: ""
+    # -- The name of the object class used for groups.
+    groupObjectClass: ""
+    # -- Mapping between LDAP Roles and Nebuly roles.
+    # Example: `<ladp-admin>:admin, <ldap-member>:member, <ldap-viewer>:viewer`.
+    roleMapping: ""
+    # -- Custom mapping for LDAP attributes used for users full name and email.
+    # If not provided, the following attributes will be used:
+    # * `mail`: user email
+    # * `cn`: user full name
+    #
+    # When provided, it should be a comma separated list of attributes.
+    # Example: `email:<ldap-attribute>,full_name:<ldap-attribute>`
+    attributeMapping: ""
+    # -- The username of the LDAP user with permissions to perform LDAP searches. To be
+    # provided only when not using an existing secret
+    # (see auth ldap.existingSecret value below).
+    adminUsername: ""
+    # -- The password of the LDAP user with permissions to perform LDAP searches. To be
+    # provided only when not using an existing secret
+    # (see auth ldap.existingSecret value below).
+    adminPassword: ""
+    existingSecret:
+      name: ""
+      adminUsernameKey: ""
+      adminPasswordKey: ""
+
+
   # -- Google authentication configuration. Used when `auth.loginModes` contains "google".
   google:
     enabled: false
@@ -1184,7 +1222,7 @@ auth:
       clientSecretKey: ""
 
   # -- Microsoft Entra ID authentication configuration. Used when `auth.loginModes`
-  # -- contains "microsoft".
+  # contains "microsoft".
   # @default -- -
   microsoft:
     # -- If true, enable Microsoft Entra ID SSO authentication.
@@ -1253,7 +1291,7 @@ strimzi:
 clickhouse:
   enabled: false
   # -- Flag to roll out clickhouse progressively on existing postgres
-  # -- installations (first deploy clickhouse, then enable it on backend)
+  # installations (first deploy clickhouse, then enable it on backend)
   active: true
 
   # -- The size of the batches used to ingest data into ClickHouse.
@@ -1303,18 +1341,18 @@ clickhouse:
     # -- If True, enable the backups of the ClickHouse database.
     enabled: false
     # -- The kind of storage used to store backups.
-    # -- Possible values are: "aws_s3", "gcp_bucket", "azure_storage".
+    # Possible values are: "aws_s3", "gcp_bucket", "azure_storage".
     remoteStorage: ""
     # -- Number of backups to keep locally.
-    # -- Default: keep last day (e.g. last 4 backups).
+    # Default: keep last day (e.g. last 4 backups).
     numToKeepLocal: 4
     # -- Number of backups to keep on the remote cloud storage.
-    # -- Default: keep last 30 days (e.g. last 120 backups).
+    # Default: keep last 30 days (e.g. last 120 backups).
     numToKeepRemote: 120
     # -- The schedule of the job. The format is the same as the Kubernetes CronJob schedule.
-    # -- Default: every 4 hours
+    # Default: every 4 hours
     schedule: "0 */4 * * *"
-    # -- The day of the week when the full backup is performed (1=Monday, 7=Sunday).
+    # The day of the week when the full backup is performed (1=Monday, 7=Sunday).
     fullBackupWeekday: 7
 
     # -- Config of the Azure Storage used for storing backups remotely.
@@ -1422,24 +1460,24 @@ interactionsAccessControl:
   #
   # If the openDetailsMode is set to "disabled", the users with the specified roles
   # won't be able to access the interactions details.
-  openDetailsRoles: [ "member", "admin"]
+  openDetailsRoles: [ "member", "admin" ]
   # -- The roles for which the input/output fields of the interactions are
   # redacted when the access control is enabled.
-  redactedRoles: ["viewer", "member", "admin"]
+  redactedRoles: [ "viewer", "member", "admin" ]
 
 
 # -- If True, install the Chart `nebuly-ai/bootstrap-aws`, which
-# -- installs all the dependencies required for installing nebuly-platform on
-# --- an EKS cluster on AWS.
+# installs all the dependencies required for installing nebuly-platform on
+# an EKS cluster on AWS.
 bootstrap-aws:
   enabled: false
 # -- If True, install the Chart `nebuly-ai/bootstrap-azure`, which
-# -- installs all the dependencies required for installing nebuly-platform on
-# --- an AKS cluster on Microsoft Azure.
+# installs all the dependencies required for installing nebuly-platform on
+# an AKS cluster on Microsoft Azure.
 bootstrap-azure:
   enabled: false
 # -- If True, install the Chart `nebuly-ai/bootstrap-gcp`, which
-# -- installs all the dependencies required for installing nebuly-platform on
-# --- an GKE cluster on Google Cloud Platform.
+# installs all the dependencies required for installing nebuly-platform on
+# an GKE cluster on Google Cloud Platform.
 bootstrap-gcp:
   enabled: false
