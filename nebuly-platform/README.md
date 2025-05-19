@@ -212,11 +212,22 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.15.3"` |  |
+| auth.image.tag | string | `"v1.17.6"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
+| auth.ldap | object | `{"adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userObjectClass":""}` | LDAP authentication configuration. |
+| auth.ldap.adminPassword | string | `""` | The password of the LDAP user with permissions to perform LDAP searches. To be provided only when not using an existing secret (see auth ldap.existingSecret value below). |
+| auth.ldap.adminUsername | string | `""` | The username of the LDAP user with permissions to perform LDAP searches. To be provided only when not using an existing secret (see auth ldap.existingSecret value below). |
+| auth.ldap.attributeMapping | string | `""` | Custom mapping for LDAP attributes used for users full name and email. If not provided, the following attributes will be used: * `mail`: user email * `cn`: user full name  When provided, it should be a comma separated list of attributes. Example: `email:<ldap-attribute>,full_name:<ldap-attribute>` |
+| auth.ldap.enabled | bool | `false` | If true, enable LDAP authentication. |
+| auth.ldap.groupObjectClass | string | `""` | The name of the object class used for groups. |
+| auth.ldap.host | string | `""` | The address of LDAP server. |
+| auth.ldap.port | string | `"389"` | The port of the LDAP server. |
+| auth.ldap.roleMapping | string | `""` | Mapping between LDAP Roles and Nebuly roles. Example: `<ladp-admin>:admin, <ldap-member>:member, <ldap-viewer>:viewer`. |
+| auth.ldap.searchBase | string | `""` | The LDAP search base to use. Example: `dc=example,dc=org` |
+| auth.ldap.userObjectClass | string | `""` | The name of the object class used for users. |
 | auth.loginModes | string | `"password"` | The available login modes. Value must be string with the login mode specified as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`, `google`. |
-| auth.microsoft | object | - | contains "microsoft". |
+| auth.microsoft | object | - | Microsoft Entra ID authentication configuration. Used when `auth.loginModes` contains "microsoft". |
 | auth.microsoft.clientId | string | `""` | The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
 | auth.microsoft.clientSecret | string | `""` | The Client Secret of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |
 | auth.microsoft.enabled | bool | `false` | If true, enable Microsoft Entra ID SSO authentication. |
@@ -302,10 +313,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.tolerations | list | `[]` |  |
 | backend.volumeMounts | list | `[]` |  |
 | backend.volumes | list | `[]` |  |
-| bootstrap-aws | object | `{"enabled":false}` | - an EKS cluster on AWS. |
-| bootstrap-azure | object | `{"enabled":false}` | - an AKS cluster on Microsoft Azure. |
-| bootstrap-gcp | object | `{"enabled":false}` | - an GKE cluster on Google Cloud Platform. |
-| clickhouse.active | bool | `true` | installations (first deploy clickhouse, then enable it on backend) |
+| bootstrap-aws | object | `{"enabled":false}` | If True, install the Chart `nebuly-ai/bootstrap-aws`, which installs all the dependencies required for installing nebuly-platform on an EKS cluster on AWS. |
+| bootstrap-azure | object | `{"enabled":false}` | If True, install the Chart `nebuly-ai/bootstrap-azure`, which installs all the dependencies required for installing nebuly-platform on an AKS cluster on Microsoft Azure. |
+| bootstrap-gcp | object | `{"enabled":false}` | If True, install the Chart `nebuly-ai/bootstrap-gcp`, which installs all the dependencies required for installing nebuly-platform on an GKE cluster on Google Cloud Platform. |
+| clickhouse.active | bool | `true` | Flag to roll out clickhouse progressively on existing postgres installations (first deploy clickhouse, then enable it on backend) |
 | clickhouse.affinity | object | `{}` |  |
 | clickhouse.auth.backupsUser | object | `{"password":"nebuly","username":"backups"}` | Credentials of the user used to create backups. |
 | clickhouse.auth.nebulyUser | object | `{"password":"nebuly","username":"nebulyadmin"}` | Credentials of the user used by Nebuly to access the ClickHouse database. |
@@ -325,14 +336,13 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.backups.azure.storageAccountName | string | `""` | The name of the Azure Storage account. |
 | clickhouse.backups.azure.storageContainerName | string | `""` | The name of the Azure Storage container. |
 | clickhouse.backups.enabled | bool | `false` | If True, enable the backups of the ClickHouse database. |
-| clickhouse.backups.fullBackupWeekday | int | `7` | The day of the week when the full backup is performed (1=Monday, 7=Sunday). |
 | clickhouse.backups.gcp | object | - | Config of the GCP Storage used for storing backups remotely. |
 | clickhouse.backups.gcp.bucketName | string | `""` | The name of the GCP bucket. |
 | clickhouse.backups.gcp.projectName | string | `""` | The name of the GCP project containing the bucket. |
-| clickhouse.backups.numToKeepLocal | int | `4` | Default: keep last day (e.g. last 4 backups). |
-| clickhouse.backups.numToKeepRemote | int | `120` | Default: keep last 30 days (e.g. last 120 backups). |
-| clickhouse.backups.remoteStorage | string | `""` | Possible values are: "aws_s3", "gcp_bucket", "azure_storage". |
-| clickhouse.backups.schedule | string | `"0 */4 * * *"` | Default: every 4 hours |
+| clickhouse.backups.numToKeepLocal | int | `4` | Number of backups to keep locally. Default: keep last day (e.g. last 4 backups). |
+| clickhouse.backups.numToKeepRemote | int | `120` | Number of backups to keep on the remote cloud storage. Default: keep last 30 days (e.g. last 120 backups). |
+| clickhouse.backups.remoteStorage | string | `""` | The kind of storage used to store backups. Possible values are: "aws_s3", "gcp_bucket", "azure_storage". |
+| clickhouse.backups.schedule | string | `"0 */4 * * *"` | The schedule of the job. The format is the same as the Kubernetes CronJob schedule. Default: every 4 hours |
 | clickhouse.databaseName | string | `"analytics"` | The name of the ClickHouse database. |
 | clickhouse.enabled | bool | `false` |  |
 | clickhouse.ingestionBatchSize | int | `25000` | The size of the batches used to ingest data into ClickHouse. |
