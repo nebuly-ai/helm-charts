@@ -24,6 +24,9 @@ scrape_configs:
       - action: replace
         target_label: platform_nebuly_com_hosting
         replacement: {{ .Values.telemetry.tenant | quote }}
+      - action: replace
+        target_label: cluster
+        replacement: {{ .Values.telemetry.tenant | quote }}
       # --------------------------------------------- #
       #  Collect only logs from nebuly-platform pods  #
       - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_part_of]
