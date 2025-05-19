@@ -24,7 +24,7 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobEnrichInteractions.labels" . | nindent 14 }}
+            {{- include "jobProcessAll.labels" . | nindent 14 }}
             {{- with .Values.primaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
