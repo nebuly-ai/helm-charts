@@ -2,10 +2,10 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "jobEnrichInteractions.fullname" . }}
+  name: {{ include "jobProcessAll.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
-    {{- include "jobEnrichInteractions.labels" . | nindent 4 }}
+    {{- include "jobProcessAll.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
@@ -13,7 +13,7 @@ spec:
   jobTemplate:
     metadata:
       labels:
-        {{- include "jobEnrichInteractions.labels" . | nindent 10 }}
+        {{- include "jobProcessAll.labels" . | nindent 10 }}
     spec:
       backoffLimit: {{ .Values.primaryProcessing.backoffLimit }}
       activeDeadlineSeconds: {{ .Values.primaryProcessing.activeDeadlineSeconds }}
@@ -24,7 +24,7 @@ spec:
             {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-            {{- include "jobEnrichInteractions.labels" . | nindent 14 }}
+            {{- include "jobProcessAll.labels" . | nindent 14 }}
             {{- with .Values.primaryProcessing.podLabels }}
             {{- toYaml . | nindent 14 }}
             {{- end }}
@@ -43,7 +43,7 @@ spec:
               securityContext:
                 {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
               image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
-              command: [ "python", "jobs/process_enrich_interactions.py" ]
+              command: [ "python", "jobs/process_all.py" ]
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
               {{- if .Values.primaryProcessing.env }}

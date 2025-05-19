@@ -1,14 +1,4 @@
-{{- define "secondaryProcessing.modelSuggestions.schedule" -}}
-{{ (default .Values.secondaryProcessing.schedule .Values.secondaryProcessing.modelSuggestions.schedule)  | quote }}
-{{- end -}}
-
-{{- define "secondaryProcessing.topicsAndActions.schedule" -}}
-{{ (default .Values.secondaryProcessing.schedule .Values.secondaryProcessing.topicsAndActions.schedule)  | quote }}
-{{- end -}}
-
 {{- define "batchJobs.commonEnv" -}}
-
-
 # Enrich interaction Model
 - name: MODEL_NAME
   value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}

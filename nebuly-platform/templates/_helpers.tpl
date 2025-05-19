@@ -200,56 +200,21 @@ app.kubernetes.io/component: nebuly-full-processing
 platform.nebuly.com/processing-stage: primary
 {{- end }}
 
-{{- define "secondaryProcessing.commonLabels" -}}
-platform.nebuly.com/processing-stage: secondary
-{{- end }}
-
 {{/*
 *********************************************************************
-* Cronjob Primary - Enrich Interactions
+* Cronjob Primary - Process all
 *********************************************************************
 */}}
-{{- define "jobEnrichInteractions.labels" -}}
+{{- define "jobProcessAll.labels" -}}
 {{ include "nebuly-platform.selectorLabels" . }}
 {{ include "primaryProcessing.commonLabels" . }}
-app.kubernetes.io/component: job-enrich-interactions
+app.kubernetes.io/component: job-process-all
 {{- end }}
 
-{{- define "jobEnrichInteractions.fullname" -}}
-{{- printf "%s-%s" .Release.Name "enrich-interactions" | trunc 63 | trimSuffix "-" }}
+{{- define "jobProcessAll.fullname" -}}
+{{- printf "%s-%s" .Release.Name "process-all" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-
-{{/*
-*********************************************************************
-* Cronjob Secondary - Process Model Suggestions
-*********************************************************************
-*/}}
-{{- define "jobProcessModelSuggestions.labels" -}}
-{{ include "nebuly-platform.selectorLabels" . }}
-{{ include "secondaryProcessing.commonLabels" . }}
-app.kubernetes.io/component: job-process-model-suggestions
-{{- end }}
-
-{{- define "jobProcessModelSuggestions.fullname" -}}
-{{- printf "%s-%s" .Release.Name "process-model-suggestions" | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-
-{{/*
-*********************************************************************
-* Cronjob Secondary - Process Topics and Actions
-*********************************************************************
-*/}}
-{{- define "jobProcessTopicsAndActions.labels" -}}
-{{ include "nebuly-platform.selectorLabels" . }}
-{{ include "secondaryProcessing.commonLabels" . }}
-app.kubernetes.io/component: job-process-topics-and-actions
-{{- end }}
-
-{{- define "jobProcessTopicsAndActions.fullname" -}}
-{{- printf "%s-%s" .Release.Name "process-topics-and-actions" | trunc 63 | trimSuffix "-" }}
-{{- end }}
 
 {{/*
 *********************************************************************
