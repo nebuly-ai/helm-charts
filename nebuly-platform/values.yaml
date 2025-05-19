@@ -564,7 +564,7 @@ aiModels:
 # which replaces the primary and secondary processing CronJobs with an always running
 # Deployment.
 fullProcessing:
-  # -- If true, replaces the primary and secondary processing CronJobs with an always
+  # -- If true, replaces the processing CronJobs with an always
   # running Deployment.
   enabled: false
 
@@ -693,74 +693,6 @@ primaryProcessing:
       key: nvidia.com/gpu
       operator: Exists
   nodeSelector: { }
-
-# -- Settings related to the Primary processing CronJobs.
-# @default -- -
-secondaryProcessing:
-  # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
-  schedule: "0 2 * * *" # Every day at 2:00 AM
-  backoffLimit: 1
-  activeDeadlineSeconds: 10800 # 3 hours
-  resources:
-    requests:
-      cpu: 1
-    limits:
-      nvidia.com/gpu: 1
-
-  # -- Additional environment variables, in the standard Kubernetes format.
-  # Example:
-  # - name: MY_ENV_VAR
-  #   value: "my-value"
-  env: { }
-
-  # -- Settings of the PVC used to cache AI models.
-  modelsCache:
-    enabled: false
-    size: 64Gi
-    storageClassName: ""
-
-  modelSuggestions:
-    # -- If provided, overrides the schedule of the Model Suggestions CronJob.
-    # Otherwise, use the schedule specified in `secondaryProcessing.schedule`.
-    schedule: ""
-
-  topicsAndActions:
-    # -- If provided, overrides the schedule of the Topics and Actions CronJob.
-    # Otherwise, use the schedule specified in `secondaryProcessing.schedule`.
-    schedule: ""
-
-  podAnnotations: { }
-  podLabels: { }
-  podSecurityContext:
-    runAsNonRoot: true
-    fsGroup: 101
-
-  securityContext:
-    runAsNonRoot: true
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-        - "ALL"
-
-  # Additional volumes
-  volumes: [ ]
-  # - name: foo
-  #   secret:
-  #     secretName: mysecret
-  #     optional: false
-  # Additional volumeMounts
-  volumeMounts: [ ]
-  # - name: foo
-  #   mountPath: "/etc/foo"
-  #   readOnly: true
-
-  affinity: { }
-  tolerations:
-    - effect: NoSchedule
-      key: nvidia.com/gpu
-      operator: Exists
-  nodeSelector: { }
-
 
 imagePullSecrets: [ ]
 # - name: my-secret-name

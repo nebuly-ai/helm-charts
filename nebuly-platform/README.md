@@ -431,7 +431,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
 | fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"settings":{"processingDelaySeconds":0},"tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | Settings related to the runtime full-processing mode, which replaces the primary and secondary processing CronJobs with an always running Deployment. |
-| fullProcessing.enabled | bool | `false` | If true, replaces the primary and secondary processing CronJobs with an always running Deployment. |
+| fullProcessing.enabled | bool | `false` | If true, replaces the processing CronJobs with an always running Deployment. |
 | fullProcessing.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
 | fullProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | fullProcessing.settings.processingDelaySeconds | int | `0` | Seconds of delay between processing. |
@@ -547,12 +547,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | primaryProcessing.modelsCache | object | `{"enabled":false,"size":"128Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | reprocessing | object | `{"interactions":{"enabled":false},"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | Settings for data reprocessing jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
-| secondaryProcessing | object | - | Settings related to the Primary processing CronJobs. |
-| secondaryProcessing.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
-| secondaryProcessing.modelSuggestions.schedule | string | `""` | If provided, overrides the schedule of the Model Suggestions CronJob. Otherwise, use the schedule specified in `secondaryProcessing.schedule`. |
-| secondaryProcessing.modelsCache | object | `{"enabled":false,"size":"64Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
-| secondaryProcessing.schedule | string | `"0 2 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| secondaryProcessing.topicsAndActions.schedule | string | `""` | If provided, overrides the schedule of the Topics and Actions CronJob. Otherwise, use the schedule specified in `secondaryProcessing.schedule`. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.existingSecret | object | - | Use an existing secret for the Azure Key Vault authentication. |
