@@ -27,6 +27,7 @@ data:
       "NEXT_PUBLIC_APP_TITLE": {{ .Values.frontend.title | quote }},
       "NEXT_PUBLIC_ENABLE_TRANSLATIONS": {{ include "featureTranslationsEnabled" . | quote }},
       "NEXT_PUBLIC_ENABLE_ADD_MEMBER": {{ .Values.auth.addMembersEnabled | quote }},
+      "NEXT_PUBLIC_ENABLE_SUB_CATEGORIES": {{ .Values.frontend.enableSubCategories | quote }},
       {{- if not (empty .Values.frontend.customIntentConfig) }}
       "CUSTOM_INTENT_CONFIG": {{ .Values.frontend.customIntentConfig | toJson }},
       {{- end }}
