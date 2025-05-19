@@ -43,7 +43,7 @@ spec:
               securityContext:
                 {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
               image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
-              command: [ "python", "jobs/process_enrich_interactions.py" ]
+              command: [ "python", "jobs/process_all.py" ]
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
               {{- if .Values.primaryProcessing.env }}
