@@ -1067,8 +1067,9 @@ auth:
 
   affinity: { }
 
-  # -- LDAP authentication configuration. Used when `auth.loginModes` contains "ldap".
+  # -- LDAP authentication configuration.
   ldap:
+    # -- If true, enable LDAP authentication.
     enabled: false
     # -- The address of LDAP server.
     host: ""

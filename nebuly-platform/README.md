@@ -215,10 +215,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.image.tag | string | `"v1.17.6"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
-| auth.ldap | object | `{"adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userObjectClass":""}` | LDAP authentication configuration. Used when `auth.loginModes` contains "ldap". |
+| auth.ldap | object | `{"adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userObjectClass":""}` | LDAP authentication configuration. |
 | auth.ldap.adminPassword | string | `""` | The password of the LDAP user with permissions to perform LDAP searches. To be provided only when not using an existing secret (see auth ldap.existingSecret value below). |
 | auth.ldap.adminUsername | string | `""` | The username of the LDAP user with permissions to perform LDAP searches. To be provided only when not using an existing secret (see auth ldap.existingSecret value below). |
 | auth.ldap.attributeMapping | string | `""` | Custom mapping for LDAP attributes used for users full name and email. If not provided, the following attributes will be used: * `mail`: user email * `cn`: user full name  When provided, it should be a comma separated list of attributes. Example: `email:<ldap-attribute>,full_name:<ldap-attribute>` |
+| auth.ldap.enabled | bool | `false` | If true, enable LDAP authentication. |
 | auth.ldap.groupObjectClass | string | `""` | The name of the object class used for groups. |
 | auth.ldap.host | string | `""` | The address of LDAP server. |
 | auth.ldap.port | string | `"389"` | The port of the LDAP server. |
