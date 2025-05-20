@@ -2,13 +2,13 @@
 namespaceOverride: ""
 
 # -- Extra annotations that will be added to all resources.
-annotations: {}
+annotations: { }
 
 # -- The name of the service account used by the platform services.
 serviceAccount:
   name: "default"
   create: false
-  annotations: {}
+  annotations: { }
 
 backend:
   # -- Optionally, the base path of the Backend API when running behind a reverse proxy
@@ -27,8 +27,8 @@ backend:
   settings:
     multiTenancyMode: "dynamic_schema"
 
-  podAnnotations: {}
-  podLabels: {}
+  podAnnotations: { }
+  podLabels: { }
 
   podSecurityContext:
     runAsNonRoot: true
@@ -47,14 +47,14 @@ backend:
     port: 80
 
   # Additional volumes on the output Deployment definition.
-  volumes: []
+  volumes: [ ]
   # - name: foo
   #   secret:
   #     secretName: mysecret
   #     optional: false
 
   # Additional volumeMounts on the output Deployment definition.
-  volumeMounts: []
+  volumeMounts: [ ]
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
@@ -85,23 +85,23 @@ backend:
       limits:
         memory: 2048Mi
 
-  nodeSelector: {}
+  nodeSelector: { }
 
-  tolerations: []
+  tolerations: [ ]
 
-  affinity: {}
+  affinity: { }
 
   # -- If provided, add a CORS middleware to the auth service with the
   # specified origins.
   #
   # If empty, the CORS middleware will be disabled, and it will be assumed that
   # CORS headers and settings are managed by the Ingress controller.
-  corsAllowOrigins: []
+  corsAllowOrigins: [ ]
 
   ingress:
     enabled: false
     className: ""
-    annotations: {}
+    annotations: { }
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
     hosts:
@@ -109,7 +109,7 @@ backend:
         paths:
           - path: /
             pathType: ImplementationSpecific
-    tls: []
+    tls: [ ]
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
@@ -126,7 +126,7 @@ backend:
     tracesSampleRate: 0
 
   # -- If interactionsDetailsAccessControlEnabled is true, the roles that are not allowed to access the interactions details.
-  interactionsDetailsAccessControlRoles: ["viewer", "member", "admin"]
+  interactionsDetailsAccessControlRoles: [ "viewer", "member", "admin" ]
 
 frontend:
   fullnameOverride: ""
@@ -156,15 +156,15 @@ frontend:
   # -- The title of the application.
   title: "Nebuly"
 
-  customIntentConfig: {}
+  customIntentConfig: { }
 
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
     tag: "v1.54.13"
 
-  podAnnotations: {}
-  podLabels: {}
+  podAnnotations: { }
+  podLabels: { }
 
   podSecurityContext:
     runAsNonRoot: true
@@ -183,14 +183,14 @@ frontend:
     port: 80
 
   # Additional volumes on the output Deployment definition.
-  volumes: []
+  volumes: [ ]
   # - name: foo
   #   secret:
   #     secretName: mysecret
   #     optional: false
 
   # Additional volumeMounts on the output Deployment definition.
-  volumeMounts: []
+  volumeMounts: [ ]
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
@@ -200,16 +200,16 @@ frontend:
       cpu: 100m
     limits:
       memory: 128Mi
-  nodeSelector: {}
+  nodeSelector: { }
 
-  tolerations: []
+  tolerations: [ ]
 
-  affinity: {}
+  affinity: { }
 
   ingress:
     enabled: false
     className: ""
-    annotations: {}
+    annotations: { }
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
     hosts:
@@ -217,7 +217,7 @@ frontend:
         paths:
           - path: /
             pathType: ImplementationSpecific
-    tls: []
+    tls: [ ]
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
@@ -248,8 +248,8 @@ eventIngestion:
     pullPolicy: IfNotPresent
     tag: "v1.15.0"
 
-  podAnnotations: {}
-  podLabels: {}
+  podAnnotations: { }
+  podLabels: { }
 
   podSecurityContext:
     runAsNonRoot: true
@@ -268,14 +268,14 @@ eventIngestion:
     port: 80
 
   # Additional volumes on the output Deployment definition.
-  volumes: []
+  volumes: [ ]
   # - name: foo
   #   secret:
   #     secretName: mysecret
   #     optional: false
 
   # Additional volumeMounts on the output Deployment definition.
-  volumeMounts: []
+  volumeMounts: [ ]
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
@@ -285,16 +285,16 @@ eventIngestion:
       cpu: 100m
     limits:
       memory: 256Mi
-  nodeSelector: {}
+  nodeSelector: { }
 
-  tolerations: []
+  tolerations: [ ]
 
-  affinity: {}
+  affinity: { }
 
   ingress:
     enabled: false
     className: ""
-    annotations: {}
+    annotations: { }
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
     hosts:
@@ -302,7 +302,7 @@ eventIngestion:
         paths:
           - path: /
             pathType: ImplementationSpecific
-    tls: []
+    tls: [ ]
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
@@ -330,7 +330,7 @@ ingestionWorker:
   # -- Example:
   # - name: MY_ENV_VAR
   #   value: "my-value"
-  env: {}
+  env: { }
 
   fullnameOverride: ""
 
@@ -355,8 +355,8 @@ ingestionWorker:
     pullPolicy: IfNotPresent
     tag: v1.51.1
 
-  podAnnotations: {}
-  podLabels: {}
+  podAnnotations: { }
+  podLabels: { }
 
   podSecurityContext:
     runAsNonRoot: true
@@ -375,14 +375,14 @@ ingestionWorker:
     port: 80
 
   # Additional volumes on the output Deployment definition.
-  volumes: []
+  volumes: [ ]
   # - name: foo
   #   secret:
   #     secretName: mysecret
   #     optional: false
 
   # Additional volumeMounts on the output Deployment definition.
-  volumeMounts: []
+  volumeMounts: [ ]
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
@@ -401,11 +401,11 @@ ingestionWorker:
         memory: 1024Mi
       limits:
         memory: 1024Mi
-  nodeSelector: {}
+  nodeSelector: { }
 
-  tolerations: []
+  tolerations: [ ]
 
-  affinity: {}
+  affinity: { }
 
   # -- Settings of the Sentry integration.
   sentry:
@@ -511,26 +511,26 @@ aiModels:
       capabilities:
         drop:
           - "ALL"
-    podAnnotations: {}
-    podLabels: {}
-    affinity: {}
-    tolerations: []
-    nodeSelector: {}
+    podAnnotations: { }
+    podLabels: { }
+    affinity: { }
+    tolerations: [ ]
+    nodeSelector: { }
     # -- Additional environment variables, in the standard Kubernetes format.
     # Example:
     # - name: MY_ENV_VAR
     #   value: "my-value"
-    env: {}
+    env: { }
     podSecurityContext:
       runAsNonRoot: true
     # -- Additional volumes
-    volumes: []
+    volumes: [ ]
     # - name: foo
     #   secret:
     #     secretName: mysecret
     #     optional: false
     # -- Additional volumeMounts
-    volumeMounts: []
+    volumeMounts: [ ]
     # - name: foo
     #   mountPath: "/etc/foo"
     #   readOnly: true
@@ -588,23 +588,23 @@ fullProcessing:
     size: 128Gi
     storageClassName: ""
 
-  podAnnotations: {}
-  podLabels: {}
+  podAnnotations: { }
+  podLabels: { }
 
   # -- Additional environment variables, in the standard Kubernetes format.
   # Example:
   # - name: MY_ENV_VAR
   #   value: "my-value"
-  env: {}
+  env: { }
 
   # Additional volumes
-  volumes: []
+  volumes: [ ]
   # - name: foo
   #   secret:
   #     secretName: mysecret
   #     optional: false
   # Additional volumeMounts
-  volumeMounts: []
+  volumeMounts: [ ]
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
@@ -623,12 +623,12 @@ fullProcessing:
   # -- Set to True when running on multiple GPUs.
   hostIPC: false
 
-  affinity: {}
+  affinity: { }
   tolerations:
     - effect: NoSchedule
       key: nvidia.com/gpu
       operator: Exists
-  nodeSelector: {}
+  nodeSelector: { }
 
 # -- Settings related to the Primary processing CronJobs.
 # @default -- -
@@ -641,7 +641,7 @@ primaryProcessing:
   # Example:
   # - name: MY_ENV_VAR
   #   value: "my-value"
-  env: {}
+  env: { }
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
@@ -660,20 +660,20 @@ primaryProcessing:
       drop:
         - "ALL"
 
-  podAnnotations: {}
-  podLabels: {}
+  podAnnotations: { }
+  podLabels: { }
   podSecurityContext:
     runAsNonRoot: true
     fsGroup: 101
 
   # Additional volumes
-  volumes: []
+  volumes: [ ]
   # - name: foo
   #   secret:
   #     secretName: mysecret
   #     optional: false
   # Additional volumeMounts
-  volumeMounts: []
+  volumeMounts: [ ]
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
@@ -687,14 +687,14 @@ primaryProcessing:
   # -- Set to True when running on multiple GPUs.
   hostIPC: false
 
-  affinity: {}
+  affinity: { }
   tolerations:
     - effect: NoSchedule
       key: nvidia.com/gpu
       operator: Exists
-  nodeSelector: {}
+  nodeSelector: { }
 
-imagePullSecrets: []
+imagePullSecrets: [ ]
 # - name: my-secret-name
 
 secretsStore:
@@ -791,7 +791,7 @@ kafka:
   # -- The number of Kafka brokers in the cluster.
   replicas: 3
 
-  affinity: {}
+  affinity: { }
 
   # -- The storage class used for the Kafka and Zookeeper storage.
   # @default -- -
@@ -818,7 +818,7 @@ kafka:
   # @default -- -
   zookeeper:
     replicas: 3
-    affinity: {}
+    affinity: { }
     storage:
       type: persistent-claim
       size: 10Gi
@@ -969,7 +969,7 @@ auth:
   ingress:
     enabled: false
     className: ""
-    annotations: {}
+    annotations: { }
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
     hosts:
@@ -977,7 +977,7 @@ auth:
         paths:
           - path: /auth
             pathType: ImplementationSpecific
-    tls: []
+    tls: [ ]
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
@@ -1002,7 +1002,7 @@ auth:
   #
   # If empty, the CORS middleware will be disabled, and it will be assumed that
   # CORS headers and settings are managed by the Ingress controller.
-  corsAllowOrigins: []
+  corsAllowOrigins: [ ]
 
   # -- Use an existing secret for the database authentication.
   # @default -- -
@@ -1022,8 +1022,8 @@ auth:
     pullPolicy: IfNotPresent
     tag: "v1.17.7"
 
-  podAnnotations: {}
-  podLabels: {}
+  podAnnotations: { }
+  podLabels: { }
 
   podSecurityContext:
     runAsNonRoot: true
@@ -1042,14 +1042,14 @@ auth:
     port: 80
 
   # Additional volumes on the output Deployment definition.
-  volumes: []
+  volumes: [ ]
   # - name: foo
   #   secret:
   #     secretName: mysecret
   #     optional: false
 
   # Additional volumeMounts on the output Deployment definition.
-  volumeMounts: []
+  volumeMounts: [ ]
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
@@ -1060,11 +1060,11 @@ auth:
       memory: 128Mi
     limits:
       memory: 256Mi
-  nodeSelector: {}
+  nodeSelector: { }
 
-  tolerations: []
+  tolerations: [ ]
 
-  affinity: {}
+  affinity: { }
 
   # -- LDAP authentication configuration.
   ldap:
@@ -1244,20 +1244,20 @@ clickhouse:
   logLevel: debug
 
   # -- Additional volumes on the ClickHouse pods.
-  volumes: []
+  volumes: [ ]
   # - name: foo
   #   secret:
   #     secretName: mysecret
   #     optional: false
 
   # --  Additional volumeMounts on ClickHouse pods.
-  volumeMounts: []
+  volumeMounts: [ ]
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
 
-  affinity: {}
-  tolerations: []
+  affinity: { }
+  tolerations: [ ]
 
   auth:
     # -- Credentials of the user used by Nebuly to access the ClickHouse database.
@@ -1353,18 +1353,18 @@ clickhouse:
       limits:
         memory: 4Gi
 
-    affinity: {}
-    tolerations: []
+    affinity: { }
+    tolerations: [ ]
 
     # -- Additional volumes on the ClickHouse Keeper pods.
-    volumes: []
+    volumes: [ ]
     # - name: foo
     #   secret:
     #     secretName: mysecret
     #     optional: false
 
     # --  Additional volumeMounts on ClickHouse Keeper pods.
-    volumeMounts: []
+    volumeMounts: [ ]
     # - name: foo
     #   mountPath: "/etc/foo"
     #   readOnly: true
@@ -1392,10 +1392,10 @@ interactionsAccessControl:
   #
   # If the openDetailsMode is set to "disabled", the users with the specified roles
   # won't be able to access the interactions details.
-  openDetailsRoles: ["member", "admin"]
+  openDetailsRoles: [ "member", "admin" ]
   # -- The roles for which the input/output fields of the interactions are
   # redacted when the access control is enabled.
-  redactedRoles: ["viewer", "member", "admin"]
+  redactedRoles: [ "viewer", "member", "admin" ]
 
 # -- If True, install the Chart `nebuly-ai/bootstrap-aws`, which
 # installs all the dependencies required for installing nebuly-platform on
