@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.66.9"
+    tag: "v1.67.2"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -161,7 +161,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.54.12"
+    tag: "v1.54.13"
 
   podAnnotations: { }
   podLabels: { }
@@ -318,7 +318,6 @@ eventIngestion:
     profilesSampleRate: 0
     tracesSampleRate: 0
 
-
 ingestionWorker:
   # -- The number of workers (e.g. coroutines) used to process interactions.
   numWorkersInteractions: 20
@@ -354,7 +353,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.50.2
+    tag: v1.51.3
 
   podAnnotations: { }
   podLabels: { }
@@ -646,7 +645,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.50.2
+    tag: v1.51.1
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -1105,7 +1104,6 @@ auth:
       adminUsernameKey: ""
       adminPasswordKey: ""
 
-
   # -- Google authentication configuration. Used when `auth.loginModes` contains "google".
   google:
     enabled: false
@@ -1245,7 +1243,6 @@ clickhouse:
   # -- ClickHouse log level.
   logLevel: debug
 
-
   # -- Additional volumes on the ClickHouse pods.
   volumes: [ ]
   # - name: foo
@@ -1372,7 +1369,6 @@ clickhouse:
     #   mountPath: "/etc/foo"
     #   readOnly: true
 
-
     # -- Storage configuration of the ClickHouse Keeper instances.
     storage:
       size: 32Gi
@@ -1400,7 +1396,6 @@ interactionsAccessControl:
   # -- The roles for which the input/output fields of the interactions are
   # redacted when the access control is enabled.
   redactedRoles: [ "viewer", "member", "admin" ]
-
 
 # -- If True, install the Chart `nebuly-ai/bootstrap-aws`, which
 # installs all the dependencies required for installing nebuly-platform on
