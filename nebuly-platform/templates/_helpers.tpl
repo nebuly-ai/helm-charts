@@ -208,7 +208,7 @@ platform.nebuly.com/processing-stage: primary
 {{- define "jobProcessAll.labels" -}}
 {{ include "nebuly-platform.selectorLabels" . }}
 {{ include "primaryProcessing.commonLabels" . }}
-app.kubernetes.io/component: job-process-all
+app.kubernetes.io/component: nebuly-ingestion-worker
 {{- end }}
 
 {{- define "jobProcessAll.fullname" -}}
