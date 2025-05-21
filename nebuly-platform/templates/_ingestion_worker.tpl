@@ -74,14 +74,15 @@
   value: {{ .Values.ingestionWorker.sentry.tracesSampleRate | quote }}
 - name: SENTRY_PROFILES_SAMPLE_RATE
   value: {{ .Values.ingestionWorker.sentry.profilesSampleRate | quote }}
-# AI Models
+# PII Removal
 - name: LANGUAGE_DETECTION_MODEL_NAME
   value: {{ .Values.aiModels.modelLanguageDetection.name | quote }}
 - name: LANGUAGE_DETECTION_MODEL_VERSION
   value: {{ .Values.aiModels.modelLanguageDetection.version | quote }}
 - name: PII_ENABLE_LANGUAGE_DETECTION
   value: {{ .Values.ingestionWorker.settings.enablePiiLanguageDetection | quote }}
-{{- include "aiModels.env" . }}
+# AI Models pulling
+{{ include "aiModels.env" . }}
 {{- with .Values.ingestionWorker.env }}
 {{ toYaml . }}
 {{- end }}
