@@ -151,7 +151,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelActionClassifier":{"name":"action-classifier","version":"6"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":22},"modelTopicClassifier":{"name":"topic-classifier","version":"8"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
+| aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelActionClassifier":{"name":"action-classifier","version":"6"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":22},"modelLanguageDetection":{"name":"language-detection","version":"2"},"modelTopicClassifier":{"name":"topic-classifier","version":"8"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"schedule":"0 23 * * *","securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
 | aiModels.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
 | aiModels.aws.endpointUrl | string | `""` | Optional AWS S3 endpoint URL. The URL should not include the bucket name. Example: "https://my-domain.com:9444" |
@@ -453,11 +453,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.51.3"` |  |
+| ingestionWorker.image.tag | string | `"v1.52.0"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
-| ingestionWorker.numWorkersActions | int | `10` | The number of workers (e.g. coroutines) used to process actions. |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
-| ingestionWorker.numWorkersInteractions | int | `20` | The number of workers (e.g. coroutines) used to process interactions. |
+| ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
 | ingestionWorker.podAnnotations | object | `{}` |  |
 | ingestionWorker.podLabels | object | `{}` |  |
 | ingestionWorker.podSecurityContext.runAsNonRoot | bool | `true` |  |
@@ -474,10 +473,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.settings.enableDbCache | bool | `true` | Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions. |
 | ingestionWorker.settings.enrichInteractionBatchSize | int | `10000` | Batch size of interactions loaded in each step of enrich interactions. |
 | ingestionWorker.settings.entitiesBatchSize | int | `20000` | Batch size of entities loaded in each step of aggregate jobs. |
-| ingestionWorker.stage1.resources.limits.memory | string | `"1024Mi"` |  |
+| ingestionWorker.settings.piiEnableLanguageDetection | bool | `false` | Enable language detection for PII detection. |
+| ingestionWorker.stage1.resources.limits.memory | string | `"512Mi"` |  |
 | ingestionWorker.stage1.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage1.resources.requests.memory | string | `"1024Mi"` |  |
-| ingestionWorker.stage2.resources.limits.memory | string | `"1024Mi"` |  |
+| ingestionWorker.stage2.resources.limits.memory | string | `"2560Mi"` |  |
 | ingestionWorker.stage2.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage2.resources.requests.memory | string | `"1024Mi"` |  |
 | ingestionWorker.tolerations | list | `[]` |  |
