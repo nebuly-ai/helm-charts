@@ -90,11 +90,16 @@ spec:
                 - python
                 - app/health_check.py
                 - "60" # max allowed stale seconds
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            initialDelaySeconds: 30
+            periodSeconds: 15
           resources:
             {{- toYaml .Values.ingestionWorker.stage2.resources | nindent 12 }}
           volumeMounts:
+            - name: vllm-report-usage
+              mountPath: /nonexistent
+            - name: models-cache
+              mountPath: /var/cache/nebuly
+              readOnly: false
           {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
             - name: krb5-config
               mountPath: /etc/krb5.conf
@@ -112,6 +117,15 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
       volumes:
+        - name: vllm-report-usage
+          emptyDir: {}
+        - name: models-cache
+      {{- if .Values.ingestionWorker.modelsCache.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "ingestionWorker.modelsCache.name" . }}
+      {{- else }}
+          emptyDir: { }
+      {{- end }}
       {{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
         - name: krb5-config
           configMap:

@@ -320,9 +320,7 @@ eventIngestion:
 
 ingestionWorker:
   # -- The number of workers (e.g. coroutines) used to process interactions.
-  numWorkersInteractions: 20
-  # -- The number of workers (e.g. coroutines) used to process actions.
-  numWorkersActions: 10
+  numWorkersInteractions: 10
   # -- The number of workers (e.g. coroutines) used to process feedback actions.
   numWorkersFeedbackActions: 10
 
@@ -348,12 +346,14 @@ ingestionWorker:
     entitiesBatchSize: 20000
     # -- Batch size of interactions loaded in each step of enrich interactions.
     enrichInteractionBatchSize: 10000
+    # -- Enable language detection for PII detection.
+    piiEnableLanguageDetection: false
 
   replicaCount: 1
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.51.3
+    tag: v1.52.0
 
   podAnnotations: { }
   podLabels: { }
@@ -393,14 +393,14 @@ ingestionWorker:
         cpu: 100m
         memory: 1024Mi
       limits:
-        memory: 1024Mi
+        memory: 512Mi
   stage2:
     resources:
       requests:
         cpu: 100m
         memory: 1024Mi
       limits:
-        memory: 1024Mi
+        memory: 2560Mi
   nodeSelector: { }
 
   tolerations: [ ]
@@ -435,6 +435,10 @@ aiModels:
   modelActionClassifier:
     name: "action-classifier"
     version: "6"
+
+  modelLanguageDetection:
+    name: "language-detection"
+    version: "2"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
