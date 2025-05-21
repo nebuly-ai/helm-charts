@@ -1,3 +1,11 @@
+{{- define "aiModels.commonEnv.env" -}}
+- name: MODEL_PROVIDER
+  value: {{ .Values.aiModels.registry | quote }}
+- name: MODELS_CACHE_DIR
+  value: "/var/cache/nebuly"
+- name: HF_HOME
+  value: "/tmp/hf"
+{{- end -}}
 {{- define "aiModels.azureml.env" -}}
 - name: AZURE_TENANT_ID
   value: "{{ .Values.aiModels.azureml.tenantId }}"

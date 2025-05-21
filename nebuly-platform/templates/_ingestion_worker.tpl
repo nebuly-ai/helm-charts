@@ -76,6 +76,20 @@
   value: {{ .Values.ingestionWorker.sentry.tracesSampleRate | quote }}
 - name: SENTRY_PROFILES_SAMPLE_RATE
   value: {{ .Values.ingestionWorker.sentry.profilesSampleRate | quote }}
+# AI Models
+{{ include "aiModels.commonEnv.env" . }}
+{{- if eq .Values.aiModels.registry  "azure_ml" }}
+{{ include "aiModels.azureml.env" . }}
+{{- end }}
+{{- if eq .Values.aiModels.registry  "azure_storage" }}
+{{ include "aiModels.azure_storage.env" . }}
+{{- end }}
+{{- if eq .Values.aiModels.registry  "aws_s3" }}
+{{ include "aiModels.aws.env" . }}
+{{- end }}
+{{- if eq .Values.aiModels.registry  "gcp_bucket" }}
+{{ include "aiModels.gcp.env" . }}
+{{- end }}
 {{- with .Values.ingestionWorker.env }}
 {{ toYaml . }}
 {{- end }}

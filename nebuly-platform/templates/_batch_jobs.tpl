@@ -44,14 +44,7 @@
       key: {{ .Values.openAi.existingSecret.apiKey | default "openai-api-key" }}
 
 # Models
-- name: MODEL_PROVIDER
-  value: {{ .Values.aiModels.registry | quote }}
-- name: MODELS_CACHE_DIR
-  value: "/var/cache/nebuly"
-- name: SENTENCE_TRANSFORMERS_HOME
-  value: "/tmp/hf"
-- name: HF_HOME
-  value: "/tmp/hf"
+{{ include "aiModels.commonEnv.env" . }}
 {{- if eq .Values.aiModels.registry  "azure_ml" }}
 {{ include "aiModels.azureml.env" . }}
 {{- end }}
