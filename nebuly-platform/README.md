@@ -476,7 +476,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.settings.piiEnableLanguageDetection | bool | `false` | Enable language detection for PII detection. |
 | ingestionWorker.stage1.resources.limits.memory | string | `"512Mi"` |  |
 | ingestionWorker.stage1.resources.requests.cpu | string | `"100m"` |  |
-| ingestionWorker.stage1.resources.requests.memory | string | `"1024Mi"` |  |
+| ingestionWorker.stage1.resources.requests.memory | string | `"512Mi"` |  |
 | ingestionWorker.stage2.resources.limits.memory | string | `"2560Mi"` |  |
 | ingestionWorker.stage2.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage2.resources.requests.memory | string | `"1024Mi"` |  |
