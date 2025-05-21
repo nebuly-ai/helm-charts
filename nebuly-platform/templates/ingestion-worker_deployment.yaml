@@ -120,12 +120,7 @@ spec:
         - name: vllm-report-usage
           emptyDir: {}
         - name: models-cache
-      {{- if .Values.ingestionWorker.modelsCache.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ include "ingestionWorker.modelsCache.name" . }}
-      {{- else }}
           emptyDir: { }
-      {{- end }}
       {{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
         - name: krb5-config
           configMap:
