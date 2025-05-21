@@ -347,7 +347,7 @@ ingestionWorker:
     # -- Batch size of interactions loaded in each step of enrich interactions.
     enrichInteractionBatchSize: 10000
     # -- Enable language detection for PII detection.
-    piiEnableLanguageDetection: false
+    enablePiiLanguageDetection: false
 
   replicaCount: 1
   image:

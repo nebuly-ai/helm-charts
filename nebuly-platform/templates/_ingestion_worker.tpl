@@ -80,7 +80,7 @@
 - name: LANGUAGE_DETECTION_MODEL_VERSION
   value: {{ .Values.aiModels.modelLanguageDetection.version | quote }}
 - name: PII_ENABLE_LANGUAGE_DETECTION
-  value: {{ .Values.ingestionWorker.settings.piiEnableLanguageDetection | quote }}
+  value: {{ .Values.ingestionWorker.settings.enablePiiLanguageDetection | quote }}
 {{ include "aiModels.commonEnv.env" . }}
 {{- if eq .Values.aiModels.registry  "azure_ml" }}
 {{ include "aiModels.azureml.env" . }}
