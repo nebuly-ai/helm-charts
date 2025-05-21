@@ -5,7 +5,6 @@
   value: "/var/cache/nebuly"
 - name: HF_HOME
   value: "/tmp/hf"
-{{ include "aiModels.commonEnv.env" . }}
 {{- if eq .Values.aiModels.registry  "azure_ml" }}
 {{ include "aiModels.azureml.env" . }}
 {{- end }}
@@ -18,7 +17,8 @@
 {{- if eq .Values.aiModels.registry  "gcp_bucket" }}
 {{ include "aiModels.gcp.env" . }}
 {{- end }}
-{{- end -}}
+{{- end }}
+
 {{- define "aiModels.azureml.env" -}}
 - name: AZURE_TENANT_ID
   value: "{{ .Values.aiModels.azureml.tenantId }}"
