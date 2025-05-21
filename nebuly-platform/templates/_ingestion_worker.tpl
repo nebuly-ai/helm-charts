@@ -11,8 +11,6 @@
   value: "{{ .Values.ingestionWorker.healthCheckPath }}"
 {{- end }}
 # Workers
-- name: NUMBER_OF_WORKERS_ACTIONS
-  value: "{{ .Values.ingestionWorker.numWorkersActions }}"
 - name: NUMBER_OF_WORKERS_INTERACTIONS
   value: "{{ .Values.ingestionWorker.numWorkersInteractions }}"
 - name: NUMBER_OF_WORKERS_FEEDBACK_ACTIONS
@@ -76,6 +74,15 @@
   value: {{ .Values.ingestionWorker.sentry.tracesSampleRate | quote }}
 - name: SENTRY_PROFILES_SAMPLE_RATE
   value: {{ .Values.ingestionWorker.sentry.profilesSampleRate | quote }}
+# PII Removal
+- name: LANGUAGE_DETECTION_MODEL_NAME
+  value: {{ .Values.aiModels.modelLanguageDetection.name | quote }}
+- name: LANGUAGE_DETECTION_MODEL_VERSION
+  value: {{ .Values.aiModels.modelLanguageDetection.version | quote }}
+- name: PII_ENABLE_LANGUAGE_DETECTION
+  value: {{ .Values.ingestionWorker.settings.enablePiiLanguageDetection | quote }}
+# AI Models pulling
+{{ include "aiModels.env" . }}
 {{- with .Values.ingestionWorker.env }}
 {{ toYaml . }}
 {{- end }}

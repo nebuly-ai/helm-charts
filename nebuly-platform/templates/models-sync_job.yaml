@@ -45,6 +45,7 @@ spec:
             - {{ .Values.aiModels.modelInferenceInteractions.name }}:{{ .Values.aiModels.modelInferenceInteractions.version }}
             - {{ .Values.aiModels.modelTopicClassifier.name }}:{{ .Values.aiModels.modelTopicClassifier.version }}
             - {{ .Values.aiModels.modelActionClassifier.name }}:{{ .Values.aiModels.modelActionClassifier.version }}
+            - {{ .Values.aiModels.modelLanguageDetection.name }}:{{ .Values.aiModels.modelLanguageDetection.version }}
             - --target-registry
             - {{ .Values.aiModels.registry }}
           imagePullPolicy: {{ .Values.aiModels.sync.image.pullPolicy }}

@@ -42,26 +42,4 @@
     secretKeyRef:
       name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
       key: {{ .Values.openAi.existingSecret.apiKey | default "openai-api-key" }}
-
-# Models
-- name: MODEL_PROVIDER
-  value: {{ .Values.aiModels.registry | quote }}
-- name: MODELS_CACHE_DIR
-  value: "/var/cache/nebuly"
-- name: SENTENCE_TRANSFORMERS_HOME
-  value: "/tmp/hf"
-- name: HF_HOME
-  value: "/tmp/hf"
-{{- if eq .Values.aiModels.registry  "azure_ml" }}
-{{ include "aiModels.azureml.env" . }}
-{{- end }}
-{{- if eq .Values.aiModels.registry  "azure_storage" }}
-{{ include "aiModels.azure_storage.env" . }}
-{{- end }}
-{{- if eq .Values.aiModels.registry  "aws_s3" }}
-{{ include "aiModels.aws.env" . }}
-{{- end }}
-{{- if eq .Values.aiModels.registry  "gcp_bucket" }}
-{{ include "aiModels.gcp.env" . }}
-{{- end }}
 {{- end -}}
