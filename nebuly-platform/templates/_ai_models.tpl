@@ -1,10 +1,23 @@
-{{- define "aiModels.commonEnv.env" -}}
+{{- define "aiModels.env" -}}
 - name: MODEL_PROVIDER
   value: {{ .Values.aiModels.registry | quote }}
 - name: MODELS_CACHE_DIR
   value: "/var/cache/nebuly"
 - name: HF_HOME
   value: "/tmp/hf"
+{{ include "aiModels.commonEnv.env" . }}
+{{- if eq .Values.aiModels.registry  "azure_ml" }}
+{{ include "aiModels.azureml.env" . }}
+{{- end }}
+{{- if eq .Values.aiModels.registry  "azure_storage" }}
+{{ include "aiModels.azure_storage.env" . }}
+{{- end }}
+{{- if eq .Values.aiModels.registry  "aws_s3" }}
+{{ include "aiModels.aws.env" . }}
+{{- end }}
+{{- if eq .Values.aiModels.registry  "gcp_bucket" }}
+{{ include "aiModels.gcp.env" . }}
+{{- end }}
 {{- end -}}
 {{- define "aiModels.azureml.env" -}}
 - name: AZURE_TENANT_ID
