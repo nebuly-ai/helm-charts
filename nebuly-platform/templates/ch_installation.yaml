@@ -64,7 +64,8 @@ spec:
           containers:
             {{- if .Values.clickhouse.backups.enabled }}
             - name: clickhouse-backup
-              image: altinity/clickhouse-backup:2.6.5
+              image: "{{ .Values.clickhouse.backups.image.repository }}:{{ .Values.clickhouse.backups.image.tag }}"
+              imagePullPolicy: {{ .Values.clickhouse.backups.image.pullPolicy }}
               args: [ "server" ]
               env:
                 - name: LOG_LEVEL
@@ -106,7 +107,8 @@ spec:
                 {{- end }}
             {{- end }}
             - name: clickhouse
-              image: {{ printf "clickhouse/clickhouse-server:%s" .Values.clickhouse.version }}
+              image: "{{ .Values.clickhouse.image.repository }}:{{ .Values.clickhouse.image.tag }}"
+              imagePullPolicy: {{ .Values.clickhouse.image.pullPolicy }}
               env:
                 - name: PGSSLCERT
                   value: /tmp/postgresql.crt

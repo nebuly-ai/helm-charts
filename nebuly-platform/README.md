@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.40.3](https://img.shields.io/badge/Version-1.40.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.41.0](https://img.shields.io/badge/Version-1.41.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -320,7 +320,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.affinity | object | `{}` |  |
 | clickhouse.auth.backupsUser | object | `{"password":"nebuly","username":"backups"}` | Credentials of the user used to create backups. |
 | clickhouse.auth.nebulyUser | object | `{"password":"nebuly","username":"nebulyadmin"}` | Credentials of the user used by Nebuly to access the ClickHouse database. |
-| clickhouse.backups | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"existingSecret":{"name":"","storageAccountKeyKey":""},"storageAccountKey":"","storageAccountName":"","storageContainerName":""},"enabled":false,"fullBackupWeekday":7,"gcp":{"bucketName":"","projectName":""},"numToKeepLocal":4,"numToKeepRemote":120,"remoteStorage":"","schedule":"0 */4 * * *"}` | Backups configuration. |
+| clickhouse.backups | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"existingSecret":{"name":"","storageAccountKeyKey":""},"storageAccountKey":"","storageAccountName":"","storageContainerName":""},"enabled":false,"fullBackupWeekday":7,"gcp":{"bucketName":"","projectName":""},"image":{"pullPolicy":"IfNotPresent","repository":"altinity/clickhouse-backup","tag":"2.6.5"},"numToKeepLocal":4,"numToKeepRemote":120,"remoteStorage":"","schedule":"0 */4 * * *"}` | Backups configuration. |
 | clickhouse.backups.aws | object | - | Config of the AWS Bucket used for storing backups remotely. |
 | clickhouse.backups.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
 | clickhouse.backups.aws.endpointUrl | string | `""` | the bucket name. Example: "https://my-domain.com:9444" |
@@ -339,12 +339,16 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.backups.gcp | object | - | Config of the GCP Storage used for storing backups remotely. |
 | clickhouse.backups.gcp.bucketName | string | `""` | The name of the GCP bucket. |
 | clickhouse.backups.gcp.projectName | string | `""` | The name of the GCP project containing the bucket. |
+| clickhouse.backups.image | object | `{"pullPolicy":"IfNotPresent","repository":"altinity/clickhouse-backup","tag":"2.6.5"}` | The settings of the Docker image used to run the backup job. |
 | clickhouse.backups.numToKeepLocal | int | `4` | Number of backups to keep locally. Default: keep last day (e.g. last 4 backups). |
 | clickhouse.backups.numToKeepRemote | int | `120` | Number of backups to keep on the remote cloud storage. Default: keep last 30 days (e.g. last 120 backups). |
 | clickhouse.backups.remoteStorage | string | `""` | The kind of storage used to store backups. Possible values are: "aws_s3", "gcp_bucket", "azure_storage". |
 | clickhouse.backups.schedule | string | `"0 */4 * * *"` | The schedule of the job. The format is the same as the Kubernetes CronJob schedule. Default: every 4 hours |
 | clickhouse.databaseName | string | `"analytics"` | The name of the ClickHouse database. |
 | clickhouse.enabled | bool | `false` |  |
+| clickhouse.image.pullPolicy | string | `"IfNotPresent"` |  |
+| clickhouse.image.repository | string | `"clickhouse/clickhouse-server"` |  |
+| clickhouse.image.tag | string | `"24.12.5-alpine"` |  |
 | clickhouse.ingestionBatchSize | int | `25000` | The size of the batches used to ingest data into ClickHouse. |
 | clickhouse.keeper.affinity | object | `{}` |  |
 | clickhouse.keeper.enabled | bool | `false` |  |
@@ -361,7 +365,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.resources.requests.memory | string | `"13Gi"` |  |
 | clickhouse.storage | object | `{"size":"128Gi","storageClassName":"default"}` | Persistent storage settings. |
 | clickhouse.tolerations | list | `[]` |  |
-| clickhouse.version | string | `"24.12.5-alpine"` | The ClickHouse version to use (Docker image tag). |
 | clickhouse.volumeMounts | list | `[]` | Additional volumeMounts on ClickHouse pods. |
 | clickhouse.volumes | list | `[]` | Additional volumes on the ClickHouse pods. |
 | clusterIssuer | object | `{"email":"support@nebuly.ai","enabled":false,"name":"letsencrypt"}` | Optional cert-manager cluster issuer. @default -- |
