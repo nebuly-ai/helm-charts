@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.40.1](https://img.shields.io/badge/Version-1.40.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.40.2](https://img.shields.io/badge/Version-1.40.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -477,6 +477,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.stage1.resources.limits.memory | string | `"512Mi"` |  |
 | ingestionWorker.stage1.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage1.resources.requests.memory | string | `"512Mi"` |  |
+| ingestionWorker.stage2.resources.limits.cpu | int | `2` |  |
 | ingestionWorker.stage2.resources.limits.memory | string | `"2560Mi"` |  |
 | ingestionWorker.stage2.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage2.resources.requests.memory | string | `"1024Mi"` |  |
