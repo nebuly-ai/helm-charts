@@ -11,7 +11,7 @@ metadata:
 spec:
   templates:
     podTemplates:
-      - name: {{ printf "clickhouse-%s" .Values.clickhouse.keeper.version }}
+      - name: clickhouse-keeper
         spec:
           {{- with .Values.clickhouse.keeper.affinity }}
             affinity:
@@ -23,7 +23,8 @@ spec:
           {{- end }}
           containers:
             - name: clickhouse-keeper
-              image: {{ printf "clickhouse/clickhouse-keeper:%s" .Values.clickhouse.keeper.version }}
+              image: {{ .Values.clickhouse.keeper.image.repository }}:{{ .Values.clickhouse.keeper.image.tag }}
+              imagePullPolicy: {{ .Values.clickhouse.keeper.image.pullPolicy }}
               {{ with .Values.clickhouse.keeper.resources }}
               resources:
                 {{ toYaml . | nindent 16 }}
@@ -44,7 +45,7 @@ spec:
     clusters:
       - name: default
         templates:
-          podTemplate: {{ printf "clickhouse-%s" .Values.clickhouse.keeper.version }}
+          podTemplate: clickhouse-keeper
           volumeClaimTemplate: data
         layout:
           replicasCount: {{ .Values.clickhouse.keeper.replicas }}

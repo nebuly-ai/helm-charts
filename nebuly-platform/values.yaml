@@ -1233,11 +1233,13 @@ clickhouse:
   # installations (first deploy clickhouse, then enable it on backend)
   active: true
 
+  image:
+    repository: clickhouse/clickhouse-server
+    pullPolicy: IfNotPresent
+    tag: "24.12.5-alpine"
+
   # -- The size of the batches used to ingest data into ClickHouse.
   ingestionBatchSize: 25000
-
-  # -- The ClickHouse version to use (Docker image tag).
-  version: "24.12.5-alpine"
 
   # -- The name of the ClickHouse database.
   databaseName: analytics
@@ -1278,6 +1280,11 @@ clickhouse:
   backups:
     # -- If True, enable the backups of the ClickHouse database.
     enabled: false
+    # -- The settings of the Docker image used to run the backup job.
+    image:
+      repository: altinity/clickhouse-backup
+      pullPolicy: IfNotPresent
+      tag: "2.6.5"
     # -- The kind of storage used to store backups.
     # Possible values are: "aws_s3", "gcp_bucket", "azure_storage".
     remoteStorage: ""
@@ -1352,7 +1359,10 @@ clickhouse:
     replicas: 1
 
     # -- The ClickHouse Keeper version to use (Docker image tag).
-    version: "25.1.5.31"
+    image:
+      repository: clickhouse/clickhouse-keeper
+      pullPolicy: IfNotPresent
+      tag: "25.1.5.31"
 
     resources:
       limits:

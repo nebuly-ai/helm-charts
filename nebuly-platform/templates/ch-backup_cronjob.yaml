@@ -32,8 +32,8 @@ spec:
                 name: {{ include "clickhouse.fullname" . }}-backups
           containers:
             - name: clickhouse-server
-              image: {{ printf "clickhouse/clickhouse-server:%s" .Values.clickhouse.version }}
-              imagePullPolicy: IfNotPresent
+              image: "{{ .Values.clickhouse.image.repository }}:{{ .Values.clickhouse.image.tag }}"
+              imagePullPolicy: {{ .Values.clickhouse.backups.image.pullPolicy }}
               env:
                 - name: CLICKHOUSE_PORT
                   value: "9000"

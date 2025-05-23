@@ -30,14 +30,14 @@ spec:
           shardsCount: 1 # Sharding is currently not supported by Nebuly Platform
           replicasCount: {{ .Values.clickhouse.replicas }}
         templates:
-          podTemplate: {{ printf "clickhouse-%s" .Values.clickhouse.version }}
+          podTemplate: clickhouse-server
           volumeClaimTemplate: data
     settings:
       max_server_memory_usage_to_ram_ratio: "0.8"
 
   templates:
     podTemplates:
-      - name: {{ printf "clickhouse-%s" .Values.clickhouse.version }}
+      - name: clickhouse-server
         metadata:
           annotations:
             prometheus.io/scrape: "true"
@@ -64,7 +64,8 @@ spec:
           containers:
             {{- if .Values.clickhouse.backups.enabled }}
             - name: clickhouse-backup
-              image: altinity/clickhouse-backup:2.6.5
+              image: {{ .Values.clickhouse.backups.image.repository }}:{{ .Values.clickhouse.backups.image.tag }}
+              imagePullPolicy: {{ .Values.clickhouse.backups.image.pullPolicy }}
               args: [ "server" ]
               env:
                 - name: LOG_LEVEL
@@ -106,7 +107,8 @@ spec:
                 {{- end }}
             {{- end }}
             - name: clickhouse
-              image: {{ printf "clickhouse/clickhouse-server:%s" .Values.clickhouse.version }}
+              image: {{ .Values.clickhouse.image.repository }}:{{ .Values.clickhouse.image.tag }}
+              imagePullPolicy: {{ .Values.clickhouse.image.pullPolicy }}
               env:
                 - name: PGSSLCERT
                   value: /tmp/postgresql.crt
