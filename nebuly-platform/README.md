@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.41.0](https://img.shields.io/badge/Version-1.41.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.41.1](https://img.shields.io/badge/Version-1.41.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -191,7 +191,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | analyticDatabase.name | string | `"analytics"` | The name of the database used to store analytic data (interactions, actions, etc.). To be provided only when not using an existing secret (see analyticDatabase.existingSecret value below). |
 | analyticDatabase.password | string | `""` | The password for the database user. To be provided only when not using an existing secret (see analyticDatabase.existingSecret value below). |
 | analyticDatabase.server | string | `""` | The host of the database used to store analytic data. |
-| analyticDatabase.statementTimeoutSeconds | int | `120` | The timeout in seconds for the database queries. |
 | analyticDatabase.user | string | `""` | The user for connecting to the database. |
 | annotations | object | `{}` | Extra annotations that will be added to all resources. |
 | auth.addMembersEnabled | bool | `false` | If True, enable the admin panel for inviting new members to the platform. |
@@ -484,6 +483,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.stage2.resources.limits.memory | string | `"2560Mi"` |  |
 | ingestionWorker.stage2.resources.requests.cpu | string | `"100m"` |  |
 | ingestionWorker.stage2.resources.requests.memory | string | `"1024Mi"` |  |
+| ingestionWorker.statementTimeoutSeconds | int | `120` | The timeout in seconds for the database queries. |
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.volumeMounts | list | `[]` |  |
 | ingestionWorker.volumes | list | `[]` |  |

@@ -44,8 +44,8 @@
     secretKeyRef:
       name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
       key: {{ .Values.analyticDatabase.existingSecret.passwordKey | default "analytic-database-password" }}
-- name: "STATEMENT_TIMEOUT_SECONDS"
-  value: "{{ .Values.analyticDatabase.statementTimeoutSeconds }}"
+- name: "POSTGRES_STATEMENT_TIMEOUT_SECONDS"
+  value: {{ .Values.ingestionWorker.statementTimeoutSeconds | quote }}
 # Kafka Settings
 {{ include "kafka.commonEnv" . }}
 - name: KAFKA_TOPIC_EVENTS_MAIN

@@ -323,6 +323,8 @@ ingestionWorker:
   numWorkersInteractions: 10
   # -- The number of workers (e.g. coroutines) used to process feedback actions.
   numWorkersFeedbackActions: 10
+  # -- The timeout in seconds for the database queries.
+  statementTimeoutSeconds: 120
 
   # -- Additional environment variables, in the standard Kubernetes format.
   # -- Example:
@@ -771,8 +773,6 @@ analyticDatabase:
   # -- The password for the database user. To be provided only when not using an existing secret
   # (see analyticDatabase.existingSecret value below).
   password: ""
-  # -- The timeout in seconds for the database queries.
-  statementTimeoutSeconds: 120
   # -- Use an existing secret for the database authentication.
   # @default -- -
   existingSecret:
