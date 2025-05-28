@@ -1211,7 +1211,7 @@ postUpgrade:
   # -- If True, run a post-install job that refreshes the configuration used by the
   # cronjobs to compute the user-intelligence category aggregates.
   refreshAggregatesConfig:
-    enabled: false
+    enabled: true
     resources:
       requests:
         cpu: 100m
