@@ -1216,7 +1216,7 @@ postUpgrade:
       requests:
         cpu: 100m
       limits:
-        memory: 256Mi
+        memory: 512Mi
   # -- If True, run a post-install jop that runs a full refresh of the backend RO tables.
   refreshRoTables:
     enabled: false
