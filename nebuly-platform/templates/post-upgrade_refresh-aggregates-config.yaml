@@ -1,4 +1,4 @@
-{{- if .Values.postUpgrade.refreshRoTables.enabled }}
+{{- if .Values.postUpgrade.refreshAggregatesConfig.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
