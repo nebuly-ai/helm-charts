@@ -81,6 +81,8 @@
   value: {{ .Values.aiModels.modelLanguageDetection.version | quote }}
 - name: PII_ENABLE_LANGUAGE_DETECTION
   value: {{ .Values.ingestionWorker.settings.enablePiiLanguageDetection | quote }}
+- name: PII_DENY_LIST
+  value: {{ .Values.ingestionWorker.settings.piiDenyList }}
 # AI Models pulling
 {{ include "aiModels.env" . }}
 {{- with .Values.ingestionWorker.env }}
