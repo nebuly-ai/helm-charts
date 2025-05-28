@@ -69,6 +69,13 @@ nebuly.com/release-name: {{ .Release.Name }}
 {{- define "postUpgrade.refreshRoLabels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
 helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+app.kubernetes.io/component: nebuly-backend
+{{- end }}
+
+{{- define "postUpgrade.refreshAggregatesConfigLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+app.kubernetes.io/component: nebuly-backend
 {{- end }}
 
 {{/*
