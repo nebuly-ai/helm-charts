@@ -12,6 +12,7 @@ data:
   env.json: |
     {
       "GIT_REF": "${GIT_REF}",
+      "HELM_CHART_VERSION": {{ .Chart.Version | quote }},
       "LOGIN_MODES": "{{ .Values.auth.loginModes }}",
       "DEPLOYMENT_MODE": "self-hosted",
       "NEXT_PUBLIC_AUTH_MODE": "custom",
