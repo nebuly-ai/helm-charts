@@ -211,10 +211,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.18.0"` |  |
+| auth.image.tag | string | `"v1.19.0"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
-| auth.ldap | object | `{"adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userObjectClass":""}` | LDAP authentication configuration. |
+| auth.ldap | object | `{"adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
 | auth.ldap.adminPassword | string | `""` | The password of the LDAP user with permissions to perform LDAP searches. To be provided only when not using an existing secret (see auth ldap.existingSecret value below). |
 | auth.ldap.adminUsername | string | `""` | The username of the LDAP user with permissions to perform LDAP searches. To be provided only when not using an existing secret (see auth ldap.existingSecret value below). |
 | auth.ldap.attributeMapping | string | `""` | Custom mapping for LDAP attributes used for users full name and email. If not provided, the following attributes will be used: * `mail`: user email * `cn`: user full name  When provided, it should be a comma separated list of attributes. Example: `email:<ldap-attribute>,full_name:<ldap-attribute>` |
@@ -224,7 +224,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.ldap.port | string | `"389"` | The port of the LDAP server. |
 | auth.ldap.roleMapping | string | `""` | Mapping between LDAP Roles and Nebuly roles. Example: `<ladp-admin>:admin, <ldap-member>:member, <ldap-viewer>:viewer`. |
 | auth.ldap.searchBase | string | `""` | The LDAP search base to use. Example: `dc=example,dc=org` |
-| auth.ldap.userObjectClass | string | `""` | The name of the object class used for users. |
+| auth.ldap.userSearchFilter | string | `""` | The base search filter to use for user searches. Example: `(&(objectClass=inetOrgPerson))` |
 | auth.loginModes | string | `"password"` | The available login modes. Value must be string with the login mode specified as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`, `google`. |
 | auth.microsoft | object | - | Microsoft Entra ID authentication configuration. Used when `auth.loginModes` contains "microsoft". |
 | auth.microsoft.clientId | string | `""` | The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |

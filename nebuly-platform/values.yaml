@@ -1027,7 +1027,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.18.0"
+    tag: "v1.19.0"
 
   podAnnotations: { }
   podLabels: { }
@@ -1083,8 +1083,9 @@ auth:
     port: "389"
     # -- The LDAP search base to use. Example: `dc=example,dc=org`
     searchBase: ""
-    # -- The name of the object class used for users.
-    userObjectClass: ""
+    # -- The base search filter to use for user searches.
+    # Example: `(&(objectClass=inetOrgPerson))`
+    userSearchFilter: ""
     # -- The name of the object class used for groups.
     groupObjectClass: ""
     # -- Mapping between LDAP Roles and Nebuly roles.
