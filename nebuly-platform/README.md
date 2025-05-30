@@ -224,7 +224,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.ldap.port | string | `"389"` | The port of the LDAP server. |
 | auth.ldap.roleMapping | string | `""` | Mapping between LDAP Roles and Nebuly roles. Example: `<ladp-admin>:admin, <ldap-member>:member, <ldap-viewer>:viewer`. |
 | auth.ldap.searchBase | string | `""` | The LDAP search base to use. Example: `dc=example,dc=org` |
-| auth.ldap.userSearchFilter | string | `""` | The base search filter to use for user searches. Example: `(&(objectClass=inetOrgPerson))` |
+| auth.ldap.userSearchFilter | string | `""` | The search filter to use for user searches. Example: `(&(objectClass=inetOrgPerson))` |
 | auth.loginModes | string | `"password"` | The available login modes. Value must be string with the login mode specified as a comma-separated list. Possible values are: `password`, `microsoft`, `okta`, `google`. |
 | auth.microsoft | object | - | Microsoft Entra ID authentication configuration. Used when `auth.loginModes` contains "microsoft". |
 | auth.microsoft.clientId | string | `""` | The Client ID (e.g. Application ID) of the Microsoft Entra ID application. To be provided only when not using an existing secret (see microsoft.existingSecret value below). |

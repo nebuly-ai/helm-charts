@@ -1083,7 +1083,7 @@ auth:
     port: "389"
     # -- The LDAP search base to use. Example: `dc=example,dc=org`
     searchBase: ""
-    # -- The base search filter to use for user searches.
+    # -- The search filter to use for user searches.
     # Example: `(&(objectClass=inetOrgPerson))`
     userSearchFilter: ""
     # -- The name of the object class used for groups.
