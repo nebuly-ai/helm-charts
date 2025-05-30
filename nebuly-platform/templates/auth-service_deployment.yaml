@@ -145,8 +145,8 @@ spec:
               value: {{ .Values.auth.ldap.port | quote }}
             - name: "LDAP_SEARCH_BASE"
               value: {{ .Values.auth.ldap.searchBase | quote }}
-            - name: "LDAP_USER_OBJECT_CLASS"
-              value: {{ .Values.auth.ldap.userObjectClass | quote }}
+            - name: "LDAP_USER_SEARCH_FILTER"
+              value: {{ .Values.auth.ldap.userSearchFilter | quote }}
             - name: "LDAP_GROUP_OBJECT_CLASS"
               value: {{ .Values.auth.ldap.groupObjectClass | quote }}
             - name: "LDAP_ROLE_MAP"
