@@ -352,6 +352,14 @@ ingestionWorker:
     enablePiiLanguageDetection: false
     # -- List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove.
     piiDenyList: [ ]
+    # -- Enable or disable internal worker tasks. This is primarily intended for
+    # debugging or performance tuning.
+    tasks:
+      interaction: true
+      traceInteraction: true
+      feedbackAction: true
+      tags: true
+
 
   replicaCount: 1
   image:
