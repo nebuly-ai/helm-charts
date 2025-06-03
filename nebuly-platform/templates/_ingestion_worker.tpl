@@ -74,6 +74,15 @@
   value: {{ .Values.ingestionWorker.sentry.tracesSampleRate | quote }}
 - name: SENTRY_PROFILES_SAMPLE_RATE
   value: {{ .Values.ingestionWorker.sentry.profilesSampleRate | quote }}
+# Tasks
+- name: TRACE_INTERACTION_TASK
+  value: {{ .Values.ingestionWorker.settings.tasks.traceInteraction | quote }}
+- name: FEEDBACK_ACTION_TASK
+  value: {{ .Values.ingestionWorker.settings.tasks.feedbackAction | quote }}
+- name: INTERACTION_TASK
+  value: {{ .Values.ingestionWorker.settings.tasks.interaction | quote }}
+- name: TAGS_TASK
+  value: {{ .Values.ingestionWorker.settings.tasks.tags | quote }}
 # PII Removal
 - name: LANGUAGE_DETECTION_MODEL_NAME
   value: {{ .Values.aiModels.modelLanguageDetection.name | quote }}
