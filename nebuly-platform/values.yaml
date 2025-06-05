@@ -403,17 +403,10 @@ ingestionWorker:
     resources:
       requests:
         cpu: 100m
-        memory: 512Mi
-      limits:
-        memory: 512Mi
-  stage2:
-    resources:
-      requests:
-        cpu: 100m
         memory: 1024Mi
       limits:
         cpu: 2
-        memory: 2560Mi
+        memory: 2600Mi
   nodeSelector: { }
 
   tolerations: [ ]
@@ -848,7 +841,7 @@ kafka:
         memory: 1024Mi
 
   # -- If true, the Kafka clients will use the keep alive feature.
-  socketKeepAliveEnabled: true
+  socketKeepAliveEnabled: false
 
   # -- Settings of the main Kafka topic used to store events (e.g. interactions)
   topicEventsMain:
