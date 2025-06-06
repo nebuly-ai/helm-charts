@@ -841,7 +841,7 @@ kafka:
         memory: 1024Mi
 
   # -- If true, the Kafka clients will use the keep alive feature.
-  socketKeepAliveEnabled: false
+  socketKeepAliveEnabled: true
 
   # -- Settings of the main Kafka topic used to store events (e.g. interactions)
   topicEventsMain:
