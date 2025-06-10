@@ -403,17 +403,10 @@ ingestionWorker:
     resources:
       requests:
         cpu: 100m
-        memory: 512Mi
-      limits:
-        memory: 512Mi
-  stage2:
-    resources:
-      requests:
-        cpu: 100m
         memory: 1024Mi
       limits:
         cpu: 2
-        memory: 2560Mi
+        memory: 2600Mi
   nodeSelector: { }
 
   tolerations: [ ]
