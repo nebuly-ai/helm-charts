@@ -1035,7 +1035,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.19.3"
+    tag: "v1.19.4"
 
   podAnnotations: { }
   podLabels: { }
@@ -1086,6 +1086,8 @@ auth:
     # -- If true, enable LDAP authentication.
     enabled: false
     # -- The address of LDAP server.
+    ad_root: ""
+    # -- AD domain of the LDAP server.
     host: ""
     # -- The port of the LDAP server.
     port: "389"
