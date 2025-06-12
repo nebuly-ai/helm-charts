@@ -215,13 +215,13 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.ldap | object | `{"ad_root":"","adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
-| auth.ldap.ad_root | string | `""` | The address of LDAP server. |
+| auth.ldap.ad_root | string | `""` | AD domain of the LDAP server. |
 | auth.ldap.adminPassword | string | `""` | The password of the LDAP user with permissions to perform LDAP searches. To be provided only when not using an existing secret (see auth ldap.existingSecret value below). |
 | auth.ldap.adminUsername | string | `""` | The username of the LDAP user with permissions to perform LDAP searches. To be provided only when not using an existing secret (see auth ldap.existingSecret value below). |
 | auth.ldap.attributeMapping | string | `""` | Custom mapping for LDAP attributes used for users full name and email. If not provided, the following attributes will be used: * `mail`: user email * `cn`: user full name  When provided, it should be a comma separated list of attributes. Example: `email:<ldap-attribute>,full_name:<ldap-attribute>` |
 | auth.ldap.enabled | bool | `false` | If true, enable LDAP authentication. |
 | auth.ldap.groupObjectClass | string | `""` | The name of the object class used for groups. |
-| auth.ldap.host | string | `""` | AD domain of the LDAP server. |
+| auth.ldap.host | string | `""` | The address of LDAP server. |
 | auth.ldap.port | string | `"389"` | The port of the LDAP server. |
 | auth.ldap.roleMapping | string | `""` | Mapping between LDAP Roles and Nebuly roles. Example: `<ladp-admin>:admin, <ldap-member>:member, <ldap-viewer>:viewer`. |
 | auth.ldap.searchBase | string | `""` | The LDAP search base to use. Example: `dc=example,dc=org` |

@@ -1085,9 +1085,9 @@ auth:
   ldap:
     # -- If true, enable LDAP authentication.
     enabled: false
-    # -- The address of LDAP server.
-    ad_root: ""
     # -- AD domain of the LDAP server.
+    ad_root: ""
+    # -- The address of LDAP server.
     host: ""
     # -- The port of the LDAP server.
     port: "389"
