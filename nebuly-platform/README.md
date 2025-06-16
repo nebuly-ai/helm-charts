@@ -464,6 +464,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.podLabels | object | `{}` |  |
 | ingestionWorker.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | ingestionWorker.replicaCount | int | `1` |  |
+| ingestionWorker.resources.limits.cpu | int | `2` |  |
+| ingestionWorker.resources.limits.memory | string | `"2600Mi"` |  |
+| ingestionWorker.resources.requests.cpu | string | `"100m"` |  |
+| ingestionWorker.resources.requests.memory | string | `"1024Mi"` |  |
 | ingestionWorker.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | ingestionWorker.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | ingestionWorker.securityContext.runAsNonRoot | bool | `true` |  |
@@ -479,10 +483,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.settings.entitiesBatchSize | int | `20000` | Batch size of entities loaded in each step of aggregate jobs. |
 | ingestionWorker.settings.piiDenyList | list | `[]` | List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove. |
 | ingestionWorker.settings.tasks | object | `{"feedbackAction":true,"interaction":true,"tags":true,"traceInteraction":true}` | Enable or disable internal worker tasks. This is primarily intended for debugging or performance tuning. |
-| ingestionWorker.stage1.resources.limits.cpu | int | `2` |  |
-| ingestionWorker.stage1.resources.limits.memory | string | `"2600Mi"` |  |
-| ingestionWorker.stage1.resources.requests.cpu | string | `"100m"` |  |
-| ingestionWorker.stage1.resources.requests.memory | string | `"1024Mi"` |  |
 | ingestionWorker.statementTimeoutSeconds | int | `120` | The timeout in seconds for the database queries. |
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.volumeMounts | list | `[]` |  |

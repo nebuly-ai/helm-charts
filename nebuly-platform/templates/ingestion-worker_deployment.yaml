@@ -54,7 +54,7 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 10
           resources:
-            {{- toYaml .Values.ingestionWorker.stage1.resources | nindent 12 }}
+            {{- toYaml .Values.ingestionWorker.resources | nindent 12 }}
           volumeMounts:
           {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
             - name: krb5-config

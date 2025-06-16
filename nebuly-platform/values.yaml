@@ -399,14 +399,13 @@ ingestionWorker:
   #   mountPath: "/etc/foo"
   #   readOnly: true
 
-  stage1:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 1024Mi
-      limits:
-        cpu: 2
-        memory: 2600Mi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 1024Mi
+    limits:
+      cpu: 2
+      memory: 2600Mi
   nodeSelector: { }
 
   tolerations: [ ]
