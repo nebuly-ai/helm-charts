@@ -40,7 +40,7 @@ spec:
             {{- toYaml .Values.ingestionWorker.securityContext | nindent 12 }}
           command:
             - python
-            - entrypoints/entrypoint_1.py
+            - entrypoints/entrypoint.py
           image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
           env:
@@ -51,10 +51,10 @@ spec:
                 - python
                 - app/health_check.py
                 - "60" # max allowed stale seconds
-            initialDelaySeconds: 15
+            initialDelaySeconds: 30
             periodSeconds: 10
           resources:
-            {{- toYaml .Values.ingestionWorker.stage1.resources | nindent 12 }}
+            {{- toYaml .Values.ingestionWorker.resources | nindent 12 }}
           volumeMounts:
           {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
             - name: krb5-config
@@ -73,49 +73,6 @@ spec:
             {{- toYaml . | nindent 12 }}
           {{- end }}
 
-        # Container 2
-        - name: "{{ .Chart.Name }}-2"
-          securityContext:
-            {{- toYaml .Values.ingestionWorker.securityContext | nindent 12 }}
-          command:
-            - python
-            - entrypoints/entrypoint_2.py
-          image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
-          env:
-            {{- include "ingestionWorker.commonEnv" . | nindent 12 }}
-          livenessProbe:
-            exec:
-              command:
-                - python
-                - app/health_check.py
-                - "60" # max allowed stale seconds
-            initialDelaySeconds: 30
-            periodSeconds: 15
-          resources:
-            {{- toYaml .Values.ingestionWorker.stage2.resources | nindent 12 }}
-          volumeMounts:
-            - name: vllm-report-usage
-              mountPath: /nonexistent
-            - name: models-cache
-              mountPath: /var/cache/nebuly
-              readOnly: false
-          {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
-            - name: krb5-config
-              mountPath: /etc/krb5.conf
-              subPath: krb5.conf
-            - name: krb5-keytab
-              mountPath: /etc/krb5.keytab
-              subPath: krb5.keytab
-          {{- end }}
-          {{- if or (not .Values.kafka.external) (.Values.kafka.existingSecret.sslCaCertKey) }}
-            - name: kafka-cluster-ca-cert
-              mountPath: "/etc/kafka"
-              readOnly: true
-          {{- end }}
-          {{- with .Values.ingestionWorker.volumeMounts }}
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
       volumes:
         - name: vllm-report-usage
           emptyDir: {}
