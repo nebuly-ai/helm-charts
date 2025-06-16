@@ -6,7 +6,7 @@
   value: "false"
 - name: TOUCH_EVERY_SECONDS
   value: "10"
-- USE_BACKEND_FOR_CONFIG
+- name: USE_BACKEND_FOR_CONFIG
   value: "true"
 {{- if .Values.ingestionWorker.healthCheckPath }}
 - name: HEALTH_CHECK_PATH
