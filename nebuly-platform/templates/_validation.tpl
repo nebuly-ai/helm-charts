@@ -127,10 +127,6 @@ values: auth.ldap.searchBase
 values: auth.ldap.roleMapping
   `roleMapping` is required and should be a non-empty string
 {{- end -}}
-{{- if empty .Values.auth.ldap.userObjectClass }}
-values: auth.ldap.userObjectClass
-  `userObjectClass` is required and should be a non-empty string
-{{- end -}}
 {{- if empty .Values.auth.ldap.groupObjectClass }}
 values: auth.ldap.groupObjectClass
   `groupObjectClass` is required and should be a non-empty string
