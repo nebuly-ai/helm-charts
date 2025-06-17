@@ -56,6 +56,11 @@ spec:
           resources:
             {{- toYaml .Values.ingestionWorker.resources | nindent 12 }}
           volumeMounts:
+            - name: vllm-report-usage
+              mountPath: /nonexistent
+            - name: models-cache
+              mountPath: /var/cache/nebuly
+              readOnly: false
           {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
             - name: krb5-config
               mountPath: /etc/krb5.conf
