@@ -1,0 +1,106 @@
+{{- if .Values.reprocessing.userIntelligence.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: reprocess-user-intelligence
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "primaryProcessing.commonLabels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  schedule: 0 0 29 2 1 # Never
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "primaryProcessing.commonLabels" . | nindent 10 }}
+    spec:
+      backoffLimit: {{ .Values.primaryProcessing.backoffLimit }}
+      activeDeadlineSeconds: {{ .Values.primaryProcessing.activeDeadlineSeconds }}
+      template:
+        metadata:
+          {{- with .Values.primaryProcessing.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          labels:
+            {{- include "jobProcessAll.labels" . | nindent 14 }}
+            {{- with .Values.primaryProcessing.podLabels }}
+            {{- toYaml . | nindent 14 }}
+            {{- end }}
+        spec:
+          hostIPC: {{ .Values.primaryProcessing.hostIPC }}
+          serviceAccountName: {{ .Values.serviceAccount.name }}
+          restartPolicy: Never
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.primaryProcessing.podSecurityContext | nindent 12 }}
+          containers:
+            - name: {{ .Chart.Name }}
+              securityContext:
+                {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
+              image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
+              command:
+                - python
+                - minkmaze
+                - jobs
+                - reset-db
+                - user_intelligence_aggregate
+                - nebuly
+              imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
+              env:
+              {{- if .Values.primaryProcessing.env }}
+                {{- toYaml .Values.primaryProcessing.env | nindent 16 }}
+              {{- end }}
+              {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
+              {{ include "batchJobs.commonEnv" . | nindent 16 }}
+              resources:
+                {{- toYaml .Values.ingestionWorker.resources | nindent 18 }}
+              volumeMounts:
+                - name: vllm-report-usage
+                  mountPath: /nonexistent
+              {{- if not .Values.kafka.external }}
+                - name: kafka-cluster-ca-cert
+                  mountPath: "/etc/kafka"
+                  readOnly: true
+              {{- end }}
+                - name: models-cache
+                  mountPath: /var/cache/nebuly
+                  readOnly: false
+              {{- with .Values.primaryProcessing.volumeMounts }}
+                {{- toYaml . | nindent 18 }}
+              {{- end }}
+          volumes:
+            - name: vllm-report-usage
+              emptyDir: {}
+          {{- if not .Values.kafka.external }}
+            - name: kafka-cluster-ca-cert
+              secret:
+                secretName: {{ include "kafka.fullname" . }}-cluster-ca-cert
+          {{- end }}
+            - name: models-cache
+          {{- if .Values.primaryProcessing.modelsCache.enabled }}
+              persistentVolumeClaim:
+                claimName: {{ include "primaryProcessing.modelsCache.name" . }}
+          {{- else }}
+              emptyDir: { }
+          {{- end }}
+          {{- with .Values.primaryProcessing.volumes }}
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.primaryProcessing.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.primaryProcessing.affinity }}
+          affinity:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.primaryProcessing.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+{{- end }}
