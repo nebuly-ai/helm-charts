@@ -149,6 +149,8 @@ spec:
               value: {{ .Values.auth.ldap.userSearchFilter | quote }}
             - name: "LDAP_GROUP_OBJECT_CLASS"
               value: {{ .Values.auth.ldap.groupObjectClass | quote }}
+            - name: "LDAP_AD_ROOT"
+              value: {{ .Values.auth.ldap.activeDirectoryRoot | quote }}
             - name: "LDAP_ROLE_MAP"
               value: {{ .Values.auth.ldap.roleMapping | quote }}
             - name: "LDAP_ATTRIBUTE_MAP"
