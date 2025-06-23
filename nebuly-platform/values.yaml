@@ -26,6 +26,8 @@ backend:
 
   settings:
     multiTenancyMode: "dynamic_schema"
+    alembicTable: ""
+    schemaName: ""
 
   podAnnotations: { }
   podLabels: { }
@@ -1077,8 +1079,6 @@ auth:
   ldap:
     # -- If true, enable LDAP authentication.
     enabled: false
-    # -- AD domain of the LDAP server.
-    ad_root: ""
     # -- The address of LDAP server.
     host: ""
     # -- The port of the LDAP server.

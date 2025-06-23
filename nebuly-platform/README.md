@@ -214,9 +214,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.image.tag | string | `"v1.20.4"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
-| auth.ldap | object | `{"activeDirectoryRoot":"","ad_root":"","adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
+| auth.ldap | object | `{"activeDirectoryRoot":"","adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
 | auth.ldap.activeDirectoryRoot | string | `""` | Optional directory root for the LDAP server. |
-| auth.ldap.ad_root | string | `""` | AD domain of the LDAP server. |
 | auth.ldap.adminPassword | string | `""` | The password of the LDAP user with permissions to perform LDAP searches. To be provided only when not using an existing secret (see auth ldap.existingSecret value below). |
 | auth.ldap.adminUsername | string | `""` | The username of the LDAP user with permissions to perform LDAP searches. To be provided only when not using an existing secret (see auth ldap.existingSecret value below). |
 | auth.ldap.attributeMapping | string | `""` | Custom mapping for LDAP attributes used for users full name and email. If not provided, the following attributes will be used: * `mail`: user email * `cn`: user full name  When provided, it should be a comma separated list of attributes. Example: `email:<ldap-attribute>,full_name:<ldap-attribute>` |
@@ -310,7 +309,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.sentry.environment | string | `""` | The name of the Sentry environment. |
 | backend.service.port | int | `80` |  |
 | backend.service.type | string | `"ClusterIP"` |  |
+| backend.settings.alembicTable | string | `""` |  |
 | backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
+| backend.settings.schemaName | string | `""` |  |
 | backend.tolerations | list | `[]` |  |
 | backend.volumeMounts | list | `[]` |  |
 | backend.volumes | list | `[]` |  |
