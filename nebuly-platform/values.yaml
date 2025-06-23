@@ -1209,7 +1209,7 @@ reprocessing:
   modelIssues:
     enabled: false
   userIntelligence:
-    enabled: false
+    enabled: true
 
 # -- Post-upgrade hooks settings.
 postUpgrade:

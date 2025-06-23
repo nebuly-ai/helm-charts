@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: reprocess-user-intelligence
+  name: reset-user-intelligence
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
     {{- include "primaryProcessing.commonLabels" . | nindent 4 }}

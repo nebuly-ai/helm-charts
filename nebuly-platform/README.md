@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.48.0](https://img.shields.io/badge/Version-1.48.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.48.1](https://img.shields.io/badge/Version-1.48.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -561,7 +561,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | primaryProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | primaryProcessing.modelsCache | object | `{"enabled":false,"size":"128Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
-| reprocessing | object | `{"interactions":{"enabled":false},"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | Settings for data reprocessing jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
+| reprocessing | object | `{"interactions":{"enabled":false},"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":true}}` | Settings for data reprocessing jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.existingSecret | object | - | Use an existing secret for the Azure Key Vault authentication. |
