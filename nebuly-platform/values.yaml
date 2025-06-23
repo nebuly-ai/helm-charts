@@ -1029,7 +1029,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.20.4"
+    tag: "v1.20.5"
 
   podAnnotations: { }
   podLabels: { }
