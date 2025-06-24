@@ -11,7 +11,7 @@ metadata:
 spec:
   schedule: {{ .Values.primaryProcessing.schedule | quote }}
   {{- if .Values.primaryProcessing.timezone }}
-  timezone: {{ .Values.primaryProcessing.timezone | quote }}
+  timeZone: {{ .Values.primaryProcessing.timezone | quote }}
   {{- end }}
   jobTemplate:
     metadata:
