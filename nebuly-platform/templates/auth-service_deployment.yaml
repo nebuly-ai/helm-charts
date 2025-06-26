@@ -44,9 +44,11 @@ spec:
           env:
             # Database
             - name: "POSTGRES_SERVER"
-              value: {{ .Values.auth.postgresServer }}
+              value: {{ .Values.auth.postgresServer | quote}}
             - name: "POSTGRES_DB"
-              value: {{ .Values.auth.postgresDatabase }}
+              value: {{ .Values.auth.postgresDatabase | quote }}
+            - name: "POSTGRES_SCHEMA_NAME"
+              value: {{ .Values.auth.postgresSchema | quote }}
             - name: "POSTGRES_USER"
               valueFrom:
                 secretKeyRef:

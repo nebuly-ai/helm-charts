@@ -33,9 +33,15 @@
   value: "otlp"
 # PostgreSQL
 - name: POSTGRES_DB
-  value: "{{ .Values.analyticDatabase.name }}"
+  value: {{ .Values.analyticDatabase.name | quote }}
 - name: POSTGRES_SERVER
-  value: "{{ .Values.analyticDatabase.server }}"
+  value: {{ .Values.analyticDatabase.server | quote }}
+- name: POSTGRES_SCHEMA_NAME
+  value: {{ .Values.analyticDatabase.schema | quote }}
+{{- if .Values.ingestionWorker.settings.alembicTable }}
+- name: POSTGRES_ALEMBIC_VERSION_TABLE
+  value: {{ .Values.ingestionWorker.settings.alembicTable | quote }}
+{{- end }}
 - name: "POSTGRES_USER"
   valueFrom:
     secretKeyRef:

@@ -13,9 +13,15 @@
       name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "backend.fullname" .) }}
       key: {{ .Values.analyticDatabase.existingSecret.passwordKey | default "analytic-database-password" }}
 - name: ANALYTICS_DB
-  value: "{{ .Values.analyticDatabase.name }}"
+  value: {{ .Values.analyticDatabase.name | quote }}
 - name: ANALYTICS_SERVER
-  value: "{{ .Values.analyticDatabase.server }}"
+  value: {{ .Values.analyticDatabase.server | quote}}
+- name: ANALYTICS_SCHEMA_NAME
+  value: {{ .Values.analyticDatabase.schema | quote}}
+{{- if .Values.backend.settings.alembicTable }}
+- name: ANALYTICS_ALEMBIC_VERSION_TABLE
+  value: {{ .Values.backend.settings.alembicTable | quote }}
+{{- end }}
 - name: TENANT
   value: {{ include "telemetry.tenant" . | quote }}
 # Feature Flags
