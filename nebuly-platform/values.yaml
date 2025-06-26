@@ -648,7 +648,7 @@ primaryProcessing:
   schedule: "0 23 * * *" # Every day at 11:00 PM
   # -- The timezone of the CronJob.
   # If not provided, the default timezone of the Kubernetes cluster will be used.
-  timezone: "foo"
+  timezone: ""
   backoffLimit: 1
   activeDeadlineSeconds: 10800 # 3 hours
   # -- Additional environment variables, in the standard Kubernetes format.
