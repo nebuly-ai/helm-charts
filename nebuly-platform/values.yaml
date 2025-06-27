@@ -22,12 +22,13 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.73.1"
+    tag: "v1.73.6"
 
   settings:
     multiTenancyMode: "dynamic_schema"
+    # -- The name of the alembic table used to store the status of the backend
+    # migrations. If not provided, the default `alembic_version` table will be used.
     alembicTable: ""
-    schemaName: ""
 
   podAnnotations: { }
   podLabels: { }
@@ -354,6 +355,9 @@ ingestionWorker:
     enablePiiLanguageDetection: false
     # -- List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove.
     piiDenyList: [ ]
+    # -- The name of the alembic table used to store the status of the ingestion worker
+    # migrations. If not provided, the default `alembic_version` table will be used.
+    alembicTable: ""
     # -- Enable or disable internal worker tasks. This is primarily intended for
     # debugging or performance tuning.
     tasks:
@@ -775,6 +779,8 @@ analyticDatabase:
   # -- The name of the database used to store analytic data (interactions, actions, etc.). To be provided only
   # when not using an existing secret (see analyticDatabase.existingSecret value below).
   name: "analytics"
+  # -- The schema of the database used to store analytic data.
+  schema: "public"
   # -- The user for connecting to the database.
   user: ""
   # -- The password for the database user. To be provided only when not using an existing secret
@@ -1008,6 +1014,8 @@ auth:
   # -- The password for the database user. Required only if not using an existing secret
   # (see auth.existingSecret value below).
   postgresPassword: ""
+  # -- The schema of the PostgreSQL database used to store user data.
+  postgresSchema: "public"
 
   # -- If provided, add a CORS middleware to the auth service with the
   # specified origins.
@@ -1032,7 +1040,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.20.7"
+    tag: "v1.20.8"
 
   podAnnotations: { }
   podLabels: { }

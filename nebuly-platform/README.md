@@ -190,6 +190,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | analyticDatabase.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | analyticDatabase.name | string | `"analytics"` | The name of the database used to store analytic data (interactions, actions, etc.). To be provided only when not using an existing secret (see analyticDatabase.existingSecret value below). |
 | analyticDatabase.password | string | `""` | The password for the database user. To be provided only when not using an existing secret (see analyticDatabase.existingSecret value below). |
+| analyticDatabase.schema | string | `"public"` | The schema of the database used to store analytic data. |
 | analyticDatabase.server | string | `""` | The host of the database used to store analytic data. |
 | analyticDatabase.user | string | `""` | The user for connecting to the database. |
 | annotations | object | `{}` | Extra annotations that will be added to all resources. |
@@ -211,7 +212,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.20.7"` |  |
+| auth.image.tag | string | `"v1.20.8"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.ldap | object | `{"activeDirectoryRoot":"","adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
@@ -249,6 +250,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | auth.postgresDatabase | string | `"auth-service"` | The name of the PostgreSQL database used to store user data. |
 | auth.postgresPassword | string | `""` | The password for the database user. Required only if not using an existing secret (see auth.existingSecret value below). |
+| auth.postgresSchema | string | `"public"` | The schema of the PostgreSQL database used to store user data. |
 | auth.postgresServer | string | `""` | The host of the PostgreSQL database used to store user data. |
 | auth.postgresUser | string | `""` | The user for connecting to the database. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.replicaCount | int | `1` |  |
@@ -272,7 +274,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.73.1"` |  |
+| backend.image.tag | string | `"v1.73.6"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -309,9 +311,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.sentry.environment | string | `""` | The name of the Sentry environment. |
 | backend.service.port | int | `80` |  |
 | backend.service.type | string | `"ClusterIP"` |  |
-| backend.settings.alembicTable | string | `""` |  |
+| backend.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the backend migrations. If not provided, the default `alembic_version` table will be used. |
 | backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
-| backend.settings.schemaName | string | `""` |  |
 | backend.tolerations | list | `[]` |  |
 | backend.volumeMounts | list | `[]` |  |
 | backend.volumes | list | `[]` |  |
@@ -479,6 +480,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.sentry.environment | string | `""` | The name of the Sentry environment. |
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
+| ingestionWorker.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the ingestion worker migrations. If not provided, the default `alembic_version` table will be used. |
 | ingestionWorker.settings.enableDbCache | bool | `true` | Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions. |
 | ingestionWorker.settings.enablePiiLanguageDetection | bool | `false` | Enable language detection for PII detection. |
 | ingestionWorker.settings.enrichInteractionBatchSize | int | `10000` | Batch size of interactions loaded in each step of enrich interactions. |
