@@ -411,12 +411,13 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.enableAiSummary | bool | `false` | If set to true, enable the AI summarization feature. |
 | frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
 | frontend.enableOldRiskyBehavior | bool | `false` | Feature flag to activate the old risky behavior page. Used for retro-compatibility. |
+| frontend.enableOrganizationSettings | bool | `false` | If True, allow admins to assign/exclude users from organizations. |
 | frontend.enableSubCategories | bool | `false` | If set to true, enable the sub-categories feature. |
 | frontend.faviconPath | string | `"/favicon.svc"` | The relative path to the favicon file. |
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.59.9"` |  |
+| frontend.image.tag | string | `"v1.59.10"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |

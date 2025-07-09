@@ -154,6 +154,8 @@ frontend:
   enableSubCategories: false
   # -- If True, hide LLM issues from users without the proper role.
   enableLLMIssueHiding: false
+  # -- If True, allow admins to assign/exclude users from organizations.
+  enableOrganizationSettings: false
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # -- The title of the application.
@@ -164,7 +166,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.59.9"
+    tag: "v1.59.10"
 
   podAnnotations: { }
   podLabels: { }
