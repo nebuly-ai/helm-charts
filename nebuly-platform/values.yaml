@@ -355,6 +355,8 @@ ingestionWorker:
     enrichInteractionBatchSize: 10000
     # -- Enable language detection for PII detection.
     enablePiiLanguageDetection: false
+    # -- Enable use of LLM (pii-removal) to remove the PII during interaction processing. 
+    enablePiiLlm: false
     # -- List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove.
     piiDenyList: [ ]
     # -- The name of the alembic table used to store the status of the ingestion worker
@@ -373,7 +375,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.55.7
+    tag: v1.57.2
 
   podAnnotations: { }
   podLabels: { }
@@ -452,6 +454,10 @@ aiModels:
   modelLanguageDetection:
     name: "language-detection"
     version: "2"
+
+  modelPiiRemoval:
+    name: "pii-removal"
+    version: "1"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
