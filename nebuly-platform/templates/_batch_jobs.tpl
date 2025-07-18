@@ -17,6 +17,12 @@
 - name: ACTION_LOCAL_MODEL_VERSION
   value: {{ .Values.aiModels.modelActionClassifier.version | quote }}
 
+# PII Model
+- name: ANONYMIZATION_MODEL_NAME
+  value: {{ .Values.aiModels.modelPiiRemoval.name | quote }}
+- name: ANONYMIZATION_MODEL_VERSION
+  value: {{ .Values.aiModels.modelPiiRemoval.version | quote }}
+
 # Jobs Settings
 - name: ENABLE_DB_CACHE
   value: {{ .Values.ingestionWorker.settings.enableDbCache | quote }}
