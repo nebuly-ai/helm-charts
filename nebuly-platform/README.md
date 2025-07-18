@@ -408,6 +408,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.backendApiUrl | string | `""` | The URL of the Backend API to which Frontend will make requests. |
 | frontend.customIntentConfig | object | `{}` |  |
 | frontend.defaultAggregation | string | `"interaction"` | The default aggregation level of the platform. |
+| frontend.enableAbTesting | bool | `false` | Enable the AB testing feature. |
 | frontend.enableAiSummary | bool | `false` | If set to true, enable the AI summarization feature. |
 | frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
 | frontend.enableOldRiskyBehavior | bool | `false` | Feature flag to activate the old risky behavior page. Used for retro-compatibility. |

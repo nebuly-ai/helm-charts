@@ -145,6 +145,8 @@ frontend:
 
   # -- The default aggregation level of the platform.
   defaultAggregation: "interaction"
+  # -- Enable the AB testing feature.
+  enableAbTesting: false
   # -- If set to true, enable the AI summarization feature.
   enableAiSummary: false
   # -- Feature flag to activate the old risky behavior page. Used for
