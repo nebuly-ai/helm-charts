@@ -12,7 +12,7 @@ Helm chart for bootstrapping a Kubernetes cluster on GCP with all the dependenci
 |------------|------|---------|
 | https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.15.2 |
 | https://charts.portefaix.xyz | secrets-store-csi-driver-provider-gcp | ~0.6.0 |
-| https://helm.ngc.nvidia.com/nvidia | gpu-operator | ~24.6 |
+| https://helm.ngc.nvidia.com/nvidia | gpu-operator | ~25.3 |
 | https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts | secrets-store-csi-driver | ~1.4 |
 | https://kubernetes.github.io/ingress-nginx | ingress-nginx | ~4.10 |
 
