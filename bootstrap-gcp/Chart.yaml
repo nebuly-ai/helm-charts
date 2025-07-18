@@ -24,7 +24,7 @@ sources:
 
 dependencies:
   - name: gpu-operator
-    version: ~24.6
+    version: ~25.3
     condition: gpu-operator.enabled
     repository: https://helm.ngc.nvidia.com/nvidia
   - name: ingress-nginx
