@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "clickhouse.fullname" . }}-backup
+  name: {{ include "clickhouse.fullname" . }}-backup-restore
   namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
     {{- include "clickhouse.labels" . | nindent 4 }}
