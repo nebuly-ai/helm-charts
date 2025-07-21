@@ -1,0 +1,69 @@
+{{- if and .Values.clickhouse.enabled .Values.clickhouse.backups.restore.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "clickhouse.fullname" . }}-backup
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "clickhouse.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.clickhouse.backups.schedule }}
+  concurrencyPolicy: "Forbid"
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "clickhouse.labels" . | nindent 8 }}
+    spec:
+      backoffLimit: 1
+      completions: 1
+      parallelism: 1
+      template:
+        metadata:
+          labels:
+            {{- include "clickhouse.labels" . | nindent 12 }}
+        spec:
+          restartPolicy: Never
+          volumes:
+            # Mount configmap containing backup script
+            - name: clickhouse-backup-cron
+              configMap:
+                name: {{ include "clickhouse.fullname" . }}-backups
+          containers:
+            - name: clickhouse-server
+              image: "{{ .Values.clickhouse.image.repository }}:{{ .Values.clickhouse.image.tag }}"
+              imagePullPolicy: {{ .Values.clickhouse.backups.image.pullPolicy }}
+              env:
+                - name: CLICKHOUSE_PORT
+                  value: "9000"
+                # Use all replicas in each shard to restore schema (comma separated)
+                - name: CLICKHOUSE_SCHEMA_RESTORE_SERVICES
+                  value: {{- $fullname := include "clickhouse.fullname" . }}
+                         {{- $replicas := int .Values.clickhouse.replicas }}
+                         {{- if eq $replicas 1 }}
+                           "clickhouse-{{ $fullname }}"
+                         {{- else }}
+                           {{- $services := list }}
+                           {{- range $i := until $replicas }}
+                             {{- $services = append $services (printf "chi-%s-default-0-%d" $fullname $i) }}
+                           {{- end }}
+                           "{{ join "," $services }}"
+                         {{- end }}
+                # Use first replica in each shard for data
+                - name: CLICKHOUSE_DATA_RESTORE_SERVICES
+                  value: chi-{{ include "clickhouse.fullname" $ }}-default-0-0
+                - name: BACKUP_USER
+                  value: {{ .Values.clickhouse.auth.backupsUser.username | quote }}
+                - name: BACKUP_PASSWORD
+                  value: {{ .Values.clickhouse.auth.backupsUser.password | quote }}
+                - name: BACKUP_NAME
+                  value: {{ .Values.clickhouse.backups.restore.backupName | quote }}
+              volumeMounts:
+                - name: clickhouse-backup-cron
+                  mountPath: /bin/restore-backup.sh
+                  subPath: restore-backup.sh
+              command:
+                - bash
+                - /bin/restore-backup.sh
+{{- end }}

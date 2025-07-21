@@ -11,4 +11,6 @@ metadata:
 data:
   create-backup.sh: |-
     {{ .Files.Get "files/ch.backups.create.sh" | nindent 4 }}
+  restore-backup.sh: |-
+    {{ .Files.Get "files/ch.backups.restore.sh" | nindent 4 }}
 {{- end }}
