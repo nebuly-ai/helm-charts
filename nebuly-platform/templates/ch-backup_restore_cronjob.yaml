@@ -41,15 +41,11 @@ spec:
                 - name: CLICKHOUSE_SCHEMA_RESTORE_SERVICES
                   value: {{- $fullname := include "clickhouse.fullname" . }}
                          {{- $replicas := int .Values.clickhouse.replicas }}
-                         {{- if eq $replicas 1 }}
-                           "clickhouse-{{ $fullname }}"
-                         {{- else }}
-                           {{- $services := list }}
-                           {{- range $i := until $replicas }}
-                             {{- $services = append $services (printf "chi-%s-default-0-%d" $fullname $i) }}
-                           {{- end }}
-                           "{{ join "," $services }}"
+                         {{- $services := list }}
+                         {{- range $i := until $replicas }}
+                           {{- $services = append $services (printf "chi-%s-default-0-%d" $fullname $i) }}
                          {{- end }}
+                         "{{ join "," $services }}"
                 # Use first replica in each shard for data
                 - name: CLICKHOUSE_DATA_RESTORE_SERVICES
                   value: chi-{{ include "clickhouse.fullname" $ }}-default-0-0
