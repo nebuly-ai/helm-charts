@@ -22,7 +22,7 @@ sources:
 
 dependencies:
   - name: strimzi-kafka-operator
-    version: <=1.0.0
+    version: <=0.45.0
     repository: oci://quay.io/strimzi-helm
     condition: strimzi.enabled
   - name: altinity-clickhouse-operator
@@ -34,11 +34,11 @@ dependencies:
     condition: bootstrap-aws.enabled
     repository: "file://../bootstrap-aws"
   - name: bootstrap-azure
-    version: ~0.1.0
+    version: ~0.2.0
     condition: bootstrap-azure.enabled
     repository: "file://../bootstrap-azure"
   - name: bootstrap-gcp
-    version: ~0.1.0
+    version: ~0.2.0
     condition: bootstrap-gcp.enabled
     repository: "file://../bootstrap-gcp"
 
