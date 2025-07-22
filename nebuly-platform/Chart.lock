@@ -10,9 +10,9 @@ dependencies:
   version: 0.3.0
 - name: bootstrap-azure
   repository: file://../bootstrap-azure
-  version: 0.1.1
+  version: 0.2.0
 - name: bootstrap-gcp
   repository: file://../bootstrap-gcp
-  version: 0.1.0
-digest: sha256:44efe322957f49dc7b51e5dccfe4cb20e003489099f09d02c03cb63d5ac0fe45
-generated: "2025-03-24T12:06:37.233833Z"
+  version: 0.2.0
+digest: sha256:6f00a48835e738c893b669c69b4b837131a139f626424894b189527cd0893615
+generated: "2025-07-22T11:13:38.462001+03:00"

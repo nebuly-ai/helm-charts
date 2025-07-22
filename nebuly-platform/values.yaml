@@ -1308,6 +1308,13 @@ clickhouse:
   backups:
     # -- If True, enable the backups of the ClickHouse database.
     enabled: false
+    restore:
+      # -- If True, enable the backup restore cronjob. The cronjob is configured
+      # to never run, so it must be manually triggered.
+      enabled: false
+      # -- The name of the backup to restore.
+      # If not provided, the latest backup will be restored.
+      backupName: ""
     # -- The settings of the Docker image used to run the backup job.
     image:
       repository: altinity/clickhouse-backup
