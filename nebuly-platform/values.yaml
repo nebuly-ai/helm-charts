@@ -377,7 +377,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.57.3
+    tag: v1.57.4
 
   podAnnotations: { }
   podLabels: { }
@@ -673,7 +673,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.57.3
+    tag: v1.57.4
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -907,6 +907,9 @@ kafka:
   # -- [external] The mechanism used for authentication. Allowed values are:
   # "PLAIN", "GSSAPI", "SCRAM-SHA-512"
   saslMechanism: "PLAIN"
+  # -- [external] If True, create the Kafka topics automatically if not present on
+  # the specified external Kafka cluster.
+  createTopics: true
 
   # -- [external] The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only
   # when not using an existing secret (see kafka.existingSecret value below).
