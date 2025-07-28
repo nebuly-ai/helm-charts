@@ -463,7 +463,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.57.3"` |  |
+| ingestionWorker.image.tag | string | `"v1.57.4"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -504,6 +504,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.affinity | object | `{}` |  |
 | kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
 | kafka.config."replica.selector.class" | string | `"org.apache.kafka.common.replica.RackAwareReplicaSelector"` |  |
+| kafka.createTopics | bool | `true` | [external] If True, create the Kafka topics automatically if not present on the specified external Kafka cluster. |
 | kafka.existingSecret | object | - | [external] Use an existing secret for Kafka authentication. |
 | kafka.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | kafka.existingSecret.sslCaCertKey | string | `""` | The key of the secret containing the CA certificate (in PEM format) used for SSL authentication. |

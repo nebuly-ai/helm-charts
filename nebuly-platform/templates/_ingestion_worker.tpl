@@ -66,6 +66,8 @@
   value: "{{ .Values.kafka.topicEventsRetry3.name }}"
 - name: KAFKA_TOPIC_EVENTS_DLQ
   value: "{{ .Values.kafka.topicEventsDlq.name }}"
+- name: KAFKA_CREATE_TOPICS
+  value: {{ .Values.kafka.createTopics | quote }}
 # Platform services
 - name: "TENANT_REGISTRY_URL"
   value: {{ include "authService.url" . }}
