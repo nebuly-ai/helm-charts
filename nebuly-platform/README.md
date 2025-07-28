@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.55.0](https://img.shields.io/badge/Version-1.55.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.56.0](https://img.shields.io/badge/Version-1.56.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -212,7 +212,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.20.9"` |  |
+| auth.image.tag | string | `"v1.20.10"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.ldap | object | `{"activeDirectoryRoot":"","adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
@@ -253,6 +253,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.postgresSchema | string | `"public"` | The schema of the PostgreSQL database used to store user data. |
 | auth.postgresServer | string | `""` | The host of the PostgreSQL database used to store user data. |
 | auth.postgresUser | string | `""` | The user for connecting to the database. Required only if not using an existing secret (see auth.existingSecret value below). |
+| auth.refreshTokenExpirationDays | int | `7` | Number of days before a refresh token expires due to inactivity. Determines how long a user can remain logged in without activity before being required to log in again. For example, a value of 1 means users must log in again after 24 hours of inactivity. |
 | auth.replicaCount | int | `1` |  |
 | auth.resources.limits.memory | string | `"256Mi"` |  |
 | auth.resources.requests.cpu | string | `"100m"` |  |
