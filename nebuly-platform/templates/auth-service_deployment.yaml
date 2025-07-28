@@ -231,7 +231,8 @@ spec:
               value: "false"
             - name: "STRIPE_ENABLED"
               value: "false"
-
+            - name: "REFRESH_TOKEN_EXPIRATION_DAYS"
+              value: {{ .Values.auth.refreshTokenExpirationDays | quote }}
           livenessProbe:
             httpGet:
               path: /healthz

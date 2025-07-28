@@ -1016,6 +1016,10 @@ auth:
   # -- Private RSA Key used for signing JWT tokens. Required only if not using an existing secret
   # (see auth.existingSecret value below).
   jwtSigningKey: ""
+  # -- Number of days before a refresh token expires due to inactivity.
+  # Determines how long a user can remain logged in without activity before being required to log in again.
+  # For example, a value of 1 means users must log in again after 24 hours of inactivity.
+  refreshTokenExpirationDays: 7
 
   # -- The host of the PostgreSQL database used to store user data.
   postgresServer: ""
@@ -1053,7 +1057,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.20.9"
+    tag: "v1.20.10"
 
   podAnnotations: { }
   podLabels: { }
