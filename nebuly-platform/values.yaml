@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.81.0"
+    tag: "v1.81.5"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -1057,7 +1057,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.20.10"
+    tag: "v1.20.11"
 
   podAnnotations: { }
   podLabels: { }
