@@ -13,9 +13,9 @@
 
 # Action Model
 - name: ACTION_LOCAL_MODEL_NAME
-  value: {{ .Values.aiModels.modelActionClassifier.name | quote }}
+  value: {{ .Values.aiModels.modelTopicClassifier.name | quote }}
 - name: ACTION_LOCAL_MODEL_VERSION
-  value: {{ .Values.aiModels.modelActionClassifier.version | quote }}
+  value: {{ .Values.aiModels.modelTopicClassifier.version | quote }}
 
 # PII Model
 - name: ANONYMIZATION_MODEL_NAME
