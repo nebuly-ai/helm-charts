@@ -60,6 +60,9 @@
 {{- $messages = append $messages (include "chart.validateValues.clickhouse.replicas" .) -}}
 {{- if .Values.clickhouse.backups.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.clickhouse.backups.remoteStorage" .) -}}
+{{- if and .Values.clickhouse.backups.enabled (eq .Values.clickhouse.backups.remoteStorage "aws_s3") -}}
+{{- $messages = append $messages (include "chart.validateValues.clickhouse.backups.aws_s3" .) -}}
+{{- end -}}
 {{- end -}}
 {{- end -}}
 
@@ -354,5 +357,16 @@ values: clickhouse.backups.remoteStorage
 {{- if not (contains .Values.clickhouse.backups.remoteStorage "aws_s3 azure_storage gcp_bucket") -}}
 values: clickhouse.backups.remoteStorage
   `remoteStorage` should be one of the following values: aws_s3, azure_storage, gcp_bucket
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.clickhouse.backups.aws_s3" -}}
+{{- if empty .Values.clickhouse.backups.aws.region  -}}
+values: clickhouse.backups.aws.region
+  `region` is required when remoteStorage is aws_s3, and should be a non-empty string
+{{- end -}}
+{{- if empty .Values.clickhouse.backups.aws.bucketName  -}}
+values: clickhouse.backups.aws.bucketName
+  `bucketName` is required when remoteStorage is aws_s3, and should be a non-empty string
 {{- end -}}
 {{- end -}}

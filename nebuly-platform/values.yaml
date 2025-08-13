@@ -1371,6 +1371,8 @@ clickhouse:
     aws:
       # -- The name of the AWS S3 bucket.
       bucketName: ""
+      # -- The AWS region where the bucket is located.
+      region: ""
       # -- Optional AWS S3 endpoint URL. The URL should not include
       # -- the bucket name. Example: "https://my-domain.com:9444"
       endpointUrl: ""
