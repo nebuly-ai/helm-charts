@@ -34,6 +34,8 @@
   value: {{ .Values.clickhouse.backups.aws.endpointUrl | quote }}
 - name: S3_BUCKET
   value: {{ .Values.clickhouse.backups.aws.bucketName | quote }}
+- name: S3_REGION
+  value: {{ .Values.clickhouse.backups.aws.region | quote }}
 - name: S3_ACCESS_KEY
   valueFrom:
     secretKeyRef:
