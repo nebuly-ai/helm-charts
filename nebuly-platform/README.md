@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.60.6](https://img.shields.io/badge/Version-1.60.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.60.7](https://img.shields.io/badge/Version-1.60.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -465,7 +465,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.57.16"` |  |
+| ingestionWorker.image.tag | string | `"v1.57.17"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
