@@ -158,6 +158,10 @@ frontend:
   enableLLMIssueHiding: false
   # -- If True, allow admins to assign/exclude users from organizations.
   enableOrganizationSettings: false
+  # -- If true enable High performance mode. This mode increases the performance of 
+  # the platform and is suggested for environments with high volumes of data 
+  # (more than 1 million interactions per month).
+  enableHighPerformanceMode: false
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # -- The title of the application.
