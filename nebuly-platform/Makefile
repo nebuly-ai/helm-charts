@@ -18,7 +18,7 @@ $(LOCALBIN):
 HELM_DOCS ?= $(LOCALBIN)/helm-docs
 
 ## Tools versions
-HELM_DOCS_VERSION ?= v1.13.1
+HELM_DOCS_VERSION ?= v1.14.2
 
 .PHONY: helm-docs-bin ## Download helm-docs if necessary
 helm-docs-bin: $(HELM_DOCS)
