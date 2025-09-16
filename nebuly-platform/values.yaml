@@ -451,7 +451,7 @@ aiModels:
 
   modelTopicClassifier:
     name: "topic-classifier"
-    version: "14"
+    version: "15"
 
   modelActionClassifier:
     name: "action-classifier"
