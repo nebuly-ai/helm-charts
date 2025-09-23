@@ -48,4 +48,10 @@
     secretKeyRef:
       name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
       key: {{ .Values.openAi.existingSecret.apiKey | default "openai-api-key" }}
+
+# Use the conversations table
+- name: GEMINI_API_KEY
+  value: "empty"
+- name: ENABLE_ENRICH_CONVERSATION
+  value: "false"
 {{- end -}}
