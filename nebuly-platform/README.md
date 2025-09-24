@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.64.2](https://img.shields.io/badge/Version-1.64.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.64.3](https://img.shields.io/badge/Version-1.64.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -379,7 +379,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
 | eventIngestion.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-event-ingestion"` |  |
-| eventIngestion.image.tag | string | `"v1.16.1"` |  |
+| eventIngestion.image.tag | string | `"v1.16.5"` |  |
 | eventIngestion.ingress.annotations | object | `{}` |  |
 | eventIngestion.ingress.className | string | `""` |  |
 | eventIngestion.ingress.enabled | bool | `false` |  |
@@ -423,7 +423,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.67.5"` |  |
+| frontend.image.tag | string | `"v1.67.8"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -466,7 +466,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.60.16"` |  |
+| ingestionWorker.image.tag | string | `"v1.60.17"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
