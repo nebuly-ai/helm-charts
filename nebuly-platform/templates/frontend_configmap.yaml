@@ -44,6 +44,7 @@ data:
       "NEXT_PUBLIC_ENABLE_LLM_ISSUE_HIDING": {{ .Values.frontend.enableLLMIssueHiding | quote }},
       "NEXT_PUBLIC_ENABLE_ORGANIZATION_SETTINGS": {{ .Values.frontend.enableOrganizationSettings | quote }},
       "NEXT_PUBLIC_PERFORMANCE_MODE": {{ .Values.frontend.enableHighPerformanceMode | quote }},
+      "NEXT_PUBLIC_SHOW_FAVICON_SIDEBAR": {{ .Values.frontend.useFaviconAsLogo | quote }},
       "NEXT_PUBLIC_ENABLE_INTERACTIONS_DETAILS_ACCESS_CONTROL": {{ .Values.interactionsAccessControl.enabled | quote }},
       "NEXT_PUBLIC_INTERACTIONS_DETAILS_ACCESS_CONTROL_MODE": {{ .Values.interactionsAccessControl.openDetailsMode | quote }},
       "NEXT_PUBLIC_INTERACTIONS_DETAILS_ACCESS_CONTROL_ROLES": {{ join ", " .Values.interactionsAccessControl.openDetailsRoles | quote }}

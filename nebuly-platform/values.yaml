@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.93.10"
+    tag: "v1.93.12"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -161,9 +161,11 @@ frontend:
   # -- If true enable High performance mode. This mode increases the performance of 
   # the platform and is suggested for environments with high volumes of data 
   # (more than 1 million interactions per month).
-  enableHighPerformanceMode: false
+  enableHighPerformanceMode: true
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
+  # Show the favicon as logo in the sidebar.
+  useFaviconAsLogo: false
   # -- The title of the application.
   title: "Nebuly"
 
@@ -172,7 +174,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.70.8"
+    tag: "v1.70.9"
 
   podAnnotations: { }
   podLabels: { }
