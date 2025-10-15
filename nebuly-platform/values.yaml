@@ -383,7 +383,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.62.11
+    tag: v1.62.13
 
   podAnnotations: { }
   podLabels: { }
@@ -449,7 +449,7 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: "33"
+    version: "34"
 
   modelTopicClassifier:
     name: "topic-classifier"
@@ -679,7 +679,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.62.11
+    tag: v1.62.13
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
