@@ -1,19 +1,39 @@
 name: "[bootstrap-aws] Release"
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - "bootstrap-aws-v[0-9]+.[0-9]+.[0-9]+"
 
-env:
-  REGISTRY: ghcr.io
-
 jobs:
-  PushCharts:
+  Push-dockerhub:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Helm
+        uses: Azure/setup-helm@v3
+
+      - name: Helm login
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | helm registry login registry-1.docker.io -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Helm push
+        working-directory: bootstrap-aws
+        run: make helm-push
+        env:
+          HELM_CHART_REGISTRY: oci://registry-1.docker.io/nebulydocker
+
+  Push-ghcr:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
       packages: write
+
+    env:
+      REGISTRY: ghcr.io
 
     steps:
       - name: Checkout repository

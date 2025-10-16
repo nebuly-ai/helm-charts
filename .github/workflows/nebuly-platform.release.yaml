@@ -1,12 +1,10 @@
 name: "[nebuly-platform] Release"
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - "nebuly-platform-v[0-9]+.[0-9]+.[0-9]+"
-
-env:
-  REGISTRY: ghcr.io
 
 jobs:
   Push-dockerhub:
@@ -33,6 +31,9 @@ jobs:
     permissions:
       contents: write
       packages: write
+
+    env:
+      REGISTRY: ghcr.io
 
     steps:
       - name: Checkout repository
