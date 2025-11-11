@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.95.5"
+    tag: "v1.96.3"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -174,7 +174,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.71.7"
+    tag: "v1.71.9"
 
   podAnnotations: { }
   podLabels: { }
@@ -365,6 +365,10 @@ ingestionWorker:
     enablePiiLanguageDetection: false
     # -- Enable use of LLM (pii-removal) to remove the PII during interaction processing. 
     enablePiiLlm: false
+
+    # -- List of tenants for which PII detection is enabled. Note that when given this will override the enablePiiLlm setting for the given tenants.
+    piiEnabledTenants: [ ]
+
     # -- List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove.
     piiDenyList: [ ]
     # -- The name of the alembic table used to store the status of the ingestion worker
@@ -383,7 +387,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.63.3
+    tag: v1.64.0
 
   podAnnotations: { }
   podLabels: { }
@@ -679,7 +683,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.63.3
+    tag: v1.64.0
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:

@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.72.0](https://img.shields.io/badge/Version-1.72.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.73.0](https://img.shields.io/badge/Version-1.73.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -275,7 +275,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.95.5"` |  |
+| backend.image.tag | string | `"v1.96.3"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -423,7 +423,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.71.7"` |  |
+| frontend.image.tag | string | `"v1.71.9"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -467,7 +467,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.63.3"` |  |
+| ingestionWorker.image.tag | string | `"v1.64.0"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -495,6 +495,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.settings.enrichInteractionBatchSize | int | `10000` | Batch size of interactions loaded in each step of enrich interactions. |
 | ingestionWorker.settings.entitiesBatchSize | int | `20000` | Batch size of entities loaded in each step of aggregate jobs. |
 | ingestionWorker.settings.piiDenyList | list | `[]` | List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove. |
+| ingestionWorker.settings.piiEnabledTenants | list | `[]` | List of tenants for which PII detection is enabled. Note that when given this will override the enablePiiLlm setting for the given tenants. |
 | ingestionWorker.settings.tasks | object | `{"feedbackAction":true,"interaction":true,"tags":true,"traceInteraction":true}` | Enable or disable internal worker tasks. This is primarily intended for debugging or performance tuning. |
 | ingestionWorker.statementTimeoutSeconds | int | `120` | The timeout in seconds for the database queries. |
 | ingestionWorker.tolerations | list | `[]` |  |

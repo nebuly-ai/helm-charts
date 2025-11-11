@@ -31,6 +31,8 @@
   value: {{ .Values.frontend.enableHighPerformanceMode | quote }}
 - name: ENABLE_LLM_PII_REMOVAL
   value: {{ .Values.ingestionWorker.settings.enablePiiLlm | quote }}
+- name: PII_MASK_TENANTS
+  value: {{ .Values.ingestionWorker.settings.piiEnabledTenants | toJson | quote }}
 # Interactions details access control
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ENABLED
   value: {{ .Values.interactionsAccessControl.enabled | quote }}

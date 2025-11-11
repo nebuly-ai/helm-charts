@@ -102,6 +102,8 @@
   value: {{ .Values.ingestionWorker.settings.enablePiiLanguageDetection | quote }}
 - name: ENABLE_ADVANCE_PII
   value: {{ .Values.ingestionWorker.settings.enablePiiLlm | quote }}
+- name: PII_TENANTS
+  value: {{ .Values.ingestionWorker.settings.piiEnabledTenants | toJson | quote }}
 - name: PII_DENY_LIST
   value: {{ .Values.ingestionWorker.settings.piiDenyList | toJson | quote }}
 # AI Models pulling
