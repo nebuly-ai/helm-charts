@@ -72,6 +72,12 @@ helm.sh/chart: {{ include "nebuly-platform.chart" . }}
 app.kubernetes.io/component: nebuly-backend
 {{- end }}
 
+{{- define "postUpgrade.migrateInteractionEditsLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+helm.sh/chart: {{ include "nebuly-platform.chart" . }}
+app.kubernetes.io/component: nebuly-backend
+{{- end }}
+
 {{- define "postUpgrade.refreshAggregatesConfigLabels" -}}
 {{- include "nebuly-platform.selectorLabels" . }}
 helm.sh/chart: {{ include "nebuly-platform.chart" . }}

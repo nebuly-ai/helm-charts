@@ -1253,8 +1253,17 @@ reprocessing:
 
 # -- Post-upgrade hooks settings.
 postUpgrade:
-  # -- If True, run a post-install jop that runs a full refresh of the backend RO tables.
+  # -- If True, run a post-install job that runs a full refresh of the backend RO tables.
   refreshRoTables:
+    enabled: false
+    resources:
+      requests:
+        cpu: 100m
+      limits:
+        memory: 512Mi
+  
+  # -- If True, run a post-install job that migrates the interaction edits logs.
+  migrateInteractionEdits:
     enabled: false
     resources:
       requests:
