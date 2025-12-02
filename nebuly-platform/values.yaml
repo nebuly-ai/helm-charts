@@ -518,8 +518,6 @@ aiModels:
   sync:
     # -- Enable or disable the Sync Job. Default is false for compatibility reasons.
     enabled: false
-    # -- The schedule of the job. The format is the same as the Kubernetes CronJob schedule.
-    schedule: "0 23 * * *" # Every day at 11:00 PM
     # -- Source Nebuly models registry.
     source:
       clientId: ""
