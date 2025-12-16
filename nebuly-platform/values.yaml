@@ -174,7 +174,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.73.5"
+    tag: "v1.73.6"
 
   podAnnotations: { }
   podLabels: { }
