@@ -597,7 +597,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Michele Zanotti | <m.zanotti@nebuly.ai> | <https://github.com/Telemaco019> |
+| Dario Cantella | <d.cantella@nebuly.ai> | <https://github.com/Dariocent> |
 | Diego Fiori | <d.fiori@nebuly.ai> | <https://github.com/diegofiori> |
 
 ## Source Code
