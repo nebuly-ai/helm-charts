@@ -1,7 +1,7 @@
 dependencies:
 - name: strimzi-kafka-operator
   repository: oci://quay.io/strimzi-helm
-  version: 0.45.0
+  version: 0.45.1
 - name: altinity-clickhouse-operator
   repository: https://docs.altinity.com/clickhouse-operator
   version: 0.25.3
@@ -14,5 +14,5 @@ dependencies:
 - name: bootstrap-gcp
   repository: file://../bootstrap-gcp
   version: 0.2.0
-digest: sha256:e3dcdc535e374a4421fa6ecbeda49cda8701f2cc8d5f2ad514144df50a60dc0c
-generated: "2025-12-24T13:05:49.093245+01:00"
+digest: sha256:bb64d19d523d28e30c3786f6449e7c1f9f58d7448f8d03b5bebc56c08382a7ea
+generated: "2025-12-24T14:11:33.644945+01:00"
