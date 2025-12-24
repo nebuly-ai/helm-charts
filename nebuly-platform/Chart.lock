@@ -4,7 +4,7 @@ dependencies:
   version: 0.45.0
 - name: altinity-clickhouse-operator
   repository: https://docs.altinity.com/clickhouse-operator
-  version: 0.24.5
+  version: 0.25.3
 - name: bootstrap-aws
   repository: file://../bootstrap-aws
   version: 0.3.0
@@ -14,5 +14,5 @@ dependencies:
 - name: bootstrap-gcp
   repository: file://../bootstrap-gcp
   version: 0.2.0
-digest: sha256:6f00a48835e738c893b669c69b4b837131a139f626424894b189527cd0893615
-generated: "2025-07-22T11:13:38.462001+03:00"
+digest: sha256:e3dcdc535e374a4421fa6ecbeda49cda8701f2cc8d5f2ad514144df50a60dc0c
+generated: "2025-12-24T13:05:49.093245+01:00"
