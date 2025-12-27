@@ -1,0 +1,33 @@
+{{ if not .Values.kafka.external -}}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: controller
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    strimzi.io/cluster: {{ include "kafka.fullname" . }}
+    {{- include "nebuly-platform.selectorLabels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.kafka.controller.replicas }}
+  roles:
+    - controller
+  storage:
+    type: jbod
+    volumes:
+      - id: 0
+        type: persistent-claim
+        size: {{ .Values.kafka.controller.storage.size }}
+        {{- with .Values.kafka.controller.storage.deleteClaim }}
+        deleteClaim: {{ . }}
+        {{- end }}
+        {{- with .Values.kafka.controller.storage.class }}
+        class: {{ . }}
+        {{- end }}
+  resources:
+    {{- toYaml .Values.kafka.controller.resources | nindent 4 }}
+  template:
+    pod:
+      affinity: {{- toYaml .Values.kafka.affinity | nindent 8 }}
+{{- end }}
