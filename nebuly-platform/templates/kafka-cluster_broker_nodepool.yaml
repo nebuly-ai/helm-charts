@@ -14,17 +14,14 @@ spec:
   roles:
     - broker
   storage:
-    type: jbod
-    volumes:
-      - id: 0
-        type: persistent-claim
-        size: {{ .Values.kafka.storage.size }}
-        {{- with .Values.kafka.storage.deleteClaim }}
-        deleteClaim: {{ . }}
-        {{- end }}
-        {{- with .Values.kafka.storage.class }}
-        class: {{ . }}
-        {{- end }}
+    type: persistent-claim
+    size: {{ .Values.kafka.storage.size }}
+    {{- with .Values.kafka.storage.deleteClaim }}
+    deleteClaim: {{ . }}
+    {{- end }}
+    {{- with .Values.kafka.storage.class }}
+    class: {{ . }}
+    {{- end }}
   resources:
     {{- toYaml .Values.kafka.resources | nindent 4 }}
   template:
