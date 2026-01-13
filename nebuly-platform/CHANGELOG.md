@@ -4,7 +4,7 @@
 
 ### Features
 
-* Strimzi Kafka Operator now uses NodePools CR to manage brokers 
+* Strimzi Kafka Operator now uses NodePools CR to manage brokers
 
 ## v1.17.0
 
