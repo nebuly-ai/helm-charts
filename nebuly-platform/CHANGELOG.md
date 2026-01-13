@@ -2,7 +2,7 @@
 
 ## v1.78.0
 
-### Features (v1.78.0)
+### Features
 * Strimzi Kafka Operator now uses NodePools CR to manage brokers
 
 ## v1.17.0
