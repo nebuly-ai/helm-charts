@@ -856,6 +856,23 @@ kafka:
     requests:
       cpu: 100m
       memory: 1024Mi
+  # Settings of the Controller NodePool.
+  # @default -- -
+  controller:
+    replicas: 3
+    affinity: { }
+    storage:
+      type: persistent-claim
+      size: 10Gi
+      deleteClaim: false
+    # Resources of the Controller pods.
+    # @default -- -
+    resources:
+      limits:
+        memory: 2048Mi
+      requests:
+        cpu: 100m
+        memory: 1024Mi
   # Settings of the Zookeeper cluster.
   # @default -- -
   zookeeper:

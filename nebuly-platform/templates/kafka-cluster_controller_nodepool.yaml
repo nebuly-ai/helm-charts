@@ -14,20 +14,17 @@ spec:
   roles:
     - controller
   storage:
-    type: jbod
-    volumes:
-      - id: 0
-        type: persistent-claim
-        size: {{ .Values.kafka.controller.storage.size }}
-        {{- with .Values.kafka.controller.storage.deleteClaim }}
-        deleteClaim: {{ . }}
-        {{- end }}
-        {{- with .Values.kafka.controller.storage.class }}
-        class: {{ . }}
-        {{- end }}
+    type: persistent-claim
+    size: {{ .Values.kafka.controller.storage.size }}
+    {{- with .Values.kafka.controller.storage.deleteClaim }}
+    deleteClaim: {{ . }}
+    {{- end }}
+    {{- with .Values.kafka.controller.storage.class }}
+    class: {{ . }}
+    {{- end }}
   resources:
     {{- toYaml .Values.kafka.controller.resources | nindent 4 }}
   template:
     pod:
-      affinity: {{- toYaml .Values.kafka.affinity | nindent 8 }}
+      affinity: {{- toYaml .Values.kafka.controller.affinity | nindent 8 }}
 {{- end }}
