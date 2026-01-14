@@ -1,3 +1,4 @@
 bin/
 *.tmp.yaml
 dockerconfig.json
+.DS_Store
