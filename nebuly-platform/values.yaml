@@ -839,7 +839,7 @@ kafka:
 
   affinity: { }
 
-  # -- The storage class used for the Kafka and Zookeeper storage.
+  # -- The storage class used for Kafka storage.
   # @default -- -
   storage:
     type: persistent-claim
@@ -870,23 +870,6 @@ kafka:
       size: 10Gi
       deleteClaim: false
     # Resources of the Controller pods.
-    # @default -- -
-    resources:
-      limits:
-        memory: 2048Mi
-      requests:
-        cpu: 100m
-        memory: 1024Mi
-  # Settings of the Zookeeper cluster.
-  # @default -- -
-  zookeeper:
-    replicas: 3
-    affinity: { }
-    storage:
-      type: persistent-claim
-      size: 10Gi
-      deleteClaim: false
-    # Resources of the Zookeeper pods.
     # @default -- -
     resources:
       limits:

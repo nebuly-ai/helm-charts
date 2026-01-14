@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.80.0
+
+### Features
+* Removed Zookeeper from Kafka
+
 ## v1.79.0
 
 ### Features
