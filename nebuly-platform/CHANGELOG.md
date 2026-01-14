@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.79.0
+
+### Features
+* Kafka now uses KRaft as consesus algorithm and deprecates Zookeeper
+
+### Breaking changes
+* If using Kafka through Strimzi operator:
+  - The upgrade to this version **MUST** be done from v1.78.0
+  - First set in the values.yaml **kafka.kraft=disabled**, then **kafka.kraft=migration**
+  - and finally, after it is finished, remove it so it will default to **enabled**
 ## v1.78.0
 
 ### Features
