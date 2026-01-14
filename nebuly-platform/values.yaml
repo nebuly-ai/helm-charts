@@ -833,6 +833,10 @@ kafka:
   # -- The number of Kafka brokers in the cluster.
   replicas: 3
 
+  # -- KRaft mode, if true, deploy Kafka in KRaft mode (without Zookeeper).
+  # -- It can be: enabled, disabled, migration, rollback. See https://strimzi.io/docs/operators/latest/deploying#proc-deploy-migrate-kraft-str
+  kraft: enabled
+
   affinity: { }
 
   # -- The storage class used for the Kafka and Zookeeper storage.
