@@ -5,6 +5,7 @@ metadata:
   name: {{ include "kafka.fullname" . }}
   namespace: {{ include "nebuly-platform.namespace" . }}
   annotations:
+    strimzi.io/node-pools: enabled
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
   zookeeper:
@@ -20,10 +21,6 @@ spec:
     userOperator: {}
     topicOperator: {}
   kafka:
-    template:
-      pod:
-        affinity: {{- toYaml .Values.kafka.affinity | nindent 10 }}
-    replicas: {{ .Values.kafka.replicas }}
     listeners:
       - name: plain
         port: 9092
@@ -33,10 +30,6 @@ spec:
           type: scram-sha-512
     authorization:
       type: simple
-    storage:
-      {{- toYaml .Values.kafka.storage | nindent 6 }}
-    resources:
-      {{- toYaml .Values.kafka.resources | nindent 6 }}
     rack:
       {{- toYaml .Values.kafka.rack | nindent 6 }}
     config:
