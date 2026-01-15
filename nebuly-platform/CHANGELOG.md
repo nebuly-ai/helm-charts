@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.78.1
+
+### Features
+* Fix broken query
+
 ## v1.78.0
 
 ### Features
