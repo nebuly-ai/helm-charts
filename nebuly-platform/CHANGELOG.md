@@ -1,9 +1,14 @@
 # Changelog
 
-## v1.78.0
+## v1.78.1
 
 ### Features
 * Strimzi Kafka Operator now uses NodePools CR to manage brokers
+
+## v1.78.0
+
+### Fixes
+* Fix to broken SQL query in the backend
 
 ## v1.17.0
 
