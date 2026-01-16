@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.79.0](https://img.shields.io/badge/Version-1.79.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.80.0](https://img.shields.io/badge/Version-1.80.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -536,7 +536,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.saslPassword | string | `""` | [external] The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.saslUsername | string | `""` | [external] The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.socketKeepAliveEnabled | bool | `true` | If true, the Kafka clients will use the keep alive feature. |
-| kafka.storage | object | - | The storage class used for the Kafka and Zookeeper storage. |
+| kafka.storage | object | - | The storage class used for Kafka storage. |
 | kafka.topicEventsDlq | object | `{"name":"events-dlq","partitions":1,"replicas":null}` | Settings of the Kafka topic used as dead letter queue. |
 | kafka.topicEventsDlq.name | string | `"events-dlq"` | The name of the Kafka topic. |
 | kafka.topicEventsDlq.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
@@ -556,14 +556,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry3.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.topicEventsRetry3.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.user | string | `"nebuly-platform"` | The name of the user used by the services for connecting to the created kafka cluster. |
-| kafka.zookeeper.affinity | object | `{}` |  |
-| kafka.zookeeper.replicas | int | `3` |  |
-| kafka.zookeeper.resources.limits.memory | string | `"2048Mi"` |  |
-| kafka.zookeeper.resources.requests.cpu | string | `"100m"` |  |
-| kafka.zookeeper.resources.requests.memory | string | `"1024Mi"` |  |
-| kafka.zookeeper.storage.deleteClaim | bool | `false` |  |
-| kafka.zookeeper.storage.size | string | `"10Gi"` |  |
-| kafka.zookeeper.storage.type | string | `"persistent-claim"` |  |
 | namespaceOverride | string | `""` | Override the namespace. |
 | openAi | object | - | Optional configuration for the OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. Both OpenAI and Azure OpenAI are supported. |
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |

@@ -9,15 +9,6 @@ metadata:
     strimzi.io/kraft: {{ include "kafka.kraft" . }}
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  zookeeper:
-    template:
-      pod:
-        affinity: {{- toYaml .Values.kafka.affinity | nindent 10 }}
-    replicas: {{ .Values.kafka.zookeeper.replicas }}
-    storage:
-      {{- toYaml .Values.kafka.zookeeper.storage | nindent 6 }}
-    resources:
-      {{- toYaml .Values.kafka.zookeeper.resources | nindent 6 }}
   entityOperator:
     userOperator: {}
     topicOperator: {}
