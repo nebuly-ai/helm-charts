@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.78.1](https://img.shields.io/badge/Version-1.78.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.79.0](https://img.shields.io/badge/Version-1.79.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -509,11 +509,20 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.affinity | object | `{}` |  |
 | kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
 | kafka.config."replica.selector.class" | string | `"org.apache.kafka.common.replica.RackAwareReplicaSelector"` |  |
+| kafka.controller.affinity | object | `{}` |  |
+| kafka.controller.replicas | int | `3` |  |
+| kafka.controller.resources.limits.memory | string | `"2048Mi"` |  |
+| kafka.controller.resources.requests.cpu | string | `"100m"` |  |
+| kafka.controller.resources.requests.memory | string | `"1024Mi"` |  |
+| kafka.controller.storage.deleteClaim | bool | `false` |  |
+| kafka.controller.storage.size | string | `"10Gi"` |  |
+| kafka.controller.storage.type | string | `"persistent-claim"` |  |
 | kafka.createTopics | bool | `true` | [external] If True, create the Kafka topics automatically if not present on the specified external Kafka cluster. |
 | kafka.existingSecret | object | - | [external] Use an existing secret for Kafka authentication. |
 | kafka.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | kafka.existingSecret.sslCaCertKey | string | `""` | The key of the secret containing the CA certificate (in PEM format) used for SSL authentication. |
 | kafka.external | bool | `false` | If false, deploy a Kafka cluster together with the platform services. Otherwise, use an existing Kafka cluster. |
+| kafka.kraft | string | `"enabled"` | It can be: enabled, disabled, migration, rollback. See https://strimzi.io/docs/operators/latest/deploying#proc-deploy-migrate-kraft-str |
 | kafka.krb5Config | string | `""` | [external] Used only when saslMechanism is set to "GSSAPI". The Keberos configuration file used for SASL GSSAPI authentication. |
 | kafka.nameOverride | string | `""` | with the provided value. |
 | kafka.rack.topologyKey | string | `"topology.kubernetes.io/zone"` |  |

@@ -6,6 +6,10 @@
 {{ .Values.kafka.user }}
 {{- end -}}
 
+{{- define "kafka.kraft" -}}
+{{ .Values.kafka.kraft | default "enabled" }}
+{{- end -}}
+
 {{- define "kafka.bootstrapServers" -}}
 {{- if .Values.kafka.external -}}
 {{ .Values.kafka.bootstrapServers }}

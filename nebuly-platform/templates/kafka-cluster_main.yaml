@@ -6,6 +6,7 @@ metadata:
   namespace: {{ include "nebuly-platform.namespace" . }}
   annotations:
     strimzi.io/node-pools: enabled
+    strimzi.io/kraft: {{ include "kafka.kraft" . }}
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
   zookeeper:

@@ -1,14 +1,25 @@
 # Changelog
 
-## v1.78.1
+## v1.79.0
 
 ### Features
-* Strimzi Kafka Operator now uses NodePools CR to manage brokers
+* Kafka now uses KRaft as consesus algorithm and deprecates Zookeeper
 
-## v1.78.0
+### Breaking changes
+* If using Kafka through Strimzi operator:
+  - The upgrade to this version **MUST** be done from v1.78.0
+  - First set in the values.yaml **kafka.kraft=disabled**, then **kafka.kraft=migration**
+  - and finally, after it is finished, remove it so it will default to **enabled**
+  
+## v1.78.1
 
 ### Fixes
 * Fix to broken SQL query in the backend
+
+## v1.78.0
+
+### Features
+* Strimzi Kafka Operator now uses NodePools CR to manage brokers
 
 ## v1.17.0
 
