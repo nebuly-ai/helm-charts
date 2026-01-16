@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.99.16"
+    tag: "v1.99.21"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -387,7 +387,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.65.7
+    tag: v1.65.9
 
   podAnnotations: { }
   podLabels: { }
@@ -453,7 +453,7 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: "35"
+    version: "36"
   
   modelEmbedding:
     name: "embedding"
@@ -687,7 +687,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.65.7
+    tag: v1.65.9
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
