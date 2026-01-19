@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.99.21"
+    tag: "v1.99.29"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -371,6 +371,9 @@ ingestionWorker:
 
     # -- List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove.
     piiDenyList: [ ]
+
+    # -- The engine used to generate categories for interactions. Can be "cluster_based", "smart_sample" and "legacy"
+    categoryEngine: "cluster_based"
     # -- The name of the alembic table used to store the status of the ingestion worker
     # migrations. If not provided, the default `alembic_version` table will be used.
     alembicTable: ""
@@ -1075,7 +1078,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.22.1"
+    tag: "v1.22.5"
 
   podAnnotations: { }
   podLabels: { }
