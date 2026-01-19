@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.77.4](https://img.shields.io/badge/Version-1.77.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.77.5](https://img.shields.io/badge/Version-1.77.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -212,7 +212,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.22.1"` |  |
+| auth.image.tag | string | `"v1.22.5"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.ldap | object | `{"activeDirectoryRoot":"","adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
@@ -275,7 +275,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.99.21"` |  |
+| backend.image.tag | string | `"v1.99.29"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -489,6 +489,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
 | ingestionWorker.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the ingestion worker migrations. If not provided, the default `alembic_version` table will be used. |
+| ingestionWorker.settings.categoryEngine | string | `"cluster_based"` | The engine used to generate categories for interactions. Can be "cluster_based", "smart_sample" and "legacy" |
 | ingestionWorker.settings.enableDbCache | bool | `true` | Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions. |
 | ingestionWorker.settings.enablePiiLanguageDetection | bool | `false` | Enable language detection for PII detection. |
 | ingestionWorker.settings.enablePiiLlm | bool | `false` | Enable use of LLM (pii-removal) to remove the PII during interaction processing.  |
