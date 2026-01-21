@@ -690,7 +690,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.65.9
+    tag: v1.65.10
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
