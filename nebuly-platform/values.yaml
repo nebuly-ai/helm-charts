@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.99.33"
+    tag: "v1.100.2"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -162,6 +162,8 @@ frontend:
   # the platform and is suggested for environments with high volumes of data 
   # (more than 1 million interactions per month).
   enableHighPerformanceMode: true
+  # -- If true, enable the custom variables feature.
+  enableCustomVariables: false
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # Show the favicon as logo in the sidebar.
@@ -390,7 +392,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.65.11
+    tag: v1.65.12
 
   podAnnotations: { }
   podLabels: { }
@@ -690,7 +692,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.65.11
+    tag: v1.65.12
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
