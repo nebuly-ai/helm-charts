@@ -741,6 +741,60 @@ primaryProcessing:
       operator: Exists
   nodeSelector: { }
 
+# -- Settings related to the Monitoring CronJob.
+# @default -- -
+monitoring:
+  # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+  schedule: "0 22 * * *" # Every day at 10:00 PM
+  # -- The timezone of the CronJob.
+  # If not provided, the default timezone of the Kubernetes cluster will be used.
+  timezone: ""
+  backoffLimit: 1
+  activeDeadlineSeconds: 3600 # 1 hour
+
+  # -- The name of the customer displayed in the monitoring alerts.
+  customerName: ""
+  # -- The URL of the Alertmanager to which alerts will be sent.
+  alertmanagerUrl: ""
+  # -- Comma-separated list of job names to be excluded from monitoring.
+  excludeJobs: "red_alert.check_analyzed_interactions"
+  # -- Comma-separated list of job names to be included in monitoring.
+  includeJobs: ""
+  # -- Additional environment variables, in the standard Kubernetes format.
+  # Example:
+  # - name: MY_ENV_VAR
+  #   value: "my-value"
+  env: { }
+
+    
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-monitoring
+    pullPolicy: IfNotPresent
+    tag: v0.2.10
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+
+  podAnnotations: { }
+  podLabels: { }
+  podSecurityContext:
+    runAsNonRoot: true
+    fsGroup: 101
+
+  resources:
+    requests:
+      cpu: 100m
+    limits:
+      memory: 512Mi
+
+  affinity: { }
+  tolerations: [ ]
+  nodeSelector: { }
+
 imagePullSecrets: [ ]
 # - name: my-secret-name
 

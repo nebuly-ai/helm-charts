@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.81.4](https://img.shields.io/badge/Version-1.81.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.82.0](https://img.shields.io/badge/Version-1.82.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -558,6 +558,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry3.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.topicEventsRetry3.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.user | string | `"nebuly-platform"` | The name of the user used by the services for connecting to the created kafka cluster. |
+| monitoring | object | - | Settings related to the Monitoring CronJob. |
+| monitoring.alertmanagerUrl | string | `""` | The URL of the Alertmanager to which alerts will be sent. |
+| monitoring.customerName | string | `""` | The name of the customer displayed in the monitoring alerts. |
+| monitoring.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
+| monitoring.excludeJobs | string | `"red_alert.check_analyzed_interactions"` | Comma-separated list of job names to be excluded from monitoring. |
+| monitoring.includeJobs | string | `""` | Comma-separated list of job names to be included in monitoring. |
+| monitoring.schedule | string | `"0 22 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| monitoring.timezone | string | `""` | The timezone of the CronJob. If not provided, the default timezone of the Kubernetes cluster will be used. |
 | namespaceOverride | string | `""` | Override the namespace. |
 | openAi | object | - | Optional configuration for the OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. Both OpenAI and Azure OpenAI are supported. |
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |

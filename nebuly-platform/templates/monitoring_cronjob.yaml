@@ -1,0 +1,68 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: job-monitoring
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.monitoring.schedule }}
+  jobTemplate:
+    metadata:
+      labels:
+    spec:
+      backoffLimit: {{ .Values.monitoring.backoffLimit }}
+      activeDeadlineSeconds: {{ .Values.monitoring.activeDeadlineSeconds }}
+      template:
+        metadata:
+          {{- with .Values.monitoring.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          labels:
+            {{- with .Values.monitoring.podLabels }}
+            {{- toYaml . | nindent 14 }}
+            {{- end }}
+        spec:
+          serviceAccountName: {{ .Values.serviceAccount.name }}
+          restartPolicy: Never
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.monitoring.podSecurityContext | nindent 12 }}
+          containers:
+            - name: {{ .Chart.Name }}
+              securityContext:
+                {{- toYaml .Values.monitoring.securityContext | nindent 16 }}
+              image: "{{ .Values.monitoring.image.repository }}:{{ .Values.monitoring.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.monitoring.image.pullPolicy }}
+              env:
+                - name: CUSTOMER_NAME
+                  value: {{ .Values.monitoring.customerName | quote }}
+                - name: ALERTMANAGER_URL
+                  value: {{ .Values.monitoring.alertmanagerUrl | quote }}
+                - name: EXCLUDE_JOBS
+                  value: {{ .Values.monitoring.excludeJobs | quote }}
+                - name: INCLUDE_JOBS
+                  value: {{ .Values.monitoring.includeJobs | quote }}
+              {{- if .Values.monitoring.env }}
+                {{- toYaml .Values.monitoring.env | nindent 16 }}
+              {{- end }}
+              {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
+              resources:
+                {{- toYaml .Values.monitoring.resources | nindent 18 }}
+          {{- with .Values.monitoring.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.monitoring.affinity }}
+          affinity:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
+          {{- with .Values.monitoring.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 14 }}
+          {{- end }}
