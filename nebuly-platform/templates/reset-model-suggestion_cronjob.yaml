@@ -9,7 +9,7 @@ metadata:
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  schedule: 0 0 29 2 1 # Never
+  schedule: 0 0 30 2 * # Never
   jobTemplate:
     metadata:
       labels:

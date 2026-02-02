@@ -9,7 +9,7 @@ metadata:
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.clickhouse.backups.schedule }}
+  schedule: 0 0 30 2 * # Never
   concurrencyPolicy: "Forbid"
   jobTemplate:
     metadata:
