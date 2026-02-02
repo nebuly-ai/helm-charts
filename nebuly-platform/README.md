@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.81.2](https://img.shields.io/badge/Version-1.81.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.81.3](https://img.shields.io/badge/Version-1.81.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -415,7 +415,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.enableAbTesting | bool | `false` | Enable the AB testing feature. |
 | frontend.enableAiSummary | bool | `false` | If set to true, enable the AI summarization feature. |
 | frontend.enableCustomVariables | bool | `false` | If true, enable the custom variables feature. |
-| frontend.enableHighPerformanceMode | bool | `true` | If true enable High performance mode. This mode increases the performance of  the platform and is suggested for environments with high volumes of data  (more than 1 million interactions per month). |
+| frontend.enableHighPerformanceMode | bool | `true` | If true enable High performance mode. This mode increases the performance of the platform and is suggested for environments with high volumes of data (more than 1 million interactions per month). |
 | frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
 | frontend.enableOldRiskyBehavior | bool | `false` | Feature flag to activate the old risky behavior page. Used for retro-compatibility. |
 | frontend.enableOrganizationSettings | bool | `false` | If True, allow admins to assign/exclude users from organizations. |
@@ -424,7 +424,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.74.1"` |  |
+| frontend.image.tag | string | `"v1.74.3"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -493,7 +493,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.settings.categoryEngine | string | `"cluster_based"` | The engine used to generate categories for interactions. Can be "cluster_based", "smart_sample" and "legacy" |
 | ingestionWorker.settings.enableDbCache | bool | `true` | Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions. |
 | ingestionWorker.settings.enablePiiLanguageDetection | bool | `false` | Enable language detection for PII detection. |
-| ingestionWorker.settings.enablePiiLlm | bool | `false` | Enable use of LLM (pii-removal) to remove the PII during interaction processing.  |
+| ingestionWorker.settings.enablePiiLlm | bool | `false` | Enable use of LLM (pii-removal) to remove the PII during interaction processing. |
 | ingestionWorker.settings.enrichInteractionBatchSize | int | `10000` | Batch size of interactions loaded in each step of enrich interactions. |
 | ingestionWorker.settings.entitiesBatchSize | int | `20000` | Batch size of entities loaded in each step of aggregate jobs. |
 | ingestionWorker.settings.piiDenyList | list | `[]` | List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove. |
