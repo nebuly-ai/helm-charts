@@ -602,6 +602,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | telemetry.enabled | bool | `false` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
 | telemetry.gtmId | string | `""` | The Google Tag Manager (GTM) Id. |
 | telemetry.promtail | object | `{"enabled":true}` | If True, enable the Promtail log collector. Only logs from Nebuly's containers will be collected. |
+| telemetry.proxyUrl | string | `""` | The URL of the proxy server used to send telemetry data through. |
 | telemetry.tenant | string | `""` | Code of the tenant to which the telemetry data will be associated. |
 
 ## Maintainers

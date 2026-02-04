@@ -7,6 +7,11 @@ server:
 
 clients:
   - url: https://{{.Values.telemetry.tenant}}:{{.Values.telemetry.apiKey}}@loki.monitor.nebuly.com/loki/api/v1/push
+    {{- if .Values.telemetry.proxyUrl }}
+    tls_config:
+       insecure_skip_verify: true
+    proxy_url: {{ .Values.telemetry.proxyUrl | quote }}
+    {{- end }}
 
 positions:
   filename: /tmp/positions.yaml

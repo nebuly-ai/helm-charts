@@ -1041,6 +1041,8 @@ telemetry:
   apiKey: ""
   # -- The Google Tag Manager (GTM) Id.
   gtmId: ""
+  # -- The URL of the proxy server used to send telemetry data through.
+  proxyUrl: ""
   # -- If True, enable the Promtail log collector. Only logs from Nebuly's
   # containers will be collected.
   promtail:
