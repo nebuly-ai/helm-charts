@@ -59,5 +59,5 @@
 - name: GEMINI_API_KEY
   value: "empty"
 - name: ENABLE_ENRICH_CONVERSATION
-  value: "true"
+  value: "false"
 {{- end -}}
