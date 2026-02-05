@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.83.0
+
+### Features
+* Bump Worker to 1.66
+
 ## v1.79.0
 
 ### Features
