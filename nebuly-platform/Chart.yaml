@@ -7,7 +7,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 1.74.5
+version: 1.83.4
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -22,11 +22,11 @@ sources:
 
 dependencies:
   - name: strimzi-kafka-operator
-    version: <=0.45.0
+    version: <=0.45.1
     repository: oci://quay.io/strimzi-helm
     condition: strimzi.enabled
   - name: altinity-clickhouse-operator
-    version: ~0.24.4
+    version: "0.25.3"
     repository: https://docs.altinity.com/clickhouse-operator
     condition: clickhouse.enabled
   - name: bootstrap-aws
@@ -43,9 +43,9 @@ dependencies:
     repository: "file://../bootstrap-gcp"
 
 maintainers:
-  - name: Michele Zanotti
-    email: m.zanotti@nebuly.ai
-    url: https://github.com/Telemaco019
+  - name: Dario Cantella
+    email: d.cantella@nebuly.ai
+    url: https://github.com/Dariocent
   - name: Diego Fiori
     email: d.fiori@nebuly.ai
     url: https://github.com/diegofiori

@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.97.5"
+    tag: "v1.100.6"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -162,6 +162,8 @@ frontend:
   # the platform and is suggested for environments with high volumes of data 
   # (more than 1 million interactions per month).
   enableHighPerformanceMode: true
+  # -- If true, enable the custom variables feature.
+  enableCustomVariables: false
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # Show the favicon as logo in the sidebar.
@@ -174,7 +176,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.72.3"
+    tag: "v1.74.8"
 
   podAnnotations: { }
   podLabels: { }
@@ -371,6 +373,9 @@ ingestionWorker:
 
     # -- List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove.
     piiDenyList: [ ]
+
+    # -- The engine used to generate categories for interactions. Can be "cluster_based", "smart_sample" and "legacy"
+    categoryEngine: "cluster_based"
     # -- The name of the alembic table used to store the status of the ingestion worker
     # migrations. If not provided, the default `alembic_version` table will be used.
     alembicTable: ""
@@ -387,7 +392,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.64.5
+    tag: v1.66.10
 
   podAnnotations: { }
   podLabels: { }
@@ -453,7 +458,11 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: "35"
+    version: "36"
+  
+  modelEmbedding:
+    name: "embedding"
+    version: "1"
 
   modelTopicClassifier:
     name: "topic-classifier"
@@ -469,7 +478,7 @@ aiModels:
 
   modelPiiRemoval:
     name: "pii-removal"
-    version: "1"
+    version: "2"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
@@ -681,7 +690,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.64.5
+    tag: v1.66.10
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -728,6 +737,60 @@ primaryProcessing:
     - effect: NoSchedule
       key: nvidia.com/gpu
       operator: Exists
+  nodeSelector: { }
+
+# -- Settings related to the Monitoring CronJob.
+# @default -- -
+monitoring:
+  # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
+  schedule: "0 22 * * *" # Every day at 10:00 PM
+  # -- The timezone of the CronJob.
+  # If not provided, the default timezone of the Kubernetes cluster will be used.
+  timezone: ""
+  backoffLimit: 1
+  activeDeadlineSeconds: 3600 # 1 hour
+
+  # -- The name of the customer displayed in the monitoring alerts.
+  customerName: ""
+  # -- The URL of the Alertmanager to which alerts will be sent.
+  alertmanagerUrl: ""
+  # -- Comma-separated list of job names to be excluded from monitoring.
+  excludeJobs: "red_alert.check_analyzed_interactions"
+  # -- Comma-separated list of job names to be included in monitoring.
+  includeJobs: ""
+  # -- Additional environment variables, in the standard Kubernetes format.
+  # Example:
+  # - name: MY_ENV_VAR
+  #   value: "my-value"
+  env: { }
+
+    
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-monitoring
+    pullPolicy: IfNotPresent
+    tag: v0.4.0
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+
+  podAnnotations: { }
+  podLabels: { }
+  podSecurityContext:
+    runAsNonRoot: true
+    fsGroup: 101
+
+  resources:
+    requests:
+      cpu: 100m
+    limits:
+      memory: 512Mi
+
+  affinity: { }
+  tolerations: [ ]
   nodeSelector: { }
 
 imagePullSecrets: [ ]
@@ -827,9 +890,13 @@ kafka:
   # -- The number of Kafka brokers in the cluster.
   replicas: 3
 
+  # -- KRaft mode, if true, deploy Kafka in KRaft mode (without Zookeeper).
+  # -- It can be: enabled, disabled, migration, rollback. See https://strimzi.io/docs/operators/latest/deploying#proc-deploy-migrate-kraft-str
+  kraft: enabled
+
   affinity: { }
 
-  # -- The storage class used for the Kafka and Zookeeper storage.
+  # -- The storage class used for Kafka storage.
   # @default -- -
   storage:
     type: persistent-claim
@@ -850,16 +917,16 @@ kafka:
     requests:
       cpu: 100m
       memory: 1024Mi
-  # Settings of the Zookeeper cluster.
+  # Settings of the Controller NodePool.
   # @default -- -
-  zookeeper:
+  controller:
     replicas: 3
     affinity: { }
     storage:
       type: persistent-claim
       size: 10Gi
       deleteClaim: false
-    # Resources of the Zookeeper pods.
+    # Resources of the Controller pods.
     # @default -- -
     resources:
       limits:
@@ -972,6 +1039,8 @@ telemetry:
   apiKey: ""
   # -- The Google Tag Manager (GTM) Id.
   gtmId: ""
+  # -- The URL of the proxy server used to send telemetry data through.
+  proxyUrl: ""
   # -- If True, enable the Promtail log collector. Only logs from Nebuly's
   # containers will be collected.
   promtail:
@@ -1065,7 +1134,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.22.1"
+    tag: "v1.22.4"
 
   podAnnotations: { }
   podLabels: { }

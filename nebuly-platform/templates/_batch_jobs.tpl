@@ -5,6 +5,12 @@
 - name: MODEL_VERSION
   value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
 
+# Embedding model
+- name: EMBEDDING_LOCAL_MODEL_NAME
+  value: {{ .Values.aiModels.modelEmbedding.name | quote }}
+- name: EMBEDDING_LOCAL_MODEL_VERSION
+  value: {{ .Values.aiModels.modelEmbedding.version | quote }}
+
 # Topic Model
 - name: TOPIC_LOCAL_MODEL_NAME
   value: {{ .Values.aiModels.modelTopicClassifier.name | quote }}
@@ -53,5 +59,5 @@
 - name: GEMINI_API_KEY
   value: "empty"
 - name: ENABLE_ENRICH_CONVERSATION
-  value: "true"
+  value: "false"
 {{- end -}}

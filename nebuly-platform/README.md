@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.74.5](https://img.shields.io/badge/Version-1.74.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.83.4](https://img.shields.io/badge/Version-1.83.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -151,7 +151,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelActionClassifier":{"name":"action-classifier","version":"6"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":"35"},"modelLanguageDetection":{"name":"language-detection","version":"2"},"modelPiiRemoval":{"name":"pii-removal","version":"1"},"modelTopicClassifier":{"name":"topic-classifier","version":"16"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
+| aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelActionClassifier":{"name":"action-classifier","version":"6"},"modelEmbedding":{"name":"embedding","version":"1"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":"36"},"modelLanguageDetection":{"name":"language-detection","version":"2"},"modelPiiRemoval":{"name":"pii-removal","version":"2"},"modelTopicClassifier":{"name":"topic-classifier","version":"16"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
 | aiModels.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
 | aiModels.aws.endpointUrl | string | `""` | Optional AWS S3 endpoint URL. The URL should not include the bucket name. Example: "https://my-domain.com:9444" |
@@ -211,7 +211,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.22.1"` |  |
+| auth.image.tag | string | `"v1.22.4"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.ldap | object | `{"activeDirectoryRoot":"","adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
@@ -274,7 +274,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.97.5"` |  |
+| backend.image.tag | string | `"v1.100.6"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -413,6 +413,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.defaultAggregation | string | `"interaction"` | The default aggregation level of the platform. |
 | frontend.enableAbTesting | bool | `false` | Enable the AB testing feature. |
 | frontend.enableAiSummary | bool | `false` | If set to true, enable the AI summarization feature. |
+| frontend.enableCustomVariables | bool | `false` | If true, enable the custom variables feature. |
 | frontend.enableHighPerformanceMode | bool | `true` | If true enable High performance mode. This mode increases the performance of  the platform and is suggested for environments with high volumes of data  (more than 1 million interactions per month). |
 | frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
 | frontend.enableOldRiskyBehavior | bool | `false` | Feature flag to activate the old risky behavior page. Used for retro-compatibility. |
@@ -422,7 +423,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.72.3"` |  |
+| frontend.image.tag | string | `"v1.74.8"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -466,7 +467,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.64.5"` |  |
+| ingestionWorker.image.tag | string | `"v1.66.10"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -488,6 +489,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.service.port | int | `80` |  |
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
 | ingestionWorker.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the ingestion worker migrations. If not provided, the default `alembic_version` table will be used. |
+| ingestionWorker.settings.categoryEngine | string | `"cluster_based"` | The engine used to generate categories for interactions. Can be "cluster_based", "smart_sample" and "legacy" |
 | ingestionWorker.settings.enableDbCache | bool | `true` | Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions. |
 | ingestionWorker.settings.enablePiiLanguageDetection | bool | `false` | Enable language detection for PII detection. |
 | ingestionWorker.settings.enablePiiLlm | bool | `false` | Enable use of LLM (pii-removal) to remove the PII during interaction processing.  |
@@ -508,11 +510,20 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.affinity | object | `{}` |  |
 | kafka.bootstrapServers | string | `""` | [external] Comma separated list of Kafka brokers. |
 | kafka.config."replica.selector.class" | string | `"org.apache.kafka.common.replica.RackAwareReplicaSelector"` |  |
+| kafka.controller.affinity | object | `{}` |  |
+| kafka.controller.replicas | int | `3` |  |
+| kafka.controller.resources.limits.memory | string | `"2048Mi"` |  |
+| kafka.controller.resources.requests.cpu | string | `"100m"` |  |
+| kafka.controller.resources.requests.memory | string | `"1024Mi"` |  |
+| kafka.controller.storage.deleteClaim | bool | `false` |  |
+| kafka.controller.storage.size | string | `"10Gi"` |  |
+| kafka.controller.storage.type | string | `"persistent-claim"` |  |
 | kafka.createTopics | bool | `true` | [external] If True, create the Kafka topics automatically if not present on the specified external Kafka cluster. |
 | kafka.existingSecret | object | - | [external] Use an existing secret for Kafka authentication. |
 | kafka.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | kafka.existingSecret.sslCaCertKey | string | `""` | The key of the secret containing the CA certificate (in PEM format) used for SSL authentication. |
 | kafka.external | bool | `false` | If false, deploy a Kafka cluster together with the platform services. Otherwise, use an existing Kafka cluster. |
+| kafka.kraft | string | `"enabled"` | It can be: enabled, disabled, migration, rollback. See https://strimzi.io/docs/operators/latest/deploying#proc-deploy-migrate-kraft-str |
 | kafka.krb5Config | string | `""` | [external] Used only when saslMechanism is set to "GSSAPI". The Keberos configuration file used for SASL GSSAPI authentication. |
 | kafka.nameOverride | string | `""` | with the provided value. |
 | kafka.rack.topologyKey | string | `"topology.kubernetes.io/zone"` |  |
@@ -526,7 +537,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.saslPassword | string | `""` | [external] The password for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.saslUsername | string | `""` | [external] The username for connecting to the Kafka cluster with the method SASL/PLAIN. To be provided only when not using an existing secret (see kafka.existingSecret value below). |
 | kafka.socketKeepAliveEnabled | bool | `true` | If true, the Kafka clients will use the keep alive feature. |
-| kafka.storage | object | - | The storage class used for the Kafka and Zookeeper storage. |
+| kafka.storage | object | - | The storage class used for Kafka storage. |
 | kafka.topicEventsDlq | object | `{"name":"events-dlq","partitions":1,"replicas":null}` | Settings of the Kafka topic used as dead letter queue. |
 | kafka.topicEventsDlq.name | string | `"events-dlq"` | The name of the Kafka topic. |
 | kafka.topicEventsDlq.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
@@ -546,14 +557,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry3.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.topicEventsRetry3.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.user | string | `"nebuly-platform"` | The name of the user used by the services for connecting to the created kafka cluster. |
-| kafka.zookeeper.affinity | object | `{}` |  |
-| kafka.zookeeper.replicas | int | `3` |  |
-| kafka.zookeeper.resources.limits.memory | string | `"2048Mi"` |  |
-| kafka.zookeeper.resources.requests.cpu | string | `"100m"` |  |
-| kafka.zookeeper.resources.requests.memory | string | `"1024Mi"` |  |
-| kafka.zookeeper.storage.deleteClaim | bool | `false` |  |
-| kafka.zookeeper.storage.size | string | `"10Gi"` |  |
-| kafka.zookeeper.storage.type | string | `"persistent-claim"` |  |
+| monitoring | object | - | Settings related to the Monitoring CronJob. |
+| monitoring.alertmanagerUrl | string | `""` | The URL of the Alertmanager to which alerts will be sent. |
+| monitoring.customerName | string | `""` | The name of the customer displayed in the monitoring alerts. |
+| monitoring.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
+| monitoring.excludeJobs | string | `"red_alert.check_analyzed_interactions"` | Comma-separated list of job names to be excluded from monitoring. |
+| monitoring.includeJobs | string | `""` | Comma-separated list of job names to be included in monitoring. |
+| monitoring.schedule | string | `"0 22 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| monitoring.timezone | string | `""` | The timezone of the CronJob. If not provided, the default timezone of the Kubernetes cluster will be used. |
 | namespaceOverride | string | `""` | Override the namespace. |
 | openAi | object | - | Optional configuration for the OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. Both OpenAI and Azure OpenAI are supported. |
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |
@@ -590,13 +601,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | telemetry.enabled | bool | `false` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
 | telemetry.gtmId | string | `""` | The Google Tag Manager (GTM) Id. |
 | telemetry.promtail | object | `{"enabled":true}` | If True, enable the Promtail log collector. Only logs from Nebuly's containers will be collected. |
+| telemetry.proxyUrl | string | `""` | The URL of the proxy server used to send telemetry data through. |
 | telemetry.tenant | string | `""` | Code of the tenant to which the telemetry data will be associated. |
 
 ## Maintainers
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Michele Zanotti | <m.zanotti@nebuly.ai> | <https://github.com/Telemaco019> |
+| Dario Cantella | <d.cantella@nebuly.ai> | <https://github.com/Dariocent> |
 | Diego Fiori | <d.fiori@nebuly.ai> | <https://github.com/diegofiori> |
 
 ## Source Code

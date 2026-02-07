@@ -3,6 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ printf "%s-%s" .Release.Name "migrate-interaction-edits" | trunc 63 | trimSuffix "-" }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
   labels:
     {{- include "postUpgrade.migrateInteractionEditsLabels" . | nindent 4 }}
   annotations:

@@ -15,6 +15,7 @@ spec:
   template:
     metadata:
       name: {{ printf "%s-%s" .Release.Name "refresh-ro-tables" | trunc 63 | trimSuffix "-" }}
+      namespace: {{ include "nebuly-platform.namespace" . }}
       labels:
         {{- include "postUpgrade.refreshRoLabels" . | nindent 8 }}
     spec:
