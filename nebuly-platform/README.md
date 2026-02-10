@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.83.5](https://img.shields.io/badge/Version-1.83.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.83.6](https://img.shields.io/badge/Version-1.83.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -561,8 +561,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | monitoring.alertmanagerUrl | string | `""` | The URL of the Alertmanager to which alerts will be sent. |
 | monitoring.customerName | string | `""` | The name of the customer displayed in the monitoring alerts. |
 | monitoring.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
-| monitoring.excludeJobs | string | `"red_alert.check_analyzed_interactions"` | Comma-separated list of job names to be excluded from monitoring. |
+| monitoring.excludeJobs | string | `"red_alert.check_classified_interactions"` | Comma-separated list of job names to be excluded from monitoring. |
 | monitoring.includeJobs | string | `""` | Comma-separated list of job names to be included in monitoring. |
+| monitoring.proxyUrl | string | `""` | The URL of the proxy to use for sending alerts. If not provided, the alerts will be sent directly to the Alertmanager. |
 | monitoring.schedule | string | `"0 22 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | monitoring.timezone | string | `""` | The timezone of the CronJob. If not provided, the default timezone of the Kubernetes cluster will be used. |
 | namespaceOverride | string | `""` | Override the namespace. |

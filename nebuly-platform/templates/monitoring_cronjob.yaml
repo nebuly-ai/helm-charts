@@ -44,6 +44,8 @@ spec:
                   value: {{ .Values.monitoring.customerName | quote }}
                 - name: ALERTMANAGER_URL
                   value: {{ .Values.monitoring.alertmanagerUrl | quote }}
+                - name: PROXY_URL
+                  value: {{ .Values.monitoring.proxyUrl | quote }}
                 - name: EXCLUDE_JOBS
                   value: {{ .Values.monitoring.excludeJobs | quote }}
                 - name: INCLUDE_JOBS

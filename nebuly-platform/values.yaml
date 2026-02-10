@@ -754,8 +754,10 @@ monitoring:
   customerName: ""
   # -- The URL of the Alertmanager to which alerts will be sent.
   alertmanagerUrl: ""
+  # -- The URL of the proxy to use for sending alerts. If not provided, the alerts will be sent directly to the Alertmanager.
+  proxyUrl: ""
   # -- Comma-separated list of job names to be excluded from monitoring.
-  excludeJobs: "red_alert.check_analyzed_interactions"
+  excludeJobs: "red_alert.check_classified_interactions"
   # -- Comma-separated list of job names to be included in monitoring.
   includeJobs: ""
   # -- Additional environment variables, in the standard Kubernetes format.
@@ -768,7 +770,7 @@ monitoring:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-monitoring
     pullPolicy: IfNotPresent
-    tag: v0.4.0
+    tag: v0.4.1
 
   securityContext:
     runAsNonRoot: true
