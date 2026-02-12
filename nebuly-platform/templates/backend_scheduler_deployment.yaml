@@ -51,7 +51,7 @@ spec:
             - name: "OTEL_SERVICE_NAME"
               value: "nebuly-backend-scheduler"
             - name: "JOB_METRICS_ENABLED"
-              value: "true"
+              value: "false"
             # Common env
             {{ include "backend.commonEnv" . | nindent 12 }}
           livenessProbe:
