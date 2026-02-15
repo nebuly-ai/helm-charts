@@ -33,6 +33,10 @@
   value: {{ .Values.ingestionWorker.settings.enablePiiLlm | quote }}
 - name: PII_MASK_TENANTS
   value: {{ .Values.ingestionWorker.settings.piiEnabledTenants | toJson | quote }}
+- name: ENABLE_USER_ANONYMIZATION
+  value: {{ .Values.backend.settings.enableUserAnonymization | quote }}
+- name: USER_ANONYMIZATION_KEY
+  vale: {{ .Values.backend.settings.userAnonymizationKey | quote }}
 # Interactions details access control
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ENABLED
   value: {{ .Values.interactionsAccessControl.enabled | quote }}

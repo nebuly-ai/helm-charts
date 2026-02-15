@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.83.10](https://img.shields.io/badge/Version-1.83.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.83.11](https://img.shields.io/badge/Version-1.83.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -312,7 +312,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.service.port | int | `80` |  |
 | backend.service.type | string | `"ClusterIP"` |  |
 | backend.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the backend migrations. If not provided, the default `alembic_version` table will be used. |
+| backend.settings.enableUserAnonymization | bool | `false` | If true, enable the user anonymization feature. It masks user identifiers in the  database and API responses using the provided key. |
 | backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
+| backend.settings.userAnonymizationKey | string | `""` | The key used to anonymize user identifiers. It must be a 32-character hexadecimal string. |
 | backend.tolerations | list | `[]` |  |
 | backend.volumeMounts | list | `[]` |  |
 | backend.volumes | list | `[]` |  |

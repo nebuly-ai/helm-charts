@@ -30,6 +30,12 @@ backend:
     # migrations. If not provided, the default `alembic_version` table will be used.
     alembicTable: ""
 
+    # -- If true, enable the user anonymization feature. It masks user identifiers in the 
+    # database and API responses using the provided key.
+    enableUserAnonymization: false
+    # -- The key used to anonymize user identifiers. It must be a 32-character hexadecimal string.
+    userAnonymizationKey: ""
+
   podAnnotations: { }
   podLabels: { }
 
