@@ -376,6 +376,9 @@ ingestionWorker:
 
     # -- The engine used to generate categories for interactions. Can be "cluster_based", "smart_sample" and "legacy"
     categoryEngine: "cluster_based"
+    # -- Start date used to consider existing actions. This feature should only be used to force the
+    # processing pipeline to ignore actions created before a given date. 
+    startDateActions: "2020-01-01 00:00:00+00:00"
     # -- The name of the alembic table used to store the status of the ingestion worker
     # migrations. If not provided, the default `alembic_version` table will be used.
     alembicTable: ""
@@ -392,7 +395,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.66.12
+    tag: v1.66.13
 
   podAnnotations: { }
   podLabels: { }
@@ -690,7 +693,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.66.12
+    tag: v1.66.13
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:

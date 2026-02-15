@@ -108,6 +108,8 @@
   value: {{ .Values.ingestionWorker.settings.piiDenyList | toJson | quote }}
 - name: CATEGORY_GENERATOR_KIND
   value: {{ .Values.ingestionWorker.settings.categoryEngine | quote }}
+- name: MINIMUM_ACTION_DATE
+  value: {{ .Values.ingestionWorker.settings.startDateActions | quote }}
 # AI Models pulling
 {{ include "aiModels.env" . }}
 {{- with .Values.ingestionWorker.env }}

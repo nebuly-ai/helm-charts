@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.83.9](https://img.shields.io/badge/Version-1.83.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.83.10](https://img.shields.io/badge/Version-1.83.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -467,7 +467,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.66.12"` |  |
+| ingestionWorker.image.tag | string | `"v1.66.13"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -497,6 +497,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.settings.entitiesBatchSize | int | `20000` | Batch size of entities loaded in each step of aggregate jobs. |
 | ingestionWorker.settings.piiDenyList | list | `[]` | List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove. |
 | ingestionWorker.settings.piiEnabledTenants | list | `[]` | List of tenants for which PII detection is enabled. Note that when given this will override the enablePiiLlm setting for the given tenants. |
+| ingestionWorker.settings.startDateActions | string | `"2020-01-01 00:00:00+00:00"` | Start date used to consider existing actions. This feature should only be used to force the processing pipeline to ignore actions created before a given date.  |
 | ingestionWorker.settings.tasks | object | `{"feedbackAction":true,"interaction":true,"tags":true,"traceInteraction":true}` | Enable or disable internal worker tasks. This is primarily intended for debugging or performance tuning. |
 | ingestionWorker.statementTimeoutSeconds | int | `120` | The timeout in seconds for the database queries. |
 | ingestionWorker.tolerations | list | `[]` |  |
