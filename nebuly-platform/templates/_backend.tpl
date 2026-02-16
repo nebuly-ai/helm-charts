@@ -36,7 +36,7 @@
 - name: ENABLE_USER_ANONYMIZATION
   value: {{ .Values.backend.settings.enableUserAnonymization | quote }}
 - name: USER_ANONYMIZATION_KEY
-  vale: {{ .Values.backend.settings.userAnonymizationKey | quote }}
+  value: {{ .Values.backend.settings.userAnonymizationKey | quote }}
 # Interactions details access control
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ENABLED
   value: {{ .Values.interactionsAccessControl.enabled | quote }}
