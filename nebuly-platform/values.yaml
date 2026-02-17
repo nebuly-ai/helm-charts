@@ -779,7 +779,7 @@ monitoring:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-monitoring
     pullPolicy: IfNotPresent
-    tag: v0.5.7
+    tag: v0.5.8
 
   securityContext:
     runAsNonRoot: true
