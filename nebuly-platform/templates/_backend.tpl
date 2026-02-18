@@ -37,6 +37,8 @@
   value: {{ .Values.backend.settings.enableUserAnonymization | quote }}
 - name: USER_ANONYMIZATION_KEY
   value: {{ .Values.backend.settings.userAnonymizationKey | quote }}
+- name: SCRIPT_PROJECT_IDS
+  value: {{ .Values.backend.settings.scriptProjectIds | toJson | quote }}
 # Interactions details access control
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ENABLED
   value: {{ .Values.interactionsAccessControl.enabled | quote }}

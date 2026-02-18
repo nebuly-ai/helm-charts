@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.100.6"
+    tag: "v1.100.16"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -35,6 +35,8 @@ backend:
     enableUserAnonymization: false
     # -- The key used to anonymize user identifiers. It must be a 32-character hexadecimal string.
     userAnonymizationKey: ""
+    # -- A list of project IDs for which the scripts execution is enabled. If empty, the feature will be disabled for all projects.
+    scriptProjectIds: [ ]
 
   podAnnotations: { }
   podLabels: { }
@@ -182,7 +184,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.74.9"
+    tag: "v1.74.14"
 
   podAnnotations: { }
   podLabels: { }

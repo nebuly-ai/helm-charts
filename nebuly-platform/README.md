@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.83.14](https://img.shields.io/badge/Version-1.83.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.83.15](https://img.shields.io/badge/Version-1.83.15-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -274,7 +274,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.100.6"` |  |
+| backend.image.tag | string | `"v1.100.16"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -314,6 +314,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the backend migrations. If not provided, the default `alembic_version` table will be used. |
 | backend.settings.enableUserAnonymization | bool | `false` | If true, enable the user anonymization feature. It masks user identifiers in the  database and API responses using the provided key. |
 | backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
+| backend.settings.scriptProjectIds | list | `[]` | A list of project IDs for which the scripts execution is enabled. If empty, the feature will be disabled for all projects. |
 | backend.settings.userAnonymizationKey | string | `""` | The key used to anonymize user identifiers. It must be a 32-character hexadecimal string. |
 | backend.tolerations | list | `[]` |  |
 | backend.volumeMounts | list | `[]` |  |
@@ -425,7 +426,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.74.9"` |  |
+| frontend.image.tag | string | `"v1.74.14"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
