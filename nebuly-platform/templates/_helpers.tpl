@@ -352,3 +352,12 @@ true
 {{- include "nebuly-platform.selectorLabels" . }}
 app.kubernetes.io/component: clickhouse
 {{- end -}}
+
+{{/*
+*********************************************************************
+* Loki
+*********************************************************************
+*/}}
+{{- define "loki.fullname" -}}
+{{- printf "%s-%s" .Release.Name "loki" | trunc 63 | trimSuffix "-" }}
+{{- end -}}

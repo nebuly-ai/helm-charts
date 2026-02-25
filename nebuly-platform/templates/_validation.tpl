@@ -317,13 +317,13 @@ values: aiModels.sync.source.clientSecret
 {{- end -}}
 
 
-{{/* Backend validation. */}}
-{{- define "chart.validateValues.telemetry" -}}
-{{- if and (empty .Values.telemetry.apiKey) (.Values.telemetry.enabled)  -}}
-values: telemetry.apiKey
-  `apiKey` is required when telemetry is enabled and should be a non-empty string.
-{{- end -}}
-{{- end -}}
+# {{/* Backend validation. */}} # Not needed
+# {{- define "chart.validateValues.telemetry" -}}
+# {{- if and (empty .Values.telemetry.apiKey) (.Values.telemetry.enabled)  -}}
+# values: telemetry.apiKey
+#   `apiKey` is required when telemetry is enabled and should be a non-empty string.
+# {{- end -}}
+# {{- end -}}
 
 {{- define "chart.validateValues.backend.multiTenancy" -}}
 {{- if not (contains .Values.backend.settings.multiTenancyMode "dynamic_schema static_schema") -}}

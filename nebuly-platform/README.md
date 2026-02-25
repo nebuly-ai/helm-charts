@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.83.17](https://img.shields.io/badge/Version-1.83.17-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.84.0](https://img.shields.io/badge/Version-1.84.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -561,6 +561,39 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry3.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.topicEventsRetry3.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.user | string | `"nebuly-platform"` | The name of the user used by the services for connecting to the created kafka cluster. |
+| loki.backend.replicas | int | `0` |  |
+| loki.bloomCompactor.replicas | int | `0` |  |
+| loki.bloomGateway.replicas | int | `0` |  |
+| loki.compactor.replicas | int | `0` |  |
+| loki.deploymentMode | string | `"SingleBinary"` |  |
+| loki.distributor.replicas | int | `0` |  |
+| loki.enabled | bool | `false` |  |
+| loki.indexGateway.replicas | int | `0` |  |
+| loki.ingester.replicas | int | `0` |  |
+| loki.loki.auth_enabled | bool | `false` |  |
+| loki.loki.commonConfig.replication_factor | int | `1` |  |
+| loki.loki.enable_api | bool | `true` |  |
+| loki.loki.limits_config.allow_structured_metadata | bool | `true` |  |
+| loki.loki.limits_config.retention_period | string | `"360h"` |  |
+| loki.loki.limits_config.volume_enabled | bool | `true` |  |
+| loki.loki.pattern_ingester.enabled | bool | `true` |  |
+| loki.loki.ruler | string | `nil` |  |
+| loki.loki.schemaConfig.configs[0].from | string | `"2024-04-01"` |  |
+| loki.loki.schemaConfig.configs[0].index.period | string | `"24h"` |  |
+| loki.loki.schemaConfig.configs[0].index.prefix | string | `"loki_index_"` |  |
+| loki.loki.schemaConfig.configs[0].object_store | string | `"s3"` |  |
+| loki.loki.schemaConfig.configs[0].schema | string | `"v13"` |  |
+| loki.loki.schemaConfig.configs[0].store | string | `"tsdb"` |  |
+| loki.lokiCanary.enabled | bool | `false` |  |
+| loki.minio.enabled | bool | `true` |  |
+| loki.nameOverride | string | `"loki"` |  |
+| loki.querier.replicas | int | `0` |  |
+| loki.queryFrontend.replicas | int | `0` |  |
+| loki.queryScheduler.replicas | int | `0` |  |
+| loki.read.replicas | int | `0` |  |
+| loki.singleBinary.replicas | int | `1` |  |
+| loki.test.enabled | bool | `false` |  |
+| loki.write.replicas | int | `0` |  |
 | monitoring | object | - | Settings related to the Monitoring CronJob. |
 | monitoring.alertmanagerUrl | string | `""` | The URL of the Alertmanager to which alerts will be sent. |
 | monitoring.customerName | string | `""` | The name of the customer displayed in the monitoring alerts. |
@@ -605,6 +638,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | telemetry.apiKey | string | `""` | The API key used to authenticate with the telemetry service. |
 | telemetry.enabled | bool | `false` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
 | telemetry.gtmId | string | `""` | The Google Tag Manager (GTM) Id. |
+| telemetry.mixpanel | object | `{"enabled":false}` | If True, enable the Mixpanel integration for telemetry. |
+| telemetry.notifications | object | `{"enabled":false}` | If True, enable the notification integration for telemetry. |
 | telemetry.promtail | object | `{"enabled":true}` | If True, enable the Promtail log collector. Only logs from Nebuly's containers will be collected. |
 | telemetry.proxyUrl | string | `""` | The URL of the proxy server used to send telemetry data through. |
 | telemetry.tenant | string | `""` | Code of the tenant to which the telemetry data will be associated. |

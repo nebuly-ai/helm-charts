@@ -215,11 +215,13 @@ spec:
               value: {{ printf "%s/auth-error" .Values.frontend.rootUrl | quote }}
             {{- end }}
             - name: "SLACK_NOTIFICATIONS_ENABLED"
-              value: {{ .Values.telemetry.enabled | quote }}
+              value: {{ .Values.telemetry.notifications.enabled | quote }}
             - name: "TEAMS_NOTIFICATIONS_ENABLED"
-              value: {{ .Values.telemetry.enabled | quote }}
+              value: {{ .Values.telemetry.notifications.enabled | quote }}
+            {{- if .Values.telemetry.notifications.enabled }}
             - name: "TELEMETRY_OVERRIDE_TENANT"
               value: {{ include "telemetry.tenant" . | quote }}
+            {{- end }}
             # Misc
             - name: "ENV"
               value: "prod"
