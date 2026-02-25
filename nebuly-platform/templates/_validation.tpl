@@ -5,7 +5,6 @@
 {{/*{{- $messages = append $messages (include "chart.validateValues.frontend.rootUrl" .) -}}*/}}
 {{- $messages = append $messages (include "chart.validateValues.frontend.backendApiUrl" .) -}}
 {{/* Backend */}}
-{{- $messages = append $messages (include "chart.validateValues.telemetry" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.backend.multiTenancy" .) -}}
 {{/* Auth Service */}}
 {{- $messages = append $messages (include "chart.validateValues.auth.postgresServer" .) -}}
@@ -315,15 +314,6 @@ values: aiModels.sync.source.clientSecret
   `clientSecret` is required when not using an existing secret and should be a non-empty string
 {{- end -}}
 {{- end -}}
-
-
-# {{/* Backend validation. */}} # Not needed
-# {{- define "chart.validateValues.telemetry" -}}
-# {{- if and (empty .Values.telemetry.apiKey) (.Values.telemetry.enabled)  -}}
-# values: telemetry.apiKey
-#   `apiKey` is required when telemetry is enabled and should be a non-empty string.
-# {{- end -}}
-# {{- end -}}
 
 {{- define "chart.validateValues.backend.multiTenancy" -}}
 {{- if not (contains .Values.backend.settings.multiTenancyMode "dynamic_schema static_schema") -}}
