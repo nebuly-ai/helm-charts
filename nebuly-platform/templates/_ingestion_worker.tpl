@@ -110,6 +110,9 @@
   value: {{ .Values.ingestionWorker.settings.categoryEngine | quote }}
 - name: MINIMUM_ACTION_DATE
   value: {{ .Values.ingestionWorker.settings.startDateActions | quote }}
+# Data retention
+- name: DATA_RETENTION_MAX_NUMBER_OF_DAYS
+  value: {{ .Values.ingestionWorker.settings.dataRetentionDays | quote }}
 # AI Models pulling
 {{ include "aiModels.env" . }}
 {{- with .Values.ingestionWorker.env }}

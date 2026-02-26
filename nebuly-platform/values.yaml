@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.100.20"
+    tag: "v1.100.21"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -184,7 +184,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.74.14"
+    tag: "v1.74.18"
 
   podAnnotations: { }
   podLabels: { }
@@ -382,6 +382,16 @@ ingestionWorker:
     # -- List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove.
     piiDenyList: [ ]
 
+    # -- The maximum number of days the processing pipeline will keep the data. If set to -1, the data will not be deleted.
+    # This parameter only impacts the data seen while processing the data, not the data shown in the platform.
+    dataRetentionDays: -1
+
+    # -- The timeout in seconds for a single LLM batch inference.
+    vLLMBatchTimeout: 900
+
+    # -- The mini-batch size used for the LLM inference.
+    vLLMBatchSize: 512
+
     # -- The engine used to generate categories for interactions. Can be "cluster_based", "smart_sample" and "legacy"
     categoryEngine: "cluster_based"
     # -- Start date used to consider existing actions. This feature should only be used to force the
@@ -403,7 +413,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.66.14
+    tag: v1.68.5
 
   podAnnotations: { }
   podLabels: { }
@@ -701,7 +711,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.66.14
+    tag: v1.68.5
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:

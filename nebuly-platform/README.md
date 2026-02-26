@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.83.17](https://img.shields.io/badge/Version-1.83.17-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.84.0](https://img.shields.io/badge/Version-1.84.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -274,7 +274,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.100.20"` |  |
+| backend.image.tag | string | `"v1.100.21"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -426,7 +426,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.74.14"` |  |
+| frontend.image.tag | string | `"v1.74.18"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -470,7 +470,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.66.14"` |  |
+| ingestionWorker.image.tag | string | `"v1.68.5"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -493,6 +493,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
 | ingestionWorker.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the ingestion worker migrations. If not provided, the default `alembic_version` table will be used. |
 | ingestionWorker.settings.categoryEngine | string | `"cluster_based"` | The engine used to generate categories for interactions. Can be "cluster_based", "smart_sample" and "legacy" |
+| ingestionWorker.settings.dataRetentionDays | int | `-1` | The maximum number of days the processing pipeline will keep the data. If set to -1, the data will not be deleted. This parameter only impacts the data seen while processing the data, not the data shown in the platform. |
 | ingestionWorker.settings.enableDbCache | bool | `true` | Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions. |
 | ingestionWorker.settings.enablePiiLanguageDetection | bool | `false` | Enable language detection for PII detection. |
 | ingestionWorker.settings.enablePiiLlm | bool | `false` | Enable use of LLM (pii-removal) to remove the PII during interaction processing.  |
@@ -502,6 +503,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.settings.piiEnabledTenants | list | `[]` | List of tenants for which PII detection is enabled. Note that when given this will override the enablePiiLlm setting for the given tenants. |
 | ingestionWorker.settings.startDateActions | string | `"2020-01-01 00:00:00+00:00"` | Start date used to consider existing actions. This feature should only be used to force the processing pipeline to ignore actions created before a given date.  |
 | ingestionWorker.settings.tasks | object | `{"feedbackAction":true,"interaction":true,"tags":true,"traceInteraction":true}` | Enable or disable internal worker tasks. This is primarily intended for debugging or performance tuning. |
+| ingestionWorker.settings.vLLMBatchSize | int | `512` | The mini-batch size used for the LLM inference. |
+| ingestionWorker.settings.vLLMBatchTimeout | int | `900` | The timeout in seconds for a single LLM batch inference. |
 | ingestionWorker.statementTimeoutSeconds | int | `120` | The timeout in seconds for the database queries. |
 | ingestionWorker.tolerations | list | `[]` |  |
 | ingestionWorker.volumeMounts | list | `[]` |  |
