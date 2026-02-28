@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.100.21"
+    tag: "v1.101.0"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -184,7 +184,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.74.18"
+    tag: "v1.75.0"
 
   podAnnotations: { }
   podLabels: { }
@@ -1615,16 +1615,54 @@ loki:
 
   minio:
     enabled: true
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
         
   deploymentMode: SingleBinary
 
   singleBinary:
     replicas: 1
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
 
   lokiCanary: # check
     enabled: false
   test:
     enabled: false
+  chunksCache:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+  resultsCache:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+  gateway:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
   # Zero out replica counts of other deployment modes
   backend:
     replicas: 0

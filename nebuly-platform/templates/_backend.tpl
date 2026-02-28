@@ -153,7 +153,7 @@
 - name: LOKI_ENABLED
   value: "true"
 - name: LOKI_SERVER
-  value: "{{ .Release.Name }}-loki-gateway"
+  value: "http://{{ .Release.Name }}-loki-gateway"
 {{- end }}
 {{- if .Values.redis.enabled }}
 - name: REDIS_ENABLED
