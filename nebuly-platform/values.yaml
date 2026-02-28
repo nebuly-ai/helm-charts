@@ -1592,6 +1592,8 @@ loki:
   enabled: false
   nameOverride: "loki"
   loki:
+    podLabels:
+      app.kubernetes.io/part-of: "nebuly-platform"
     commonConfig:
       replication_factor: 1
     schemaConfig:
@@ -1615,6 +1617,8 @@ loki:
 
   minio:
     enabled: true
+    podLabels:
+      app.kubernetes.io/part-of: "nebuly-platform"
     resources:
       requests:
         cpu: 100m
@@ -1627,15 +1631,17 @@ loki:
 
   singleBinary:
     replicas: 1
+    podLabels:
+      app.kubernetes.io/part-of: "nebuly-platform"
     resources:
       requests:
         cpu: 100m
         memory: 256Mi
       limits:
         cpu: 500m
-        memory: 512Mi
+        memory: 2048Mi
 
-  lokiCanary: # check
+  lokiCanary:
     enabled: false
   test:
     enabled: false

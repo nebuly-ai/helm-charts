@@ -40,7 +40,7 @@ scrape_configs:
       #  Collect only logs from nebuly-platform pods  #
       - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_part_of]
         action: keep
-        regex: {{ .Chart.Name }}
+        regex: '{{ .Chart.Name }}|strimzi-{{ .Release.Name }}.*'
       # --------------------------------------------- #
 
       - source_labels:
