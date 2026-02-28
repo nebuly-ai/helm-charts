@@ -361,3 +361,23 @@ app.kubernetes.io/component: clickhouse
 {{- define "loki.fullname" -}}
 {{- printf "%s-%s" .Release.Name "loki" | trunc 63 | trimSuffix "-" }}
 {{- end -}}
+
+{{/*
+
+*********************************************************************
+* Redis
+*********************************************************************
+*/}}
+
+{{- define "redis.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: nebuly-redis
+{{- end }}
+
+{{- define "redis.labels" -}}
+{{- include "redis.selectorLabels" . }}
+{{- end }}
+
+{{- define "redis.fullname" -}}
+{{- printf "%s-%s" .Release.Name "redis" | trunc 63 | trimSuffix "-" }}
+{{- end }}

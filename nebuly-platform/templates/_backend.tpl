@@ -155,4 +155,16 @@
 - name: LOKI_SERVER
   value: "{{ .Release.Name }}-loki-gateway"
 {{- end }}
+{{- if .Values.redis.enabled }}
+- name: REDIS_ENABLED
+  value: "true"
+- name: REDIS_HOST
+  value: {{ include "redis.fullname" . | quote }}
+- name: REDIS_PORT
+  value: {{ .Values.redis.service.port | quote }}
+- name: REDIS_PASSWORD
+  value: {{ .Values.redis.auth.password | quote }}
+- name: REDIS_DB
+  value: "0"
+{{- end }}
 {{- end -}}

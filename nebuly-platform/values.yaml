@@ -1577,6 +1577,7 @@ bootstrap-azure:
 bootstrap-gcp:
   enabled: false
 
+# -- Settings for Loki, the optional log aggregation system used by the platform.
 loki:
   enabled: false
   nameOverride: "loki"
@@ -1640,3 +1641,30 @@ loki:
     replicas: 0
   bloomGateway:
     replicas: 0
+
+redis:
+  # -- If True, deploy a Redis instance together with the platform services.
+  enabled: true
+
+  # -- The Redis image to use for the deployment.
+  image:
+    repository: redis
+    pullPolicy: IfNotPresent
+    tag: "8.6.0-trixie"
+
+  # -- Service port of the Redis deployment.
+  service:
+    port: 6379
+
+  # -- Password for the Redis instance.
+  auth:
+    password: "nebuly"
+
+  # -- Resources of the Redis deployment.
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
