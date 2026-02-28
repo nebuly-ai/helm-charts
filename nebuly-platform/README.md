@@ -274,7 +274,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.100.21"` |  |
+| backend.image.tag | string | `"v1.101.0"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -426,7 +426,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.74.18"` |  |
+| frontend.image.tag | string | `"v1.75.0"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -564,7 +564,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry3.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.topicEventsRetry3.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.user | string | `"nebuly-platform"` | The name of the user used by the services for connecting to the created kafka cluster. |
-| loki | object | `{"backend":{"replicas":0},"bloomCompactor":{"replicas":0},"bloomGateway":{"replicas":0},"compactor":{"replicas":0},"deploymentMode":"SingleBinary","distributor":{"replicas":0},"enabled":false,"indexGateway":{"replicas":0},"ingester":{"replicas":0},"loki":{"auth_enabled":false,"commonConfig":{"replication_factor":1},"enable_api":true,"limits_config":{"allow_structured_metadata":true,"retention_period":"360h","volume_enabled":true},"pattern_ingester":{"enabled":true},"ruler":null,"schemaConfig":{"configs":[{"from":"2024-04-01","index":{"period":"24h","prefix":"loki_index_"},"object_store":"s3","schema":"v13","store":"tsdb"}]}},"lokiCanary":{"enabled":false},"minio":{"enabled":true},"nameOverride":"loki","querier":{"replicas":0},"queryFrontend":{"replicas":0},"queryScheduler":{"replicas":0},"read":{"replicas":0},"singleBinary":{"replicas":1},"test":{"enabled":false},"write":{"replicas":0}}` | Settings for Loki, the optional log aggregation system used by the platform. |
+| loki | object | `{"backend":{"replicas":0},"bloomCompactor":{"replicas":0},"bloomGateway":{"replicas":0},"chunksCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"compactor":{"replicas":0},"deploymentMode":"SingleBinary","distributor":{"replicas":0},"enabled":false,"gateway":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"indexGateway":{"replicas":0},"ingester":{"replicas":0},"loki":{"auth_enabled":false,"commonConfig":{"replication_factor":1},"enable_api":true,"limits_config":{"allow_structured_metadata":true,"retention_period":"360h","volume_enabled":true},"pattern_ingester":{"enabled":true},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"ruler":null,"schemaConfig":{"configs":[{"from":"2024-04-01","index":{"period":"24h","prefix":"loki_index_"},"object_store":"s3","schema":"v13","store":"tsdb"}]}},"lokiCanary":{"enabled":false},"minio":{"enabled":true,"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"nameOverride":"loki","querier":{"replicas":0},"queryFrontend":{"replicas":0},"queryScheduler":{"replicas":0},"read":{"replicas":0},"resultsCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"singleBinary":{"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"replicas":1,"resources":{"limits":{"cpu":"500m","memory":"2048Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"test":{"enabled":false},"write":{"replicas":0}}` | Settings for Loki, the optional log aggregation system used by the platform. |
 | monitoring | object | - | Settings related to the Monitoring CronJob. |
 | monitoring.alertmanagerUrl | string | `""` | The URL of the Alertmanager to which alerts will be sent. |
 | monitoring.customerName | string | `""` | The name of the customer displayed in the monitoring alerts. |
