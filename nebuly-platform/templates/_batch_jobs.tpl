@@ -39,6 +39,11 @@
 - name: LOOP_JOBS_SLEEP_SECONDS
   value: {{ .Values.fullProcessing.settings.processingDelaySeconds | quote }}
 
+# Inference settings
+- name: VLLM_MICRO_BATCH_TIMEOUT_SECONDS
+  value: {{ .Values.ingestionWorker.settings.vLLMBatchTimeout | quote }}
+- name: VLLM_MICRO_BATCH_SIZE
+  value: {{ .Values.ingestionWorker.settings.vLLMBatchSize | quote }}
 
 # OpenAI
 - name: OPENAI_API_VERSION
