@@ -35,7 +35,9 @@ spec:
                   name: {{ include "redis.fullname" . }}
                   key: redis-password
           ports:
-            - containerPort: 6379
+            - containerPort: {{ .Values.redis.service.port }}
+              name: redis
+              protocol: TCP
           resources:
             {{- toYaml .Values.redis.resources | nindent 12 }}
 {{- end }}
