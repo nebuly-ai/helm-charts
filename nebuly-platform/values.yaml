@@ -1612,7 +1612,7 @@ loki:
       volume_enabled: true
       retention_period: 360h  # 15 days
     ruler:
-    enable_api: true
+      enable_api: true
     auth_enabled: false
 
   minio:

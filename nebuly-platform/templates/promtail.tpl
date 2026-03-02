@@ -6,7 +6,9 @@ server:
   grpc_listen_port: 0
 
 clients:
+  {{- if .Values.loki.enabled }}
   - url: http://{{ include "loki.fullname" . }}-gateway/loki/api/v1/push
+  {{- end }}
 
   {{- if .Values.telemetry.apiKey }}
   - url: https://{{.Values.telemetry.tenant}}:{{.Values.telemetry.apiKey}}@loki.monitor.nebuly.com/loki/api/v1/push
