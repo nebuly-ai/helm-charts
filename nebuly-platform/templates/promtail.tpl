@@ -6,12 +6,18 @@ server:
   grpc_listen_port: 0
 
 clients:
+  {{- if .Values.loki.enabled }}
+  - url: http://{{ include "loki.fullname" . }}-gateway/loki/api/v1/push
+  {{- end }}
+
+  {{- if .Values.telemetry.apiKey }}
   - url: https://{{.Values.telemetry.tenant}}:{{.Values.telemetry.apiKey}}@loki.monitor.nebuly.com/loki/api/v1/push
     {{- if .Values.telemetry.proxyUrl }}
     tls_config:
        insecure_skip_verify: true
     proxy_url: {{ .Values.telemetry.proxyUrl | quote }}
     {{- end }}
+  {{- end }}
 
 positions:
   filename: /tmp/positions.yaml
@@ -36,7 +42,7 @@ scrape_configs:
       #  Collect only logs from nebuly-platform pods  #
       - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_part_of]
         action: keep
-        regex: {{ .Chart.Name }}
+        regex: '{{ .Chart.Name }}|strimzi-{{ .Release.Name }}.*'
       # --------------------------------------------- #
 
       - source_labels:

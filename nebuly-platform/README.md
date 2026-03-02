@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.84.1](https://img.shields.io/badge/Version-1.84.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.85.0](https://img.shields.io/badge/Version-1.85.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -274,7 +274,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.100.21"` |  |
+| backend.image.tag | string | `"v1.101.0"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -426,7 +426,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.74.18"` |  |
+| frontend.image.tag | string | `"v1.75.0"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -470,7 +470,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.68.7"` |  |
+| ingestionWorker.image.tag | string | `"v1.68.9"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -564,6 +564,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry3.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.topicEventsRetry3.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.user | string | `"nebuly-platform"` | The name of the user used by the services for connecting to the created kafka cluster. |
+| loki | object | `{"backend":{"replicas":0},"bloomCompactor":{"replicas":0},"bloomGateway":{"replicas":0},"chunksCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"compactor":{"replicas":0},"deploymentMode":"SingleBinary","distributor":{"replicas":0},"enabled":true,"gateway":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"indexGateway":{"replicas":0},"ingester":{"replicas":0},"loki":{"auth_enabled":false,"commonConfig":{"replication_factor":1},"limits_config":{"allow_structured_metadata":true,"retention_period":"360h","volume_enabled":true},"pattern_ingester":{"enabled":true},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"ruler":{"enable_api":true},"schemaConfig":{"configs":[{"from":"2024-04-01","index":{"period":"24h","prefix":"loki_index_"},"object_store":"s3","schema":"v13","store":"tsdb"}]}},"lokiCanary":{"enabled":false},"minio":{"enabled":true,"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"nameOverride":"loki","querier":{"replicas":0},"queryFrontend":{"replicas":0},"queryScheduler":{"replicas":0},"read":{"replicas":0},"resultsCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"singleBinary":{"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"replicas":1,"resources":{"limits":{"cpu":"500m","memory":"2048Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"test":{"enabled":false},"write":{"replicas":0}}` | Settings for Loki, the optional log aggregation system used by the platform. |
 | monitoring | object | - | Settings related to the Monitoring CronJob. |
 | monitoring.alertmanagerUrl | string | `""` | The URL of the Alertmanager to which alerts will be sent. |
 | monitoring.customerName | string | `""` | The name of the customer displayed in the monitoring alerts. |
@@ -595,6 +596,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | primaryProcessing.modelsCache | object | `{"enabled":false,"size":"128Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | primaryProcessing.timezone | string | `""` | The timezone of the CronJob. If not provided, the default timezone of the Kubernetes cluster will be used. |
+| redis.auth | object | `{"password":"nebuly"}` | Password for the Redis instance. |
+| redis.enabled | bool | `true` | If True, deploy a Redis instance together with the platform services. |
+| redis.image | object | `{"pullPolicy":"IfNotPresent","repository":"redis","tag":"8.6.0-trixie"}` | The Redis image to use for the deployment. |
+| redis.resources | object | `{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}` | Resources of the Redis deployment. |
+| redis.service | object | `{"port":6379}` | Service port of the Redis deployment. |
 | reprocessing | object | `{"interactions":{"enabled":false},"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | Settings for data reprocessing jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
@@ -606,8 +612,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | serviceAccount | object | `{"annotations":{},"create":false,"name":"default"}` | The name of the service account used by the platform services. |
 | strimzi.enabled | bool | `false` |  |
 | telemetry.apiKey | string | `""` | The API key used to authenticate with the telemetry service. |
-| telemetry.enabled | bool | `false` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
+| telemetry.enabled | bool | `true` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
 | telemetry.gtmId | string | `""` | The Google Tag Manager (GTM) Id. |
+| telemetry.mixpanel | object | `{"enabled":false}` | If True, enable the Mixpanel integration for telemetry. |
+| telemetry.notifications | object | `{"enabled":false}` | If True, enable the notification integration for telemetry. |
 | telemetry.promtail | object | `{"enabled":true}` | If True, enable the Promtail log collector. Only logs from Nebuly's containers will be collected. |
 | telemetry.proxyUrl | string | `""` | The URL of the proxy server used to send telemetry data through. |
 | telemetry.tenant | string | `""` | Code of the tenant to which the telemetry data will be associated. |

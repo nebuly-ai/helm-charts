@@ -1,4 +1,8 @@
 {{- define "backend.commonEnv" -}}
+- name: K8S_NAMESPACE
+  valueFrom:
+    fieldRef:
+      fieldPath: metadata.namespace
 # Database
 - name: "MULTI_TENANCY_MODE"
   value: {{ .Values.backend.settings.multiTenancyMode | quote }}
@@ -87,7 +91,7 @@
   value: {{ .Values.backend.sentry.profilesSampleRate | quote }}
 # Mixpanel
 - name: MIXPANEL_ENABLED
-  value: {{ .Values.telemetry.enabled | quote }}
+  value: {{ .Values.telemetry.mixpanel.enabled | quote }}
 - name: MIXPANEL_MODE
   value: "proxy"
 - name: MIXPANEL_PROXY_URL
@@ -144,5 +148,23 @@
   value: {{ .Values.clickhouse.auth.nebulyUser.password | quote }}
 - name: CLICKHOUSE_INGESTION_BATCH_SIZE
   value: {{ .Values.clickhouse.ingestionBatchSize | quote }}
+{{- end }}
+{{- if .Values.loki.enabled }}
+- name: LOKI_ENABLED
+  value: "true"
+- name: LOKI_SERVER
+  value: "http://{{ .Release.Name }}-loki-gateway"
+{{- end }}
+{{- if .Values.redis.enabled }}
+- name: REDIS_ENABLED
+  value: "true"
+- name: REDIS_HOST
+  value: {{ include "redis.fullname" . | quote }}
+- name: REDIS_PORT
+  value: {{ .Values.redis.service.port | quote }}
+- name: REDIS_PASSWORD
+  value: {{ .Values.redis.auth.password | quote }}
+- name: REDIS_DB
+  value: "0"
 {{- end }}
 {{- end -}}

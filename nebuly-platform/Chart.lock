@@ -5,6 +5,9 @@ dependencies:
 - name: altinity-clickhouse-operator
   repository: https://docs.altinity.com/clickhouse-operator
   version: 0.25.3
+- name: loki
+  repository: https://grafana.github.io/helm-charts
+  version: 6.53.0
 - name: bootstrap-aws
   repository: file://../bootstrap-aws
   version: 0.3.0
@@ -14,5 +17,5 @@ dependencies:
 - name: bootstrap-gcp
   repository: file://../bootstrap-gcp
   version: 0.2.0
-digest: sha256:bb64d19d523d28e30c3786f6449e7c1f9f58d7448f8d03b5bebc56c08382a7ea
-generated: "2025-12-24T14:11:33.644945+01:00"
+digest: sha256:1167fb79d180ef82ffe6bcfb14700c22d94919a430e88e4a002d81665e3a6c81
+generated: "2026-02-25T13:12:06.141694+01:00"

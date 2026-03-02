@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.100.21"
+    tag: "v1.101.0"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -184,7 +184,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.74.18"
+    tag: "v1.75.0"
 
   podAnnotations: { }
   podLabels: { }
@@ -413,7 +413,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.68.7
+    tag: v1.68.9
 
   podAnnotations: { }
   podLabels: { }
@@ -711,7 +711,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.68.7
+    tag: v1.68.9
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -1055,7 +1055,7 @@ otel:
 telemetry:
   # -- If True, enable telemetry collection. Collected telemetry data consists
   # of anonymous usage statistics and error reports.
-  enabled: false
+  enabled: true
   # -- Code of the tenant to which the telemetry data will be associated.
   tenant: ""
   # -- The API key used to authenticate with the telemetry service.
@@ -1064,6 +1064,12 @@ telemetry:
   gtmId: ""
   # -- The URL of the proxy server used to send telemetry data through.
   proxyUrl: ""
+  # -- If True, enable the Mixpanel integration for telemetry.
+  mixpanel:
+    enabled: false
+  # -- If True, enable the notification integration for telemetry.
+  notifications:
+    enabled: false
   # -- If True, enable the Promtail log collector. Only logs from Nebuly's
   # containers will be collected.
   promtail:
@@ -1580,3 +1586,139 @@ bootstrap-azure:
 # an GKE cluster on Google Cloud Platform.
 bootstrap-gcp:
   enabled: false
+
+# -- Settings for Loki, the optional log aggregation system used by the platform.
+loki:
+  enabled: true
+  nameOverride: "loki"
+  loki:
+    podLabels:
+      app.kubernetes.io/part-of: "nebuly-platform"
+    commonConfig:
+      replication_factor: 1
+    schemaConfig:
+      configs:
+        - from: "2024-04-01"
+          store: tsdb
+          object_store: s3
+          schema: v13
+          index:
+            prefix: loki_index_
+            period: 24h
+    pattern_ingester:
+        enabled: true
+    limits_config:
+      allow_structured_metadata: true
+      volume_enabled: true
+      retention_period: 360h  # 15 days
+    ruler:
+      enable_api: true
+    auth_enabled: false
+
+  minio:
+    enabled: true
+    podLabels:
+      app.kubernetes.io/part-of: "nebuly-platform"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+        
+  deploymentMode: SingleBinary
+
+  singleBinary:
+    replicas: 1
+    podLabels:
+      app.kubernetes.io/part-of: "nebuly-platform"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 2048Mi
+
+  lokiCanary:
+    enabled: false
+  test:
+    enabled: false
+  chunksCache:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+  resultsCache:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+  gateway:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+  # Zero out replica counts of other deployment modes
+  backend:
+    replicas: 0
+  read:
+    replicas: 0
+  write:
+    replicas: 0
+
+  ingester:
+    replicas: 0
+  querier:
+    replicas: 0
+  queryFrontend:
+    replicas: 0
+  queryScheduler:
+    replicas: 0
+  distributor:
+    replicas: 0
+  compactor:
+    replicas: 0
+  indexGateway:
+    replicas: 0
+  bloomCompactor:
+    replicas: 0
+  bloomGateway:
+    replicas: 0
+
+redis:
+  # -- If True, deploy a Redis instance together with the platform services.
+  enabled: true
+
+  # -- The Redis image to use for the deployment.
+  image:
+    repository: redis
+    pullPolicy: IfNotPresent
+    tag: "8.6.0-trixie"
+
+  # -- Service port of the Redis deployment.
+  service:
+    port: 6379
+
+  # -- Password for the Redis instance.
+  auth:
+    password: "nebuly"
+
+  # -- Resources of the Redis deployment.
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi

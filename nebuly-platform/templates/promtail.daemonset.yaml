@@ -21,8 +21,12 @@ spec:
           operator: "Equal"
           value: "spot"
           effect: "NoSchedule"
-        - key: "nvidia.com/gpu"
-          effect: "NoSchedule"
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
+        {{- with .Values.clickhouse.tolerations }}
+          {{ toYaml . | nindent 8 }}
+        {{- end }}
       containers:
         - name: promtail-container
           image: grafana/promtail
