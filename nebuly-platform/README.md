@@ -612,7 +612,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | serviceAccount | object | `{"annotations":{},"create":false,"name":"default"}` | The name of the service account used by the platform services. |
 | strimzi.enabled | bool | `false` |  |
 | telemetry.apiKey | string | `""` | The API key used to authenticate with the telemetry service. |
-| telemetry.enabled | bool | `false` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
+| telemetry.enabled | bool | `true` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
 | telemetry.gtmId | string | `""` | The Google Tag Manager (GTM) Id. |
 | telemetry.mixpanel | object | `{"enabled":false}` | If True, enable the Mixpanel integration for telemetry. |
 | telemetry.notifications | object | `{"enabled":false}` | If True, enable the notification integration for telemetry. |

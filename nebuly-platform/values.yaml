@@ -1055,7 +1055,7 @@ otel:
 telemetry:
   # -- If True, enable telemetry collection. Collected telemetry data consists
   # of anonymous usage statistics and error reports.
-  enabled: false
+  enabled: true
   # -- Code of the tenant to which the telemetry data will be associated.
   tenant: ""
   # -- The API key used to authenticate with the telemetry service.
