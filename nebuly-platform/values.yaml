@@ -1589,7 +1589,7 @@ bootstrap-gcp:
 
 # -- Settings for Loki, the optional log aggregation system used by the platform.
 loki:
-  enabled: false
+  enabled: true
   nameOverride: "loki"
   loki:
     podLabels:
