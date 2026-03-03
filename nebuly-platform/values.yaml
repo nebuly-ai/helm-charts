@@ -38,6 +38,9 @@ backend:
     # -- A list of project IDs for which the scripts execution is enabled. If empty, the feature will be disabled for all projects.
     scriptProjectIds: [ ]
 
+    # -- The tenant used for the platform's internal operations.
+    realTenant: ""
+
   podAnnotations: { }
   podLabels: { }
 

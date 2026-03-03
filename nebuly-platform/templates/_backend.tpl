@@ -43,6 +43,8 @@
   value: {{ .Values.backend.settings.userAnonymizationKey | quote }}
 - name: SCRIPT_PROJECT_IDS
   value: {{ .Values.backend.settings.scriptProjectIds | toJson | quote }}
+- name: REAL_TENANT
+  value: {{ .Values.backend.settings.realTenant | quote }}
 # Interactions details access control
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ENABLED
   value: {{ .Values.interactionsAccessControl.enabled | quote }}
