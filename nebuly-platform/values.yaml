@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.101.0"
+    tag: "v1.101.1"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -37,6 +37,9 @@ backend:
     userAnonymizationKey: ""
     # -- A list of project IDs for which the scripts execution is enabled. If empty, the feature will be disabled for all projects.
     scriptProjectIds: [ ]
+
+    # -- The tenant used for the platform's internal operations.
+    realTenant: ""
 
   podAnnotations: { }
   podLabels: { }
