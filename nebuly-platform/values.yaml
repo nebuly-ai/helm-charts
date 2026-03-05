@@ -1617,8 +1617,6 @@ loki:
     ruler:
       enable_api: true
     auth_enabled: false
-    persistence:
-      storageClassName: "default"
 
   minio:
     enabled: true
@@ -1632,7 +1630,7 @@ loki:
         cpu: 500m
         memory: 512Mi
     persistence:
-      storageClassName: "default"
+      storageClass:
         
   deploymentMode: SingleBinary
 
@@ -1647,6 +1645,8 @@ loki:
       limits:
         cpu: 500m
         memory: 2048Mi
+    persistence:
+      storageClass:
 
   lokiCanary:
     enabled: false
