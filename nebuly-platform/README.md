@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.86.1](https://img.shields.io/badge/Version-1.86.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.86.2](https://img.shields.io/badge/Version-1.86.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -255,7 +255,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.refreshTokenExpirationDays | int | `7` | Number of days before a refresh token expires due to inactivity. Determines how long a user can remain logged in without activity before being required to log in again. For example, a value of 1 means users must log in again after 24 hours of inactivity. |
 | auth.replicaCount | int | `1` |  |
 | auth.resources.limits.memory | string | `"256Mi"` |  |
-| auth.resources.requests.cpu | string | `"100m"` |  |
+| auth.resources.requests.cpu | string | `"50m"` |  |
 | auth.resources.requests.memory | string | `"128Mi"` |  |
 | auth.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | auth.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -289,7 +289,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | backend.replicaCount | int | `1` |  |
 | backend.resources.limits.memory | string | `"1024Mi"` |  |
-| backend.resources.requests.cpu | string | `"100m"` |  |
+| backend.resources.requests.cpu | string | `"50m"` |  |
 | backend.rootPath | string | `""` | Optionally, the base path of the Backend API when running behind a reverse proxy with a path prefix. Example: "/backend-service" |
 | backend.scheduler.livenessProbe.failureThreshold | int | `10` |  |
 | backend.scheduler.livenessProbe.httpGet.path | string | `"/healthz"` |  |
@@ -301,7 +301,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.scheduler.readinessProbe.initialDelaySeconds | int | `10` |  |
 | backend.scheduler.readinessProbe.periodSeconds | int | `10` |  |
 | backend.scheduler.resources.limits.memory | string | `"2048Mi"` |  |
-| backend.scheduler.resources.requests.cpu | string | `"100m"` |  |
+| backend.scheduler.resources.requests.cpu | string | `"50m"` |  |
 | backend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | backend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | backend.securityContext.runAsNonRoot | bool | `true` |  |
@@ -396,7 +396,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | eventIngestion.replicaCount | int | `1` |  |
 | eventIngestion.resources.limits.memory | string | `"256Mi"` |  |
-| eventIngestion.resources.requests.cpu | string | `"100m"` |  |
+| eventIngestion.resources.requests.cpu | string | `"50m"` |  |
 | eventIngestion.rootPath | string | `""` | Example: "/backend-service" |
 | eventIngestion.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | eventIngestion.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -441,7 +441,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | frontend.replicaCount | int | `1` |  |
 | frontend.resources.limits.memory | string | `"128Mi"` |  |
-| frontend.resources.requests.cpu | string | `"100m"` |  |
+| frontend.resources.requests.cpu | string | `"50m"` |  |
 | frontend.rootUrl | string | `""` | The full public facing url you use in browser, used for redirects. |
 | frontend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | frontend.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -565,7 +565,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry3.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.topicEventsRetry3.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.user | string | `"nebuly-platform"` | The name of the user used by the services for connecting to the created kafka cluster. |
-| loki | object | `{"backend":{"replicas":0},"bloomCompactor":{"replicas":0},"bloomGateway":{"replicas":0},"chunksCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"compactor":{"replicas":0},"deploymentMode":"SingleBinary","distributor":{"replicas":0},"enabled":true,"gateway":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"indexGateway":{"replicas":0},"ingester":{"replicas":0},"loki":{"auth_enabled":false,"commonConfig":{"replication_factor":1},"limits_config":{"allow_structured_metadata":true,"retention_period":"360h","volume_enabled":true},"pattern_ingester":{"enabled":true},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"ruler":{"enable_api":true},"schemaConfig":{"configs":[{"from":"2024-04-01","index":{"period":"24h","prefix":"loki_index_"},"object_store":"s3","schema":"v13","store":"tsdb"}]}},"lokiCanary":{"enabled":false},"minio":{"enabled":true,"persistence":{"storageClass":null},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"nameOverride":"loki","querier":{"replicas":0},"queryFrontend":{"replicas":0},"queryScheduler":{"replicas":0},"read":{"replicas":0},"resultsCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"singleBinary":{"persistence":{"storageClass":null},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"replicas":1,"resources":{"limits":{"cpu":"500m","memory":"2048Mi"},"requests":{"cpu":"100m","memory":"256Mi"}}},"test":{"enabled":false},"write":{"replicas":0}}` | Settings for Loki, the optional log aggregation system used by the platform. |
+| loki | object | `{"backend":{"replicas":0},"bloomCompactor":{"replicas":0},"bloomGateway":{"replicas":0},"chunksCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"compactor":{"replicas":0},"deploymentMode":"SingleBinary","distributor":{"replicas":0},"enabled":true,"gateway":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"indexGateway":{"replicas":0},"ingester":{"replicas":0},"loki":{"auth_enabled":false,"commonConfig":{"replication_factor":1},"limits_config":{"allow_structured_metadata":true,"retention_period":"360h","volume_enabled":true},"pattern_ingester":{"enabled":true},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"ruler":{"enable_api":true},"schemaConfig":{"configs":[{"from":"2024-04-01","index":{"period":"24h","prefix":"loki_index_"},"object_store":"s3","schema":"v13","store":"tsdb"}]}},"lokiCanary":{"enabled":false},"minio":{"enabled":true,"persistence":{"storageClass":null},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"nameOverride":"loki","querier":{"replicas":0},"queryFrontend":{"replicas":0},"queryScheduler":{"replicas":0},"read":{"replicas":0},"resultsCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"singleBinary":{"persistence":{"storageClass":null},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"replicas":1,"resources":{"limits":{"cpu":"500m","memory":"2048Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"test":{"enabled":false},"write":{"replicas":0}}` | Settings for Loki, the optional log aggregation system used by the platform. |
 | monitoring | object | - | Settings related to the Monitoring CronJob. |
 | monitoring.alertmanagerUrl | string | `""` | The URL of the Alertmanager to which alerts will be sent. |
 | monitoring.customerName | string | `""` | The name of the customer displayed in the monitoring alerts. |
@@ -588,9 +588,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | otel.enabled | bool | `false` | If True, enable OpenTelemetry instrumentation of the platform services. When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the OpenTelemetry Collector endpoints specified below. |
 | otel.exporterOtlpMetricsEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect metrics. |
 | otel.exporterOtlpTracesEndpoint | string | `"http://contrib-collector.otel:4317"` | The endpoint of the OpenTelemetry Collector used to collect traces. |
-| postUpgrade | object | `{"migrateInteractionEdits":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}},"refreshRoTables":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}}` | Post-upgrade hooks settings. |
-| postUpgrade.migrateInteractionEdits | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}` | If True, run a post-install job that migrates the interaction edits logs. |
-| postUpgrade.refreshRoTables | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"100m"}}}` | If True, run a post-install job that runs a full refresh of the backend RO tables. |
+| postUpgrade | object | `{"migrateInteractionEdits":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}},"refreshRoTables":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}}}` | Post-upgrade hooks settings. |
+| postUpgrade.migrateInteractionEdits | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}}` | If True, run a post-install job that migrates the interaction edits logs. |
+| postUpgrade.refreshRoTables | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}}` | If True, run a post-install job that runs a full refresh of the backend RO tables. |
 | primaryProcessing | object | - | Settings related to the Primary processing CronJobs. |
 | primaryProcessing.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
 | primaryProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
@@ -598,7 +598,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | primaryProcessing.timezone | string | `""` | The timezone of the CronJob. If not provided, the default timezone of the Kubernetes cluster will be used. |
 | redis.auth | object | `{"password":"nebuly"}` | Password for the Redis instance. |
-| redis.enabled | bool | `true` | If True, deploy a Redis instance together with the platform services. |
+| redis.enabled | bool | `false` | If True, deploy a Redis instance together with the platform services. |
 | redis.image | object | `{"pullPolicy":"IfNotPresent","repository":"redis","tag":"8.6.0-trixie"}` | The Redis image to use for the deployment. |
 | redis.resources | object | `{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}` | Resources of the Redis deployment. |
 | redis.service | object | `{"port":6379}` | Service port of the Redis deployment. |
@@ -612,6 +612,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | secretsStore.kind | string | `"database"` | Supported values: "database", "azure_keyvault" |
 | serviceAccount | object | `{"annotations":{},"create":false,"name":"default"}` | The name of the service account used by the platform services. |
 | strimzi.enabled | bool | `false` |  |
+| strimzi.resources.requests.cpu | string | `"50m"` |  |
 | telemetry.apiKey | string | `""` | The API key used to authenticate with the telemetry service. |
 | telemetry.enabled | bool | `true` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
 | telemetry.gtmId | string | `""` | The Google Tag Manager (GTM) Id. |
