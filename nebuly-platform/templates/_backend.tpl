@@ -191,4 +191,9 @@
   value: {{ .Values.redis.auth.password | quote }}
 - name: REDIS_DB
   value: "0"
+# Remote Access
+- name: REMOTE_ACCESS_ENABLED
+  value: {{ .Values.remoteAccess.enabled | quote }}
+- name: REMOTE_ACCESS_AGENT_URL
+  value: {{ include "remoteAccess.url" . | quote }}
 {{- end -}}

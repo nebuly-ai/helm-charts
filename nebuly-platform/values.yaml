@@ -1855,3 +1855,41 @@ redis:
     limits:
       cpu: 500m
       memory: 512Mi
+
+# @default -- -
+remoteAccess:
+  # -- If True, deploy an agent to allow remote access to the cluster and the platform services from Nebuly support.
+  enabled: false
+
+  # -- The image to use for the remote access agent deployment.
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-remote-access
+    pullPolicy: IfNotPresent
+    tag: "v0.1.0"
+
+  # -- Service port of the remote access agent deployment.
+  service:
+    type: ClusterIP
+    port: 80
+
+  podAnnotations: { }
+  podLabels: { }
+
+  podSecurityContext:
+    runAsNonRoot: true
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+
+  # -- Resources of the remote access agent deployment.
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi

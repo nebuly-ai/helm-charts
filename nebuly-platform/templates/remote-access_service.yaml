@@ -1,0 +1,21 @@
+
+{{ - if .Values.remoteAccess.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "remoteAccess.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "remoteAccess.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  type: {{ .Values.remoteAccess.service.type }}
+  ports:
+    - port: {{ .Values.remoteAccess.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "remoteAccess.selectorLabels" . | nindent 4 }}
+{{ - end }}
