@@ -1,4 +1,4 @@
-{{ - if .Values.remoteAccess.enabled }}
+{{- if .Values.remoteAccess.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -10,6 +10,8 @@ metadata:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       {{- include "remoteAccess.selectorLabels" . | nindent 6 }}
@@ -57,9 +59,9 @@ spec:
             - name: AUTHSERVICE_TARGET
               value: {{ include "authService.url" . }}
             - name: POSTGRES_TARGET
-              value: {{ .Values.analyticDatabase.server | quote}}
+              value: {{ printf "%s:5432" .Values.analyticDatabase.server | quote }}
             - name: CLICKHOUSE_TARGET
-              value: "clickhouse-{{ include "clickhouse.fullname" $ }}"
+              value: "clickhouse-{{ include "clickhouse.fullname" $ }}:8123"
             # OTEL
             - name: "OTEL_ENABLED"
               value: {{ .Values.otel.enabled | quote }}
@@ -91,30 +93,25 @@ spec:
               value: "remote-access"
             - name: "DEVELOPMENT_MODE"
               value: "false"
+            - name: HOME
+              value: /nebuly-remote-access
           livenessProbe:
             httpGet:
               path: /healthz
               port: http
-            initialDelaySeconds: 10
+            initialDelaySeconds: 30
             periodSeconds: 15
           readinessProbe:
             httpGet:
               path: /readyz
               port: http
-            initialDelaySeconds: 10
+            initialDelaySeconds: 60
             periodSeconds: 10
+            timeoutSeconds: 5
           resources:
             {{- toYaml .Values.remoteAccess.resources | nindent 12 }}
-      {{- with .Values.remoteAccess.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.remoteAccess.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       {{- with .Values.remoteAccess.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-{{ - end }}
+{{- end }}

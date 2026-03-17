@@ -1,5 +1,5 @@
 
-{{ - if .Values.remoteAccess.enabled }}
+{{- if .Values.remoteAccess.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -18,4 +18,4 @@ spec:
       name: http
   selector:
     {{- include "remoteAccess.selectorLabels" . | nindent 4 }}
-{{ - end }}
+{{- end }}

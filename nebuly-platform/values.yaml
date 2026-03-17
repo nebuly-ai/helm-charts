@@ -1861,22 +1861,44 @@ remoteAccess:
   # -- If True, deploy an agent to allow remote access to the cluster and the platform services from Nebuly support.
   enabled: false
 
+  fullnameOverride: ""
+
+  # -- The API endpoint used by the remote access agent to connect to the Nebuly support system.
+  apiEndpoint: "https://remote-access.nebuly.com"
+  # -- The API token used by the remote access agent to authenticate with the Nebuly support system.
+  apiToken: ""
+  # -- The slug of the customer. It is used to identify the customer in the Nebuly support system and must be provided by Nebuly support.
+  customerSlug: ""
+
   # -- The image to use for the remote access agent deployment.
   image:
     repository: ghcr.io/nebuly-ai/nebuly-remote-access
     pullPolicy: IfNotPresent
     tag: "v0.1.0"
 
-  # -- Service port of the remote access agent deployment.
+  # -- Service of the remote access agent deployment.
   service:
     type: ClusterIP
     port: 80
+
+  # -- Settings of the Sentry integration.
+  sentry:
+    # -- If true, enable the Sentry integration.
+    enabled: false
+    # -- The DSN of the Sentry project
+    dsn: ""
+    # -- The name of the Sentry environment.
+    environment: ""
+    profilesSampleRate: 0
+    tracesSampleRate: 0
 
   podAnnotations: { }
   podLabels: { }
 
   podSecurityContext:
     runAsNonRoot: true
+
+  tolerations: [ ]
 
   securityContext:
     runAsNonRoot: true
@@ -1889,7 +1911,7 @@ remoteAccess:
   resources:
     requests:
       cpu: 10m
-      memory: 64Mi
+      memory: 128Mi
     limits:
       cpu: 100m
-      memory: 128Mi
+      memory: 512Mi

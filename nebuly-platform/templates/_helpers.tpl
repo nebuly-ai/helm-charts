@@ -421,7 +421,7 @@ app.kubernetes.io/component: nebuly-remote-access
 {{- end }}
 
 {{- define "remoteAccess.url" -}}
-http://{{ include "remoteAccess.fullname" . }}.{{ include "nebuly-platform.namespace" . }}.svc.cluster.local:{{ .Values.remoteAccess.service.port }}
+http://{{ include "remoteAccess.fullname" . }}:{{ .Values.remoteAccess.service.port }}
 {{- end }}
 
 {{- define "remoteAccess.fullname" -}}
