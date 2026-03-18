@@ -174,7 +174,7 @@ frontend:
   # (more than 1 million interactions per month).
   enableHighPerformanceMode: true
   # -- If true, enable the custom variables feature.
-  enableCustomVariables: false
+  enableCustomVariables: true
   # -- The relative path to the favicon file.
   faviconPath: "/favicon.svc"
   # Show the favicon as logo in the sidebar.
