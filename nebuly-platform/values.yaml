@@ -159,7 +159,7 @@ frontend:
   # -- Enable the AB testing feature.
   enableAbTesting: false
   # -- If set to true, enable the AI summarization feature.
-  enableAiSummary: false
+  enableAiSummary: true
   # -- Feature flag to activate the old risky behavior page. Used for
   # retro-compatibility.
   enableOldRiskyBehavior: false

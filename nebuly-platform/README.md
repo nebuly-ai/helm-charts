@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.87.4](https://img.shields.io/badge/Version-1.87.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.87.5](https://img.shields.io/badge/Version-1.87.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -416,7 +416,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.customIntentConfig | object | `{}` |  |
 | frontend.defaultAggregation | string | `"interaction"` | The default aggregation level of the platform. |
 | frontend.enableAbTesting | bool | `false` | Enable the AB testing feature. |
-| frontend.enableAiSummary | bool | `false` | If set to true, enable the AI summarization feature. |
+| frontend.enableAiSummary | bool | `true` | If set to true, enable the AI summarization feature. |
 | frontend.enableCustomVariables | bool | `true` | If true, enable the custom variables feature. |
 | frontend.enableHighPerformanceMode | bool | `true` | If true enable High performance mode. This mode increases the performance of  the platform and is suggested for environments with high volumes of data  (more than 1 million interactions per month). |
 | frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
