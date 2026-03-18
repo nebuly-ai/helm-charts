@@ -29,7 +29,7 @@ spec:
         {{- end }}
       containers:
         - name: promtail-container
-          image: grafana/promtail
+          image: {{ .Values.telemetry.promtail.image.repository }}:{{ .Values.telemetry.promtail.image.tag | default .Chart.AppVersion }}
           args:
             - -config.file=/etc/promtail/promtail.yaml
           env:

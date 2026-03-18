@@ -1077,6 +1077,10 @@ telemetry:
   # containers will be collected.
   promtail:
     enabled: true
+    image:
+      repository: docker.io/grafana/promtail
+      pullPolicy: IfNotPresent
+      tag: main-2def797
 
 # @default -- -
 auth:
@@ -1599,6 +1603,15 @@ loki:
   enabled: true
   nameOverride: "loki"
   loki:
+    image:
+      # -- Docker image registry.
+      registry: docker.io
+      # -- Docker image repository
+      repository: grafana/loki
+      # -- Overrides the image tag whose default is the chart's appVersion
+      tag: 3.6.5
+      # -- Docker image pull policy
+      pullPolicy: IfNotPresent
     podLabels:
       app.kubernetes.io/part-of: "nebuly-platform"
     commonConfig:
