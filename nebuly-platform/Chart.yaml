@@ -25,6 +25,7 @@ dependencies:
     version: <=0.45.1
     repository: oci://quay.io/strimzi-helm
     condition: strimzi.enabled
+    alias: strimzi
   - name: altinity-clickhouse-operator
     version: "0.25.3"
     repository: https://docs.altinity.com/clickhouse-operator

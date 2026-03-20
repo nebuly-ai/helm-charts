@@ -616,6 +616,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | secretsStore.kind | string | `"database"` | Supported values: "database", "azure_keyvault" |
 | serviceAccount | object | `{"annotations":{},"create":false,"name":"default"}` | The name of the service account used by the platform services. |
 | strimzi.enabled | bool | `false` |  |
+| strimzi.generatePodDisruptionBudget | bool | `false` |  |
 | strimzi.resources.requests.cpu | string | `"50m"` |  |
 | telemetry.apiKey | string | `""` | The API key used to authenticate with the telemetry service. |
 | telemetry.enabled | bool | `true` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |

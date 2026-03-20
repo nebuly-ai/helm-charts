@@ -1383,6 +1383,7 @@ clusterIssuer:
 
 strimzi:
   enabled: false
+  generatePodDisruptionBudget: false
 
   resources:
     requests:
