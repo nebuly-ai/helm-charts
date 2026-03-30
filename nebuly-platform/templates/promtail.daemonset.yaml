@@ -21,9 +21,9 @@ spec:
           operator: "Equal"
           value: "spot"
           effect: "NoSchedule"
-        - key: nvidia.com/gpu
-          operator: Exists
-          effect: NoSchedule
+        {{- with .Values.primaryProcessing.tolerations }}
+          {{ toYaml . | nindent 8 }}
+        {{- end }}
         {{- with .Values.clickhouse.tolerations }}
           {{ toYaml . | nindent 8 }}
         {{- end }}
