@@ -766,6 +766,7 @@ primaryProcessing:
 # -- Settings related to the Monitoring CronJob.
 # @default -- -
 monitoring:
+  enabled: true
   # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
   schedule: "0 22 * * *" # Every day at 10:00 PM
   # -- The timezone of the CronJob.
@@ -1069,7 +1070,7 @@ telemetry:
   proxyUrl: ""
   # -- If True, enable the Mixpanel integration for telemetry.
   mixpanel:
-    enabled: false
+    enabled: true
   # -- If True, enable the notification integration for telemetry.
   notifications:
     enabled: false
@@ -1077,6 +1078,8 @@ telemetry:
   # containers will be collected.
   promtail:
     enabled: true
+    # -- If enabled, the logs collected will be also sent to Nebuly.
+    sendLogs: false
     image:
       repository: docker.io/grafana/promtail
       pullPolicy: IfNotPresent

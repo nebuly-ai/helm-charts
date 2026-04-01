@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.88.1](https://img.shields.io/badge/Version-1.88.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.88.2](https://img.shields.io/badge/Version-1.88.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -621,9 +621,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | telemetry.apiKey | string | `""` | The API key used to authenticate with the telemetry service. |
 | telemetry.enabled | bool | `true` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
 | telemetry.gtmId | string | `""` | The Google Tag Manager (GTM) Id. |
-| telemetry.mixpanel | object | `{"enabled":false}` | If True, enable the Mixpanel integration for telemetry. |
+| telemetry.mixpanel | object | `{"enabled":true}` | If True, enable the Mixpanel integration for telemetry. |
 | telemetry.notifications | object | `{"enabled":false}` | If True, enable the notification integration for telemetry. |
-| telemetry.promtail | object | `{"enabled":true,"image":{"pullPolicy":"IfNotPresent","repository":"docker.io/grafana/promtail","tag":"main-2def797"}}` | If True, enable the Promtail log collector. Only logs from Nebuly's containers will be collected. |
+| telemetry.promtail | object | `{"enabled":true,"image":{"pullPolicy":"IfNotPresent","repository":"docker.io/grafana/promtail","tag":"main-2def797"},"sendLogs":false}` | If True, enable the Promtail log collector. Only logs from Nebuly's containers will be collected. |
+| telemetry.promtail.sendLogs | bool | `false` | If enabled, the logs collected will be also sent to Nebuly. |
 | telemetry.proxyUrl | string | `""` | The URL of the proxy server used to send telemetry data through. |
 | telemetry.tenant | string | `""` | Code of the tenant to which the telemetry data will be associated. |
 

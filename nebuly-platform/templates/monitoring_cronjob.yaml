@@ -1,3 +1,4 @@
+{{- if .Values.monitoring.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -41,9 +42,13 @@ spec:
               imagePullPolicy: {{ .Values.monitoring.image.pullPolicy }}
               env:
                 - name: CUSTOMER_NAME
-                  value: {{ .Values.monitoring.customerName | quote }}
+                  value: {{ .Values.monitoring.customerName | default .Values.telemetry.tenant | quote }}
                 - name: ALERTMANAGER_URL
+                  {{- if and .Values.telemetry.tenant .Values.telemetry.apiKey }}
+                  value: {{ printf "https://%s:%s@alertmanager.monitor.nebuly.com" .Values.telemetry.tenant .Values.telemetry.apiKey | quote }}
+                  {{- else }}
                   value: {{ .Values.monitoring.alertmanagerUrl | quote }}
+                  {{- end }}
                 - name: PROXY_URL
                   value: {{ .Values.monitoring.proxyUrl | quote }}
                 - name: EXCLUDE_JOBS
@@ -68,3 +73,4 @@ spec:
           tolerations:
             {{- toYaml . | nindent 14 }}
           {{- end }}
+{{- end }}
