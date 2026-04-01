@@ -24,14 +24,24 @@ kubectl create secret docker-registry \
     --namespace nebuly
 ```
 
-3. Include the created secret in the `imagePullSecrets` field of the `values.yaml` file.
+3. Create the secret that contains the telemetry credentials provided by Nebuly.
+
+```bash
+kubectl create secret generic nebuly-telemetry \
+  --from-literal=telemetry-tenant=<tenant> \
+  --from-literal=telemetry-api-key=<api-key> \
+  --from-literal=telemetry-alertmanager-url=<url> \
+  --namespace nebuly
+```
+
+4. Include the created secret in the `imagePullSecrets` field of the `values.yaml` file.
 
 ```yaml
 imagePullSecrets:
   - name: nebuly-docker-pull
 ```
 
-4. Install the chart
+5. Install the chart
 You can install the chart with the following command:
 
 ```bash
@@ -618,15 +628,20 @@ The command removes all the Kubernetes components associated with the chart and 
 | strimzi.enabled | bool | `false` |  |
 | strimzi.generatePodDisruptionBudget | bool | `false` |  |
 | strimzi.resources.requests.cpu | string | `"50m"` |  |
-| telemetry.apiKey | string | `""` | The API key used to authenticate with the telemetry service. |
+| telemetry.apiKey | string | `""` | The API key used to authenticate with the telemetry service. To be provided only when not using an existing secret (see telemetry.existingSecret value below). |
 | telemetry.enabled | bool | `true` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
+| telemetry.existingSecret | object | - | Use an existing secret for telemetry credentials. |
+| telemetry.existingSecret.alertmanagerUrlKey | string | `"telemetry-alertmanager-url"` | The key of the secret containing the URL of the Alertmanager to which alerts will be sent. |
+| telemetry.existingSecret.apiKeyKey | string | `"telemetry-api-key"` | The key of the secret containing the API key. |
+| telemetry.existingSecret.name | string | `"nebuly-telemetry"` | Name of the secret. |
+| telemetry.existingSecret.tenantKey | string | `"telemetry-tenant"` | The key of the secret containing the tenant code. |
 | telemetry.gtmId | string | `""` | The Google Tag Manager (GTM) Id. |
 | telemetry.mixpanel | object | `{"enabled":true}` | If True, enable the Mixpanel integration for telemetry. |
 | telemetry.notifications | object | `{"enabled":false}` | If True, enable the notification integration for telemetry. |
 | telemetry.promtail | object | `{"enabled":true,"image":{"pullPolicy":"IfNotPresent","repository":"docker.io/grafana/promtail","tag":"main-2def797"},"sendLogs":false}` | If True, enable the Promtail log collector. Only logs from Nebuly's containers will be collected. |
 | telemetry.promtail.sendLogs | bool | `false` | If enabled, the logs collected will be also sent to Nebuly. |
 | telemetry.proxyUrl | string | `""` | The URL of the proxy server used to send telemetry data through. |
-| telemetry.tenant | string | `""` | Code of the tenant to which the telemetry data will be associated. |
+| telemetry.tenant | string | `""` | Code of the tenant to which the telemetry data will be associated. To be provided only when not using an existing secret (see telemetry.existingSecret value below). |
 
 ## Maintainers
 

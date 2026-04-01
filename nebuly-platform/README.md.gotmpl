@@ -27,14 +27,24 @@ kubectl create secret docker-registry \
     --namespace nebuly
 ```
 
-3. Include the created secret in the `imagePullSecrets` field of the `values.yaml` file.
+3. Create the secret that contains the telemetry credentials provided by Nebuly.
+
+```bash
+kubectl create secret generic nebuly-telemetry \
+  --from-literal=telemetry-tenant=<tenant> \
+  --from-literal=telemetry-api-key=<api-key> \
+  --from-literal=telemetry-alertmanager-url=<url> \
+  --namespace nebuly
+```
+
+4. Include the created secret in the `imagePullSecrets` field of the `values.yaml` file.
 
 ```yaml
 imagePullSecrets:
   - name: nebuly-docker-pull
 ```
 
-4. Install the chart
+5. Install the chart
 You can install the chart with the following command:
 
 ```bash

@@ -99,9 +99,25 @@
 - name: MIXPANEL_PROXY_URL
   value: "https://tunnel.monitor.nebuly.com/mixpanel"
 - name: MIXPANEL_USERNAME
-  value: {{ .Values.telemetry.tenant | quote }}
+  valueFrom:
+    secretKeyRef:
+      {{- if and .Values.telemetry.tenant .Values.telemetry.apiKey }}
+      name: nebuly-telemetry
+      key: telemetry-tenant
+      {{- else }}
+      name: {{ tpl .Values.telemetry.existingSecret.name . }}
+      key: {{ .Values.telemetry.existingSecret.tenantKey }}
+      {{- end }}
 - name: MIXPANEL_PASSWORD
-  value: {{ .Values.telemetry.apiKey | quote }}
+  valueFrom:
+    secretKeyRef:
+      {{- if and .Values.telemetry.tenant .Values.telemetry.apiKey }}
+      name: nebuly-telemetry
+      key: telemetry-api-key
+      {{- else }}
+      name: {{ tpl .Values.telemetry.existingSecret.name . }}
+      key: {{ .Values.telemetry.existingSecret.apiKeyKey }}
+      {{- end }}
 - name: ANALYTICS_OVERRIDE_TENANT
   value: {{ include "telemetry.tenant" . | quote }}
 # OpenAI

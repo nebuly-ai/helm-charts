@@ -42,12 +42,32 @@ spec:
               imagePullPolicy: {{ .Values.monitoring.image.pullPolicy }}
               env:
                 - name: CUSTOMER_NAME
-                  value: {{ .Values.monitoring.customerName | default .Values.telemetry.tenant | quote }}
-                - name: ALERTMANAGER_URL
-                  {{- if and .Values.telemetry.tenant .Values.telemetry.apiKey }}
-                  value: {{ printf "https://%s:%s@alertmanager.monitor.nebuly.com" .Values.telemetry.tenant .Values.telemetry.apiKey | quote }}
+                  {{- if .Values.monitoring.customerName }}
+                  value: {{ .Values.monitoring.customerName | quote }}
                   {{- else }}
+                  valueFrom:
+                    secretKeyRef:
+                      {{- if and .Values.telemetry.tenant .Values.telemetry.apiKey }}
+                      name: nebuly-telemetry
+                      key: telemetry-tenant
+                      {{- else }}
+                      name: {{ tpl .Values.telemetry.existingSecret.name . }}
+                      key: {{ .Values.telemetry.existingSecret.tenantKey }}
+                      {{- end }}
+                  {{- end }}
+                - name: ALERTMANAGER_URL
+                  {{- if .Values.monitoring.alertmanagerUrl }}
                   value: {{ .Values.monitoring.alertmanagerUrl | quote }}
+                  {{- else }}
+                  valueFrom:
+                    secretKeyRef:
+                      {{- if and .Values.telemetry.tenant .Values.telemetry.apiKey }}
+                      name: nebuly-telemetry
+                      key: telemetry-alertmanager-url
+                      {{- else }}
+                      name: {{ tpl .Values.telemetry.existingSecret.name . }}
+                      key: {{ .Values.telemetry.existingSecret.alertmanagerUrlKey }}
+                      {{- end }}
                   {{- end }}
                 - name: PROXY_URL
                   value: {{ .Values.monitoring.proxyUrl | quote }}

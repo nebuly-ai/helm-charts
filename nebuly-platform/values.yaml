@@ -1061,9 +1061,22 @@ telemetry:
   # of anonymous usage statistics and error reports.
   enabled: true
   # -- Code of the tenant to which the telemetry data will be associated.
+  # To be provided only when not using an existing secret (see telemetry.existingSecret value below).
   tenant: ""
   # -- The API key used to authenticate with the telemetry service.
+  # To be provided only when not using an existing secret (see telemetry.existingSecret value below).
   apiKey: ""
+  # -- Use an existing secret for telemetry credentials.
+  # @default -- -
+  existingSecret:
+    # -- Name of the secret.
+    name: "nebuly-telemetry"
+    # -- The key of the secret containing the tenant code.
+    tenantKey: "telemetry-tenant"
+    # -- The key of the secret containing the API key.
+    apiKeyKey: "telemetry-api-key"
+    # -- The key of the secret containing the URL of the Alertmanager to which alerts will be sent.
+    alertmanagerUrlKey: "telemetry-alertmanager-url"
   # -- The Google Tag Manager (GTM) Id.
   gtmId: ""
   # -- The URL of the proxy server used to send telemetry data through.
