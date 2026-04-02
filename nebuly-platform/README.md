@@ -450,7 +450,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.podLabels | object | `{}` |  |
 | frontend.podSecurityContext.runAsNonRoot | bool | `true` |  |
 | frontend.replicaCount | int | `1` |  |
-| frontend.resources.limits.memory | string | `"128Mi"` |  |
+| frontend.resources.limits.memory | string | `"150Mi"` |  |
 | frontend.resources.requests.cpu | string | `"50m"` |  |
 | frontend.rootUrl | string | `""` | The full public facing url you use in browser, used for redirects. |
 | frontend.securityContext.allowPrivilegeEscalation | bool | `false` |  |
