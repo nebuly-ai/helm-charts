@@ -10,7 +10,7 @@ clients:
   - url: http://{{ include "loki.fullname" . }}-gateway/loki/api/v1/push
   {{- end }}
 
-  {{- if .Values.telemetry.sendLogs }}
+  {{- if .Values.telemetry.promtail.sendLogs }}
   - url: https://{{.Values.telemetry.tenant}}:{{.Values.telemetry.apiKey}}@loki.monitor.nebuly.com/loki/api/v1/push
     {{- if .Values.telemetry.proxyUrl }}
     tls_config:
