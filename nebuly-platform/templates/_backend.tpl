@@ -119,7 +119,15 @@
       key: {{ .Values.telemetry.existingSecret.apiKeyKey }}
       {{- end }}
 - name: ANALYTICS_OVERRIDE_TENANT
-  value: {{ include "telemetry.tenant" . | quote }}
+  valueFrom:
+    secretKeyRef:
+      {{- if and .Values.telemetry.tenant .Values.telemetry.apiKey }}
+      name: nebuly-telemetry
+      key: telemetry-tenant
+      {{- else }}
+      name: {{ tpl .Values.telemetry.existingSecret.name . }}
+      key: {{ .Values.telemetry.existingSecret.tenantKey }}
+      {{- end }}
 # OpenAI
 - name: OPENAI_BASE_URL
   value: {{ .Values.openAi.endpoint | quote }}
