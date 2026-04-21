@@ -17,5 +17,8 @@ dependencies:
 - name: bootstrap-gcp
   repository: file://../bootstrap-gcp
   version: 0.2.0
-digest: sha256:1167fb79d180ef82ffe6bcfb14700c22d94919a430e88e4a002d81665e3a6c81
-generated: "2026-02-25T13:12:06.141694+01:00"
+- name: opentelemetry-collector
+  repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+  version: 0.150.1
+digest: sha256:88cab4ac0a21e6ab4fb6ece9bb965ffd9a32c30deaffb47a528aef0928129aae
+generated: "2026-04-21T18:01:39.006045+02:00"
