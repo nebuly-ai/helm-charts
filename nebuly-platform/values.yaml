@@ -1785,7 +1785,7 @@ collector:
         override: false
       resource:
         attributes:
-          - key: cluster
+          - key: platform.nebuly.com/hosting
             value: "${env:TELEMETRY_TENANT}"
             action: upsert
           - key: platform_version
