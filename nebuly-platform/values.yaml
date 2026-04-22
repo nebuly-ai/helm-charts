@@ -1812,6 +1812,9 @@ collector:
           receivers: [otlp]
           processors: [memory_limiter, resourcedetection, resource, batch]
           exporters: [prometheusremotewrite]
+  podLabels:
+    app.kubernetes.io/part-of: "nebuly-platform"
+    app.kubernetes.io/component: "nebuly-collector"
   ports:
     otlp:
       enabled: true

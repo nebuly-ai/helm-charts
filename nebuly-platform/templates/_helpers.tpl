@@ -70,6 +70,15 @@ nebuly.com/release-name: {{ .Release.Name }}
 {{- printf "http://%s-collector:4317" .Release.Name -}}
 {{- end }}
 
+{{- define "collector.labels" -}}
+{{- include "collector.selectorLabels" . }}
+{{- end }}
+
+{{- define "collector.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: nebuly-collector
+{{- end }}
+
 {{/*
 *********************************************************************
 * Hooks

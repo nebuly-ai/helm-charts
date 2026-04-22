@@ -4,6 +4,8 @@ kind: ConfigMap
 metadata:
   name: nebuly-collector-env
   namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "collector.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 data:
