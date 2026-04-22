@@ -615,6 +615,25 @@ The command removes all the Kubernetes components associated with the chart and 
 | redis.image | object | `{"pullPolicy":"IfNotPresent","repository":"redis","tag":"8.6.0-trixie"}` | The Redis image to use for the deployment. |
 | redis.resources | object | `{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}` | Resources of the Redis deployment. |
 | redis.service | object | `{"port":6379}` | Service port of the Redis deployment. |
+| remoteAccess.apiEndpoint | string | `"https://remote-access.nebuly.com"` | The API endpoint used by the remote access agent to connect to the Nebuly support system. |
+| remoteAccess.apiToken | string | `""` | The API token used by the remote access agent to authenticate with the Nebuly support system. |
+| remoteAccess.customerSlug | string | `""` | The slug of the customer. It is used to identify the customer in the Nebuly support system and must be provided by Nebuly support. |
+| remoteAccess.enabled | bool | `false` | If True, deploy an agent to allow remote access to the cluster and the platform services from Nebuly support. |
+| remoteAccess.fullnameOverride | string | `""` |  |
+| remoteAccess.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-remote-access","tag":"v0.1.0"}` | The image to use for the remote access agent deployment. |
+| remoteAccess.podAnnotations | object | `{}` |  |
+| remoteAccess.podLabels | object | `{}` |  |
+| remoteAccess.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| remoteAccess.resources | object | `{"limits":{"cpu":"100m","memory":"512Mi"},"requests":{"cpu":"10m","memory":"128Mi"}}` | Resources of the remote access agent deployment. |
+| remoteAccess.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| remoteAccess.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| remoteAccess.securityContext.runAsNonRoot | bool | `true` |  |
+| remoteAccess.sentry | object | `{"dsn":"","enabled":false,"environment":"","profilesSampleRate":0,"tracesSampleRate":0}` | Settings of the Sentry integration. |
+| remoteAccess.sentry.dsn | string | `""` | The DSN of the Sentry project |
+| remoteAccess.sentry.enabled | bool | `false` | If true, enable the Sentry integration. |
+| remoteAccess.sentry.environment | string | `""` | The name of the Sentry environment. |
+| remoteAccess.service | object | `{"port":80,"type":"ClusterIP"}` | Service of the remote access agent deployment. |
+| remoteAccess.tolerations | list | `[]` |  |
 | reprocessing | object | `{"interactions":{"enabled":false},"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | Settings for data reprocessing jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
