@@ -28,7 +28,7 @@
 - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
   value: "{{ include "nebuly-platform.collectorEndpoint" . }}"
 - name: OTEL_ENABLED
-  value: "{{ .Values.telemetry.enabled }}"
+  value: "{{ .Values.collector.enabled }}"
 - name: OTEL_METRICS_EXPORTER
   value: "otlp"
 # PostgreSQL

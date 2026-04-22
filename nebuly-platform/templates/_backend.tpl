@@ -52,7 +52,7 @@
   value: '{{ .Values.interactionsAccessControl.redactedRoles | toJson }}'
 # OTEL
 - name: OTEL_ENABLED
-  value: "{{ .Values.telemetry.enabled }}"
+  value: "{{ .Values.collector.enabled }}"
 - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
   value: "{{ include "nebuly-platform.collectorEndpoint" . }}"
 - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
