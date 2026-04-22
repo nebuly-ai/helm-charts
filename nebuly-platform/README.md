@@ -24,13 +24,19 @@ kubectl create secret docker-registry \
     --namespace nebuly
 ```
 
-3. Create the secret that contains the telemetry credentials provided by Nebuly.
+3. Create the secret that contains the telemetry credentials provided by Nebuly, and the secret containing the remote access token.
 
 ```bash
 kubectl create secret generic nebuly-telemetry \
   --from-literal=telemetry-tenant=<tenant> \
   --from-literal=telemetry-api-key=<api-key> \
   --from-literal=telemetry-alertmanager-url=<url> \
+  --namespace nebuly
+```
+
+```bash
+kubectl create secret generic nebuly-remote-access \
+  --from-literal=api-token=<api-token> \
   --namespace nebuly
 ```
 
