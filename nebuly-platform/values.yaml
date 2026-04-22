@@ -1867,9 +1867,6 @@ remoteAccess:
   apiEndpoint: "https://remote-access.nebuly.com"
   # -- The API token used by the remote access agent to authenticate with the Nebuly support system.
   apiToken: ""
-  # -- The slug of the customer. It is used to identify the customer in the Nebuly support system and must be provided by Nebuly support.
-  customerSlug: ""
-
   # -- The image to use for the remote access agent deployment.
   image:
     repository: ghcr.io/nebuly-ai/nebuly-remote-access

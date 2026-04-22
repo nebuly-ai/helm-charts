@@ -617,7 +617,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | redis.service | object | `{"port":6379}` | Service port of the Redis deployment. |
 | remoteAccess.apiEndpoint | string | `"https://remote-access.nebuly.com"` | The API endpoint used by the remote access agent to connect to the Nebuly support system. |
 | remoteAccess.apiToken | string | `""` | The API token used by the remote access agent to authenticate with the Nebuly support system. |
-| remoteAccess.customerSlug | string | `""` | The slug of the customer. It is used to identify the customer in the Nebuly support system and must be provided by Nebuly support. |
 | remoteAccess.enabled | bool | `false` | If True, deploy an agent to allow remote access to the cluster and the platform services from Nebuly support. |
 | remoteAccess.fullnameOverride | string | `""` |  |
 | remoteAccess.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-remote-access","tag":"v0.1.0"}` | The image to use for the remote access agent deployment. |

@@ -49,9 +49,15 @@ spec:
             - name: REMOTE_ACCESS_API_ENDPOINT
               value: {{ .Values.remoteAccess.apiEndpoint | quote }}
             - name: REMOTE_ACCESS_API_TOKEN
-              value: {{ .Values.remoteAccess.apiToken | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: nebuly-remote-access
+                  key: api-token
             - name: CUSTOMER_SLUG
-              value: {{ .Values.remoteAccess.customerSlug | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: nebuly-telemetry
+                  key: telemetry-tenant
             - name: FRONTEND_TARGET
               value: {{ include "frontend.url" . }}
             - name: BACKEND_TARGET
