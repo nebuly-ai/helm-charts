@@ -1779,6 +1779,10 @@ collector:
       batch:
         send_batch_size: 10000
         timeout: 10s
+      resourcedetection:
+        detectors: [gcp, eks, azure]
+        timeout: 5s
+        override: false
       resource:
         attributes:
           - key: cluster
@@ -1806,7 +1810,7 @@ collector:
           exporters: [debug]
         metrics:
           receivers: [otlp]
-          processors: [memory_limiter, resource, batch]
+          processors: [memory_limiter, resourcedetection, resource, batch]
           exporters: [prometheusremotewrite]
   ports:
     otlp:
