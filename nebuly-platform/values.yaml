@@ -1736,18 +1736,16 @@ loki:
 # @default -- -
 # -- Configuration for the collector subchart.
 # When enabled, a collector is deployed alongside the platform services.
-# Set otel.exporterOtlpTracesEndpoint and otel.exporterOtlpMetricsEndpoint to
-# http://<release-name>-collector:4317 to route platform telemetry to this collector.
-# Refer to https://github.com/open-telemetry/opentelemetry-helm-charts for full documentation.
 collector:
   # -- If True, deploy an OpenTelemetry Collector together with the platform services.
   enabled: true
   mode: deployment
-  # Use the contrib image to include the prometheusremotewrite exporter and basicauth extension.
   image:
     repository: "otel/opentelemetry-collector-contrib"
-  # -- Inject telemetry credentials from the nebuly-telemetry secret so they can be
-  # referenced as ${env:TELEMETRY_TENANT} and ${env:TELEMETRY_API_KEY} in the collector config.
+    tag: "0.150.1"
+  extraEnvsFrom:
+    - configMapRef:
+        name: "nebuly-collector-env"
   extraEnvs:
     - name: TELEMETRY_TENANT
       valueFrom:
@@ -1785,6 +1783,9 @@ collector:
         attributes:
           - key: cluster
             value: "${env:TELEMETRY_TENANT}"
+            action: upsert
+          - key: platform_version
+            value: "${env:PLATFORM_VERSION}"
             action: upsert
     exporters:
       prometheusremotewrite:
