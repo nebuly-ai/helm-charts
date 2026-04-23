@@ -46,6 +46,11 @@ dependencies:
     version: ~0.2.0
     condition: bootstrap-gcp.enabled
     repository: "file://../bootstrap-gcp"
+  - name: opentelemetry-collector
+    version: ~0.150.1
+    repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+    condition: collector.enabled
+    alias: collector
 
 maintainers:
   - name: Dario Cantella

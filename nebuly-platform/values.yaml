@@ -1045,17 +1045,6 @@ kafka:
     saslGssapiKerberosKeytabKey: ""
 
 # @default -- -
-otel:
-  # -- If True, enable OpenTelemetry instrumentation of the platform services.
-  # When enables, the services will export traces and metrics in OpenTelemetry format, sending them to the
-  # OpenTelemetry Collector endpoints specified below.
-  enabled: false
-  # -- The endpoint of the OpenTelemetry Collector used to collect traces.
-  exporterOtlpTracesEndpoint: "http://contrib-collector.otel:4317"
-  # -- The endpoint of the OpenTelemetry Collector used to collect metrics.
-  exporterOtlpMetricsEndpoint: "http://contrib-collector.otel:4317"
-
-# @default -- -
 telemetry:
   # -- If True, enable telemetry collection. Collected telemetry data consists
   # of anonymous usage statistics and error reports.
@@ -1743,6 +1732,102 @@ loki:
     replicas: 0
   bloomGateway:
     replicas: 0
+
+# @default -- -
+# -- Configuration for the collector subchart.
+# When enabled, a collector is deployed alongside the platform services.
+collector:
+  # -- If True, deploy an OpenTelemetry Collector together with the platform services.
+  enabled: true
+  mode: deployment
+  image:
+    repository: "otel/opentelemetry-collector-contrib"
+    tag: "0.150.1"
+  extraEnvsFrom:
+    - configMapRef:
+        name: "nebuly-collector-env"
+  extraEnvs:
+    - name: TELEMETRY_TENANT
+      valueFrom:
+        secretKeyRef:
+          name: "nebuly-telemetry"
+          key: "telemetry-tenant"
+    - name: TELEMETRY_API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: "nebuly-telemetry"
+          key: "telemetry-api-key"
+  config:
+    extensions:
+      health_check: {}
+      basicauth/prw:
+        client_auth:
+          username: "${env:TELEMETRY_TENANT}"
+          password: "${env:TELEMETRY_API_KEY}"
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+            max_recv_msg_size_mib: 32
+          http:
+            endpoint: 0.0.0.0:4318
+    processors:
+      memory_limiter:
+        check_interval: 1s
+        limit_percentage: 75
+        spike_limit_percentage: 15
+      batch:
+        send_batch_max_size: 2048
+        send_batch_size: 1024
+        timeout: 5s
+      resourcedetection:
+        detectors: [gcp, eks, azure]
+        timeout: 5s
+        override: false
+      resource:
+        attributes:
+          - key: platform.nebuly.com/hosting
+            value: "${env:TELEMETRY_TENANT}"
+            action: upsert
+          - key: platform_version
+            value: "${env:PLATFORM_VERSION}"
+            action: upsert
+    exporters:
+      prometheusremotewrite:
+        endpoint: "https://prometheus.monitor.nebuly.com/api/v1/write"
+        auth:
+          authenticator: basicauth/prw
+      debug:
+        verbosity: normal
+    service:
+      telemetry:
+        logs:
+          level: info
+      extensions: [health_check, basicauth/prw]
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [memory_limiter, batch]
+          exporters: [debug]
+        metrics:
+          receivers: [otlp]
+          processors: [memory_limiter, resourcedetection, resource, batch]
+          exporters: [prometheusremotewrite]
+  podLabels:
+    app.kubernetes.io/part-of: "nebuly-platform"
+    app.kubernetes.io/component: "nebuly-collector"
+  ports:
+    otlp:
+      enabled: true
+      containerPort: 4317
+      servicePort: 4317
+      protocol: TCP
+    otlp-http:
+      enabled: true
+      containerPort: 4318
+      servicePort: 4318
+      protocol: TCP
 
 redis:
   # -- If True, deploy a Redis instance together with the platform services.
