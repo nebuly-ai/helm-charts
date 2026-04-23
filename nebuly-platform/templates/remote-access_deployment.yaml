@@ -56,8 +56,13 @@ spec:
             - name: CUSTOMER_SLUG
               valueFrom:
                 secretKeyRef:
+                  {{- if and .Values.telemetry.tenant .Values.telemetry.apiKey }}
                   name: nebuly-telemetry
                   key: telemetry-tenant
+                  {{- else }}
+                  name: {{ tpl .Values.telemetry.existingSecret.name . }}
+                  key: {{ .Values.telemetry.existingSecret.tenantKey }}
+                  {{- end }}
             - name: FRONTEND_TARGET
               value: {{ include "frontend.url" . }}
             - name: BACKEND_TARGET
