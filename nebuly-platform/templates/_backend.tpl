@@ -45,6 +45,8 @@
   value: {{ .Values.backend.settings.scriptProjectIds | toJson | quote }}
 - name: REAL_TENANT
   value: {{ .Values.backend.settings.realTenant | quote }}
+- name: ENABLE_AUDIT_LOGGING
+  value: {{ .Values.backend.settings.enableAuditLogging | quote }}
 # Interactions details access control
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ENABLED
   value: {{ .Values.interactionsAccessControl.enabled | quote }}

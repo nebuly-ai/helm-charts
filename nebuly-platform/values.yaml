@@ -41,6 +41,9 @@ backend:
     # -- The tenant used for the platform's internal operations.
     realTenant: ""
 
+    # -- If true, enable audit logging.
+    enableAuditLogging: false
+
   podAnnotations: { }
   podLabels: { }
 
@@ -1101,6 +1104,8 @@ auth:
   loginModes: "password"
   # -- If True, enable the admin panel for inviting new members to the platform.
   addMembersEnabled: false
+  # -- If true, enable audit logging.
+  enableAuditLogging: false
 
   # -- Settings of the Sentry integration.
   sentry:

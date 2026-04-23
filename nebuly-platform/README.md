@@ -215,6 +215,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.adminUserUsername | string | `"admin@nebuly.ai"` | The username of the initial admin user. |
 | auth.affinity | object | `{}` |  |
 | auth.corsAllowOrigins | list | `[]` | If provided, add a CORS middleware to the auth service with the specified origins.  If empty, the CORS middleware will be disabled, and it will be assumed that CORS headers and settings are managed by the Ingress controller. |
+| auth.enableAuditLogging | bool | `false` | If true, enable audit logging. |
 | auth.existingSecret | object | - | Use an existing secret for the database authentication. |
 | auth.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.fullnameOverride | string | `""` |  |
@@ -290,7 +291,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.104.6"` |  |
+| backend.image.tag | string | `"v1.106.4"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -328,6 +329,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.service.port | int | `80` |  |
 | backend.service.type | string | `"ClusterIP"` |  |
 | backend.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the backend migrations. If not provided, the default `alembic_version` table will be used. |
+| backend.settings.enableAuditLogging | bool | `false` | If true, enable audit logging. |
 | backend.settings.enableUserAnonymization | bool | `false` | If true, enable the user anonymization feature. It masks user identifiers in the  database and API responses using the provided key. |
 | backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
 | backend.settings.realTenant | string | `""` | The tenant used for the platform's internal operations. |
@@ -445,7 +447,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.76.7"` |  |
+| frontend.image.tag | string | `"v1.76.10"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -625,7 +627,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | remoteAccess.apiToken | string | `""` | The API token used by the remote access agent to authenticate with the Nebuly support system. |
 | remoteAccess.enabled | bool | `false` | If True, deploy an agent to allow remote access to the cluster and the platform services from Nebuly support. |
 | remoteAccess.fullnameOverride | string | `""` |  |
-| remoteAccess.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-remote-access","tag":"v0.1.0"}` | The image to use for the remote access agent deployment. |
+| remoteAccess.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-remote-access","tag":"v0.1.1"}` | The image to use for the remote access agent deployment. |
 | remoteAccess.podAnnotations | object | `{}` |  |
 | remoteAccess.podLabels | object | `{}` |  |
 | remoteAccess.podSecurityContext.runAsNonRoot | bool | `true` |  |
