@@ -75,13 +75,13 @@ spec:
               value: "clickhouse-{{ include "clickhouse.fullname" $ }}:8123"
             # OTEL
             - name: "OTEL_ENABLED"
-              value: {{ .Values.otel.enabled | quote }}
+              value: {{ .Values.collector.enabled | quote }}
             - name: "OTEL_SERVICE_NAME"
               value: "nebuly-remote-access"
             - name: "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"
-              value: "{{ .Values.otel.exporterOtlpTracesEndpoint }}"
+              value: "{{ include "nebuly-platform.collectorEndpoint" . }}"
             - name: "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"
-              value: "{{ .Values.otel.exporterOtlpMetricsEndpoint }}"
+              value: "{{ include "nebuly-platform.collectorEndpoint" . }}"
             - name: "OTEL_METRICS_EXPORTER"
               value: "otlp"
             # Sentry
