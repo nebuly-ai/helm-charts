@@ -1785,19 +1785,16 @@ collector:
         detectors: [gcp, eks, azure]
         timeout: 5s
         override: false
-      resource:
-        attributes:
-          - key: platform.nebuly.com/hosting
-            value: "${env:TELEMETRY_TENANT}"
-            action: upsert
-          - key: platform_version
-            value: "${env:PLATFORM_VERSION}"
-            action: upsert
     exporters:
       prometheusremotewrite:
         endpoint: "https://prometheus.monitor.nebuly.com/api/v1/write"
         auth:
           authenticator: basicauth/prw
+        resource_to_telemetry_conversion:
+          enabled: true
+        external_labels:
+          platform_nebuly_com_version: "${env:PLATFORM_VERSION}"
+          platform_nebuly_com_hosting: "${env:TELEMETRY_TENANT}"
       debug:
         verbosity: normal
     service:
@@ -1812,7 +1809,7 @@ collector:
           exporters: [debug]
         metrics:
           receivers: [otlp]
-          processors: [memory_limiter, resourcedetection, resource, batch]
+          processors: [memory_limiter, resourcedetection, batch]
           exporters: [prometheusremotewrite]
   podLabels:
     app.kubernetes.io/part-of: "nebuly-platform"
