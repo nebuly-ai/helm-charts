@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.104.6"
+    tag: "v1.106.4"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -40,6 +40,9 @@ backend:
 
     # -- The tenant used for the platform's internal operations.
     realTenant: ""
+
+    # -- If true, enable audit logging.
+    enableAuditLogging: false
 
   podAnnotations: { }
   podLabels: { }
@@ -187,7 +190,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.76.7"
+    tag: "v1.76.10"
 
   podAnnotations: { }
   podLabels: { }
@@ -416,7 +419,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.70.16
+    tag: v1.71.4
 
   podAnnotations: { }
   podLabels: { }
@@ -714,7 +717,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.70.16
+    tag: v1.71.4
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -1101,6 +1104,8 @@ auth:
   loginModes: "password"
   # -- If True, enable the admin panel for inviting new members to the platform.
   addMembersEnabled: false
+  # -- If true, enable audit logging.
+  enableAuditLogging: false
 
   # -- Settings of the Sentry integration.
   sentry:
@@ -1851,4 +1856,61 @@ redis:
       memory: 256Mi
     limits:
       cpu: 500m
+      memory: 512Mi
+
+# @default -- -
+remoteAccess:
+  # -- If True, deploy an agent to allow remote access to the cluster and the platform services from Nebuly support.
+  enabled: false
+
+  fullnameOverride: ""
+
+  # -- The API endpoint used by the remote access agent to connect to the Nebuly support system.
+  apiEndpoint: "https://remote-access.nebuly.com"
+  # -- The API token used by the remote access agent to authenticate with the Nebuly support system.
+  apiToken: ""
+  # -- The image to use for the remote access agent deployment.
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-remote-access
+    pullPolicy: IfNotPresent
+    tag: "v0.1.1"
+
+  # -- Service of the remote access agent deployment.
+  service:
+    type: ClusterIP
+    port: 80
+
+  # -- Settings of the Sentry integration.
+  sentry:
+    # -- If true, enable the Sentry integration.
+    enabled: false
+    # -- The DSN of the Sentry project
+    dsn: ""
+    # -- The name of the Sentry environment.
+    environment: ""
+    profilesSampleRate: 0
+    tracesSampleRate: 0
+
+  podAnnotations: { }
+  podLabels: { }
+
+  podSecurityContext:
+    runAsNonRoot: true
+
+  tolerations: [ ]
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+
+  # -- Resources of the remote access agent deployment.
+  resources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      cpu: 100m
       memory: 512Mi

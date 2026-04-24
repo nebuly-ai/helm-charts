@@ -24,13 +24,19 @@ kubectl create secret docker-registry \
     --namespace nebuly
 ```
 
-3. Create the secret that contains the telemetry credentials provided by Nebuly.
+3. Create the secret that contains the telemetry credentials provided by Nebuly, and the secret containing the remote access token.
 
 ```bash
 kubectl create secret generic nebuly-telemetry \
   --from-literal=telemetry-tenant=<tenant> \
   --from-literal=telemetry-api-key=<api-key> \
   --from-literal=telemetry-alertmanager-url=<url> \
+  --namespace nebuly
+```
+
+```bash
+kubectl create secret generic nebuly-remote-access \
+  --from-literal=api-token=<api-token> \
   --namespace nebuly
 ```
 
@@ -209,6 +215,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.adminUserUsername | string | `"admin@nebuly.ai"` | The username of the initial admin user. |
 | auth.affinity | object | `{}` |  |
 | auth.corsAllowOrigins | list | `[]` | If provided, add a CORS middleware to the auth service with the specified origins.  If empty, the CORS middleware will be disabled, and it will be assumed that CORS headers and settings are managed by the Ingress controller. |
+| auth.enableAuditLogging | bool | `false` | If true, enable audit logging. |
 | auth.existingSecret | object | - | Use an existing secret for the database authentication. |
 | auth.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | auth.fullnameOverride | string | `""` |  |
@@ -284,7 +291,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.104.6"` |  |
+| backend.image.tag | string | `"v1.106.4"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -322,6 +329,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.service.port | int | `80` |  |
 | backend.service.type | string | `"ClusterIP"` |  |
 | backend.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the backend migrations. If not provided, the default `alembic_version` table will be used. |
+| backend.settings.enableAuditLogging | bool | `false` | If true, enable audit logging. |
 | backend.settings.enableUserAnonymization | bool | `false` | If true, enable the user anonymization feature. It masks user identifiers in the  database and API responses using the provided key. |
 | backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
 | backend.settings.realTenant | string | `""` | The tenant used for the platform's internal operations. |
@@ -439,7 +447,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.76.7"` |  |
+| frontend.image.tag | string | `"v1.76.10"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -483,7 +491,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.70.16"` |  |
+| ingestionWorker.image.tag | string | `"v1.71.4"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -615,6 +623,24 @@ The command removes all the Kubernetes components associated with the chart and 
 | redis.image | object | `{"pullPolicy":"IfNotPresent","repository":"redis","tag":"8.6.0-trixie"}` | The Redis image to use for the deployment. |
 | redis.resources | object | `{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}` | Resources of the Redis deployment. |
 | redis.service | object | `{"port":6379}` | Service port of the Redis deployment. |
+| remoteAccess.apiEndpoint | string | `"https://remote-access.nebuly.com"` | The API endpoint used by the remote access agent to connect to the Nebuly support system. |
+| remoteAccess.apiToken | string | `""` | The API token used by the remote access agent to authenticate with the Nebuly support system. |
+| remoteAccess.enabled | bool | `false` | If True, deploy an agent to allow remote access to the cluster and the platform services from Nebuly support. |
+| remoteAccess.fullnameOverride | string | `""` |  |
+| remoteAccess.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-remote-access","tag":"v0.1.1"}` | The image to use for the remote access agent deployment. |
+| remoteAccess.podAnnotations | object | `{}` |  |
+| remoteAccess.podLabels | object | `{}` |  |
+| remoteAccess.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| remoteAccess.resources | object | `{"limits":{"cpu":"100m","memory":"512Mi"},"requests":{"cpu":"10m","memory":"128Mi"}}` | Resources of the remote access agent deployment. |
+| remoteAccess.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| remoteAccess.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| remoteAccess.securityContext.runAsNonRoot | bool | `true` |  |
+| remoteAccess.sentry | object | `{"dsn":"","enabled":false,"environment":"","profilesSampleRate":0,"tracesSampleRate":0}` | Settings of the Sentry integration. |
+| remoteAccess.sentry.dsn | string | `""` | The DSN of the Sentry project |
+| remoteAccess.sentry.enabled | bool | `false` | If true, enable the Sentry integration. |
+| remoteAccess.sentry.environment | string | `""` | The name of the Sentry environment. |
+| remoteAccess.service | object | `{"port":80,"type":"ClusterIP"}` | Service of the remote access agent deployment. |
+| remoteAccess.tolerations | list | `[]` |  |
 | reprocessing | object | `{"interactions":{"enabled":false},"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | Settings for data reprocessing jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
