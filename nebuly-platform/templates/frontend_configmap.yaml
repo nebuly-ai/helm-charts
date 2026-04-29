@@ -18,6 +18,7 @@ data:
       "NEXT_PUBLIC_AUTH_MODE": "custom",
       "NEXT_PUBLIC_API_URL": "{{ .Values.frontend.backendApiUrl }}",
       "NEXT_PUBLIC_AUTH_API_URL": {{ .Values.frontend.authApiUrl | quote }},
+      "NEXT_PUBLIC_OAUTH_API_URL": {{ printf "%s/oauth" .Values.frontend.authApiUrl | quote }},
       "NEXT_PUBLIC_LDAP_ENABLED": {{ .Values.auth.ldap.enabled | quote }},
       "NEXT_PUBLIC_SENTRY_ENABLED": {{ .Values.frontend.sentry.enabled | quote }},
       "NEXT_PUBLIC_SENTRY_DSN": {{ .Values.frontend.sentry.dsn | quote }},

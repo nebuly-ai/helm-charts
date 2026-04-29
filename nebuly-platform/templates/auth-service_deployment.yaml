@@ -224,6 +224,32 @@ spec:
             - name: "TELEMETRY_OVERRIDE_TENANT"
               value: {{ include "telemetry.tenant" . | quote }}
             {{- end }}
+            {{ if .Values.mcpServer.enabled }}
+            # OAuth Server
+            - name: "OAUTH_SERVER_ENABLED"
+              value: {{ .Values.mcpServer.enabled | quote }}
+            - name: "OAUTH_AUTHORIZATION_API_URL"
+              value: {{ .Values.frontend.authApiUrl | quote }}
+            - name: "MCP_ACCESS_TOKEN_EXPIRATION_MINUTES"
+              value: "60"
+            - name: "MCP_REFRESH_TOKEN_EXPIRATION_DAYS"
+              value: "30"
+            - name: "OAUTH_AUTHORIZATION_CODE_EXPIRATION_MINUTES"
+              value: "10"
+            - name: "OAUTH_REGISTRATION_RATE_LIMIT_PER_IP"
+              value: "100"
+            - name: "OAUTH_REGISTRATION_RATE_LIMIT_WINDOW_MINUTES"
+              value: "60"
+            - name: "OAUTH_LOGIN_REDIRECT_URL"
+              value: "{{ .Values.frontend.rootUrl }}/login"
+            # MCP
+            - name: "MCP_SERVER_CLIENT_ID"
+              value: "mcp-server"
+            - name: "MCP_SERVER_CLIENT_SECRET"
+              value: "nebuly"
+            - name: "MCP_RESOURCE_URL"
+              value: {{ .Values.mcpServer.apiEndpoint | quote }}
+            {{- end }}
             # Misc
             - name: "ENV"
               value: "prod"

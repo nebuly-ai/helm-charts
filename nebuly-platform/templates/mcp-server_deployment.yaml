@@ -1,0 +1,111 @@
+{{- if .Values.mcpServer.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mcpServer.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "mcpServer.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "mcpServer.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.mcpServer.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "mcpServer.labels" . | nindent 8 }}
+        {{- with .Values.mcpServer.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.mcpServer.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.mcpServer.securityContext | nindent 12 }}
+          image: "{{ .Values.mcpServer.image.repository }}:{{ .Values.mcpServer.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.mcpServer.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            # MCP Server
+            - name: "MCP_SERVER_URL"
+              value: {{ .Values.mcpServer.apiEndpoint | quote }}
+            - name: "TENANT_REGISTRY_URL"
+              value: {{ .Values.frontend.authApiUrl | quote }}
+            - name: "AUTHORIZATION_SERVER_URL"
+              value: {{ .Values.frontend.rootUrl | quote }}
+            - name: "TENANT_REGISTRY_CLIENT_ID"
+              value: "mcp-server"
+            - name: "TENANT_REGISTRY_CLIENT_SECRET"
+              value: "nebuly"
+            - name: "BACKEND_URL"
+              value: "{{ include "backend.url" . }}"
+            # OTEL
+            - name: "OTEL_ENABLED"
+              value: {{ .Values.collector.enabled | quote }}
+            - name: "OTEL_SERVICE_NAME"
+              value: "nebuly-mcp-server"
+            - name: "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"
+              value: "{{ include "nebuly-platform.collectorEndpoint" . }}"
+            - name: "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"
+              value: "{{ include "nebuly-platform.collectorEndpoint" . }}"
+            - name: "OTEL_METRICS_EXPORTER"
+              value: "otlp"
+            # Sentry
+            - name: SENTRY_ENABLED
+              value: {{ .Values.mcpServer.sentry.enabled | quote }}
+            - name: SENTRY_ENVIRONMENT
+              value: {{ .Values.mcpServer.sentry.environment | quote }}
+            - name: SENTRY_DSN
+              value: {{ .Values.mcpServer.sentry.dsn | quote }}
+            - name: SENTRY_TRACES_SAMPLE_RATE
+              value: {{ .Values.mcpServer.sentry.tracesSampleRate | quote }}
+            - name: SENTRY_PROFILES_SAMPLE_RATE
+              value: {{ .Values.mcpServer.sentry.profilesSampleRate | quote }}
+            # Misc
+            - name: "ENV"
+              value: "prod"
+            - name: "SERVER_PORT"
+              value: "8080"
+            - name: "SERVER_HOST"
+              value: "0.0.0.0"
+            - name: "PROJECT_NAME"
+              value: "mcp-server"
+            - name: "DEVELOPMENT_MODE"
+              value: "false"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+          resources:
+            {{- toYaml .Values.mcpServer.resources | nindent 12 }}
+      {{- with .Values.mcpServer.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

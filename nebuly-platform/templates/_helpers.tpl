@@ -431,3 +431,32 @@ http://{{ include "remoteAccess.fullname" . }}.{{ include "nebuly-platform.names
 {{- printf "%s-%s" .Release.Name "remote-access" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
+
+{{/*
+
+*********************************************************************
+* MCP Server
+*********************************************************************
+*/}}
+
+{{- define "mcpServer.labels" -}}
+{{- include "mcpServer.selectorLabels" . }}
+{{- end }}
+
+{{- define "mcpServer.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: nebuly-mcp-server
+{{- end }}
+
+{{- define "mcpServer.url" -}}
+http://{{ include "mcpServer.fullname" . }}.{{ include "nebuly-platform.namespace" . }}.svc.cluster.local:{{ .Values.mcpServer.service.port }}
+{{- end }}
+
+{{- define "mcpServer.fullname" -}}
+{{- if .Values.mcpServer.fullnameOverride }}
+{{- .Values.mcpServer.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name "mcp-server" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
