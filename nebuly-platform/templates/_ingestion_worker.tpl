@@ -110,6 +110,10 @@
   value: {{ .Values.ingestionWorker.settings.categoryEngine | quote }}
 - name: MINIMUM_ACTION_DATE
   value: {{ .Values.ingestionWorker.settings.startDateActions | quote }}
+- name: MINIMUM_SUB_TOPIC_DATE
+  value: {{ .Values.ingestionWorker.settings.startDateSubTopics | quote }}
+- name: MINIMUM_TOPIC_DATE
+  value: {{ .Values.ingestionWorker.settings.startDateTopics | quote }}
 # Data retention
 - name: DATA_RETENTION_MAX_NUMBER_OF_DAYS
   value: {{ .Values.ingestionWorker.settings.dataRetentionDays | quote }}
