@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.106.4"
+    tag: "v1.106.6"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -403,6 +403,12 @@ ingestionWorker:
     # -- Start date used to consider existing actions. This feature should only be used to force the
     # processing pipeline to ignore actions created before a given date. 
     startDateActions: "2020-01-01 00:00:00+00:00"
+    # -- Start date used to consider existing sub-topics. This feature should only be used to force the
+    # processing pipeline to ignore sub-topics created before a given date.
+    startDateSubTopics: "2020-01-01 00:00:00+00:00"
+    # -- Start date used to consider existing topics. This feature should only be used to force the
+    # processing pipeline to ignore topics created before a given date.
+    startDateTopics: "2020-01-01 00:00:00+00:00"
     # -- The name of the alembic table used to store the status of the ingestion worker
     # migrations. If not provided, the default `alembic_version` table will be used.
     alembicTable: ""
@@ -419,7 +425,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.71.4
+    tag: v1.71.9
 
   podAnnotations: { }
   podLabels: { }
@@ -485,7 +491,7 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: "38"
+    version: "39"
   
   modelEmbedding:
     name: "embedding"
@@ -493,7 +499,7 @@ aiModels:
 
   modelTopicClassifier:
     name: "topic-classifier"
-    version: "16"
+    version: "19"
 
   modelActionClassifier:
     name: "action-classifier"
@@ -505,7 +511,7 @@ aiModels:
 
   modelPiiRemoval:
     name: "pii-removal"
-    version: "2"
+    version: "7"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
@@ -717,7 +723,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.71.4
+    tag: v1.71.9
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
