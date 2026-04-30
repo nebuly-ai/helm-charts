@@ -1867,7 +1867,7 @@ redis:
 # @default -- -
 remoteAccess:
   # -- If True, deploy an agent to allow remote access to the cluster and the platform services from Nebuly support.
-  enabled: false
+  enabled: true
 
   fullnameOverride: ""
 
