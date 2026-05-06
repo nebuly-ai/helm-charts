@@ -1,0 +1,128 @@
+{{- if .Values.remoteAccess.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "remoteAccess.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "remoteAccess.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "remoteAccess.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.remoteAccess.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "remoteAccess.labels" . | nindent 8 }}
+        {{- with .Values.remoteAccess.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.remoteAccess.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.remoteAccess.securityContext | nindent 12 }}
+          image: "{{ .Values.remoteAccess.image.repository }}:{{ .Values.remoteAccess.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.remoteAccess.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            # Remote Access
+            - name: REMOTE_ACCESS_API_ENDPOINT
+              value: {{ .Values.remoteAccess.apiEndpoint | quote }}
+            - name: REMOTE_ACCESS_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: nebuly-remote-access
+                  key: api-token
+            - name: CUSTOMER_SLUG
+              valueFrom:
+                secretKeyRef:
+                  {{- if and .Values.telemetry.tenant .Values.telemetry.apiKey }}
+                  name: nebuly-telemetry
+                  key: telemetry-tenant
+                  {{- else }}
+                  name: {{ tpl .Values.telemetry.existingSecret.name . }}
+                  key: {{ .Values.telemetry.existingSecret.tenantKey }}
+                  {{- end }}
+            - name: FRONTEND_TARGET
+              value: {{ include "frontend.url" . }}
+            - name: BACKEND_TARGET
+              value: {{ include "backend.url" . }}
+            - name: AUTHSERVICE_TARGET
+              value: {{ include "authService.url" . }}
+            - name: POSTGRES_TARGET
+              value: {{ printf "%s:5432" .Values.analyticDatabase.server | quote }}
+            - name: CLICKHOUSE_TARGET
+              value: "clickhouse-{{ include "clickhouse.fullname" $ }}:8123"
+            # OTEL
+            - name: "OTEL_ENABLED"
+              value: {{ .Values.collector.enabled | quote }}
+            - name: "OTEL_SERVICE_NAME"
+              value: "nebuly-remote-access"
+            - name: "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT"
+              value: "{{ include "nebuly-platform.collectorEndpoint" . }}"
+            - name: "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"
+              value: "{{ include "nebuly-platform.collectorEndpoint" . }}"
+            - name: "OTEL_METRICS_EXPORTER"
+              value: "otlp"
+            # Sentry
+            - name: SENTRY_ENABLED
+              value: {{ .Values.remoteAccess.sentry.enabled | quote }}
+            - name: SENTRY_ENVIRONMENT
+              value: {{ .Values.remoteAccess.sentry.environment | quote }}
+            - name: SENTRY_DSN
+              value: {{ .Values.remoteAccess.sentry.dsn | quote }}
+            - name: SENTRY_TRACES_SAMPLE_RATE
+              value: {{ .Values.remoteAccess.sentry.tracesSampleRate | quote }}
+            - name: SENTRY_PROFILES_SAMPLE_RATE
+              value: {{ .Values.remoteAccess.sentry.profilesSampleRate | quote }}
+            # Misc
+            - name: "ENV"
+              value: "prod"
+            - name: "SERVER_PORT"
+              value: "8080"
+            - name: "PROJECT_NAME"
+              value: "remote-access"
+            - name: "DEVELOPMENT_MODE"
+              value: "false"
+            - name: HOME
+              value: /nebuly-remote-access
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+          resources:
+            {{- toYaml .Values.remoteAccess.resources | nindent 12 }}
+      {{- with .Values.remoteAccess.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

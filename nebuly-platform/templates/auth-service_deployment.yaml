@@ -106,6 +106,8 @@ spec:
             # Auth
             - name: "JWT_SIGNING_KEY_PATH"
               value: "/app/resources/private-key.pem"
+            - name: "ENABLE_AUDIT_LOGGING"
+              value: {{ .Values.auth.enableAuditLogging | quote }}
             - name: "ADMIN_USER_ENABLED"
               value: {{ .Values.auth.adminUserEnabled  | quote }}
             - name: "ADMIN_USER_USERNAME"
