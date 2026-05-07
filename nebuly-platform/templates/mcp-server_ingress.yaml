@@ -17,9 +17,6 @@ metadata:
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
     nginx.ingress.kubernetes.io/rewrite-target: /mcp/$2
-    {{- if .Values.mcpServer.corsAllowOrigins }}
-    nginx.ingress.kubernetes.io/cors-allow-origin: {{ .Values.mcpServer.corsAllowOrigins | join ", " | quote }}
-    {{- end }}
   {{- with .Values.mcpServer.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}

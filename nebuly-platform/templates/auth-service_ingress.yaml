@@ -62,7 +62,7 @@ spec:
     {{- end }}
 {{- end }}
 ---
-{{- if .Values.auth.ingress.enabled }}
+{{- if and .Values.auth.ingress.enabled .Values.mcpServer.enabled }}
 {{- $fullName := include "authService.fullname" . -}}
 {{- $svcPort := .Values.auth.service.port -}}
 {{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}

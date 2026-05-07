@@ -1911,9 +1911,6 @@ mcpServer:
       drop:
         - "ALL"
 
-  # -- List of allowed CORS origins for the MCP server ingress.
-  corsAllowOrigins: [ ]
-
   ingress:
     enabled: false
     className: ""

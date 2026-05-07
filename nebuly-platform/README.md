@@ -593,7 +593,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | loki.loki.image.repository | string | `"grafana/loki"` | Docker image repository |
 | loki.loki.image.tag | string | `"3.6.5"` | Overrides the image tag whose default is the chart's appVersion |
 | mcpServer.apiEndpoint | string | `""` | The API endpoint of the MCP server. This is the URL used by the MCP clients to connect to the server |
-| mcpServer.corsAllowOrigins | list | `[]` | List of allowed CORS origins for the MCP server ingress. |
 | mcpServer.enabled | bool | `false` | If True, deploy the MCP server. |
 | mcpServer.fullnameOverride | string | `""` |  |
 | mcpServer.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-mcp-server","tag":"v0.1.0"}` | The image to use for the MCP server deployment. |
