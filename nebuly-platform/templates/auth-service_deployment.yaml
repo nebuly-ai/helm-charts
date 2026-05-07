@@ -224,6 +224,16 @@ spec:
             - name: "TELEMETRY_OVERRIDE_TENANT"
               value: {{ include "telemetry.tenant" . | quote }}
             {{- end }}
+            - name: "NEBULY_API_KEY"
+              valueFrom:
+                secretKeyRef:
+                  {{- if and .Values.telemetry.tenant .Values.telemetry.apiKey }}
+                  name: nebuly-telemetry
+                  key: telemetry-api-key
+                  {{- else }}
+                  name: {{ tpl .Values.telemetry.existingSecret.name . }}
+                  key: {{ .Values.telemetry.existingSecret.apiKeyKey }}
+                  {{- end }}
             # Misc
             - name: "ENV"
               value: "prod"

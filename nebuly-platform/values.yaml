@@ -1186,7 +1186,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.22.8"
+    tag: "v1.23.0"
 
   podAnnotations: { }
   podLabels: { }
