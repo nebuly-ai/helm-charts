@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.90.0](https://img.shields.io/badge/Version-1.90.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.91.0](https://img.shields.io/badge/Version-1.91.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -291,7 +291,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.106.6"` |  |
+| backend.image.tag | string | `"v1.106.12"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -447,7 +447,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.76.10"` |  |
+| frontend.image.tag | string | `"v1.76.16"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -592,6 +592,32 @@ The command removes all the Kubernetes components associated with the chart and 
 | loki.loki.image.registry | string | `"docker.io"` | Docker image registry. |
 | loki.loki.image.repository | string | `"grafana/loki"` | Docker image repository |
 | loki.loki.image.tag | string | `"3.6.5"` | Overrides the image tag whose default is the chart's appVersion |
+| mcpServer.apiEndpoint | string | `""` | The API endpoint of the MCP server. This is the URL used by the MCP clients to connect to the server |
+| mcpServer.enabled | bool | `false` | If True, deploy the MCP server. |
+| mcpServer.fullnameOverride | string | `""` |  |
+| mcpServer.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-mcp-server","tag":"v0.1.0"}` | The image to use for the MCP server deployment. |
+| mcpServer.ingress.annotations | object | `{}` |  |
+| mcpServer.ingress.className | string | `""` |  |
+| mcpServer.ingress.enabled | bool | `false` |  |
+| mcpServer.ingress.hosts[0].host | string | `"chart-example.local"` |  |
+| mcpServer.ingress.tls | list | `[]` |  |
+| mcpServer.oauthClient.clientSecret | string | `""` | Optional explicit client secret (discouraged to set directly in values; prefer an existing Secret). |
+| mcpServer.oauthClient.createSecret | bool | `true` | If true, create a Secret holding the MCP OAuth client secret. The Secret value is generated once and then kept stable across upgrades via `lookup`. |
+| mcpServer.oauthClient.existingSecret.key | string | `"client-secret"` | Key within the Secret that holds the client secret. |
+| mcpServer.oauthClient.existingSecret.name | string | `""` | If set, use an existing Secret (or override the default chart-managed Secret name). |
+| mcpServer.podAnnotations | object | `{}` |  |
+| mcpServer.podLabels | object | `{}` |  |
+| mcpServer.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| mcpServer.resources | object | `{"limits":{"cpu":"100m","memory":"512Mi"},"requests":{"cpu":"10m","memory":"128Mi"}}` | Resources of the MCP server deployment. |
+| mcpServer.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| mcpServer.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| mcpServer.securityContext.runAsNonRoot | bool | `true` |  |
+| mcpServer.sentry | object | `{"dsn":"","enabled":false,"environment":"","profilesSampleRate":0,"tracesSampleRate":0}` | Settings of the Sentry integration. |
+| mcpServer.sentry.dsn | string | `""` | The DSN of the Sentry project |
+| mcpServer.sentry.enabled | bool | `false` | If true, enable the Sentry integration. |
+| mcpServer.sentry.environment | string | `""` | The name of the Sentry environment. |
+| mcpServer.service | object | `{"port":80,"type":"ClusterIP"}` | Service of the MCP server deployment. |
+| mcpServer.tolerations | list | `[]` |  |
 | monitoring | object | - | Settings related to the Monitoring CronJob. |
 | monitoring.alertmanagerUrl | string | `""` | The URL of the Alertmanager to which alerts will be sent. |
 | monitoring.customerName | string | `""` | The name of the customer displayed in the monitoring alerts. |

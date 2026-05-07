@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.106.6"
+    tag: "v1.106.12"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -190,7 +190,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.76.10"
+    tag: "v1.76.16"
 
   podAnnotations: { }
   podLabels: { }
@@ -1862,6 +1862,82 @@ redis:
       memory: 256Mi
     limits:
       cpu: 500m
+      memory: 512Mi
+
+# @default -- -
+mcpServer:
+  # -- If True, deploy the MCP server.
+  enabled: false
+
+  fullnameOverride: ""
+
+  # -- The API endpoint of the MCP server. This is the URL used by the MCP clients to connect to the server
+  apiEndpoint: ""
+
+  # -- The image to use for the MCP server deployment.
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-mcp-server
+    pullPolicy: IfNotPresent
+    tag: "v0.1.0"
+
+  # -- Service of the MCP server deployment.
+  service:
+    type: ClusterIP
+    port: 80
+
+  # -- Settings of the Sentry integration.
+  sentry:
+    # -- If true, enable the Sentry integration.
+    enabled: false
+    # -- The DSN of the Sentry project
+    dsn: ""
+    # -- The name of the Sentry environment.
+    environment: ""
+    profilesSampleRate: 0
+    tracesSampleRate: 0
+
+  podAnnotations: { }
+  podLabels: { }
+
+  podSecurityContext:
+    runAsNonRoot: true
+
+  tolerations: [ ]
+
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+
+  oauthClient:
+    # -- If true, create a Secret holding the MCP OAuth client secret.
+    # The Secret value is generated once and then kept stable across upgrades via `lookup`.
+    createSecret: true
+    # -- Optional explicit client secret (discouraged to set directly in values; prefer an existing Secret).
+    clientSecret: ""
+    existingSecret:
+      # -- If set, use an existing Secret (or override the default chart-managed Secret name).
+      name: ""
+      # -- Key within the Secret that holds the client secret.
+      key: "client-secret"
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: { }
+    hosts:
+      - host: chart-example.local
+    tls: [ ]
+
+  # -- Resources of the MCP server deployment.
+  resources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      cpu: 100m
       memory: 512Mi
 
 # @default -- -
