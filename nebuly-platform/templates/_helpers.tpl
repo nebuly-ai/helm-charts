@@ -302,6 +302,10 @@ http://{{ include "authService.fullname" . }}.{{ include "nebuly-platform.namesp
 app.kubernetes.io/component: nebuly-frontend
 {{- end }}
 
+{{- define "frontend.url" -}}
+http://{{ include "frontend.fullname" . }}.{{ include "nebuly-platform.namespace" . }}.svc.cluster.local:{{ .Values.frontend.service.port }}
+{{- end }}
+
 {{- define "frontend.fullname" -}}
 {{- if .Values.frontend.fullnameOverride }}
 {{- .Values.frontend.fullnameOverride | trunc 63 | trimSuffix "-" }}
@@ -398,4 +402,32 @@ app.kubernetes.io/component: nebuly-redis
 
 {{- define "redis.fullname" -}}
 {{- printf "%s-%s" .Release.Name "redis" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+
+{{/*
+
+*********************************************************************
+* Remote Access
+*********************************************************************
+*/}}
+{{- define "remoteAccess.labels" -}}
+{{- include "remoteAccess.selectorLabels" . }}
+{{- end }}
+
+{{- define "remoteAccess.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: nebuly-remote-access
+{{- end }}
+
+{{- define "remoteAccess.url" -}}
+http://{{ include "remoteAccess.fullname" . }}.{{ include "nebuly-platform.namespace" . }}.svc.cluster.local:{{ .Values.remoteAccess.service.port }}
+{{- end }}
+
+{{- define "remoteAccess.fullname" -}}
+{{- if .Values.remoteAccess.fullnameOverride }}
+{{- .Values.remoteAccess.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name "remote-access" | trunc 63 | trimSuffix "-" }}
+{{- end }}
 {{- end }}

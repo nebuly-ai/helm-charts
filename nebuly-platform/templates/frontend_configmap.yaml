@@ -49,6 +49,7 @@ data:
       "NEXT_PUBLIC_INTERACTIONS_DETAILS_ACCESS_CONTROL_MODE": {{ .Values.interactionsAccessControl.openDetailsMode | quote }},
       "NEXT_PUBLIC_INTERACTIONS_DETAILS_ACCESS_CONTROL_ROLES": {{ join ", " .Values.interactionsAccessControl.openDetailsRoles | quote }},
       "NEXT_PUBLIC_ENABLE_CUSTOM_VARIABLES": {{ .Values.frontend.enableCustomVariables | quote }},
-      "NEXT_PUBLIC_ENABLE_USER_ANONYMIZATION": {{ .Values.backend.settings.enableUserAnonymization | quote }}
+      "NEXT_PUBLIC_ENABLE_USER_ANONYMIZATION": {{ .Values.backend.settings.enableUserAnonymization | quote }},
+      "NEXT_PUBLIC_ENABLE_REMOTE_ACCESS" : {{ .Values.remoteAccess.enabled | quote }}
     }
 
