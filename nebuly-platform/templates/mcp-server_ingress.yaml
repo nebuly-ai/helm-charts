@@ -74,8 +74,13 @@ metadata:
     {{- include "mcpServer.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
-    cert-manager.io/cluster-issuer: letsencrypt
+    {{- if .Values.clusterIssuer.enabled }}
+    cert-manager.io/cluster-issuer: {{ .Values.clusterIssuer.name }}
+    {{- end }}
     nginx.ingress.kubernetes.io/use-regex: "true"
+  {{- with .Values.auth.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   {{- if and .Values.auth.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.auth.ingress.className }}
