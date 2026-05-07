@@ -79,7 +79,7 @@ metadata:
     {{- end }}
     nginx.ingress.kubernetes.io/use-regex: "true"
   {{- with .Values.auth.ingress.annotations }}
-    {{- toYaml . | nindent 4 }}
+    {{- toYaml (omit . "nginx.ingress.kubernetes.io/rewrite-target") | nindent 4 }}
   {{- end }}
 spec:
   {{- if and .Values.auth.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
