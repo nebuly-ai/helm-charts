@@ -59,6 +59,8 @@ spec:
                   key: {{ .Values.mcpServer.oauthClient.existingSecret.key | default "client-secret" }}
             - name: "BACKEND_URL"
               value: "{{ include "backend.url" . }}"
+            - name: "MCP_DEBUG_TOOLS"
+              value: "false"
             # OTEL
             - name: "OTEL_ENABLED"
               value: {{ .Values.collector.enabled | quote }}
