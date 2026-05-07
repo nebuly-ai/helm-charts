@@ -246,7 +246,10 @@ spec:
             - name: "MCP_SERVER_CLIENT_ID"
               value: "mcp-server"
             - name: "MCP_SERVER_CLIENT_SECRET"
-              value: "nebuly"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mcpServer.oauthClient.existingSecret.name | default (printf "%s-oauth-client" (include "mcpServer.fullname" .)) }}
+                  key: {{ .Values.mcpServer.oauthClient.existingSecret.key | default "client-secret" }}
             - name: "MCP_RESOURCE_URL"
               value: {{ .Values.mcpServer.apiEndpoint | quote }}
             {{- end }}

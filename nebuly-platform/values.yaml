@@ -1911,6 +1911,18 @@ mcpServer:
       drop:
         - "ALL"
 
+  oauthClient:
+    # -- If true, create a Secret holding the MCP OAuth client secret.
+    # The Secret value is generated once and then kept stable across upgrades via `lookup`.
+    createSecret: true
+    # -- Optional explicit client secret (discouraged to set directly in values; prefer an existing Secret).
+    clientSecret: ""
+    existingSecret:
+      # -- If set, use an existing Secret (or override the default chart-managed Secret name).
+      name: ""
+      # -- Key within the Secret that holds the client secret.
+      key: "client-secret"
+
   ingress:
     enabled: false
     className: ""

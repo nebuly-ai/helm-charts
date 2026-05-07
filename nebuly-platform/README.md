@@ -601,6 +601,10 @@ The command removes all the Kubernetes components associated with the chart and 
 | mcpServer.ingress.enabled | bool | `false` |  |
 | mcpServer.ingress.hosts[0].host | string | `"chart-example.local"` |  |
 | mcpServer.ingress.tls | list | `[]` |  |
+| mcpServer.oauthClient.clientSecret | string | `""` | Optional explicit client secret (discouraged to set directly in values; prefer an existing Secret). |
+| mcpServer.oauthClient.createSecret | bool | `true` | If true, create a Secret holding the MCP OAuth client secret. The Secret value is generated once and then kept stable across upgrades via `lookup`. |
+| mcpServer.oauthClient.existingSecret.key | string | `"client-secret"` | Key within the Secret that holds the client secret. |
+| mcpServer.oauthClient.existingSecret.name | string | `""` | If set, use an existing Secret (or override the default chart-managed Secret name). |
 | mcpServer.podAnnotations | object | `{}` |  |
 | mcpServer.podLabels | object | `{}` |  |
 | mcpServer.podSecurityContext.runAsNonRoot | bool | `true` |  |
