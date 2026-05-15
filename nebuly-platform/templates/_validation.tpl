@@ -16,7 +16,6 @@
 {{- if .Values.auth.ldap.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.ldap" .) -}}
 {{- end -}}
-# {{- $messages = append $messages (include "chart.validateValues.auth.addMember" .) -}}
 {{/* Analytic DB */}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.server" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.name" .) -}}
@@ -134,13 +133,6 @@ values: auth.ldap.groupObjectClass
   `groupObjectClass` is required and should be a non-empty string
 {{- end -}}
 {{- end -}}
-
-# {{- define "chart.validateValues.auth.addMember" -}}
-# {{- if and (.Values.auth.addMembersEnabled) (not (contains "password" .Values.auth.loginModes)) }}
-# values: auth.addMembersEnabled
-#   `addMembersEnabled` can't be set to true if `password` is not in `loginModes`
-# {{- end -}}
-# {{- end -}}
 
 {{- define "chart.validateValues.auth.postgresPassword" -}}
 {{- if and (empty .Values.auth.postgresPassword) (empty .Values.auth.existingSecret.name) }}
