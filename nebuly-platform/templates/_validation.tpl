@@ -135,12 +135,12 @@ values: auth.ldap.groupObjectClass
 {{- end -}}
 {{- end -}}
 
-{{- define "chart.validateValues.auth.addMember" -}}
-{{- if and (.Values.auth.addMembersEnabled) (not (contains "password" .Values.auth.loginModes)) }}
-values: auth.addMembersEnabled
-  `addMembersEnabled` can't be set to true if `password` is not in `loginModes`
-{{- end -}}
-{{- end -}}
+# {{- define "chart.validateValues.auth.addMember" -}}
+# {{- if and (.Values.auth.addMembersEnabled) (not (contains "password" .Values.auth.loginModes)) }}
+# values: auth.addMembersEnabled
+#   `addMembersEnabled` can't be set to true if `password` is not in `loginModes`
+# {{- end -}}
+# {{- end -}}
 
 {{- define "chart.validateValues.auth.postgresPassword" -}}
 {{- if and (empty .Values.auth.postgresPassword) (empty .Values.auth.existingSecret.name) }}
