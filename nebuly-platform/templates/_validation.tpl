@@ -16,7 +16,7 @@
 {{- if .Values.auth.ldap.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.auth.ldap" .) -}}
 {{- end -}}
-{{- $messages = append $messages (include "chart.validateValues.auth.addMember" .) -}}
+# {{- $messages = append $messages (include "chart.validateValues.auth.addMember" .) -}}
 {{/* Analytic DB */}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.server" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.analyticDatabase.name" .) -}}
