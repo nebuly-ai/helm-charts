@@ -117,6 +117,8 @@
 # Data retention
 - name: DATA_RETENTION_MAX_NUMBER_OF_DAYS
   value: {{ .Values.ingestionWorker.settings.dataRetentionDays | quote }}
+- name: DATA_OBSCURATION_DAYS
+  value: {{ .Values.ingestionWorker.settings.dataObscurationDays | quote }}
 # AI Models pulling
 {{ include "aiModels.env" . }}
 {{- with .Values.ingestionWorker.env }}
