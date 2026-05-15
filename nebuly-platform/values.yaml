@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.106.12"
+    tag: "v1.108.3"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -190,7 +190,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.76.16"
+    tag: "v1.77.4"
 
   podAnnotations: { }
   podLabels: { }
@@ -1111,7 +1111,7 @@ auth:
   # `google`.
   loginModes: "password"
   # -- If True, enable the admin panel for inviting new members to the platform.
-  addMembersEnabled: false
+  addMembersEnabled: true
   # -- If true, enable audit logging.
   enableAuditLogging: false
 
@@ -1188,7 +1188,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.23.0"
+    tag: "v1.23.1"
 
   podAnnotations: { }
   podLabels: { }
