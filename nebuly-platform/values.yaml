@@ -391,6 +391,8 @@ ingestionWorker:
     # -- The maximum number of days the processing pipeline will keep the data. If set to -1, the data will not be deleted.
     # This parameter only impacts the data seen while processing the data, not the data shown in the platform.
     dataRetentionDays: -1
+    # -- Number of days for data obscuration in the processing pipeline.
+    dataObscurationDays: -1
 
     # -- The timeout in seconds for a single LLM batch inference.
     vLLMBatchTimeout: 900
@@ -425,7 +427,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.71.9
+    tag: v1.73.4
 
   podAnnotations: { }
   podLabels: { }
@@ -491,7 +493,7 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: "39"
+    version: "41"
   
   modelEmbedding:
     name: "embedding"
@@ -499,7 +501,7 @@ aiModels:
 
   modelTopicClassifier:
     name: "topic-classifier"
-    version: "19"
+    version: "20"
 
   modelActionClassifier:
     name: "action-classifier"
@@ -723,7 +725,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.71.9
+    tag: v1.73.4
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
