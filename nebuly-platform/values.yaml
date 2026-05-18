@@ -427,7 +427,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.73.4
+    tag: v1.73.5
 
   podAnnotations: { }
   podLabels: { }
@@ -725,7 +725,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.73.4
+    tag: v1.73.5
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -1886,7 +1886,7 @@ mcpServer:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-mcp-server
     pullPolicy: IfNotPresent
-    tag: "v0.1.0"
+    tag: "v0.1.2"
 
   # -- Service of the MCP server deployment.
   service:
