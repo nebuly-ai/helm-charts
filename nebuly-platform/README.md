@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.91.3](https://img.shields.io/badge/Version-1.91.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.91.4](https://img.shields.io/badge/Version-1.91.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -595,7 +595,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | mcpServer.apiEndpoint | string | `""` | The API endpoint of the MCP server. This is the URL used by the MCP clients to connect to the server |
 | mcpServer.enabled | bool | `false` | If True, deploy the MCP server. |
 | mcpServer.fullnameOverride | string | `""` |  |
-| mcpServer.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-mcp-server","tag":"v0.1.0"}` | The image to use for the MCP server deployment. |
+| mcpServer.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-mcp-server","tag":"v0.1.2"}` | The image to use for the MCP server deployment. |
 | mcpServer.ingress.annotations | object | `{}` |  |
 | mcpServer.ingress.className | string | `""` |  |
 | mcpServer.ingress.enabled | bool | `false` |  |

@@ -47,7 +47,7 @@ spec:
             - name: "MCP_SERVER_URL"
               value: {{ .Values.mcpServer.apiEndpoint | quote }}
             - name: "TENANT_REGISTRY_URL"
-              value: {{ .Values.frontend.authApiUrl | quote }}
+              value: {{ include "authService.url" . | quote }}
             - name: "AUTHORIZATION_SERVER_URL"
               value: {{ .Values.frontend.rootUrl | quote }}
             - name: "TENANT_REGISTRY_CLIENT_ID"
