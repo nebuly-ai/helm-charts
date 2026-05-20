@@ -119,6 +119,11 @@
   value: {{ .Values.ingestionWorker.settings.dataRetentionDays | quote }}
 - name: DATA_OBSCURATION_DAYS
   value: {{ .Values.ingestionWorker.settings.dataObscurationDays | quote }}
+# Category Generator
+- name: MAX_NUMBER_OF_GENERATION_LOOP
+  value: {{ .Values.ingestionWorker.settings.maxNumberOfGenerationLoop | quote }}
+- name: CATEGORY_GENERATOR_MAX_ITERATIONS
+  value: {{ .Values.ingestionWorker.settings.categoryGeneratorMaxIterations | quote }}
 # AI Models pulling
 {{ include "aiModels.env" . }}
 {{- with .Values.ingestionWorker.env }}

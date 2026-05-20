@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.92.6](https://img.shields.io/badge/Version-1.92.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.92.7](https://img.shields.io/badge/Version-1.92.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -491,7 +491,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.73.6"` |  |
+| ingestionWorker.image.tag | string | `"v1.73.7"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -514,6 +514,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.service.type | string | `"ClusterIP"` |  |
 | ingestionWorker.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the ingestion worker migrations. If not provided, the default `alembic_version` table will be used. |
 | ingestionWorker.settings.categoryEngine | string | `"cluster_based"` | The engine used to generate categories for interactions. Can be "cluster_based", "smart_sample" and "legacy" |
+| ingestionWorker.settings.categoryGeneratorMaxIterations | int | `5` |  |
 | ingestionWorker.settings.dataObscurationDays | int | `-1` | Number of days for data obscuration in the processing pipeline. |
 | ingestionWorker.settings.dataRetentionDays | int | `-1` | The maximum number of days the processing pipeline will keep the data. If set to -1, the data will not be deleted. This parameter only impacts the data seen while processing the data, not the data shown in the platform. |
 | ingestionWorker.settings.enableDbCache | bool | `true` | Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions. |
@@ -521,6 +522,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.settings.enablePiiLlm | bool | `false` | Enable use of LLM (pii-removal) to remove the PII during interaction processing.  |
 | ingestionWorker.settings.enrichInteractionBatchSize | int | `10000` | Batch size of interactions loaded in each step of enrich interactions. |
 | ingestionWorker.settings.entitiesBatchSize | int | `20000` | Batch size of entities loaded in each step of aggregate jobs. |
+| ingestionWorker.settings.maxNumberOfGenerationLoop | int | `2` |  |
 | ingestionWorker.settings.piiDenyList | list | `[]` | List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove. |
 | ingestionWorker.settings.piiEnabledTenants | list | `[]` | List of tenants for which PII detection is enabled. Note that when given this will override the enablePiiLlm setting for the given tenants. |
 | ingestionWorker.settings.startDateActions | string | `"2020-01-01 00:00:00+00:00"` | Start date used to consider existing actions. This feature should only be used to force the processing pipeline to ignore actions created before a given date.  |

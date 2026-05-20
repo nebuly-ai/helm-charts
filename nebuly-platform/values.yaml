@@ -421,13 +421,15 @@ ingestionWorker:
       traceInteraction: true
       feedbackAction: true
       tags: true
+    maxNumberOfGenerationLoop: 2
+    categoryGeneratorMaxIterations: 5
 
 
   replicaCount: 1
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.73.6
+    tag: v1.73.7
 
   podAnnotations: { }
   podLabels: { }
@@ -725,7 +727,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.73.6
+    tag: v1.73.7
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
