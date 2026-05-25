@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.108.7"
+    tag: "v1.108.9"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -727,7 +727,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.73.7
+    tag: v1.73.8
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -1373,6 +1373,22 @@ reprocessing:
     enabled: false
   userIntelligence:
     enabled: false
+ingestion:
+  generateDbEvents:
+    # -- If True, deploy a CronJob to generate DB events. The CronJob is suspended and
+    # configured to never run on schedule; it must be manually triggered.
+    enabled: false
+    # -- Required when enabled — passed as --tenant to scripts/db_event_generator.py.
+    tenant: ""
+    # -- Required when enabled — passed as --start-date (ISO datetime).
+    startDate: ""
+    # -- Required when enabled — passed as --end-date (ISO datetime).
+    endDate: ""
+    resources:
+      requests:
+        cpu: 50m
+      limits:
+        memory: 512Mi
 
 # -- Post-upgrade hooks settings.
 postUpgrade:
