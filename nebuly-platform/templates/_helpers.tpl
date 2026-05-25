@@ -102,6 +102,12 @@ helm.sh/chart: {{ include "nebuly-platform.chart" . }}
 app.kubernetes.io/component: nebuly-backend
 {{- end }}
 
+{{- define "ingestion.generateDbEventsLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+helm.sh/chart: {{ include "nebuly-platform.chart" . }}
+app.kubernetes.io/component: nebuly-backend
+{{- end }}
+
 {{/*
 *********************************************************************
 * Backend

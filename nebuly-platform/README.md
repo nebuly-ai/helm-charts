@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.92.9](https://img.shields.io/badge/Version-1.92.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.92.10](https://img.shields.io/badge/Version-1.92.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -291,7 +291,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.108.7"` |  |
+| backend.image.tag | string | `"v1.108.9"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -484,6 +484,12 @@ The command removes all the Kubernetes components associated with the chart and 
 | fullProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | fullProcessing.settings.processingDelaySeconds | int | `0` | Seconds of delay between processing. |
 | imagePullSecrets | list | `[]` |  |
+| ingestion.generateDbEvents.enabled | bool | `false` | If True, deploy a CronJob to generate DB events. The CronJob is suspended and configured to never run on schedule; it must be manually triggered. |
+| ingestion.generateDbEvents.endDate | string | `""` |  |
+| ingestion.generateDbEvents.resources.limits.memory | string | `"512Mi"` |  |
+| ingestion.generateDbEvents.resources.requests.cpu | string | `"50m"` |  |
+| ingestion.generateDbEvents.startDate | string | `""` |  |
+| ingestion.generateDbEvents.tenant | string | `""` |  |
 | ingestionWorker.affinity | object | `{}` |  |
 | ingestionWorker.deploymentStrategy.type | string | `"Recreate"` |  |
 | ingestionWorker.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |

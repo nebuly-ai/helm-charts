@@ -53,6 +53,10 @@
 {{- if .Values.interactionsAccessControl.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.interactionsAccessControl.mode" .) -}}
 {{- end -}}
+{{/* Generate DB Events */}}
+{{- if .Values.ingestion.generateDbEvents.enabled -}}
+{{- $messages = append $messages (include "chart.validateValues.ingestion.generateDbEvents" .) -}}
+{{- end -}}
 {{/* ClickHouse */}}
 {{- if .Values.clickhouse.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.clickhouse.replicas" .) -}}
@@ -320,6 +324,22 @@ values: backend.settings.multiTenancyMode
 {{- if not (contains .Values.interactionsAccessControl.openDetailsMode "disabled reason") -}}
 values: interactionsAccessControl.mode
   `mode` should be one of the following values: disabled, reason
+{{- end -}}
+{{- end -}}
+
+{{/* Generate DB Events validation. */}}
+{{- define "chart.validateValues.ingestion.generateDbEvents" -}}
+{{- if empty .Values.ingestion.generateDbEvents.tenant -}}
+values: ingestion.generateDbEvents.tenant
+  `tenant` is required when `ingestion.generateDbEvents.enabled` is true
+{{- end -}}
+{{- if empty .Values.ingestion.generateDbEvents.startDate -}}
+values: ingestion.generateDbEvents.startDate
+  `startDate` is required when `ingestion.generateDbEvents.enabled` is true
+{{- end -}}
+{{- if empty .Values.ingestion.generateDbEvents.endDate -}}
+values: ingestion.generateDbEvents.endDate
+  `endDate` is required when `ingestion.generateDbEvents.enabled` is true
 {{- end -}}
 {{- end -}}
 

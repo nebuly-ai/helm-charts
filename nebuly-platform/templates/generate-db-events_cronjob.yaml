@@ -1,0 +1,75 @@
+{{- if .Values.ingestion.generateDbEvents.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ printf "%s-generate-db-events" .Release.Name | trunc 63 | trimSuffix "-" }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "ingestion.generateDbEventsLabels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  schedule: 0 0 30 2 * # Never
+  suspend: true
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "ingestion.generateDbEventsLabels" . | nindent 8 }}
+    spec:
+      template:
+        metadata:
+          {{- with .Values.backend.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          labels:
+            {{- include "ingestion.generateDbEventsLabels" . | nindent 12 }}
+        spec:
+          restartPolicy: Never
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          serviceAccountName: {{ .Values.serviceAccount.name }}
+          securityContext:
+            {{- toYaml .Values.backend.podSecurityContext | nindent 12 }}
+          containers:
+            - name: backend
+              securityContext:
+                {{- toYaml .Values.backend.securityContext | nindent 16 }}
+              image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+              command:
+                - python
+                - scripts/db_event_generator.py
+                - --tenant
+                - {{ .Values.ingestion.generateDbEvents.tenant | quote }}
+                - --start-date
+                - {{ .Values.ingestion.generateDbEvents.startDate | quote }}
+                - --end-date
+                - {{ .Values.ingestion.generateDbEvents.endDate | quote }}
+              resources:
+                {{- toYaml .Values.ingestion.generateDbEvents.resources | nindent 16 }}
+              env:
+                {{- include "backend.commonEnv" . | nindent 16 }}
+              {{- with .Values.backend.volumeMounts }}
+              volumeMounts:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+          {{- with .Values.backend.volumes }}
+          volumes:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.backend.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.backend.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.backend.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+{{- end }}
