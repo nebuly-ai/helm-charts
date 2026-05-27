@@ -33,7 +33,6 @@ kubectl create secret docker-registry \
 kubectl create secret generic nebuly-telemetry \
   --from-literal=telemetry-tenant=<tenant> \
   --from-literal=telemetry-api-key=<api-key> \
-  --from-literal=telemetry-alertmanager-url=<url> \
   --namespace nebuly
 ```
 

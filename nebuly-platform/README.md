@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.92.11](https://img.shields.io/badge/Version-1.92.11-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.92.12](https://img.shields.io/badge/Version-1.92.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -30,7 +30,6 @@ kubectl create secret docker-registry \
 kubectl create secret generic nebuly-telemetry \
   --from-literal=telemetry-tenant=<tenant> \
   --from-literal=telemetry-api-key=<api-key> \
-  --from-literal=telemetry-alertmanager-url=<url> \
   --namespace nebuly
 ```
 
@@ -628,12 +627,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | mcpServer.service | object | `{"port":80,"type":"ClusterIP"}` | Service of the MCP server deployment. |
 | mcpServer.tolerations | list | `[]` |  |
 | monitoring | object | - | Settings related to the Monitoring CronJob. |
-| monitoring.alertmanagerUrl | string | `""` | The URL of the Alertmanager to which alerts will be sent. |
 | monitoring.customerName | string | `""` | The name of the customer displayed in the monitoring alerts. |
 | monitoring.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
-| monitoring.excludeJobs | string | `"red_alert.check_pii,red_alert.check_processing_delay"` | Comma-separated list of job names to be excluded from monitoring. |
+| monitoring.excludeJobs | string | `""` | Comma-separated list of job names to be excluded from monitoring. |
 | monitoring.includeJobs | string | `""` | Comma-separated list of job names to be included in monitoring. |
-| monitoring.proxyUrl | string | `""` | The URL of the proxy to use for sending alerts. If not provided, the alerts will be sent directly to the Alertmanager. |
+| monitoring.proxyUrl | string | `""` | The URL of the proxy to use for sending alerts. |
 | monitoring.schedule | string | `"0 22 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
 | monitoring.timezone | string | `""` | The timezone of the CronJob. If not provided, the default timezone of the Kubernetes cluster will be used. |
 | namespaceOverride | string | `""` | Override the namespace. |
@@ -693,7 +691,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | telemetry.apiKey | string | `""` | The API key used to authenticate with the telemetry service. To be provided only when not using an existing secret (see telemetry.existingSecret value below). |
 | telemetry.enabled | bool | `true` | If True, enable telemetry collection. Collected telemetry data consists of anonymous usage statistics and error reports. |
 | telemetry.existingSecret | object | - | Use an existing secret for telemetry credentials. |
-| telemetry.existingSecret.alertmanagerUrlKey | string | `"telemetry-alertmanager-url"` | The key of the secret containing the URL of the Alertmanager to which alerts will be sent. |
 | telemetry.existingSecret.apiKeyKey | string | `"telemetry-api-key"` | The key of the secret containing the API key. |
 | telemetry.existingSecret.name | string | `"nebuly-telemetry"` | Name of the secret. |
 | telemetry.existingSecret.tenantKey | string | `"telemetry-tenant"` | The key of the secret containing the tenant code. |
