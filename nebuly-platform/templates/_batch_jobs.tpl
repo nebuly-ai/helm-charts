@@ -66,3 +66,19 @@
 - name: ENABLE_ENRICH_CONVERSATION
   value: "false"
 {{- end -}}
+
+{{- define "primaryProcessing.shmVolumeMount" -}}
+{{- if .Values.primaryProcessing.shmSize }}
+- name: dshm
+  mountPath: /dev/shm
+{{- end }}
+{{- end -}}
+
+{{- define "primaryProcessing.shmVolume" -}}
+{{- if .Values.primaryProcessing.shmSize }}
+- name: dshm
+  emptyDir:
+    medium: Memory
+    sizeLimit: {{ .Values.primaryProcessing.shmSize }}
+{{- end }}
+{{- end -}}

@@ -482,6 +482,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | fullProcessing.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
 | fullProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | fullProcessing.settings.processingDelaySeconds | int | `0` | Seconds of delay between processing. |
+| fullProcessing.shmSize | string | `"1Gi"` | Size of the memory-backed `/dev/shm` volume mounted in the full-processing pod. Required by the processing pipeline (e.g. LLM inference) that relies on shared memory. Note: a memory-backed emptyDir counts against the container memory limit. Set to empty/null to disable the volume. |
 | imagePullSecrets | list | `[]` |  |
 | ingestion.generateDbEvents.enabled | bool | `false` | If True, deploy a CronJob to generate DB events. The CronJob is suspended and configured to never run on schedule; it must be manually triggered. |
 | ingestion.generateDbEvents.endDate | string | `""` |  |
@@ -652,6 +653,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | primaryProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | primaryProcessing.modelsCache | object | `{"enabled":false,"size":"128Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
 | primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| primaryProcessing.shmSize | string | `"1Gi"` | Size of the memory-backed `/dev/shm` volume mounted in the primary processing pods. Required by the processing pipeline (e.g. LLM inference) that relies on shared memory. Note: a memory-backed emptyDir counts against the container memory limit. Set to empty/null to disable the volume. |
 | primaryProcessing.timezone | string | `""` | The timezone of the CronJob. If not provided, the default timezone of the Kubernetes cluster will be used. |
 | redis.auth | object | `{"password":"nebuly"}` | Password for the Redis instance. |
 | redis.enabled | bool | `false` | If True, deploy a Redis instance together with the platform services. |

@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.92.13
+
+### Features
+* Mount a memory-backed `/dev/shm` volume (default `1Gi`) on the full-processing deployment and the primary processing CronJobs. Configurable via `fullProcessing.shmSize` and `primaryProcessing.shmSize`.
+
 ## v1.83.0
 
 ### Features

@@ -66,6 +66,10 @@ spec:
             - name: models-cache
               mountPath: /var/cache/nebuly
               readOnly: false
+          {{- if .Values.fullProcessing.shmSize }}
+            - name: dshm
+              mountPath: /dev/shm
+          {{- end }}
           {{- if not .Values.kafka.external }}
             - name: kafka-cluster-ca-cert
               mountPath: "/etc/kafka"
@@ -84,6 +88,12 @@ spec:
             claimName: {{ include "fullProcessing.modelsCache.name" . }}
       {{- else }}
           emptyDir: { }
+      {{- end }}
+      {{- if .Values.fullProcessing.shmSize }}
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: {{ .Values.fullProcessing.shmSize }}
       {{- end }}
       {{- if not .Values.kafka.external }}
         - name: kafka-cluster-ca-cert

@@ -71,6 +71,7 @@ spec:
                 - name: models-cache
                   mountPath: /var/cache/nebuly
                   readOnly: false
+              {{- include "primaryProcessing.shmVolumeMount" . | nindent 16 }}
               {{- with .Values.primaryProcessing.volumeMounts }}
                 {{- toYaml . | nindent 18 }}
               {{- end }}
@@ -89,6 +90,7 @@ spec:
           {{- else }}
               emptyDir: { }
           {{- end }}
+          {{- include "primaryProcessing.shmVolume" . | nindent 12 }}
           {{- with .Values.primaryProcessing.volumes }}
             {{- toYaml . | nindent 14 }}
           {{- end }}
