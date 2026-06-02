@@ -45,6 +45,12 @@ spec:
                 {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
               image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
               command:
+              {{- if .Values.primaryProcessing.nofileLimit }}
+                - sh
+                - -c
+                - "ulimit -n {{ .Values.primaryProcessing.nofileLimit }}; exec \"$@\""
+                - "--"
+              {{- end }}
                 - python
                 - minkmaze
                 - jobs
@@ -71,6 +77,7 @@ spec:
                 - name: models-cache
                   mountPath: /var/cache/nebuly
                   readOnly: false
+              {{- include "primaryProcessing.shmVolumeMount" . | nindent 16 }}
               {{- with .Values.primaryProcessing.volumeMounts }}
                 {{- toYaml . | nindent 18 }}
               {{- end }}
@@ -89,6 +96,7 @@ spec:
           {{- else }}
               emptyDir: { }
           {{- end }}
+          {{- include "primaryProcessing.shmVolume" . | nindent 12 }}
           {{- with .Values.primaryProcessing.volumes }}
             {{- toYaml . | nindent 14 }}
           {{- end }}

@@ -46,7 +46,15 @@ spec:
               securityContext:
                 {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
               image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
-              command: [ "python", "jobs/process_all.py" ]
+              command:
+              {{- if .Values.primaryProcessing.nofileLimit }}
+                - sh
+                - -c
+                - "ulimit -n {{ .Values.primaryProcessing.nofileLimit }}; exec \"$@\""
+                - "--"
+              {{- end }}
+                - python
+                - jobs/process_all.py
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
               {{- if .Values.primaryProcessing.env }}
@@ -67,6 +75,7 @@ spec:
                 - name: models-cache
                   mountPath: /var/cache/nebuly
                   readOnly: false
+              {{- include "primaryProcessing.shmVolumeMount" . | nindent 16 }}
               {{- with .Values.primaryProcessing.volumeMounts }}
                 {{- toYaml . | nindent 18 }}
               {{- end }}
@@ -85,6 +94,7 @@ spec:
           {{- else }}
               emptyDir: { }
           {{- end }}
+          {{- include "primaryProcessing.shmVolume" . | nindent 12 }}
           {{- with .Values.primaryProcessing.volumes }}
             {{- toYaml . | nindent 14 }}
           {{- end }}

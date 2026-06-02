@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.92.12](https://img.shields.io/badge/Version-1.92.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.92.13](https://img.shields.io/badge/Version-1.92.13-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -477,11 +477,13 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.useFaviconAsLogo | bool | `false` |  |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
-| fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"settings":{"processingDelaySeconds":0},"tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | Settings related to the runtime full-processing mode, which replaces the primary and secondary processing CronJobs with an always running Deployment. |
+| fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"nofileLimit":50000,"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"settings":{"processingDelaySeconds":0},"shmSize":"1Gi","tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | Settings related to the runtime full-processing mode, which replaces the primary and secondary processing CronJobs with an always running Deployment. |
 | fullProcessing.enabled | bool | `false` | If true, replaces the processing CronJobs with an always running Deployment. |
 | fullProcessing.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
 | fullProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
+| fullProcessing.nofileLimit | int | `50000` | Soft limit for the maximum number of open file descriptors (`ulimit -n`) set before launching the process. Requires the container runtime/node hard limit (RLIMIT_NOFILE hard) to be at least this value. Set to empty/null to leave the default. |
 | fullProcessing.settings.processingDelaySeconds | int | `0` | Seconds of delay between processing. |
+| fullProcessing.shmSize | string | `"1Gi"` | Size of the memory-backed `/dev/shm` volume mounted in the full-processing pod. Required by the processing pipeline (e.g. LLM inference) that relies on shared memory. Note: a memory-backed emptyDir counts against the container memory limit. Set to empty/null to disable the volume. |
 | imagePullSecrets | list | `[]` |  |
 | ingestion.generateDbEvents.enabled | bool | `false` | If True, deploy a CronJob to generate DB events. The CronJob is suspended and configured to never run on schedule; it must be manually triggered. |
 | ingestion.generateDbEvents.endDate | string | `""` |  |
@@ -651,7 +653,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | primaryProcessing.env | object | `{}` | Additional environment variables, in the standard Kubernetes format. Example: - name: MY_ENV_VAR   value: "my-value" |
 | primaryProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | primaryProcessing.modelsCache | object | `{"enabled":false,"size":"128Gi","storageClassName":""}` | Settings of the PVC used to cache AI models. |
+| primaryProcessing.nofileLimit | int | `50000` | Soft limit for the maximum number of open file descriptors (`ulimit -n`) set before launching the process. Requires the container runtime/node hard limit (RLIMIT_NOFILE hard) to be at least this value. Set to empty/null to leave the default. |
 | primaryProcessing.schedule | string | `"0 23 * * *"` | The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule. |
+| primaryProcessing.shmSize | string | `"1Gi"` | Size of the memory-backed `/dev/shm` volume mounted in the primary processing pods. Required by the processing pipeline (e.g. LLM inference) that relies on shared memory. Note: a memory-backed emptyDir counts against the container memory limit. Set to empty/null to disable the volume. |
 | primaryProcessing.timezone | string | `""` | The timezone of the CronJob. If not provided, the default timezone of the Kubernetes cluster will be used. |
 | redis.auth | object | `{"password":"nebuly"}` | Password for the Redis instance. |
 | redis.enabled | bool | `false` | If True, deploy a Redis instance together with the platform services. |
