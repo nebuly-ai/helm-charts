@@ -45,6 +45,12 @@ spec:
                 {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
               image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
               command:
+              {{- if .Values.primaryProcessing.nofileLimit }}
+                - sh
+                - -c
+                - "ulimit -n {{ .Values.primaryProcessing.nofileLimit }}; exec \"$@\""
+                - "--"
+              {{- end }}
                 - python
                 - minkmaze
                 - process

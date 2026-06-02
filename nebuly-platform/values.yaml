@@ -694,6 +694,11 @@ fullProcessing:
   # empty/null to disable the volume.
   shmSize: 1Gi
 
+  # -- Soft limit for the maximum number of open file descriptors (`ulimit -n`) set
+  # before launching the process. Requires the container runtime/node hard limit
+  # (RLIMIT_NOFILE hard) to be at least this value. Set to empty/null to leave the default.
+  nofileLimit: 50000
+
   podSecurityContext:
     runAsNonRoot: true
     fsGroup: 101
@@ -771,6 +776,11 @@ primaryProcessing:
   # Note: a memory-backed emptyDir counts against the container memory limit. Set to
   # empty/null to disable the volume.
   shmSize: 1Gi
+
+  # -- Soft limit for the maximum number of open file descriptors (`ulimit -n`) set
+  # before launching the process. Requires the container runtime/node hard limit
+  # (RLIMIT_NOFILE hard) to be at least this value. Set to empty/null to leave the default.
+  nofileLimit: 50000
 
   resources:
     requests:

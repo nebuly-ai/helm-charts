@@ -4,6 +4,7 @@
 
 ### Features
 * Mount a memory-backed `/dev/shm` volume (default `1Gi`) on the full-processing deployment and the primary processing CronJobs. Configurable via `fullProcessing.shmSize` and `primaryProcessing.shmSize`.
+* Raise the open-file-descriptor soft limit (`ulimit -n`, default `50000`) for the full-processing deployment and the primary processing CronJobs. Configurable via `fullProcessing.nofileLimit` and `primaryProcessing.nofileLimit`.
 
 ## v1.83.0
 
