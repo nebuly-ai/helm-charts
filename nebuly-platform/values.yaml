@@ -495,15 +495,15 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: "41"
+    version: "42"
   
   modelEmbedding:
     name: "embedding"
-    version: "1"
+    version: "2"
 
   modelTopicClassifier:
     name: "topic-classifier"
-    version: "20"
+    version: "21"
 
   modelActionClassifier:
     name: "action-classifier"
@@ -515,7 +515,7 @@ aiModels:
 
   modelPiiRemoval:
     name: "pii-removal"
-    version: "7"
+    version: "8"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
@@ -738,7 +738,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.73.8
+    tag: v1.75.2
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
