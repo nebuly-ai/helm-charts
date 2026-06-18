@@ -94,10 +94,6 @@
 - name: TAGS_TASK
   value: {{ .Values.ingestionWorker.settings.tasks.tags | quote }}
 # PII Removal
-- name: LANGUAGE_DETECTION_MODEL_NAME
-  value: {{ .Values.aiModels.modelLanguageDetection.name | quote }}
-- name: LANGUAGE_DETECTION_MODEL_VERSION
-  value: {{ .Values.aiModels.modelLanguageDetection.version | quote }}
 - name: PII_ENABLE_LANGUAGE_DETECTION
   value: {{ .Values.ingestionWorker.settings.enablePiiLanguageDetection | quote }}
 - name: ENABLE_ADVANCE_PII

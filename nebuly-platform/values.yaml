@@ -275,7 +275,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: "v1.17.0"
+    tag: "v1.18.1"
 
   podAnnotations: { }
   podLabels: { }
@@ -505,14 +505,6 @@ aiModels:
     name: "topic-classifier"
     version: "21"
 
-  modelActionClassifier:
-    name: "action-classifier"
-    version: "6"
-
-  modelLanguageDetection:
-    name: "language-detection"
-    version: "2"
-
   modelPiiRemoval:
     name: "pii-removal"
     version: "8"
@@ -578,7 +570,7 @@ aiModels:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-models-sync
       pullPolicy: IfNotPresent
-      tag: v0.4.1
+      tag: v0.5.1
     resources:
       requests:
         memory: 4Gi
@@ -694,11 +686,6 @@ fullProcessing:
   # empty/null to disable the volume.
   shmSize: 1Gi
 
-  # -- Soft limit for the maximum number of open file descriptors (`ulimit -n`) set
-  # before launching the process. Requires the container runtime/node hard limit
-  # (RLIMIT_NOFILE hard) to be at least this value. Set to empty/null to leave the default.
-  nofileLimit: 50000
-
   podSecurityContext:
     runAsNonRoot: true
     fsGroup: 101
@@ -776,11 +763,6 @@ primaryProcessing:
   # Note: a memory-backed emptyDir counts against the container memory limit. Set to
   # empty/null to disable the volume.
   shmSize: 1Gi
-
-  # -- Soft limit for the maximum number of open file descriptors (`ulimit -n`) set
-  # before launching the process. Requires the container runtime/node hard limit
-  # (RLIMIT_NOFILE hard) to be at least this value. Set to empty/null to leave the default.
-  nofileLimit: 50000
 
   resources:
     requests:

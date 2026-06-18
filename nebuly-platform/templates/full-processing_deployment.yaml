@@ -40,12 +40,6 @@ spec:
           securityContext:
             {{- toYaml .Values.fullProcessing.securityContext | nindent 12 }}
           command:
-          {{- if .Values.fullProcessing.nofileLimit }}
-            - sh
-            - -c
-            - "ulimit -n {{ .Values.fullProcessing.nofileLimit }}; exec \"$@\""
-            - "--"
-          {{- end }}
             - python
             - entrypoints/entrypoint_loop_jobs.py
           image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"

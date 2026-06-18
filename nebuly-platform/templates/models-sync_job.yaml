@@ -45,8 +45,6 @@ spec:
             - {{ .Values.aiModels.modelInferenceInteractions.name }}:{{ .Values.aiModels.modelInferenceInteractions.version }}
             - {{ .Values.aiModels.modelEmbedding.name }}:{{ .Values.aiModels.modelEmbedding.version }}
             - {{ .Values.aiModels.modelTopicClassifier.name }}:{{ .Values.aiModels.modelTopicClassifier.version }}
-            - {{ .Values.aiModels.modelActionClassifier.name }}:{{ .Values.aiModels.modelActionClassifier.version }}
-            - {{ .Values.aiModels.modelLanguageDetection.name }}:{{ .Values.aiModels.modelLanguageDetection.version }}
             - {{ .Values.aiModels.modelPiiRemoval.name }}:{{ .Values.aiModels.modelPiiRemoval.version }}
             - --target-registry
             - {{ .Values.aiModels.registry }}
@@ -88,6 +86,11 @@ spec:
             {{- if eq .Values.aiModels.registry "gcp_bucket" }}
             {{- include "aiModels.gcp.env" . | nindent 12 }}
             {{- end }}
+            # -- OpenTelemetry
+            - name: OTEL_ENABLED
+              value: {{ .Values.collector.enabled | quote }}
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: {{ include "nebuly-platform.collectorEndpoint" . | quote }}
             {{ if .Values.aiModels.sync.env }}
             {{- toYaml .Values.aiModels.sync.env | nindent 12 }}
             {{ end }}
