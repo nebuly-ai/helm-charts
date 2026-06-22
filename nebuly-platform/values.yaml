@@ -1904,7 +1904,7 @@ mcpServer:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-mcp-server
     pullPolicy: IfNotPresent
-    tag: "v0.1.6"
+    tag: "v0.2.2"
 
   # -- Service of the MCP server deployment.
   service:
