@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.94.5](https://img.shields.io/badge/Version-1.94.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.95.0](https://img.shields.io/badge/Version-1.95.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -290,7 +290,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.112.6"` |  |
+| backend.image.tag | string | `"v1.113.6"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -446,7 +446,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.78.1"` |  |
+| frontend.image.tag | string | `"v1.79.2"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -497,7 +497,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.77.1"` |  |
+| ingestionWorker.image.tag | string | `"v1.77.2"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -604,7 +604,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | mcpServer.apiEndpoint | string | `""` | The API endpoint of the MCP server. This is the URL used by the MCP clients to connect to the server |
 | mcpServer.enabled | bool | `false` | If True, deploy the MCP server. |
 | mcpServer.fullnameOverride | string | `""` |  |
-| mcpServer.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-mcp-server","tag":"v0.2.2"}` | The image to use for the MCP server deployment. |
+| mcpServer.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-mcp-server","tag":"v0.2.3"}` | The image to use for the MCP server deployment. |
 | mcpServer.ingress.annotations | object | `{}` |  |
 | mcpServer.ingress.className | string | `""` |  |
 | mcpServer.ingress.enabled | bool | `false` |  |
