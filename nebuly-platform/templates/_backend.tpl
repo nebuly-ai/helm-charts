@@ -198,4 +198,6 @@
   value: {{ .Values.remoteAccess.enabled | quote }}
 - name: REMOTE_ACCESS_AGENT_URL
   value: {{ include "remoteAccess.url" . | quote }}
+- name: PLATFORM_VERSION
+  value: {{ printf "v%s" .Chart.Version | quote }}
 {{- end -}}
