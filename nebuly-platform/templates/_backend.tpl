@@ -200,4 +200,6 @@
   value: {{ include "remoteAccess.url" . | quote }}
 - name: PLATFORM_VERSION
   value: {{ printf "v%s" .Chart.Version | quote }}
+- name: APP_URL
+  value: {{ .Values.frontend.rootUrl | quote }}
 {{- end -}}
