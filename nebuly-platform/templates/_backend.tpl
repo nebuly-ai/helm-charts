@@ -157,10 +157,8 @@
 - name: ROOT_PATH
   value: "{{ .Values.backend.rootPath }}"
 {{- end }}
-{{- if .Values.backend.corsAllowOrigins }}
 - name: CORS_ALLOW_ORIGINS
-  value: {{ .Values.backend.corsAllowOrigins | toJson | quote }}
-{{- end }}
+  value: {{ append .Values.auth.corsAllowOrigins (printf "https://v2.%s" (index .Values.auth.ingress.hosts 0).host) | toJson | quote }}
 {{- if and .Values.clickhouse.enabled .Values.clickhouse.active }}
 - name: CLICKHOUSE_ENABLED
   value: "true"
@@ -201,5 +199,5 @@
 - name: PLATFORM_VERSION
   value: {{ printf "v%s" .Chart.Version | quote }}
 - name: APP_URL
-  value: {{ .Values.frontend.rootUrl | quote }}
+  value: {{ include "frontend.v2.url" . | quote }}
 {{- end -}}
