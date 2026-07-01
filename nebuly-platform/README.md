@@ -475,7 +475,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.title | string | `"Nebuly"` | The title of the application. |
 | frontend.tolerations | list | `[]` |  |
 | frontend.useFaviconAsLogo | bool | `false` |  |
-| frontend.v2.enabled | bool | `true` | If true, enable the v1 of the frontend. This will create a separate deployment for the v1 of the frontend, which will run alongside the default one. The v1 of the frontend is used for testing new features and for gradual rollouts. |
+| frontend.v2.enabled | bool | `true` | This will create a separate deployment, which will run alongside the default one. |
 | frontend.v2.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.v2.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
 | frontend.v2.image.tag | string | `"v2.2.8"` |  |

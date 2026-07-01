@@ -193,7 +193,8 @@ frontend:
     tag: "v1.80.2"
 
   v2:
-    # -- If true, enable the v1 of the frontend. This will create a separate deployment for the v1 of the frontend, which will run alongside the default one. The v1 of the frontend is used for testing new features and for gradual rollouts.
+    # -- If true, enable the v2 of the frontend. 
+    # -- This will create a separate deployment, which will run alongside the default one.
     enabled: true
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
