@@ -29,7 +29,7 @@ spec:
   {{- if and .Values.frontend.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.frontend.ingress.className }}
   {{- end }}
-  #{{- if .Values.frontend.ingress.tls }}
+  {{- if .Values.frontend.ingress.tls }}
   tls:
     {{- range .Values.frontend.ingress.tls }}
     - hosts:
@@ -38,7 +38,7 @@ spec:
         {{- end }}
       secretName: {{ .secretName }}-v2
     {{- end }}
-  #{{- end }}
+  {{- end }}
   rules:
     {{- range .Values.frontend.ingress.hosts }}
     - host: {{ printf "v2.%s" .host | quote }}
