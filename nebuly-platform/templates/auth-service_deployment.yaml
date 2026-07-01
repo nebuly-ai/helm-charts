@@ -101,7 +101,7 @@ spec:
             # CORS
             {{- if .Values.auth.corsAllowOrigins }}
             - name: CORS_ALLOW_ORIGINS
-              value: {{ append .Values.auth.corsAllowOrigins (printf "https://v2.%s" (index .Values.auth.ingress.hosts 0).host) | toJson | quote }}
+              value: {{ append .Values.auth.corsAllowOrigins (include "frontend.v2.url" .) | toJson | quote }}
             {{- end }}
             # Auth
             - name: "JWT_SIGNING_KEY_PATH"
