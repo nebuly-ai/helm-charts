@@ -158,7 +158,7 @@
   value: "{{ .Values.backend.rootPath }}"
 {{- end }}
 - name: CORS_ALLOW_ORIGINS
-  value: {{ append .Values.auth.corsAllowOrigins (printf "https://v2.%s" (index .Values.auth.ingress.hosts 0).host) | toJson | quote }}
+  value: {{ append .Values.backend.corsAllowOrigins (include "frontend.v2.url" .) | toJson | quote }}
 {{- if and .Values.clickhouse.enabled .Values.clickhouse.active }}
 - name: CLICKHOUSE_ENABLED
   value: "true"
