@@ -190,7 +190,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.80.2"
+    tag: "v1.80.4"
 
   v2:
     # -- If true, enable the v2 of the frontend. 
