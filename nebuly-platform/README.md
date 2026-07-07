@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.97.2](https://img.shields.io/badge/Version-1.97.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.97.3](https://img.shields.io/badge/Version-1.97.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -488,12 +488,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | fullProcessing.settings.processingDelaySeconds | int | `0` | Seconds of delay between processing. |
 | fullProcessing.shmSize | string | `"1Gi"` | Size of the memory-backed `/dev/shm` volume mounted in the full-processing pod. Required by the processing pipeline (e.g. LLM inference) that relies on shared memory. Note: a memory-backed emptyDir counts against the container memory limit. Set to empty/null to disable the volume. |
 | imagePullSecrets | list | `[]` |  |
+| ingestion | object | `{"generateDbEvents":{"enabled":false,"endDate":"","resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}},"startDate":"","tenant":""}}` | Settings for ingestion jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
 | ingestion.generateDbEvents.enabled | bool | `false` | If True, deploy a CronJob to generate DB events. The CronJob is suspended and configured to never run on schedule; it must be manually triggered. |
-| ingestion.generateDbEvents.endDate | string | `""` |  |
-| ingestion.generateDbEvents.resources.limits.memory | string | `"512Mi"` |  |
-| ingestion.generateDbEvents.resources.requests.cpu | string | `"50m"` |  |
-| ingestion.generateDbEvents.startDate | string | `""` |  |
-| ingestion.generateDbEvents.tenant | string | `""` |  |
 | ingestionWorker.affinity | object | `{}` |  |
 | ingestionWorker.deploymentStrategy.type | string | `"Recreate"` |  |
 | ingestionWorker.env | object | `{}` | Example: - name: MY_ENV_VAR   value: "my-value" |
@@ -648,6 +644,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
 | openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
 | openAi.gpt4oDeployment | string | `""` | For Azure OpenAI: the name of the GPT-4o deployment. For OpenAI: `gpt-4o`. |
+| openAi.gpt5Deployment | string | `""` | For Azure OpenAI: the name of the GPT-5 deployment. For OpenAI: `gpt-5`. |
 | openAi.translationDeployment | string | `""` | For Azure OpenAI: the name of the OpenAI Deployment used to translate interactions. For OpenAI: the name of the OpenAI model used to translate interactions. |
 | postUpgrade | object | `{"migrateInteractionEdits":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}},"refreshRoTables":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}}}` | Post-upgrade hooks settings. |
 | postUpgrade.migrateInteractionEdits | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}}` | If True, run a post-install job that migrates the interaction edits logs. |
@@ -682,7 +679,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | remoteAccess.sentry.environment | string | `""` | The name of the Sentry environment. |
 | remoteAccess.service | object | `{"port":80,"type":"ClusterIP"}` | Service of the remote access agent deployment. |
 | remoteAccess.tolerations | list | `[]` |  |
-| reprocessing | object | `{"interactions":{"enabled":false},"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | Settings for data reprocessing jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
+| reprocessing | object | `{"all":{"enabled":false},"interactions":{"enabled":false},"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | Settings for data reprocessing jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.existingSecret | object | - | Use an existing secret for the Azure Key Vault authentication. |

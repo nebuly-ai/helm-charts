@@ -54,6 +54,8 @@
   value: "{{ .Values.openAi.gpt4oDeployment }}"
 - name: OPENAI_DEPLOYMENT_GPT4O
   value: {{ .Values.openAi.gpt4oDeployment | quote }}
+- name: OPENAI_DEPLOYMENT_GPT5
+  value: {{ .Values.openAi.gpt5Deployment | quote }}
 - name: OPENAI_API_KEY
   valueFrom:
     secretKeyRef:
