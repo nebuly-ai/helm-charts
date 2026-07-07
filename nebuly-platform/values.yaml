@@ -883,6 +883,9 @@ openAi:
   # -- For Azure OpenAI: the name of the GPT-4o deployment.
   # For OpenAI: `gpt-4o`.
   gpt4oDeployment: ""
+  # -- For Azure OpenAI: the name of the GPT-5 deployment.
+  # For OpenAI: `gpt-5`.
+  gpt5Deployment: ""
   # -- For Azure OpenAI: the name of the OpenAI Deployment used to translate interactions.
   # For OpenAI: the name of the OpenAI model used to translate interactions.
   translationDeployment: ""
@@ -1373,6 +1376,8 @@ auth:
 # everything disabled by default unless you're upgrading the platform to a major
 # release.
 reprocessing:
+  all:
+    enabled: false
   interactions:
     enabled: false
   modelSuggestions:
@@ -1381,6 +1386,10 @@ reprocessing:
     enabled: false
   userIntelligence:
     enabled: false
+
+# -- Settings for ingestion jobs required during major platform upgrades. Keep
+# everything disabled by default unless you're upgrading the platform to a major
+# release.
 ingestion:
   generateDbEvents:
     # -- If True, deploy a CronJob to generate DB events. The CronJob is suspended and
