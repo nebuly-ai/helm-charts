@@ -40,7 +40,8 @@ spec:
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
           command:
             - python
-            - app/backend_pre_start.py
+            - -m
+            - app.backend_pre_start
           env:
             # Common env
             {{ include "backend.commonEnv" . | nindent 12 }}
