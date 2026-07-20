@@ -1820,13 +1820,6 @@ collector:
             max_recv_msg_size_mib: 32
           http:
             endpoint: 0.0.0.0:4318
-      # Kubernetes workload metrics (pods, deployments, cronjobs, jobs, etc.)
-      # scoped to the platform namespace only. Cluster-scoped resources (nodes,
-      # namespaces, PVs) are not collected when namespaces is set.
-      k8s_cluster:
-        collection_interval: 30s
-        namespaces:
-          - ${env:OTEL_K8S_NAMESPACE}
       # Scrapes ClickHouse metrics from:
       # - Altinity metrics-exporter Service (ch-metrics :8888)
       # - clickhouse-backup sidecar (clickhouse.backup/* annotations)
@@ -1878,18 +1871,18 @@ collector:
         send_batch_max_size: 2048
         send_batch_size: 1024
         timeout: 5s
-      resourcedetection:
+      resource_detection:
         detectors: [gcp, azure]
         timeout: 5s
         override: false
-      resourcedetection/eks:
+      resource_detection/eks:
         detectors: [eks]
         timeout: 15s
         override: false
         eks:
           node_from_env_var: OTEL_K8S_NODE_NAME
     exporters:
-      prometheusremotewrite:
+      prometheus_remote_write:
         endpoint: "https://prometheus.monitor.nebuly.com/api/v1/write"
         auth:
           authenticator: basicauth/prw
@@ -1898,22 +1891,41 @@ collector:
         external_labels:
           platform_nebuly_com_version: "${env:PLATFORM_VERSION}"
           platform_nebuly_com_hosting: "${env:TELEMETRY_TENANT}"
-      debug:
-        verbosity: normal
+      nop: {}
     service:
       telemetry:
         logs:
           level: info
+        resource:
+          host.name: null
+          k8s.namespace.name: null
+          k8s.node.ip: null
+          k8s.node.name: null
+          k8s.pod.ip: null
+          k8s.pod.name: null
+          attributes:
+            - name: k8s.namespace.name
+              value: "${env:OTEL_K8S_NAMESPACE}"
+            - name: k8s.node.name
+              value: "${env:OTEL_K8S_NODE_NAME}"
+            - name: k8s.node.ip
+              value: "${env:OTEL_K8S_NODE_IP}"
+            - name: k8s.pod.name
+              value: "${env:OTEL_K8S_POD_NAME}"
+            - name: k8s.pod.ip
+              value: "${env:OTEL_K8S_POD_IP}"
+            - name: host.name
+              value: "${env:OTEL_K8S_NODE_NAME}"
       extensions: [health_check, basicauth/prw]
       pipelines:
         traces:
           receivers: [otlp]
           processors: [memory_limiter, batch]
-          exporters: [debug]
+          exporters: [nop]
         metrics:
-          receivers: [otlp, prometheus/clickhouse, k8s_cluster]
-          processors: [memory_limiter, resourcedetection, batch]
-          exporters: [prometheusremotewrite]
+          receivers: [otlp, prometheus/clickhouse]
+          processors: [memory_limiter, resource_detection, batch]
+          exporters: [prometheus_remote_write]
   podLabels:
     app.kubernetes.io/part-of: "nebuly-platform"
     app.kubernetes.io/component: "nebuly-collector"

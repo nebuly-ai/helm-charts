@@ -10,5 +10,4 @@ metadata:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 data:
   PLATFORM_VERSION: {{ printf "v%s" .Chart.Version | quote }}
-  OTEL_K8S_NAMESPACE: {{ include "nebuly-platform.namespace" . }}
 {{- end }}

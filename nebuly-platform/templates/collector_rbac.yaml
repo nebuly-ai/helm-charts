@@ -9,38 +9,16 @@ metadata:
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 rules:
-  # Required for prometheus/clickhouse scrape discovery and k8s_cluster metrics.
+  # Required for prometheus/clickhouse scrape discovery (pods + endpoints).
   - apiGroups: [""]
     resources:
-      - events
       - endpoints
-      - persistentvolumeclaims
       - pods
-      - pods/status
-      - replicationcontrollers
-      - replicationcontrollers/status
-      - resourcequotas
       - services
     verbs: ["get", "list", "watch"]
   - apiGroups: ["discovery.k8s.io"]
     resources:
       - endpointslices
-    verbs: ["get", "list", "watch"]
-  - apiGroups: ["apps"]
-    resources:
-      - daemonsets
-      - deployments
-      - replicasets
-      - statefulsets
-    verbs: ["get", "list", "watch"]
-  - apiGroups: ["batch"]
-    resources:
-      - jobs
-      - cronjobs
-    verbs: ["get", "list", "watch"]
-  - apiGroups: ["autoscaling"]
-    resources:
-      - horizontalpodautoscalers
     verbs: ["get", "list", "watch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
