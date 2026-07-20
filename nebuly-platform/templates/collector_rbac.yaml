@@ -1,0 +1,41 @@
+{{- if .Values.collector.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "collector.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "collector.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+rules:
+  # Required for prometheus/clickhouse scrape discovery (pods + endpoints).
+  - apiGroups: [""]
+    resources:
+      - endpoints
+      - pods
+      - services
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["discovery.k8s.io"]
+    resources:
+      - endpointslices
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "collector.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "collector.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "collector.fullname" . }}
+    namespace: {{ include "nebuly-platform.namespace" . }}
+roleRef:
+  kind: Role
+  name: {{ include "collector.fullname" . }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}

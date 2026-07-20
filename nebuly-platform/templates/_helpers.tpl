@@ -70,6 +70,10 @@ nebuly.com/release-name: {{ .Release.Name }}
 {{- printf "http://%s-collector:4317" .Release.Name -}}
 {{- end }}
 
+{{- define "collector.fullname" -}}
+{{- printf "%s-collector" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end }}
+
 {{- define "collector.labels" -}}
 {{- include "collector.selectorLabels" . }}
 {{- end }}
