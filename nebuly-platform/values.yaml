@@ -1790,7 +1790,7 @@ collector:
   mode: deployment
   image:
     repository: "otel/opentelemetry-collector-contrib"
-    tag: "0.150.1"
+    tag: "0.154.0"
   extraEnvsFrom:
     - configMapRef:
         name: "nebuly-collector-env"
@@ -1820,6 +1820,55 @@ collector:
             max_recv_msg_size_mib: 32
           http:
             endpoint: 0.0.0.0:4318
+      # Kubernetes workload metrics (pods, deployments, cronjobs, jobs, etc.)
+      # scoped to the platform namespace only. Cluster-scoped resources (nodes,
+      # namespaces, PVs) are not collected when namespaces is set.
+      k8s_cluster:
+        collection_interval: 30s
+        namespaces:
+          - ${env:OTEL_K8S_NAMESPACE}
+      # Scrapes ClickHouse metrics from:
+      # - Altinity metrics-exporter Service (ch-metrics :8888)
+      # - clickhouse-backup sidecar (clickhouse.backup/* annotations)
+      prometheus/clickhouse:
+        config:
+          scrape_configs:
+            - job_name: clickhouse-operator
+              scrape_interval: 30s
+              metrics_path: /metrics
+              kubernetes_sd_configs:
+                - role: endpoints
+                  namespaces:
+                    names:
+                      - ${env:OTEL_K8S_NAMESPACE}
+              relabel_configs:
+                - source_labels: [__meta_kubernetes_service_label_app_kubernetes_io_name]
+                  regex: altinity-clickhouse-operator
+                  action: keep
+                - source_labels: [__meta_kubernetes_endpoint_port_name]
+                  regex: ch-metrics
+                  action: keep
+            - job_name: clickhouse-backup
+              scrape_interval: 30s
+              kubernetes_sd_configs:
+                - role: pod
+                  namespaces:
+                    names:
+                      - ${env:OTEL_K8S_NAMESPACE}
+              relabel_configs:
+                - source_labels: [__meta_kubernetes_pod_annotation_clickhouse_backup_scrape]
+                  regex: "true"
+                  action: keep
+                - source_labels: [__meta_kubernetes_pod_annotation_clickhouse_backup_path]
+                  action: replace
+                  target_label: __metrics_path__
+                  regex: (.+)
+                - source_labels: [__meta_kubernetes_pod_ip, __meta_kubernetes_pod_annotation_clickhouse_backup_port]
+                  separator: ";"
+                  regex: (.+);(.+)
+                  replacement: "{{ `$1` }}:{{ `$2` }}"
+                  target_label: __address__
+                  action: replace
     processors:
       memory_limiter:
         check_interval: 1s
@@ -1862,7 +1911,7 @@ collector:
           processors: [memory_limiter, batch]
           exporters: [debug]
         metrics:
-          receivers: [otlp]
+          receivers: [otlp, prometheus/clickhouse, k8s_cluster]
           processors: [memory_limiter, resourcedetection, batch]
           exporters: [prometheusremotewrite]
   podLabels:
