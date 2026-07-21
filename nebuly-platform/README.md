@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.98.5](https://img.shields.io/badge/Version-1.98.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.98.6](https://img.shields.io/badge/Version-1.98.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -333,6 +333,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
 | backend.settings.realTenant | string | `""` | The tenant used for the platform's internal operations. |
 | backend.settings.scriptProjectIds | list | `[]` | A list of project IDs for which the scripts execution is enabled. If empty, the feature will be disabled for all projects. |
+| backend.settings.taxonomyRoleConfig | string | `""` | Minimum taxonomy role, formatted as `<tenant>:<role>;<tenant>:<role>`. The role is the lowest privilege allowed; more-privileged roles are also allowed. |
 | backend.settings.userAnonymizationKey | string | `""` | The key used to anonymize user identifiers. It must be a 32-character hexadecimal string. |
 | backend.tolerations | list | `[]` |  |
 | backend.volumeMounts | list | `[]` |  |

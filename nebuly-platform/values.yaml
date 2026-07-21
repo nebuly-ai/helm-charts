@@ -41,6 +41,10 @@ backend:
     # -- The tenant used for the platform's internal operations.
     realTenant: ""
 
+    # -- Minimum taxonomy role, formatted as `<tenant>:<role>;<tenant>:<role>`.
+    # The role is the lowest privilege allowed; more-privileged roles are also allowed.
+    taxonomyRoleConfig: ""
+
     # -- If true, enable audit logging.
     enableAuditLogging: false
 
