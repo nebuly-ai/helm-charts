@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.98.7](https://img.shields.io/badge/Version-1.98.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.98.8](https://img.shields.io/badge/Version-1.98.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -639,7 +639,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | namespaceOverride | string | `""` | Override the namespace. |
 | openAi | object | - | Optional configuration for the OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. Both OpenAI and Azure OpenAI are supported. |
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |
-| openAi.apiVersion | string | `"2024-02-15-preview"` | The version of the APIs to use. Used only for Azure OpenAI. |
+| openAi.apiVersion | string | `"2025-03-01-preview"` | The version of the APIs to use. Used only for Azure OpenAI. |
 | openAi.enabled | bool | `true` | If true, enable the OpenAI integration. |
 | openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. For Azure OpenAI: `https://<resource-name>.openai.azure.com/`. For OpenAI: `https://api.openai.com/v1`. |
 | openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |

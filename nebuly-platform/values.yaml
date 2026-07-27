@@ -901,7 +901,7 @@ openAi:
   # To be provided only when not using an existing secret (see openAi.existingSecret value below).
   apiKey: ""
   # -- The version of the APIs to use. Used only for Azure OpenAI.
-  apiVersion: "2024-02-15-preview"
+  apiVersion: "2025-03-01-preview"
 
   # -- Use an existing secret for the Azure OpenAI authentication.
   # @default -- -
