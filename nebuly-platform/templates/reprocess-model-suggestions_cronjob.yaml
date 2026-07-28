@@ -48,9 +48,8 @@ spec:
                 - python
                 - minkmaze
                 - jobs
-                - issues
+                - recompute-model-suggestion
                 - nebuly
-                - --reprocess
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
               {{- if .Values.primaryProcessing.env }}

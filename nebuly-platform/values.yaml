@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.115.14"
+    tag: "v1.115.15"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -441,7 +441,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.77.18
+    tag: v1.77.19
 
   podAnnotations: { }
   podLabels: { }
@@ -737,7 +737,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.77.18
+    tag: v1.77.19
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
