@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.115.16"
+    tag: "v1.115.18"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -183,7 +183,7 @@ frontend:
   # -- If true, enable the custom variables feature.
   enableCustomVariables: true
   # -- The relative path to the favicon file.
-  faviconPath: "/favicon.svc"
+  faviconPath: "/favicon.svg"
   # Show the favicon as logo in the sidebar.
   useFaviconAsLogo: false
   # -- The title of the application.
@@ -194,7 +194,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.81.3"
+    tag: "v1.81.4"
 
   v2:
     # -- If true, enable the v2 of the frontend. 
@@ -203,7 +203,7 @@ frontend:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
-      tag: "v2.3.3"
+      tag: "v2.3.5"
   podAnnotations: { }
   podLabels: { }
 
@@ -441,7 +441,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.78.1
+    tag: v1.79.1
 
   podAnnotations: { }
   podLabels: { }
@@ -737,7 +737,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.78.1
+    tag: v1.79.1
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -1885,6 +1885,15 @@ collector:
         override: false
         eks:
           node_from_env_var: OTEL_K8S_NODE_NAME
+      # Same labels as prometheus_remote_write external_labels, for Tempo traces.
+      resource/nebuly:
+        attributes:
+          - key: platform_nebuly_com_version
+            value: "${env:PLATFORM_VERSION}"
+            action: upsert
+          - key: platform_nebuly_com_hosting
+            value: "${env:TELEMETRY_TENANT}"
+            action: upsert
     exporters:
       prometheus_remote_write:
         endpoint: "https://prometheus.monitor.nebuly.com/api/v1/write"
@@ -1895,7 +1904,10 @@ collector:
         external_labels:
           platform_nebuly_com_version: "${env:PLATFORM_VERSION}"
           platform_nebuly_com_hosting: "${env:TELEMETRY_TENANT}"
-      nop: {}
+      otlp_http/tempo:
+        endpoint: "https://tempo.monitor.nebuly.com"
+        auth:
+          authenticator: basicauth/prw
     service:
       telemetry:
         logs:
@@ -1924,8 +1936,8 @@ collector:
       pipelines:
         traces:
           receivers: [otlp]
-          processors: [memory_limiter, batch]
-          exporters: [nop]
+          processors: [memory_limiter, resource/nebuly, batch]
+          exporters: [otlp_http/tempo]
         metrics:
           receivers: [otlp, prometheus/clickhouse]
           processors: [memory_limiter, resource_detection, batch]
