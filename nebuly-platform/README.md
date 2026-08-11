@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.100.0](https://img.shields.io/badge/Version-1.100.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.100.1](https://img.shields.io/badge/Version-1.100.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -532,6 +532,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.settings.maxNumberOfGenerationLoop | int | `2` |  |
 | ingestionWorker.settings.piiDenyList | list | `[]` | List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove. |
 | ingestionWorker.settings.piiEnabledTenants | list | `[]` | List of tenants for which PII detection is enabled. Note that when given this will override the enablePiiLlm setting for the given tenants. |
+| ingestionWorker.settings.skipProcessingForProjects | list | `[]` |  |
 | ingestionWorker.settings.startDateActions | string | `"2020-01-01 00:00:00+00:00"` | Start date used to consider existing actions. This feature should only be used to force the processing pipeline to ignore actions created before a given date.  |
 | ingestionWorker.settings.startDateSubTopics | string | `"2020-01-01 00:00:00+00:00"` | Start date used to consider existing sub-topics. This feature should only be used to force the processing pipeline to ignore sub-topics created before a given date. |
 | ingestionWorker.settings.startDateTopics | string | `"2020-01-01 00:00:00+00:00"` | Start date used to consider existing topics. This feature should only be used to force the processing pipeline to ignore topics created before a given date. |

@@ -435,7 +435,7 @@ ingestionWorker:
       tags: true
     maxNumberOfGenerationLoop: 2
     categoryGeneratorMaxIterations: 5
-
+    skipProcessingForProjects: [ ]
 
   replicaCount: 1
   image:
