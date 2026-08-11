@@ -120,6 +120,9 @@
   value: {{ .Values.ingestionWorker.settings.maxNumberOfGenerationLoop | quote }}
 - name: CATEGORY_GENERATOR_MAX_ITERATIONS
   value: {{ .Values.ingestionWorker.settings.categoryGeneratorMaxIterations | quote }}
+# Global processing settings
+- name: SKIP_PROCESSING_FOR_PROJECTS
+  value: {{ .Values.ingestionWorker.settings.skipProcessingForProjects | toJson | quote }}
 # AI Models pulling
 {{ include "aiModels.env" . }}
 {{- with .Values.ingestionWorker.env }}
