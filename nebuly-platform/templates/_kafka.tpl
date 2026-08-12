@@ -14,7 +14,7 @@
 {{- if .Values.kafka.external -}}
 {{ .Values.kafka.bootstrapServers }}
 {{- else -}}
-{{ include "kafka.fullname" . }}-kafka-bootstrap.{{ .Release.Namespace }}.svc:9092
+{{ include "kafka.fullname" . }}-kafka-bootstrap.{{ include "nebuly-platform.namespace" . }}.svc:9092
 {{- end -}}
 {{- end -}}
 
