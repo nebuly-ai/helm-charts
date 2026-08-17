@@ -7,7 +7,9 @@ server:
 
 clients:
   {{- if .Values.loki.enabled }}
-  - url: http://{{ include "loki.fullname" . }}-gateway/loki/api/v1/push
+  {{- /* Loki is a subchart, so its gateway stays in .Release.Namespace even when
+         promtail is moved by namespaceOverride: address it by FQDN. */}}
+  - url: http://{{ include "loki.fullname" . }}-gateway.{{ .Release.Namespace }}.svc/loki/api/v1/push
   {{- end }}
 
   {{- if .Values.telemetry.promtail.sendLogs }}
