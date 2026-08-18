@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Breaking changes
+* Replace values `openAi.gpt4oDeployment` and `openAi.gpt5Deployment` with `openAi.tier1ModelDeployment`, `openAi.tier2ModelDeployment`, and `openAi.tier3ModelDeployment`.
+* Replace environment variables `OPENAI_DEPLOYMENT_GPT4O` and `OPENAI_DEPLOYMENT_GPT5` with `TIER1_MODEL_DEPLOYMENT`, `TIER2_MODEL_DEPLOYMENT`, and `TIER3_MODEL_DEPLOYMENT`.
+
 ## v1.92.13
 
 ### Features

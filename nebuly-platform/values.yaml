@@ -884,12 +884,18 @@ secretsStore:
 openAi:
   # -- If true, enable the OpenAI integration.
   enabled: true
-  # -- For Azure OpenAI: the name of the GPT-4o deployment.
-  # For OpenAI: `gpt-4o`.
-  gpt4oDeployment: ""
-  # -- For Azure OpenAI: the name of the GPT-5 deployment.
-  # For OpenAI: `gpt-5`.
-  gpt5Deployment: ""
+  # -- Tier 1 model deployment. Format: `<prefix>-<provider>:<model-name>`.
+  # Prefix and provider are optional; if no provider is set, the implicit value is `openai`.
+  # Currently only `openai` is supported as provider.
+  tier1ModelDeployment: ""
+  # -- Tier 2 model deployment. Format: `<prefix>-<provider>:<model-name>`.
+  # Prefix and provider are optional; if no provider is set, the implicit value is `openai`.
+  # Currently only `openai` is supported as provider.
+  tier2ModelDeployment: ""
+  # -- Tier 3 model deployment. Format: `<prefix>-<provider>:<model-name>`.
+  # Prefix and provider are optional; if no provider is set, the implicit value is `openai`.
+  # Currently only `openai` is supported as provider.
+  tier3ModelDeployment: ""
   # -- For Azure OpenAI: the name of the OpenAI Deployment used to translate interactions.
   # For OpenAI: the name of the OpenAI model used to translate interactions.
   translationDeployment: ""

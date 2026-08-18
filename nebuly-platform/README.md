@@ -645,8 +645,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. For Azure OpenAI: `https://<resource-name>.openai.azure.com/`. For OpenAI: `https://api.openai.com/v1`. |
 | openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
 | openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| openAi.gpt4oDeployment | string | `""` | For Azure OpenAI: the name of the GPT-4o deployment. For OpenAI: `gpt-4o`. |
-| openAi.gpt5Deployment | string | `""` | For Azure OpenAI: the name of the GPT-5 deployment. For OpenAI: `gpt-5`. |
+| openAi.tier1ModelDeployment | string | `""` | Tier 1 model deployment. Format: `<prefix>-<provider>:<model-name>`. Prefix and provider are optional; if no provider is set, the implicit value is `openai`. Currently only `openai` is supported as provider. |
+| openAi.tier2ModelDeployment | string | `""` | Tier 2 model deployment. Format: `<prefix>-<provider>:<model-name>`. Prefix and provider are optional; if no provider is set, the implicit value is `openai`. Currently only `openai` is supported as provider. |
+| openAi.tier3ModelDeployment | string | `""` | Tier 3 model deployment. Format: `<prefix>-<provider>:<model-name>`. Prefix and provider are optional; if no provider is set, the implicit value is `openai`. Currently only `openai` is supported as provider. |
 | openAi.translationDeployment | string | `""` | For Azure OpenAI: the name of the OpenAI Deployment used to translate interactions. For OpenAI: the name of the OpenAI model used to translate interactions. |
 | postUpgrade | object | `{"migrateInteractionEdits":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}},"refreshRoTables":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}}}` | Post-upgrade hooks settings. |
 | postUpgrade.migrateInteractionEdits | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}}` | If True, run a post-install job that migrates the interaction edits logs. |

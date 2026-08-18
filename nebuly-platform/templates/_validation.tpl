@@ -39,7 +39,9 @@
 {{/* Azure OpenAI */}}
 {{- if .Values.openAi.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.openAi.endpoint" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.openAi.gpt4oDeployment" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.openAi.tier1ModelDeployment" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.openAi.tier2ModelDeployment" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.openAi.tier3ModelDeployment" .) -}}
 {{- end -}}
 {{/* Ingestion Worker*/}}
 {{- $messages = append $messages (include "chart.validateValues.primaryProcessing.modelsCache" .) -}}
@@ -249,10 +251,22 @@ values: openAi.endpoint
 {{- end -}}
 {{- end -}}
 {{- end -}}
-{{- define "chart.validateValues.openAi.gpt4oDeployment" -}}
-{{- if empty .Values.openAi.gpt4oDeployment  -}}
-values: openAi.gpt4oDeployment
-  `gpt4oDeployment` is required and should be a non-empty string
+{{- define "chart.validateValues.openAi.tier1ModelDeployment" -}}
+{{- if empty .Values.openAi.tier1ModelDeployment  -}}
+values: openAi.tier1ModelDeployment
+  `tier1ModelDeployment` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+{{- define "chart.validateValues.openAi.tier2ModelDeployment" -}}
+{{- if empty .Values.openAi.tier2ModelDeployment  -}}
+values: openAi.tier2ModelDeployment
+  `tier2ModelDeployment` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+{{- define "chart.validateValues.openAi.tier3ModelDeployment" -}}
+{{- if empty .Values.openAi.tier3ModelDeployment  -}}
+values: openAi.tier3ModelDeployment
+  `tier3ModelDeployment` is required and should be a non-empty string
 {{- end -}}
 {{- end -}}
 
