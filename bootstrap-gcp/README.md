@@ -1,6 +1,6 @@
 # GCP - Kubernetes bootstrap
 
-![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.0](https://img.shields.io/badge/AppVersion-0.3.0-informational?style=flat-square)
+![Version: 0.3.1](https://img.shields.io/badge/Version-0.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.1](https://img.shields.io/badge/AppVersion-0.3.1-informational?style=flat-square)
 
 Helm chart for bootstrapping a Kubernetes cluster on GCP with all the dependencies required for installing [Nebuly Platform](https://nebuly.com).
 
@@ -14,7 +14,7 @@ Helm chart for bootstrapping a Kubernetes cluster on GCP with all the dependenci
 | https://charts.portefaix.xyz | secrets-store-csi-driver-provider-gcp | ~0.6.0 |
 | https://helm.ngc.nvidia.com/nvidia | gpu-operator | ~26.7 |
 | https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts | secrets-store-csi-driver | ~1.6 |
-| https://kubernetes.github.io/ingress-nginx | ingress-nginx | ~4.15 |
+| https://traefik.github.io/charts | traefik | ~41.3 |
 
 ## Installation
 
@@ -42,15 +42,16 @@ details.
 | gpu-operator.enabled | bool | `true` |  |
 | gpu-operator.hostPaths.driverInstallDir | string | `"/home/kubernetes/bin/nvidia"` |  |
 | gpu-operator.toolkit.installDir | string | `"/home/kubernetes/bin/nvidia"` |  |
-| ingress-nginx.controller.allowSnippetAnnotations | bool | `true` |  |
-| ingress-nginx.controller.config | object | `{}` |  |
-| ingress-nginx.controller.service.annotations | object | `{}` |  |
-| ingress-nginx.controller.service.targetPorts.http | string | `"http"` |  |
-| ingress-nginx.controller.service.targetPorts.https | string | `"https"` |  |
-| ingress-nginx.enabled | bool | `true` |  |
 | nvidia-device-plugin.enabled | bool | `true` |  |
 | secrets-store-csi-driver.enabled | bool | `true` |  |
 | secrets-store-csi-driver.syncSecret.enabled | bool | `true` |  |
+| traefik.enabled | bool | `true` |  |
+| traefik.ingressClass.enabled | bool | `true` |  |
+| traefik.ingressClass.isDefaultClass | bool | `true` |  |
+| traefik.ingressClass.name | string | `"traefik"` |  |
+| traefik.providers.kubernetesIngress.enabled | bool | `true` |  |
+| traefik.providers.kubernetesIngress.ingressClass | string | `"traefik"` |  |
+| traefik.service.spec.type | string | `"LoadBalancer"` |  |
 
 ## Source Code
 

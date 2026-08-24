@@ -6,16 +6,19 @@ secrets-store-csi-driver:
   syncSecret:
     enabled: true
 
-ingress-nginx:
+traefik:
   enabled: true
-  controller:
-    allowSnippetAnnotations: true
-    config: { }
-    service:
-      targetPorts:
-        http: http
-        https: https
-      annotations: { }
+  ingressClass:
+    enabled: true
+    isDefaultClass: true
+    name: traefik
+  providers:
+    kubernetesIngress:
+      enabled: true
+      ingressClass: traefik
+  service:
+    spec:
+      type: LoadBalancer
 
 cert-manager:
   enabled: true
