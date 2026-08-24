@@ -69,9 +69,11 @@ service in the `values.yaml` file. You can expose the following services:
 * `backend`: the Platform backend APIs used by the frontend
 * `eventIngestion`: the Platform event ingestion APIs, used for receiving events and interactions.
 
-Below you can find an example configuration for exposing all the services using
-[ingress-nginx](https://github.com/kubernetes/ingress-nginx) as ingress
-controller and [cert-manager](https://github.com/cert-manager/cert-manager) for managing SSL certificates.
+The chart does not depend on a specific Ingress controller. Set `className` and any controller-specific
+annotations on each service's `ingress` block to match your cluster (for example `gce` on GKE, or any
+other IngressClass installed in the cluster). [cert-manager](https://github.com/cert-manager/cert-manager)
+can be used for TLS; if you enable the bundled `clusterIssuer`, set `clusterIssuer.ingressClass` to the
+same IngressClass.
 
 The configuration below exposes the services using the following domains:
 * `platform.example.nebuly.com`: the frontend application
@@ -84,10 +86,16 @@ The configuration below exposes the services using the following domains:
 <summary> <b> Example values for ingress configuration </b> </summary>
 
 ```yaml
+clusterIssuer:
+  enabled: true
+  name: letsencrypt
+  email: support@example.com
+  ingressClass: gce
+
 backend:
   ingress:
     enabled: true
-    className: nginx
+    className: gce
     annotations:
         cert-manager.io/cluster-issuer: letsencrypt
     tls:
@@ -107,7 +115,7 @@ frontend:
 
   ingress:
     enabled: true
-    className: nginx
+    className: gce
     annotations:
         cert-manager.io/cluster-issuer: letsencrypt
     tls:
@@ -123,10 +131,8 @@ frontend:
 eventIngestion:
   ingress:
     enabled: true
-    className: nginx
+    className: gce
     annotations:
-        nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/rewrite-target: $1
         cert-manager.io/cluster-issuer: letsencrypt
     tls:
       - hosts:
@@ -135,13 +141,13 @@ eventIngestion:
     hosts:
       - host: backend.example.nebuly.com
         paths:
-          - path: /event-ingestion(/|$)(.*)
+          - path: /event-ingestion
             pathType: Prefix
 
 authService:
   ingress:
     enabled: true
-    className: nginx
+    className: gce
     annotations:
         cert-manager.io/cluster-issuer: letsencrypt
     tls:

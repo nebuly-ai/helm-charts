@@ -66,9 +66,11 @@ service in the `values.yaml` file. You can expose the following services:
 * `backend`: the Platform backend APIs used by the frontend
 * `eventIngestion`: the Platform event ingestion APIs, used for receiving events and interactions.
 
-Below you can find an example configuration for exposing all the services using
-[ingress-nginx](https://github.com/kubernetes/ingress-nginx) as ingress
-controller and [cert-manager](https://github.com/cert-manager/cert-manager) for managing SSL certificates.
+The chart does not depend on a specific Ingress controller. Set `className` and any controller-specific
+annotations on each service's `ingress` block to match your cluster (for example `gce` on GKE, or any
+other IngressClass installed in the cluster). [cert-manager](https://github.com/cert-manager/cert-manager)
+can be used for TLS; if you enable the bundled `clusterIssuer`, set `clusterIssuer.ingressClass` to the
+same IngressClass.
 
 The configuration below exposes the services using the following domains:
 * `platform.example.nebuly.com`: the frontend application
@@ -80,10 +82,16 @@ The configuration below exposes the services using the following domains:
 <summary> <b> Example values for ingress configuration </b> </summary>
 
 ```yaml
+clusterIssuer:
+  enabled: true
+  name: letsencrypt
+  email: support@example.com
+  ingressClass: gce
+
 backend:
   ingress:
     enabled: true
-    className: nginx
+    className: gce
     annotations:
         cert-manager.io/cluster-issuer: letsencrypt
     tls:
@@ -103,7 +111,7 @@ frontend:
 
   ingress:
     enabled: true
-    className: nginx
+    className: gce
     annotations:
         cert-manager.io/cluster-issuer: letsencrypt
     tls:
@@ -119,10 +127,8 @@ frontend:
 eventIngestion:
   ingress:
     enabled: true
-    className: nginx
+    className: gce
     annotations:
-        nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/rewrite-target: $1
         cert-manager.io/cluster-issuer: letsencrypt
     tls:
       - hosts:
@@ -131,13 +137,13 @@ eventIngestion:
     hosts:
       - host: backend.example.nebuly.com
         paths:
-          - path: /event-ingestion(/|$)(.*)
+          - path: /event-ingestion
             pathType: Prefix
 
 authService:
   ingress:
     enabled: true
-    className: nginx
+    className: gce
     annotations:
         cert-manager.io/cluster-issuer: letsencrypt
     tls:
@@ -333,7 +339,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
 | backend.settings.realTenant | string | `""` | The tenant used for the platform's internal operations. |
 | backend.settings.scriptProjectIds | list | `[]` | A list of project IDs for which the scripts execution is enabled. If empty, the feature will be disabled for all projects. |
-| backend.settings.taxonomyRoleConfig | string | `""` | Minimum taxonomy role, formatted as `<tenant>:<role>;<tenant>:<role>`. The role is the lowest privilege allowed; more-privileged roles are also allowed. |
+| backend.settings.taxonomyRoleConfig | string | `"nebuly:admin"` | Minimum taxonomy role, formatted as `<tenant>:<role>;<tenant>:<role>`. The role is the lowest privilege allowed; more-privileged roles are also allowed. |
 | backend.settings.userAnonymizationKey | string | `""` | The key used to anonymize user identifiers. It must be a 32-character hexadecimal string. |
 | backend.tolerations | list | `[]` |  |
 | backend.volumeMounts | list | `[]` |  |
@@ -395,7 +401,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.tolerations | list | `[]` |  |
 | clickhouse.volumeMounts | list | `[]` | Additional volumeMounts on ClickHouse pods. |
 | clickhouse.volumes | list | `[]` | Additional volumes on the ClickHouse pods. |
-| clusterIssuer | object | `{"email":"support@nebuly.ai","enabled":false,"name":"letsencrypt"}` | Optional cert-manager cluster issuer. @default -- |
+| clusterIssuer | object | `{"email":"support@nebuly.ai","enabled":false,"ingressClass":"","name":"letsencrypt"}` | Optional cert-manager cluster issuer. @default -- |
+| clusterIssuer.ingressClass | string | `""` | IngressClass used by cert-manager HTTP-01 challenges. Must match the IngressClass of your cluster's controller (e.g. gce on GKE). |
 | collector | object | `{"config":{"exporters":{"otlp_http/tempo":{"auth":{"authenticator":"basicauth/prw"},"endpoint":"https://tempo.monitor.nebuly.com"},"prometheus_remote_write":{"auth":{"authenticator":"basicauth/prw"},"endpoint":"https://prometheus.monitor.nebuly.com/api/v1/write","external_labels":{"platform_nebuly_com_hosting":"${env:TELEMETRY_TENANT}","platform_nebuly_com_version":"${env:PLATFORM_VERSION}"},"resource_to_telemetry_conversion":{"enabled":true}}},"extensions":{"basicauth/prw":{"client_auth":{"password":"${env:TELEMETRY_API_KEY}","username":"${env:TELEMETRY_TENANT}"}},"health_check":{}},"processors":{"batch":{"send_batch_max_size":2048,"send_batch_size":1024,"timeout":"5s"},"memory_limiter":{"check_interval":"1s","limit_percentage":75,"spike_limit_percentage":15},"resource/nebuly":{"attributes":[{"action":"upsert","key":"platform_nebuly_com_version","value":"${env:PLATFORM_VERSION}"},{"action":"upsert","key":"platform_nebuly_com_hosting","value":"${env:TELEMETRY_TENANT}"}]},"resource_detection":{"detectors":["gcp","azure"],"override":false,"timeout":"5s"},"resource_detection/eks":{"detectors":["eks"],"eks":{"node_from_env_var":"OTEL_K8S_NODE_NAME"},"override":false,"timeout":"15s"}},"receivers":{"otlp":{"protocols":{"grpc":{"endpoint":"0.0.0.0:4317","max_recv_msg_size_mib":32},"http":{"endpoint":"0.0.0.0:4318"}}},"prometheus/clickhouse":{"config":{"scrape_configs":[{"job_name":"clickhouse-operator","kubernetes_sd_configs":[{"namespaces":{"names":["${env:OTEL_K8S_NAMESPACE}"]},"role":"endpoints"}],"metrics_path":"/metrics","relabel_configs":[{"action":"keep","regex":"altinity-clickhouse-operator","source_labels":["__meta_kubernetes_service_label_app_kubernetes_io_name"]},{"action":"keep","regex":"ch-metrics","source_labels":["__meta_kubernetes_endpoint_port_name"]}],"scrape_interval":"30s"},{"job_name":"clickhouse-backup","kubernetes_sd_configs":[{"namespaces":{"names":["${env:OTEL_K8S_NAMESPACE}"]},"role":"pod"}],"relabel_configs":[{"action":"keep","regex":"true","source_labels":["__meta_kubernetes_pod_annotation_clickhouse_backup_scrape"]},{"action":"replace","regex":"(.+)","source_labels":["__meta_kubernetes_pod_annotation_clickhouse_backup_path"],"target_label":"__metrics_path__"},{"action":"replace","regex":"(.+);(.+)","replacement":"{{ `$1` }}:{{ `$2` }}","separator":";","source_labels":["__meta_kubernetes_pod_ip","__meta_kubernetes_pod_annotation_clickhouse_backup_port"],"target_label":"__address__"}],"scrape_interval":"30s"}]}}},"service":{"extensions":["health_check","basicauth/prw"],"pipelines":{"metrics":{"exporters":["prometheus_remote_write"],"processors":["memory_limiter","resource_detection","batch"],"receivers":["otlp","prometheus/clickhouse"]},"traces":{"exporters":["otlp_http/tempo"],"processors":["memory_limiter","resource/nebuly","batch"],"receivers":["otlp"]}},"telemetry":{"logs":{"level":"info"},"resource":{"attributes":[{"name":"k8s.namespace.name","value":"${env:OTEL_K8S_NAMESPACE}"},{"name":"k8s.node.name","value":"${env:OTEL_K8S_NODE_NAME}"},{"name":"k8s.node.ip","value":"${env:OTEL_K8S_NODE_IP}"},{"name":"k8s.pod.name","value":"${env:OTEL_K8S_POD_NAME}"},{"name":"k8s.pod.ip","value":"${env:OTEL_K8S_POD_IP}"},{"name":"host.name","value":"${env:OTEL_K8S_NODE_NAME}"}],"host.name":null,"k8s.namespace.name":null,"k8s.node.ip":null,"k8s.node.name":null,"k8s.pod.ip":null,"k8s.pod.name":null}}}},"enabled":true,"extraEnvs":[{"name":"TELEMETRY_TENANT","valueFrom":{"secretKeyRef":{"key":"telemetry-tenant","name":"nebuly-telemetry"}}},{"name":"TELEMETRY_API_KEY","valueFrom":{"secretKeyRef":{"key":"telemetry-api-key","name":"nebuly-telemetry"}}}],"extraEnvsFrom":[{"configMapRef":{"name":"nebuly-collector-env"}}],"image":{"repository":"otel/opentelemetry-collector-contrib","tag":"0.154.0"},"mode":"deployment","podLabels":{"app.kubernetes.io/component":"nebuly-collector","app.kubernetes.io/part-of":"nebuly-platform"},"ports":{"otlp":{"containerPort":4317,"enabled":true,"protocol":"TCP","servicePort":4317},"otlp-http":{"containerPort":4318,"enabled":true,"protocol":"TCP","servicePort":4318}}}` | Configuration for the collector subchart. When enabled, a collector is deployed alongside the platform services. |
 | collector.enabled | bool | `true` | If True, deploy an OpenTelemetry Collector together with the platform services. |
 | eventIngestion.affinity | object | `{}` |  |

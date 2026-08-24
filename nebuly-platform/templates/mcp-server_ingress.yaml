@@ -16,7 +16,6 @@ metadata:
     {{- include "mcpServer.labels" . | nindent 4 }}
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
-    nginx.ingress.kubernetes.io/rewrite-target: /mcp/$2
   {{- with .Values.mcpServer.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -39,9 +38,9 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-          - path: /mcp(/|$)(.*)
+          - path: /mcp
             {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
-            pathType: ImplementationSpecific
+            pathType: Prefix
             {{- end }}
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
@@ -54,63 +53,4 @@ spec:
               servicePort: {{ $svcPort }}
               {{- end }}
     {{- end }}
-{{- end }}
----
-{{- if and .Values.mcpServer.enabled .Values.auth.ingress.enabled }}
-{{- $fullName := include "mcpServer.fullname" . -}}
-{{- $svcPort := .Values.mcpServer.service.port -}}
-{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1
-{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: networking.k8s.io/v1beta1
-{{- else -}}
-apiVersion: extensions/v1beta1
-{{- end }}
-kind: Ingress
-metadata:
-  name: {{ $fullName }}-well-known
-  namespace: {{ include "nebuly-platform.namespace" . }}
-  labels:
-    {{- include "mcpServer.labels" . | nindent 4 }}
-  annotations:
-    {{- include "nebuly-platform.annotations" . | nindent 4 }}
-    {{- if .Values.clusterIssuer.enabled }}
-    cert-manager.io/cluster-issuer: {{ .Values.clusterIssuer.name }}
-    {{- end }}
-    nginx.ingress.kubernetes.io/use-regex: "true"
-  {{- with .Values.auth.ingress.annotations }}
-    {{- toYaml (omit . "nginx.ingress.kubernetes.io/rewrite-target") | nindent 4 }}
-  {{- end }}
-spec:
-  {{- if and .Values.auth.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.auth.ingress.className }}
-  {{- end }}
-  {{- if .Values.auth.ingress.tls }}
-  tls:
-    {{- range .Values.auth.ingress.tls }}
-    - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
-  {{- end }}
-  rules:
-    - host: {{ (first .Values.auth.ingress.hosts).host | quote }}
-      http:
-        paths:
-          - path: /.well-known/oauth-protected-resource
-            {{- if semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion }}
-            pathType: ImplementationSpecific
-            {{- end }}
-            backend:
-              {{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion }}
-              service:
-                name: {{ $fullName }}
-                port:
-                  number: {{ $svcPort }}
-              {{- else }}
-              serviceName: {{ $fullName }}
-              servicePort: {{ $svcPort }}
-              {{- end }}
 {{- end }}
