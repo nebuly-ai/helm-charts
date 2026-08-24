@@ -43,7 +43,7 @@ dependencies:
     condition: bootstrap-azure.enabled
     repository: "file://../bootstrap-azure"
   - name: bootstrap-gcp
-    version: ~0.2.0
+    version: ~0.3.0
     condition: bootstrap-gcp.enabled
     repository: "file://../bootstrap-gcp"
   - name: opentelemetry-collector

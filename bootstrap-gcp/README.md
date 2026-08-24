@@ -1,6 +1,6 @@
 # GCP - Kubernetes bootstrap
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.0](https://img.shields.io/badge/AppVersion-0.3.0-informational?style=flat-square)
 
 Helm chart for bootstrapping a Kubernetes cluster on GCP with all the dependencies required for installing [Nebuly Platform](https://nebuly.com).
 
@@ -10,11 +10,11 @@ Helm chart for bootstrapping a Kubernetes cluster on GCP with all the dependenci
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.15.2 |
+| https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.21 |
 | https://charts.portefaix.xyz | secrets-store-csi-driver-provider-gcp | ~0.6.0 |
-| https://helm.ngc.nvidia.com/nvidia | gpu-operator | ~25.3 |
-| https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts | secrets-store-csi-driver | ~1.4 |
-| https://kubernetes.github.io/ingress-nginx | ingress-nginx | ~4.10 |
+| https://helm.ngc.nvidia.com/nvidia | gpu-operator | ~26.7 |
+| https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts | secrets-store-csi-driver | ~1.6 |
+| https://kubernetes.github.io/ingress-nginx | ingress-nginx | ~4.15 |
 
 ## Installation
 

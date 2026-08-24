@@ -1,18 +1,18 @@
 dependencies:
 - name: gpu-operator
   repository: https://helm.ngc.nvidia.com/nvidia
-  version: v25.3.1
+  version: v26.7.0
 - name: ingress-nginx
   repository: https://kubernetes.github.io/ingress-nginx
-  version: 4.10.6
+  version: 4.15.1
 - name: cert-manager
   repository: https://charts.jetstack.io
-  version: v1.15.5
+  version: v1.21.1
 - name: secrets-store-csi-driver
   repository: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
-  version: 1.4.8
+  version: 1.6.0
 - name: secrets-store-csi-driver-provider-gcp
   repository: https://charts.portefaix.xyz
   version: 0.6.1
-digest: sha256:50ceb44a055a8056ddb5b7dfb3a43f5e276181ce2bf671d9ee70c4ddeefde45b
-generated: "2025-07-17T13:19:59.128327+03:00"
+digest: sha256:6b627da3e6c4ff7f226c2225d2f0b6208824bdad88802eeaeb29e9267afea244
+generated: "2026-08-24T13:27:17.160712+02:00"
