@@ -1437,9 +1437,7 @@ clusterIssuer:
   enabled: false
   name: letsencrypt
   email: support@nebuly.ai
-  # -- IngressClass used by cert-manager HTTP-01 challenges. Must match the
-  # IngressClass of your cluster's controller (e.g. gce on GKE).
-  ingressClass: ""
+  ingressClass: "nginx"
 
 strimzi:
   enabled: false
