@@ -10,12 +10,12 @@ Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependenci
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.15.2 |
-| https://kubernetes-sigs.github.io/metrics-server/ | metrics-server | ~3.12 |
-| https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts | secrets-store-csi-driver | ~1.4 |
+| https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.21 |
+| https://kubernetes-sigs.github.io/metrics-server/ | metrics-server | ~3.14 |
+| https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts | secrets-store-csi-driver | ~1.6 |
 | https://kubernetes.github.io/autoscaler | cluster-autoscaler | ~9 |
-| https://kubernetes.github.io/ingress-nginx | ingress-nginx | ~4.10 |
-| https://nvidia.github.io/k8s-device-plugin | nvidia-device-plugin | ~0.15.0 |
+| https://kubernetes.github.io/ingress-nginx | ingress-nginx | ~4.15 |
+| https://nvidia.github.io/k8s-device-plugin | nvidia-device-plugin | ~0.20 |
 
 ## Installation
 

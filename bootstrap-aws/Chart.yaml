@@ -28,23 +28,23 @@ dependencies:
     repository: https://kubernetes.github.io/autoscaler
     condition: cluster-autoscaler.enabled
   - name: metrics-server
-    version: ~3.12
+    version: ~3.14
     repository: https://kubernetes-sigs.github.io/metrics-server/
     condition: metrics-server.enabled
   - name: nvidia-device-plugin
-    version: ~0.15.0
+    version: ~0.20
     repository: https://nvidia.github.io/k8s-device-plugin
     condition: nvidia-device-plugin.enabled
   - name: secrets-store-csi-driver
-    version: ~1.4
+    version: ~1.6
     condition: secrets-store-csi-driver.enabled
     repository: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
   - name: ingress-nginx
-    version: ~4.10
+    version: ~4.15
     condition: ingress-nginx.enabled
     repository: https://kubernetes.github.io/ingress-nginx
   - name: cert-manager
-    version: ~v1.15.2
+    version: ~v1.21
     repository: https://charts.jetstack.io
     alias: cert-manager
     condition: cert-manager.enabled
