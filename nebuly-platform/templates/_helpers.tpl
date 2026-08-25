@@ -127,7 +127,7 @@ app.kubernetes.io/component: nebuly-backend
 {{- end }}
 
 {{- define "backend.url" -}}
-http://{{ include "backend.fullname" . }}.{{ include "nebuly-platform.namespace" . }}.svc.cluster.local:{{ .Values.auth.service.port }}
+http://{{ include "backend.fullname" . }}.{{ include "nebuly-platform.namespace" . }}.svc.cluster.local:{{ .Values.auth.service.port }}{{ .Values.backend.rootPath }}
 {{- end }}
 
 {{- define "backend.fullname" -}}

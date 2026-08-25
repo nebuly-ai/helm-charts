@@ -149,6 +149,8 @@
   value: "prod"
 - name: SERVER_PORT
   value: "8080"
+- name: FORWARDED_ALLOW_IPS
+  value: "*"
 - name: PROJECT_NAME
   value: "backend"
 - name: DEVELOPMENT_MODE

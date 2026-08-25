@@ -1,6 +1,10 @@
 {{- if .Values.frontend.ingress.enabled -}}
 {{- $fullName := include "frontend.fullname" . -}}
 {{- $svcPort := .Values.frontend.service.port -}}
+{{- $authFullName := include "authService.fullname" . -}}
+{{- $authSvcPort := .Values.auth.service.port -}}
+{{- $mcpFullName := include "mcpServer.fullname" . -}}
+{{- $mcpSvcPort := .Values.mcpServer.service.port -}}
 {{- if and .Values.frontend.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
   {{- if not (hasKey .Values.frontend.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.frontend.ingress.annotations "kubernetes.io/ingress.class" .Values.frontend.ingress.className}}
@@ -43,6 +47,50 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
+          {{- if $.Values.mcpServer.enabled }}
+          - path: /.well-known/oauth-authorization-server
+            {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
+            pathType: Exact
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $authFullName }}
+                port:
+                  number: {{ $authSvcPort }}
+              {{- else }}
+              serviceName: {{ $authFullName }}
+              servicePort: {{ $authSvcPort }}
+              {{- end }}
+          - path: /.well-known/jwks.json
+            {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
+            pathType: Exact
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $authFullName }}
+                port:
+                  number: {{ $authSvcPort }}
+              {{- else }}
+              serviceName: {{ $authFullName }}
+              servicePort: {{ $authSvcPort }}
+              {{- end }}
+          - path: /.well-known/oauth-protected-resource
+            {{- if semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion }}
+            pathType: Exact
+            {{- end }}
+            backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $mcpFullName }}
+                port:
+                  number: {{ $mcpSvcPort }}
+              {{- else }}
+              serviceName: {{ $mcpFullName }}
+              servicePort: {{ $mcpSvcPort }}
+              {{- end }}
+          {{- end }}
           {{- range .paths }}
           - path: {{ .path }}
             {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
