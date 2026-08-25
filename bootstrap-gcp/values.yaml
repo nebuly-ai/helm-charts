@@ -8,6 +8,8 @@ secrets-store-csi-driver:
 
 traefik:
   enabled: true
+  accessLog:
+    enabled: true
   ingressClass:
     enabled: true
     isDefaultClass: true
