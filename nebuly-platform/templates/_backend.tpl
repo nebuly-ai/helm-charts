@@ -31,6 +31,8 @@
 # Feature Flags
 - name: ENABLE_LLM_ISSUE_HIDING
   value: {{ .Values.frontend.enableLLMIssueHiding | quote }}
+- name: ENABLE_ORGANIZATION_SETTINGS
+  value: {{ .Values.frontend.enableOrganizationSettings | quote }}
 - name: PERFORMANCE_MODE
   value: {{ .Values.frontend.enableHighPerformanceMode | quote }}
 - name: ENABLE_LLM_PII_REMOVAL
