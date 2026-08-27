@@ -447,7 +447,6 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.enableHighPerformanceMode | bool | `true` | If true enable High performance mode. This mode increases the performance of  the platform and is suggested for environments with high volumes of data  (more than 1 million interactions per month). |
 | frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
 | frontend.enableOldRiskyBehavior | bool | `false` | Feature flag to activate the old risky behavior page. Used for retro-compatibility. |
-| frontend.enableOrganizationSettings | bool | `false` | If True, allow admins to assign/exclude users from organizations. |
 | frontend.enableSubCategories | bool | `false` | If set to true, enable the sub-categories feature. |
 | frontend.faviconPath | string | `"/favicon.svg"` | The relative path to the favicon file. |
 | frontend.fullnameOverride | string | `""` |  |
