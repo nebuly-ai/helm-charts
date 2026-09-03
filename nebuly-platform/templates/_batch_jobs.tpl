@@ -50,12 +50,12 @@
   value: "{{ .Values.openAi.apiVersion }}"
 - name: OPENAI_BASE_URL
   value: "{{ .Values.openAi.endpoint }}"
-- name: OPENAI_DEPLOYMENT_FRUSTRATION
-  value: "{{ .Values.openAi.gpt4oDeployment }}"
-- name: OPENAI_DEPLOYMENT_GPT4O
-  value: {{ .Values.openAi.gpt4oDeployment | quote }}
-- name: OPENAI_DEPLOYMENT_GPT5
-  value: {{ .Values.openAi.gpt5Deployment | quote }}
+- name: TIER1_MODEL_DEPLOYMENT
+  value: {{ .Values.openAi.tier1ModelDeployment | quote }}
+- name: TIER2_MODEL_DEPLOYMENT
+  value: {{ .Values.openAi.tier2ModelDeployment | quote }}
+- name: TIER3_MODEL_DEPLOYMENT
+  value: {{ .Values.openAi.tier3ModelDeployment | quote }}
 - name: OPENAI_API_KEY
   valueFrom:
     secretKeyRef:

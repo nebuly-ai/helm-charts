@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.118.0"
+    tag: "v1.118.2"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -194,7 +194,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.81.5"
+    tag: "v1.81.6"
 
   v2:
     # -- If true, enable the v2 of the frontend. 
@@ -203,7 +203,7 @@ frontend:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
-      tag: "v2.6.2"
+      tag: "v2.6.5"
   podAnnotations: { }
   podLabels: { }
 
@@ -441,7 +441,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.80.2
+    tag: v1.83.0
 
   podAnnotations: { }
   podLabels: { }
@@ -737,7 +737,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.80.2
+    tag: v1.83.0
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -884,15 +884,15 @@ secretsStore:
 openAi:
   # -- If true, enable the OpenAI integration.
   enabled: true
-  # -- For Azure OpenAI: the name of the GPT-4o deployment.
-  # For OpenAI: `gpt-4o`.
-  gpt4oDeployment: ""
-  # -- For Azure OpenAI: the name of the GPT-5 deployment.
-  # For OpenAI: `gpt-5`.
-  gpt5Deployment: ""
-  # -- For Azure OpenAI: the name of the OpenAI Deployment used to translate interactions.
-  # For OpenAI: the name of the OpenAI model used to translate interactions.
-  translationDeployment: ""
+  # -- Model deployment for complex tasks (tier 1).
+  # For Azure OpenAI: the name of the deployment. For OpenAI: the name of the model.
+  tier1ModelDeployment: ""
+  # -- Model deployment for medium-complexity tasks (tier 2).
+  # For Azure OpenAI: the name of the deployment. For OpenAI: the name of the model.
+  tier2ModelDeployment: ""
+  # -- Model deployment for easy tasks (tier 3).
+  # For Azure OpenAI: the name of the deployment. For OpenAI: the name of the model.
+  tier3ModelDeployment: ""
   # -- The endpoint of the OpenAI resource.
   # For Azure OpenAI: `https://<resource-name>.openai.azure.com/`.
   # For OpenAI: `https://api.openai.com/v1`.

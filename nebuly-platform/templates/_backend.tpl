@@ -141,7 +141,7 @@
       name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "backend.fullname" .) }}
       key: {{ .Values.openAi.existingSecret.apiKey | default "openai-api-key" }}
 - name: OPENAI_DEPLOYMENT_TRANSLATION
-  value: {{ .Values.openAi.translationDeployment | quote }}
+  value: {{ .Values.openAi.tier3ModelDeployment | quote }}
 - name: OPENAI_ORGANIZATION
   value: ""
 # Misc

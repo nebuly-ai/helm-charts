@@ -379,10 +379,10 @@ app.kubernetes.io/component: promtail
 *********************************************************************
 */}}
 {{- define "featureTranslationsEnabled" -}}
-{{- if empty .Values.openAi.translationDeployment -}}
-false
-{{- else -}}
+{{- if .Values.openAi.enabled -}}
 true
+{{- else -}}
+false
 {{- end -}}
 {{- end -}}
 
