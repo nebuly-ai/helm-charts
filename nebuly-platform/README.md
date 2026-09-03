@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.102.0](https://img.shields.io/badge/Version-1.102.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.103.0](https://img.shields.io/badge/Version-1.103.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -296,7 +296,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.118.0"` |  |
+| backend.image.tag | string | `"v1.118.2"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -453,7 +453,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.81.5"` |  |
+| frontend.image.tag | string | `"v1.81.6"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -485,7 +485,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.v2.enabled | bool | `true` | This will create a separate deployment, which will run alongside the default one. |
 | frontend.v2.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.v2.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.v2.image.tag | string | `"v2.6.2"` |  |
+| frontend.v2.image.tag | string | `"v2.6.5"` |  |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
 | fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"settings":{"processingDelaySeconds":0},"shmSize":"1Gi","tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | Settings related to the runtime full-processing mode, which replaces the primary and secondary processing CronJobs with an always running Deployment. |
@@ -504,7 +504,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.80.2"` |  |
+| ingestionWorker.image.tag | string | `"v1.83.0"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -651,9 +651,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. For Azure OpenAI: `https://<resource-name>.openai.azure.com/`. For OpenAI: `https://api.openai.com/v1`. |
 | openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
 | openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
-| openAi.gpt4oDeployment | string | `""` | For Azure OpenAI: the name of the GPT-4o deployment. For OpenAI: `gpt-4o`. |
-| openAi.gpt5Deployment | string | `""` | For Azure OpenAI: the name of the GPT-5 deployment. For OpenAI: `gpt-5`. |
-| openAi.translationDeployment | string | `""` | For Azure OpenAI: the name of the OpenAI Deployment used to translate interactions. For OpenAI: the name of the OpenAI model used to translate interactions. |
+| openAi.tier1ModelDeployment | string | `""` | Model deployment for complex tasks (tier 1). For Azure OpenAI: the name of the deployment. For OpenAI: the name of the model. |
+| openAi.tier2ModelDeployment | string | `""` | Model deployment for medium-complexity tasks (tier 2). For Azure OpenAI: the name of the deployment. For OpenAI: the name of the model. |
+| openAi.tier3ModelDeployment | string | `""` | Model deployment for easy tasks (tier 3). For Azure OpenAI: the name of the deployment. For OpenAI: the name of the model. |
 | postUpgrade | object | `{"migrateInteractionEdits":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}},"refreshRoTables":{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}}}` | Post-upgrade hooks settings. |
 | postUpgrade.migrateInteractionEdits | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}}` | If True, run a post-install job that migrates the interaction edits logs. |
 | postUpgrade.refreshRoTables | object | `{"enabled":false,"resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}}}` | If True, run a post-install job that runs a full refresh of the backend RO tables. |

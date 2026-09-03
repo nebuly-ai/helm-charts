@@ -10,15 +10,15 @@ dependencies:
   version: 6.53.0
 - name: bootstrap-aws
   repository: file://../bootstrap-aws
-  version: 0.3.0
+  version: 0.4.0
 - name: bootstrap-azure
   repository: file://../bootstrap-azure
-  version: 0.2.0
+  version: 0.3.0
 - name: bootstrap-gcp
   repository: file://../bootstrap-gcp
-  version: 0.2.0
+  version: 0.3.1
 - name: opentelemetry-collector
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts
   version: 0.150.1
-digest: sha256:88cab4ac0a21e6ab4fb6ece9bb965ffd9a32c30deaffb47a528aef0928129aae
-generated: "2026-04-21T18:01:39.006045+02:00"
+digest: sha256:76ad91fa739c08493c24b31c0784151569774d760a4401367d846e3f768da9ff
+generated: "2026-09-03T10:56:28.095722+02:00"

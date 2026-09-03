@@ -1,6 +1,6 @@
 # Microsoft Azure - Kubernetes bootstrap
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependencies required for installing [Nebuly Platform](https://nebuly.com).
 
@@ -10,9 +10,9 @@ Helm chart for bootstrapping a Kubernetes cluster on AWS with all the dependenci
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.15.2 |
-| https://kubernetes.github.io/ingress-nginx | ingress-nginx | ~4.10 |
-| https://nvidia.github.io/k8s-device-plugin | nvidia-device-plugin(nvidia-device-plugin) | ~0.15.0 |
+| https://charts.jetstack.io | cert-manager(cert-manager) | ~v1.21 |
+| https://kubernetes.github.io/ingress-nginx | ingress-nginx | ~4.15 |
+| https://nvidia.github.io/k8s-device-plugin | nvidia-device-plugin(nvidia-device-plugin) | ~0.20 |
 
 ## Installation
 
