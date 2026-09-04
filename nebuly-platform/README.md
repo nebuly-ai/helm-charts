@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.103.1](https://img.shields.io/badge/Version-1.103.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.104.0](https://img.shields.io/badge/Version-1.104.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -335,7 +335,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.service.type | string | `"ClusterIP"` |  |
 | backend.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the backend migrations. If not provided, the default `alembic_version` table will be used. |
 | backend.settings.enableAuditLogging | bool | `false` | If true, enable audit logging. |
-| backend.settings.enableUserAnonymization | bool | `false` | If true, enable the user anonymization feature. It masks user identifiers in the database and API responses using the provided key. |
+| backend.settings.enableUserAnonymization | bool | `false` | If true, enable the user anonymization feature. It masks user identifiers in the  database and API responses using the provided key. |
 | backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
 | backend.settings.realTenant | string | `""` | The tenant used for the platform's internal operations. |
 | backend.settings.scriptProjectIds | list | `[]` | A list of project IDs for which the scripts execution is enabled. If empty, the feature will be disabled for all projects. |
@@ -444,7 +444,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.enableAbTesting | bool | `false` | Enable the AB testing feature. |
 | frontend.enableAiSummary | bool | `true` | If set to true, enable the AI summarization feature. |
 | frontend.enableCustomVariables | bool | `true` | If true, enable the custom variables feature. |
-| frontend.enableHighPerformanceMode | bool | `true` | If true enable High performance mode. This mode increases the performance of the platform and is suggested for environments with high volumes of data (more than 1 million interactions per month). |
+| frontend.enableHighPerformanceMode | bool | `true` | If true enable High performance mode. This mode increases the performance of  the platform and is suggested for environments with high volumes of data  (more than 1 million interactions per month). |
 | frontend.enableLLMIssueHiding | bool | `false` | If True, hide LLM issues from users without the proper role. |
 | frontend.enableOldRiskyBehavior | bool | `false` | Feature flag to activate the old risky behavior page. Used for retro-compatibility. |
 | frontend.enableSubCategories | bool | `false` | If set to true, enable the sub-categories feature. |
@@ -531,14 +531,14 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.settings.dataRetentionDays | int | `-1` | The maximum number of days the processing pipeline will keep the data. If set to -1, the data will not be deleted. This parameter only impacts the data seen while processing the data, not the data shown in the platform. |
 | ingestionWorker.settings.enableDbCache | bool | `true` | Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions. |
 | ingestionWorker.settings.enablePiiLanguageDetection | bool | `false` | Enable language detection for PII detection. |
-| ingestionWorker.settings.enablePiiLlm | bool | `false` | Enable use of LLM (pii-removal) to remove the PII during interaction processing. |
+| ingestionWorker.settings.enablePiiLlm | bool | `false` | Enable use of LLM (pii-removal) to remove the PII during interaction processing.  |
 | ingestionWorker.settings.enrichInteractionBatchSize | int | `10000` | Batch size of interactions loaded in each step of enrich interactions. |
 | ingestionWorker.settings.entitiesBatchSize | int | `20000` | Batch size of entities loaded in each step of aggregate jobs. |
 | ingestionWorker.settings.maxNumberOfGenerationLoop | int | `2` |  |
 | ingestionWorker.settings.piiDenyList | list | `[]` | List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove. |
 | ingestionWorker.settings.piiEnabledTenants | list | `[]` | List of tenants for which PII detection is enabled. Note that when given this will override the enablePiiLlm setting for the given tenants. |
 | ingestionWorker.settings.skipProcessingForProjects | list | `[]` |  |
-| ingestionWorker.settings.startDateActions | string | `"2020-01-01 00:00:00+00:00"` | Start date used to consider existing actions. This feature should only be used to force the processing pipeline to ignore actions created before a given date. |
+| ingestionWorker.settings.startDateActions | string | `"2020-01-01 00:00:00+00:00"` | Start date used to consider existing actions. This feature should only be used to force the processing pipeline to ignore actions created before a given date.  |
 | ingestionWorker.settings.startDateSubTopics | string | `"2020-01-01 00:00:00+00:00"` | Start date used to consider existing sub-topics. This feature should only be used to force the processing pipeline to ignore sub-topics created before a given date. |
 | ingestionWorker.settings.startDateTopics | string | `"2020-01-01 00:00:00+00:00"` | Start date used to consider existing topics. This feature should only be used to force the processing pipeline to ignore topics created before a given date. |
 | ingestionWorker.settings.tasks | object | `{"feedbackAction":true,"interaction":true,"tags":true,"traceInteraction":true}` | Enable or disable internal worker tasks. This is primarily intended for debugging or performance tuning. |
