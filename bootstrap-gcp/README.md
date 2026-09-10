@@ -1,6 +1,6 @@
 # GCP - Kubernetes bootstrap
 
-![Version: 0.3.1](https://img.shields.io/badge/Version-0.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.1](https://img.shields.io/badge/AppVersion-0.3.1-informational?style=flat-square)
+![Version: 0.3.2](https://img.shields.io/badge/Version-0.3.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.2](https://img.shields.io/badge/AppVersion-0.3.2-informational?style=flat-square)
 
 Helm chart for bootstrapping a Kubernetes cluster on GCP with all the dependencies required for installing [Nebuly Platform](https://nebuly.com).
 
@@ -45,6 +45,7 @@ details.
 | nvidia-device-plugin.enabled | bool | `true` |  |
 | secrets-store-csi-driver.enabled | bool | `true` |  |
 | secrets-store-csi-driver.syncSecret.enabled | bool | `true` |  |
+| traefik.accessLog.enabled | bool | `true` |  |
 | traefik.enabled | bool | `true` |  |
 | traefik.ingressClass.enabled | bool | `true` |  |
 | traefik.ingressClass.isDefaultClass | bool | `true` |  |
