@@ -198,6 +198,8 @@ frontend:
     # -- If true, enable the v2 of the frontend. 
     # -- This will create a separate deployment, which will run alongside the default one.
     enabled: true
+    # -- Public URL of the v2 frontend. If empty, defaults to https://v2.<first frontend ingress host>.
+    rootUrl: ""
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
