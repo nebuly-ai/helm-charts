@@ -31,16 +31,18 @@ spec:
   {{- end }}
   {{- if .Values.frontend.ingress.tls }}
   tls:
+    {{- if .Values.frontend.v2.rootUrl }}
+    - hosts:
+        - {{ include "frontend.v2.host" . | quote }}
+      secretName: {{ (index .Values.frontend.ingress.tls 0).secretName }}-v2
+    {{- else }}
     {{- range .Values.frontend.ingress.tls }}
     - hosts:
-        {{- if $.Values.frontend.v2.rootUrl }}
-        - {{ include "frontend.v2.host" $ | quote }}
-        {{- else }}
         {{- range .hosts }}
         - {{ printf "v2.%s" . | quote }}
         {{- end }}
-        {{- end }}
       secretName: {{ .secretName }}-v2
+    {{- end }}
     {{- end }}
   {{- end }}
   rules:
