@@ -316,8 +316,20 @@ app.kubernetes.io/component: nebuly-frontend
 http://{{ include "frontend.fullname" . }}.{{ include "nebuly-platform.namespace" . }}.svc.cluster.local:{{ .Values.frontend.service.port }}
 {{- end }}
 
+{{- define "frontend.v2.host" -}}
+{{- if .Values.frontend.v2.rootUrl -}}
+{{- (urlParse .Values.frontend.v2.rootUrl).host -}}
+{{- else -}}
+v2.{{ (index .Values.frontend.ingress.hosts 0).host }}
+{{- end -}}
+{{- end }}
+
 {{- define "frontend.v2.url" -}}
+{{- if .Values.frontend.v2.rootUrl -}}
+{{- .Values.frontend.v2.rootUrl -}}
+{{- else -}}
 https://v2.{{ (index .Values.frontend.ingress.hosts 0).host }}
+{{- end -}}
 {{- end }}
 
 {{- define "frontend-v2.labels" -}}
