@@ -514,8 +514,12 @@ aiModels:
     version: "2"
 
   modelTopicClassifier:
-    name: "topic-classifier"
-    version: "23"
+    name: "multi-label-classifier"
+    version: "4"
+
+  modelTierAssignment:
+    name: "tier-assignor"
+    version: "1"
 
   modelPiiRemoval:
     name: "pii-removal"
