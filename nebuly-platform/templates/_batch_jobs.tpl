@@ -16,6 +16,14 @@
   value: {{ .Values.aiModels.modelTopicClassifier.name | quote }}
 - name: TOPIC_LOCAL_MODEL_VERSION
   value: {{ .Values.aiModels.modelTopicClassifier.version | quote }}
+- name: ENABLE_MULTILABEL_CLASSIFICATION
+  value: "true"
+
+# Tier assignment model
+- name: TIER_ASSIGNMENT_MODEL_NAME
+  value: {{ .Values.aiModels.modelTierAssignment.name | quote }}
+- name: TIER_ASSIGNMENT_MODEL_VERSION
+  value: {{ .Values.aiModels.modelTierAssignment.version | quote }}
 
 # Action Model
 - name: ACTION_LOCAL_MODEL_NAME

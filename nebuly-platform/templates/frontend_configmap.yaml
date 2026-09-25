@@ -53,7 +53,7 @@ data:
       "NEXT_PUBLIC_ENABLE_REMOTE_ACCESS" : {{ .Values.remoteAccess.enabled | quote }},
       "NEXT_PUBLIC_ENABLE_ADMIN_EXPORT_LOGS": {{ .Values.loki.enabled | quote }}{{- if .Values.frontend.v2.enabled }},{{ end }}
       {{- if .Values.frontend.v2.enabled }}
-      "NEXT_URL": "https://v2.{{ (index .Values.frontend.ingress.hosts 0).host }}",
+      "NEXT_URL": {{ include "frontend.v2.url" . | quote }},
       "NEXT_LEGACY_URL": {{ .Values.frontend.rootUrl | quote }}
       {{- end }}
     }
