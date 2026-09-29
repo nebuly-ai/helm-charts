@@ -296,7 +296,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.120.6"` |  |
+| backend.image.tag | string | `"v1.120.7"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -484,7 +484,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.v2.enabled | bool | `true` | This will create a separate deployment, which will run alongside the default one. |
 | frontend.v2.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.v2.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.v2.image.tag | string | `"v2.7.4"` |  |
+| frontend.v2.image.tag | string | `"v2.7.6"` |  |
 | frontend.v2.rootUrl | string | `""` | Public URL of the v2 frontend. If empty, defaults to https://v2.<first frontend ingress host>. |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
