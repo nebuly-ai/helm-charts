@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.106.0](https://img.shields.io/badge/Version-1.106.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.106.1](https://img.shields.io/badge/Version-1.106.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -233,7 +233,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.26.0"` |  |
+| auth.image.tag | string | `"v1.26.4"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.ldap | object | `{"activeDirectoryRoot":"","adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
@@ -296,7 +296,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.120.9"` |  |
+| backend.image.tag | string | `"v1.120.13"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -484,7 +484,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.v2.enabled | bool | `true` | This will create a separate deployment, which will run alongside the default one. |
 | frontend.v2.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.v2.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.v2.image.tag | string | `"v2.7.6"` |  |
+| frontend.v2.image.tag | string | `"v2.7.8"` |  |
 | frontend.v2.rootUrl | string | `""` | Public URL of the v2 frontend. If empty, defaults to https://v2.<first frontend ingress host>. |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
@@ -504,7 +504,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.94.0"` |  |
+| ingestionWorker.image.tag | string | `"v1.94.4"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -612,7 +612,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | mcpServer.apiEndpoint | string | `""` | The API endpoint of the MCP server. This is the URL used by the MCP clients to connect to the server |
 | mcpServer.enabled | bool | `false` | If True, deploy the MCP server. |
 | mcpServer.fullnameOverride | string | `""` |  |
-| mcpServer.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-mcp-server","tag":"v0.3.2"}` | The image to use for the MCP server deployment. |
+| mcpServer.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-mcp-server","tag":"v0.4.1"}` | The image to use for the MCP server deployment. |
 | mcpServer.ingress.annotations | object | `{}` |  |
 | mcpServer.ingress.className | string | `""` |  |
 | mcpServer.ingress.enabled | bool | `false` |  |
@@ -673,7 +673,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | remoteAccess.apiToken | string | `""` | The API token used by the remote access agent to authenticate with the Nebuly support system. |
 | remoteAccess.enabled | bool | `true` | If True, deploy an agent to allow remote access to the cluster and the platform services from Nebuly support. |
 | remoteAccess.fullnameOverride | string | `""` |  |
-| remoteAccess.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-remote-access","tag":"v0.2.0"}` | The image to use for the remote access agent deployment. |
+| remoteAccess.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-remote-access","tag":"v0.2.2"}` | The image to use for the remote access agent deployment. |
 | remoteAccess.podAnnotations | object | `{}` |  |
 | remoteAccess.podLabels | object | `{}` |  |
 | remoteAccess.podSecurityContext.runAsNonRoot | bool | `true` |  |

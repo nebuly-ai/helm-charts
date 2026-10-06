@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.120.9"
+    tag: "v1.120.13"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -203,7 +203,7 @@ frontend:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
-      tag: "v2.7.6"
+      tag: "v2.7.8"
   podAnnotations: { }
   podLabels: { }
 
@@ -441,7 +441,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.94.0
+    tag: v1.94.4
 
   podAnnotations: { }
   podLabels: { }
@@ -741,7 +741,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.94.0
+    tag: v1.94.4
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -1209,7 +1209,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.26.0"
+    tag: "v1.26.4"
 
   podAnnotations: { }
   podLabels: { }
@@ -2003,7 +2003,7 @@ mcpServer:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-mcp-server
     pullPolicy: IfNotPresent
-    tag: "v0.3.2"
+    tag: "v0.4.1"
 
   # -- Service of the MCP server deployment.
   service:
@@ -2080,7 +2080,7 @@ remoteAccess:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-remote-access
     pullPolicy: IfNotPresent
-    tag: "v0.2.0"
+    tag: "v0.2.2"
 
   # -- Service of the remote access agent deployment.
   service:
