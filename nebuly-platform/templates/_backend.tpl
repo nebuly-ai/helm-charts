@@ -147,6 +147,8 @@
 # Misc
 - name: ENV
   value: "prod"
+- name: DEPLOYMENT_MODE
+  value: "self-hosted"
 - name: SERVER_PORT
   value: "8080"
 - name: FORWARDED_ALLOW_IPS
