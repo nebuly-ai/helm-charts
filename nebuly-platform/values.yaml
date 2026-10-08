@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.120.16"
+    tag: "v1.122.4"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -192,7 +192,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.82.1"
+    tag: "v1.83.2"
 
   v2:
     # -- If true, enable the v2 of the frontend. 
@@ -203,7 +203,7 @@ frontend:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
-      tag: "v2.7.11"
+      tag: "v2.8.2"
   podAnnotations: { }
   podLabels: { }
 
@@ -2003,7 +2003,7 @@ mcpServer:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-mcp-server
     pullPolicy: IfNotPresent
-    tag: "v0.4.1"
+    tag: "v0.5.0"
 
   # -- Service of the MCP server deployment.
   service:
