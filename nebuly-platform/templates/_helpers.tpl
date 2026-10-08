@@ -390,8 +390,42 @@ app.kubernetes.io/component: promtail
 * Feature Flags
 *********************************************************************
 */}}
+{{- define "nebuly.apiModelProvider" -}}
+{{- if .Values.google.enabled -}}
+google
+{{- else if .Values.openAi.enabled -}}
+openai
+{{- else -}}
+openai
+{{- end -}}
+{{- end -}}
+
+{{- define "nebuly.tier1ModelDeployment" -}}
+{{- if .Values.google.enabled -}}
+{{- .Values.google.tier1ModelDeployment -}}
+{{- else -}}
+{{- .Values.openAi.tier1ModelDeployment -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "nebuly.tier2ModelDeployment" -}}
+{{- if .Values.google.enabled -}}
+{{- .Values.google.tier2ModelDeployment -}}
+{{- else -}}
+{{- .Values.openAi.tier2ModelDeployment -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "nebuly.tier3ModelDeployment" -}}
+{{- if .Values.google.enabled -}}
+{{- .Values.google.tier3ModelDeployment -}}
+{{- else -}}
+{{- .Values.openAi.tier3ModelDeployment -}}
+{{- end -}}
+{{- end -}}
+
 {{- define "featureTranslationsEnabled" -}}
-{{- if .Values.openAi.enabled -}}
+{{- if or .Values.openAi.enabled .Values.google.enabled -}}
 true
 {{- else -}}
 false

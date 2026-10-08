@@ -880,6 +880,22 @@ secretsStore:
       clientIdKey: ""
       clientSecretKey: ""
 
+# -- Google Agent Platform integration for LLM tasks. Mutually exclusive with `openAi.enabled`.
+# @default -- -
+google:
+  # -- If true, use Google as the API model provider.
+  enabled: false
+  # -- GCP project ID (Vertex / Gemini).
+  project: ""
+  # -- GCP region or multi-region (e.g. `europe-west1`).
+  location: "global"
+  # -- Use Vertex AI enterprise GenAI APIs when true.
+  useEnterprise: true
+  # -- Model or deployment names for tier 1–3 when `google.enabled` is true.
+  tier1ModelDeployment: ""
+  tier2ModelDeployment: ""
+  tier3ModelDeployment: ""
+
 # -- Optional configuration for the OpenAI integration.
 # If enabled, the specified models on the OpenAI resource will be used to
 # process the collected data.
@@ -887,7 +903,7 @@ secretsStore:
 # @default -- -
 openAi:
   # -- If true, enable the OpenAI integration.
-  enabled: true
+  enabled: false
   # -- Model deployment for complex tasks (tier 1).
   # For Azure OpenAI: the name of the deployment. For OpenAI: the name of the model.
   tier1ModelDeployment: ""

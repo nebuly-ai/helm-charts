@@ -494,6 +494,12 @@ The command removes all the Kubernetes components associated with the chart and 
 | fullProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | fullProcessing.settings.processingDelaySeconds | int | `0` | Seconds of delay between processing. |
 | fullProcessing.shmSize | string | `"1Gi"` | Size of the memory-backed `/dev/shm` volume mounted in the full-processing pod. Required by the processing pipeline (e.g. LLM inference) that relies on shared memory. Note: a memory-backed emptyDir counts against the container memory limit. Set to empty/null to disable the volume. |
+| google | object | - | Google Agent Platform integration for LLM tasks. Mutually exclusive with `openAi.enabled`. |
+| google.enabled | bool | `false` | If true, use Google as the API model provider. |
+| google.location | string | `"global"` | GCP region or multi-region (e.g. `europe-west1`). |
+| google.project | string | `""` | GCP project ID (Vertex / Gemini). |
+| google.tier1ModelDeployment | string | `""` | Model or deployment names for tier 1–3 when `google.enabled` is true. |
+| google.useEnterprise | bool | `true` | Use Vertex AI enterprise GenAI APIs when true. |
 | imagePullSecrets | list | `[]` |  |
 | ingestion | object | `{"generateDbEvents":{"enabled":false,"endDate":"","resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}},"startDate":"","tenant":""}}` | Settings for ingestion jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
 | ingestion.generateDbEvents.enabled | bool | `false` | If True, deploy a CronJob to generate DB events. The CronJob is suspended and configured to never run on schedule; it must be manually triggered. |
@@ -647,7 +653,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | openAi | object | - | Optional configuration for the OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. Both OpenAI and Azure OpenAI are supported. |
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |
 | openAi.apiVersion | string | `"2025-03-01-preview"` | The version of the APIs to use. Used only for Azure OpenAI. |
-| openAi.enabled | bool | `true` | If true, enable the OpenAI integration. |
+| openAi.enabled | bool | `false` | If true, enable the OpenAI integration. |
 | openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. For Azure OpenAI: `https://<resource-name>.openai.azure.com/`. For OpenAI: `https://api.openai.com/v1`. |
 | openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
 | openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
