@@ -132,6 +132,15 @@
       name: {{ tpl .Values.telemetry.existingSecret.name . }}
       key: {{ .Values.telemetry.existingSecret.tenantKey }}
       {{- end }}
+# Models deployments
+- name: API_MODEL_PROVIDER
+  value: {{ include "nebuly.apiModelProvider" . | quote }}
+- name: TIER1_MODEL_DEPLOYMENT
+  value: {{ include "nebuly.tier1ModelDeployment" . | quote }}
+- name: TIER2_MODEL_DEPLOYMENT
+  value: {{ include "nebuly.tier2ModelDeployment" . | quote }}
+- name: TIER3_MODEL_DEPLOYMENT
+  value: {{ include "nebuly.tier3ModelDeployment" . | quote }}
 # OpenAI
 - name: OPENAI_BASE_URL
   value: {{ .Values.openAi.endpoint | quote }}
@@ -140,10 +149,15 @@
     secretKeyRef:
       name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "backend.fullname" .) }}
       key: {{ .Values.openAi.existingSecret.apiKey | default "openai-api-key" }}
-- name: OPENAI_DEPLOYMENT_TRANSLATION
-  value: {{ .Values.openAi.tier3ModelDeployment | quote }}
 - name: OPENAI_ORGANIZATION
   value: ""
+# Google Cloud
+- name: GOOGLE_CLOUD_PROJECT
+  value: {{ .Values.google.project | quote }}
+- name: GOOGLE_CLOUD_LOCATION
+  value: {{ .Values.google.location | quote }}
+- name: GOOGLE_GENAI_USE_ENTERPRISE
+  value: {{ .Values.google.useEnterprise | quote }}
 # Misc
 - name: ENV
   value: "prod"

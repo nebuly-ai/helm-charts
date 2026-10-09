@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.106.5](https://img.shields.io/badge/Version-1.106.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.107.0](https://img.shields.io/badge/Version-1.107.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -296,7 +296,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.120.16"` |  |
+| backend.image.tag | string | `"v1.122.5"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -452,7 +452,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.82.1"` |  |
+| frontend.image.tag | string | `"v1.83.2"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -484,7 +484,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.v2.enabled | bool | `true` | This will create a separate deployment, which will run alongside the default one. |
 | frontend.v2.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.v2.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.v2.image.tag | string | `"v2.7.11"` |  |
+| frontend.v2.image.tag | string | `"v2.8.4"` |  |
 | frontend.v2.rootUrl | string | `""` | Public URL of the v2 frontend. If empty, defaults to https://v2.<first frontend ingress host>. |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
@@ -494,6 +494,12 @@ The command removes all the Kubernetes components associated with the chart and 
 | fullProcessing.hostIPC | bool | `false` | Set to True when running on multiple GPUs. |
 | fullProcessing.settings.processingDelaySeconds | int | `0` | Seconds of delay between processing. |
 | fullProcessing.shmSize | string | `"1Gi"` | Size of the memory-backed `/dev/shm` volume mounted in the full-processing pod. Required by the processing pipeline (e.g. LLM inference) that relies on shared memory. Note: a memory-backed emptyDir counts against the container memory limit. Set to empty/null to disable the volume. |
+| google | object | - | Google Agent Platform integration for LLM tasks. Mutually exclusive with `openAi.enabled`. |
+| google.enabled | bool | `false` | If true, use Google as the API model provider. |
+| google.location | string | `"global"` | GCP region or multi-region (e.g. `europe-west1`). |
+| google.project | string | `""` | GCP project ID (Vertex / Gemini). |
+| google.tier1ModelDeployment | string | `""` | Model or deployment names for tier 1–3 when `google.enabled` is true. |
+| google.useEnterprise | bool | `true` | Use Vertex AI enterprise GenAI APIs when true. |
 | imagePullSecrets | list | `[]` |  |
 | ingestion | object | `{"generateDbEvents":{"enabled":false,"endDate":"","resources":{"limits":{"memory":"512Mi"},"requests":{"cpu":"50m"}},"startDate":"","tenant":""}}` | Settings for ingestion jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
 | ingestion.generateDbEvents.enabled | bool | `false` | If True, deploy a CronJob to generate DB events. The CronJob is suspended and configured to never run on schedule; it must be manually triggered. |
@@ -612,7 +618,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | mcpServer.apiEndpoint | string | `""` | The API endpoint of the MCP server. This is the URL used by the MCP clients to connect to the server |
 | mcpServer.enabled | bool | `false` | If True, deploy the MCP server. |
 | mcpServer.fullnameOverride | string | `""` |  |
-| mcpServer.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-mcp-server","tag":"v0.4.1"}` | The image to use for the MCP server deployment. |
+| mcpServer.image | object | `{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-mcp-server","tag":"v0.5.0"}` | The image to use for the MCP server deployment. |
 | mcpServer.ingress.annotations | object | `{}` |  |
 | mcpServer.ingress.className | string | `""` |  |
 | mcpServer.ingress.enabled | bool | `false` |  |
@@ -647,7 +653,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | openAi | object | - | Optional configuration for the OpenAI integration. If enabled, the specified models on the OpenAI resource will be used to process the collected data. Both OpenAI and Azure OpenAI are supported. |
 | openAi.apiKey | string | `""` | The primary API Key of the OpenAI resource, used for authentication. To be provided only when not using an existing secret (see openAi.existingSecret value below). |
 | openAi.apiVersion | string | `"2025-03-01-preview"` | The version of the APIs to use. Used only for Azure OpenAI. |
-| openAi.enabled | bool | `true` | If true, enable the OpenAI integration. |
+| openAi.enabled | bool | `false` | If true, enable the OpenAI integration. |
 | openAi.endpoint | string | `""` | The endpoint of the OpenAI resource. For Azure OpenAI: `https://<resource-name>.openai.azure.com/`. For OpenAI: `https://api.openai.com/v1`. |
 | openAi.existingSecret | object | - | Use an existing secret for the Azure OpenAI authentication. |
 | openAi.existingSecret.name | string | `""` | Name of the secret. Can be templated. |

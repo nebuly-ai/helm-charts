@@ -37,11 +37,19 @@
 {{- end -}}
 {{- end -}}
 {{/* Azure OpenAI */}}
+{{- $messages = append $messages (include "chart.validateValues.apiModelProvider" .) -}}
 {{- if .Values.openAi.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.openAi.endpoint" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.openAi.tier1ModelDeployment" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.openAi.tier2ModelDeployment" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.openAi.tier3ModelDeployment" .) -}}
+{{- end -}}
+{{- if .Values.google.enabled -}}
+{{- $messages = append $messages (include "chart.validateValues.google.project" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.google.location" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.google.tier1ModelDeployment" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.google.tier2ModelDeployment" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.google.tier3ModelDeployment" .) -}}
 {{- end -}}
 {{/* Ingestion Worker*/}}
 {{- $messages = append $messages (include "chart.validateValues.primaryProcessing.modelsCache" .) -}}
@@ -239,6 +247,17 @@ values: kafka.existingSecret.saslGssapiKerberosKeytabKey
 {{- end -}}
 {{- end -}}
 
+{{- define "chart.validateValues.apiModelProvider" -}}
+{{- if and .Values.openAi.enabled .Values.google.enabled -}}
+values: openAi.enabled / google.enabled
+  exactly one of `openAi.enabled` or `google.enabled` must be true
+{{- end -}}
+{{- if and (not .Values.openAi.enabled) (not .Values.google.enabled) -}}
+values: openAi.enabled / google.enabled
+  one of `openAi.enabled` or `google.enabled` must be true
+{{- end -}}
+{{- end -}}
+
 {{/* Azure OpenAI . */}}
 {{- define "chart.validateValues.openAi.endpoint" -}}
 {{- if empty .Values.openAi.endpoint  -}}
@@ -267,6 +286,41 @@ values: openAi.tier2ModelDeployment
 {{- if empty .Values.openAi.tier3ModelDeployment  -}}
 values: openAi.tier3ModelDeployment
   `tier3ModelDeployment` is required and should be a non-empty string
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.google.project" -}}
+{{- if empty .Values.google.project -}}
+values: google.project
+  `project` is required when `google.enabled` is true
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.google.location" -}}
+{{- if empty .Values.google.location -}}
+values: google.location
+  `location` is required when `google.enabled` is true
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.google.tier1ModelDeployment" -}}
+{{- if empty .Values.google.tier1ModelDeployment -}}
+values: google.tier1ModelDeployment
+  `tier1ModelDeployment` is required when `google.enabled` is true
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.google.tier2ModelDeployment" -}}
+{{- if empty .Values.google.tier2ModelDeployment -}}
+values: google.tier2ModelDeployment
+  `tier2ModelDeployment` is required when `google.enabled` is true
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.google.tier3ModelDeployment" -}}
+{{- if empty .Values.google.tier3ModelDeployment -}}
+values: google.tier3ModelDeployment
+  `tier3ModelDeployment` is required when `google.enabled` is true
 {{- end -}}
 {{- end -}}
 
