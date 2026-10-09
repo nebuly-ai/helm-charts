@@ -172,7 +172,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbedding":{"name":"embedding","version":"2"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":"42"},"modelPiiRemoval":{"name":"pii-removal","version":"10"},"modelTierAssignment":{"name":"tier-assignor","version":"1"},"modelTopicClassifier":{"name":"multi-label-classifier","version":"4"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
+| aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbedding":{"name":"embedding","version":"2"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":"42"},"modelPiiRemoval":{"name":"pii-removal","version":"8"},"modelTierAssignment":{"name":"tier-assignor","version":"1"},"modelTopicClassifier":{"name":"multi-label-classifier","version":"4"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
 | aiModels.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
 | aiModels.aws.endpointUrl | string | `""` | Optional AWS S3 endpoint URL. The URL should not include the bucket name. Example: "https://my-domain.com:9444" |
@@ -296,7 +296,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.122.6"` |  |
+| backend.image.tag | string | `"v1.122.5"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -510,7 +510,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.95.0"` |  |
+| ingestionWorker.image.tag | string | `"v1.94.6"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |

@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.122.6"
+    tag: "v1.122.5"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -441,7 +441,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.95.0
+    tag: v1.94.6
 
   podAnnotations: { }
   podLabels: { }
@@ -523,7 +523,7 @@ aiModels:
 
   modelPiiRemoval:
     name: "pii-removal"
-    version: "10"
+    version: "8"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
@@ -741,7 +741,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.95.0
+    tag: v1.94.6
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
