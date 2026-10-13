@@ -26,6 +26,20 @@ jobs:
     with:
       filter_regex_include: "nebuly-platform/*"
 
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.19.0
+      - name: Install helm-unittest
+        run: helm plugin install https://github.com/helm-unittest/helm-unittest.git --version v1.2.1
+      - name: Test chart templates
+        run: helm unittest --strict nebuly-platform
+
   CheckDocumentation:
     runs-on: ubuntu-latest
     steps:
