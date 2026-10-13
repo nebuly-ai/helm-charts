@@ -17,10 +17,10 @@ spec:
           port: 2181
     {{- end }}
     users:
-      {{ printf "%s/password" .Values.clickhouse.auth.backupsUser.username }}: {{ .Values.clickhouse.auth.backupsUser.password}}
+      {{ printf "%s/password" .Values.clickhouse.auth.backupsUser.username }}: {{ .Values.clickhouse.auth.backupsUser.password | quote }}
       {{ printf "%s/networks/ip" .Values.clickhouse.auth.backupsUser.username }}:
         - ::/0
-      {{ printf "%s/password" .Values.clickhouse.auth.nebulyUser.username}}: {{ .Values.clickhouse.auth.nebulyUser.password}}
+      {{ printf "%s/password" .Values.clickhouse.auth.nebulyUser.username}}: {{ .Values.clickhouse.auth.nebulyUser.password | quote }}
       {{ printf "%s/named_collection_control" .Values.clickhouse.auth.nebulyUser.username }}: 1
       {{ printf "%s/networks/ip" .Values.clickhouse.auth.nebulyUser.username }}:
         - ::/0

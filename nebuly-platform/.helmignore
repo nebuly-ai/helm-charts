@@ -23,3 +23,5 @@
 .vscode/
 # Misc
 bin/
+# Unit test suites
+tests/

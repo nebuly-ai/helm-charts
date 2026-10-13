@@ -1,0 +1,102 @@
+suite: ClickHouse passwords
+templates:
+  - templates/ch_installation.yaml
+set:
+  clickhouse.enabled: true
+tests:
+  - it: keeps the default passwords as strings
+    asserts:
+      - equal:
+          path: spec.configuration.users["nebulyadmin/password"]
+          value: nebuly
+      - equal:
+          path: spec.configuration.users["backups/password"]
+          value: nebuly
+  - it: keeps numeric passwords as strings
+    set:
+      clickhouse.auth.nebulyUser.password: '12345'
+      clickhouse.auth.backupsUser.password: '12345'
+    asserts:
+      - equal:
+          path: spec.configuration.users["nebulyadmin/password"]
+          value: '12345'
+      - equal:
+          path: spec.configuration.users["backups/password"]
+          value: '12345'
+  - it: keeps boolean-like passwords as strings
+    set:
+      clickhouse.auth.nebulyUser.password: 'false'
+      clickhouse.auth.backupsUser.password: 'false'
+    asserts:
+      - equal:
+          path: spec.configuration.users["nebulyadmin/password"]
+          value: 'false'
+      - equal:
+          path: spec.configuration.users["backups/password"]
+          value: 'false'
+  - it: preserves hash characters after whitespace
+    set:
+      clickhouse.auth.nebulyUser.password: 'correct #suffix'
+      clickhouse.auth.backupsUser.password: 'correct #suffix'
+    asserts:
+      - equal:
+          path: spec.configuration.users["nebulyadmin/password"]
+          value: 'correct #suffix'
+      - equal:
+          path: spec.configuration.users["backups/password"]
+          value: 'correct #suffix'
+  - it: preserves colons followed by whitespace
+    set:
+      clickhouse.auth.nebulyUser.password: 'correct: suffix'
+      clickhouse.auth.backupsUser.password: 'correct: suffix'
+    asserts:
+      - equal:
+          path: spec.configuration.users["nebulyadmin/password"]
+          value: 'correct: suffix'
+      - equal:
+          path: spec.configuration.users["backups/password"]
+          value: 'correct: suffix'
+  - it: preserves embedded double quotes
+    set:
+      clickhouse.auth.nebulyUser.password: a"quoted"password
+      clickhouse.auth.backupsUser.password: a"quoted"password
+    asserts:
+      - equal:
+          path: spec.configuration.users["nebulyadmin/password"]
+          value: a"quoted"password
+      - equal:
+          path: spec.configuration.users["backups/password"]
+          value: a"quoted"password
+  - it: preserves backslashes
+    set:
+      clickhouse.auth.nebulyUser.password: path\value
+      clickhouse.auth.backupsUser.password: path\value
+    asserts:
+      - equal:
+          path: spec.configuration.users["nebulyadmin/password"]
+          value: path\value
+      - equal:
+          path: spec.configuration.users["backups/password"]
+          value: path\value
+  - it: preserves newlines
+    set:
+      clickhouse.auth.nebulyUser.password: "first\nsecond"
+      clickhouse.auth.backupsUser.password: "first\nsecond"
+    asserts:
+      - equal:
+          path: spec.configuration.users["nebulyadmin/password"]
+          value: "first\nsecond"
+      - equal:
+          path: spec.configuration.users["backups/password"]
+          value: "first\nsecond"
+  - it: keeps empty passwords as strings
+    set:
+      clickhouse.auth.nebulyUser.password: ''
+      clickhouse.auth.backupsUser.password: ''
+    asserts:
+      - equal:
+          path: spec.configuration.users["nebulyadmin/password"]
+          value: ''
+      - equal:
+          path: spec.configuration.users["backups/password"]
+          value: ''
