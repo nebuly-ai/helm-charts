@@ -48,3 +48,33 @@ jobs:
       - name: Helm push
         working-directory: nebuly-platform
         run: make helm-push
+
+  Push-gar:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Helm
+        uses: Azure/setup-helm@v3
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/840570956381/locations/global/workloadIdentityPools/github/providers/github-oidc
+          service_account: github-actions-push@nebuly-public.iam.gserviceaccount.com
+          token_format: access_token
+
+      - name: Helm login
+        run: echo "${{ steps.auth.outputs.access_token }}" | helm registry login us-docker.pkg.dev -u oauth2accesstoken --password-stdin
+
+      - name: Helm push
+        working-directory: nebuly-platform
+        run: make helm-push
+        env:
+          HELM_CHART_REGISTRY: oci://us-docker.pkg.dev/nebuly-public/nebuly-charts
