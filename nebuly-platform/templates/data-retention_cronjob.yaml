@@ -1,0 +1,127 @@
+{{- if .Values.reprocessing.dataRetention.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: data-retention
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "ingestionWorker.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  schedule: 0 0 30 2 * # Never
+  suspend: true
+  jobTemplate:
+    metadata:
+      labels:
+        {{- include "ingestionWorker.labels" . | nindent 8 }}
+    spec:
+      activeDeadlineSeconds: {{ .Values.reprocessing.dataRetention.activeDeadlineSeconds }}
+      template:
+        metadata:
+          {{- with .Values.ingestionWorker.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          labels:
+            {{- include "ingestionWorker.labels" . | nindent 12 }}
+            {{- with .Values.ingestionWorker.podLabels }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+        spec:
+          serviceAccountName: {{ .Values.serviceAccount.name }}
+          restartPolicy: Never
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.ingestionWorker.podSecurityContext | nindent 12 }}
+          containers:
+            - name: "{{ .Chart.Name }}"
+              securityContext:
+                {{- toYaml .Values.ingestionWorker.securityContext | nindent 16 }}
+              command:
+                - python
+                - minkmaze
+                - jobs
+                - data-retention
+                - nebuly
+                - --project-id
+                - {{ .Values.reprocessing.dataRetention.projectId | quote }}
+              image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
+              env:
+                {{- include "ingestionWorker.commonEnv" . | nindent 16 }}
+              resources:
+                {{- toYaml .Values.reprocessing.dataRetention.resources | nindent 16 }}
+              volumeMounts:
+                - name: vllm-report-usage
+                  mountPath: /nonexistent
+                - name: models-cache
+                  mountPath: /var/cache/nebuly
+                  readOnly: false
+              {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
+                - name: krb5-config
+                  mountPath: /etc/krb5.conf
+                  subPath: krb5.conf
+                - name: krb5-keytab
+                  mountPath: /etc/krb5.keytab
+                  subPath: krb5.keytab
+              {{- end }}
+              {{- if or (not .Values.kafka.external) (.Values.kafka.existingSecret.sslCaCertKey) }}
+                - name: kafka-cluster-ca-cert
+                  mountPath: "/etc/kafka"
+                  readOnly: true
+              {{- end }}
+              {{- with .Values.ingestionWorker.volumeMounts }}
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+          volumes:
+            - name: vllm-report-usage
+              emptyDir: {}
+            - name: models-cache
+              emptyDir: { }
+          {{- if eq .Values.kafka.saslMechanism "GSSAPI" }}
+            - name: krb5-config
+              configMap:
+                name: {{ include "externalKakfaConfigMapName" . }}
+                items:
+                  - key: krb5.conf
+                    path: krb5.conf
+            - name: krb5-keytab
+              secret:
+                secretName: {{ (tpl .Values.kafka.existingSecret.name . ) }}
+                items:
+                  - key: {{ .Values.kafka.existingSecret.saslGssapiKerberosKeytabKey }}
+                    path: krb5.keytab
+          {{- end }}
+          {{- if and (not .Values.kafka.external) (not .Values.kafka.existingSecret.sslCaCertKey) }}
+            - name: kafka-cluster-ca-cert
+              secret:
+                secretName: {{ include "kafka.fullname" . }}-cluster-ca-cert
+          {{- end }}
+          {{- if .Values.kafka.existingSecret.sslCaCertKey }}
+            - name: kafka-cluster-ca-cert
+              secret:
+                secretName: {{ (tpl .Values.kafka.existingSecret.name . ) }}
+                items:
+                  - key: {{ .Values.kafka.existingSecret.sslCaCertKey }}
+                    path: ca.crt
+          {{- end }}
+          {{- with .Values.ingestionWorker.volumes }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.ingestionWorker.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.ingestionWorker.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.ingestionWorker.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+{{- end }}

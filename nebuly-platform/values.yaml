@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.123.3"
+    tag: "v1.123.6"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -203,7 +203,7 @@ frontend:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
-      tag: "v2.8.9"
+      tag: "v2.8.10"
   podAnnotations: { }
   podLabels: { }
 
@@ -441,7 +441,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.97.4
+    tag: v1.97.9
 
   podAnnotations: { }
   podLabels: { }
@@ -741,7 +741,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.97.4
+    tag: v1.97.9
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -1412,6 +1412,15 @@ reprocessing:
     enabled: false
   cleanTopics:
     enabled: false
+  dataRetention:
+    enabled: false
+    projectId: ""
+    activeDeadlineSeconds: 604800 # 7 days
+    resources:
+      requests:
+        cpu: 50m
+      limits:
+        memory: 1Gi
 
 # -- Settings for ingestion jobs required during major platform upgrades. Keep
 # everything disabled by default unless you're upgrading the platform to a major
