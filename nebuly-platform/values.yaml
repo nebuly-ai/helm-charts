@@ -48,6 +48,9 @@ backend:
     # -- If true, enable audit logging.
     enableAuditLogging: false
 
+    # -- If true, enable the segments feature.
+    enableSegments: false
+
   podAnnotations: { }
   podLabels: { }
 

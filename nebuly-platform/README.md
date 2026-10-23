@@ -335,6 +335,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.service.type | string | `"ClusterIP"` |  |
 | backend.settings.alembicTable | string | `""` | The name of the alembic table used to store the status of the backend migrations. If not provided, the default `alembic_version` table will be used. |
 | backend.settings.enableAuditLogging | bool | `false` | If true, enable audit logging. |
+| backend.settings.enableSegments | bool | `false` | If true, enable the segments feature. |
 | backend.settings.enableUserAnonymization | bool | `false` | If true, enable the user anonymization feature. It masks user identifiers in the  database and API responses using the provided key. |
 | backend.settings.multiTenancyMode | string | `"dynamic_schema"` |  |
 | backend.settings.realTenant | string | `""` | The tenant used for the platform's internal operations. |

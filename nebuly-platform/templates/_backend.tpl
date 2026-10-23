@@ -49,6 +49,8 @@
   value: {{ .Values.backend.settings.taxonomyRoleConfig | quote }}
 - name: ENABLE_AUDIT_LOGGING
   value: {{ .Values.backend.settings.enableAuditLogging | quote }}
+- name: ENABLE_SEGMENTS
+  value: {{ .Values.backend.settings.enableSegments | quote }}
 # Interactions details access control
 - name: INTERACTIONS_DETAILS_ACCESS_CONTROL_ENABLED
   value: {{ .Values.interactionsAccessControl.enabled | quote }}
