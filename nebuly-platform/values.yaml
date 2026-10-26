@@ -705,6 +705,11 @@ fullProcessing:
   # empty/null to disable the volume.
   shmSize: 1Gi
 
+  # -- (int) Soft limit for open file descriptors (`ulimit -n`) raised before the container process starts.
+  # PyTorch's file-descriptor sharing strategy holds one open fd per tensor sent through a multiprocessing queue.
+  # Cannot exceed the hard limit inherited from the node. Empty by default, which leaves the container command unchanged.
+  nofileLimit:
+
   podSecurityContext:
     runAsNonRoot: true
     fsGroup: 101
@@ -782,6 +787,11 @@ primaryProcessing:
   # Note: a memory-backed emptyDir counts against the container memory limit. Set to
   # empty/null to disable the volume.
   shmSize: 1Gi
+
+  # -- (int) Soft limit for open file descriptors (`ulimit -n`) raised before the container process starts.
+  # PyTorch's file-descriptor sharing strategy holds one open fd per tensor sent through a multiprocessing queue.
+  # Cannot exceed the hard limit inherited from the node. Empty by default, which leaves the container command unchanged.
+  nofileLimit:
 
   resources:
     requests:
