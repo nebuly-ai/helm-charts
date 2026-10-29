@@ -195,7 +195,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.83.4"
+    tag: "v1.83.6"
 
   v2:
     # -- If true, enable the v2 of the frontend. 
@@ -206,7 +206,7 @@ frontend:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
-      tag: "v2.8.10"
+      tag: "v2.8.11"
   podAnnotations: { }
   podLabels: { }
 
