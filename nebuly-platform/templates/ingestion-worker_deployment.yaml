@@ -46,6 +46,7 @@ spec:
           imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
           env:
             {{- include "ingestionWorker.commonEnv" . | nindent 12 }}
+            {{- include "ingestionWorker.modelProviderEnv" . | nindent 12 }}
           livenessProbe:
             exec:
               command:
