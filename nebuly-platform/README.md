@@ -352,7 +352,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.affinity | object | `{}` |  |
 | clickhouse.auth.backupsUser | object | `{"password":"nebuly","username":"backups"}` | Credentials of the user used to create backups. |
 | clickhouse.auth.nebulyUser | object | `{"password":"nebuly","username":"nebulyadmin"}` | Credentials of the user used by Nebuly to access the ClickHouse database. |
-| clickhouse.backups | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""},"region":""},"azure":{"existingSecret":{"name":"","storageAccountKeyKey":""},"storageAccountKey":"","storageAccountName":"","storageContainerName":""},"enabled":false,"fullBackupWeekday":7,"gcp":{"bucketName":"","projectName":""},"image":{"pullPolicy":"IfNotPresent","repository":"altinity/clickhouse-backup","tag":"2.6.5"},"numToKeepLocal":4,"numToKeepRemote":120,"remoteStorage":"","restore":{"backupName":"","enabled":false},"schedule":"0 */4 * * *"}` | Backups configuration. |
+| clickhouse.backups | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""},"region":""},"azure":{"existingSecret":{"name":"","storageAccountKeyKey":""},"storageAccountKey":"","storageAccountName":"","storageContainerName":""},"enabled":false,"fullBackupWeekday":7,"gcp":{"bucketName":"","projectName":""},"image":{"pullPolicy":"IfNotPresent","repository":"altinity/clickhouse-backup","tag":"2.8.3"},"numToKeepLocal":4,"numToKeepRemote":120,"remoteStorage":"","restore":{"backupName":"","enabled":false},"schedule":"0 */4 * * *"}` | Backups configuration. |
 | clickhouse.backups.aws | object | - | Config of the AWS Bucket used for storing backups remotely. |
 | clickhouse.backups.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
 | clickhouse.backups.aws.endpointUrl | string | `""` | the bucket name. Example: "https://my-domain.com:9444" |
@@ -372,7 +372,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.backups.gcp | object | - | Config of the GCP Storage used for storing backups remotely. |
 | clickhouse.backups.gcp.bucketName | string | `""` | The name of the GCP bucket. |
 | clickhouse.backups.gcp.projectName | string | `""` | The name of the GCP project containing the bucket. |
-| clickhouse.backups.image | object | `{"pullPolicy":"IfNotPresent","repository":"altinity/clickhouse-backup","tag":"2.6.5"}` | The settings of the Docker image used to run the backup job. |
+| clickhouse.backups.image | object | `{"pullPolicy":"IfNotPresent","repository":"altinity/clickhouse-backup","tag":"2.8.3"}` | The settings of the Docker image used to run the backup job. |
 | clickhouse.backups.numToKeepLocal | int | `4` | Number of backups to keep locally. Default: keep last day (e.g. last 4 backups). |
 | clickhouse.backups.numToKeepRemote | int | `120` | Number of backups to keep on the remote cloud storage. Default: keep last 30 days (e.g. last 120 backups). |
 | clickhouse.backups.remoteStorage | string | `""` | The kind of storage used to store backups. Possible values are: "aws_s3", "gcp_bucket", "azure_storage". |

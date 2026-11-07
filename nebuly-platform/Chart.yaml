@@ -27,7 +27,7 @@ dependencies:
     condition: strimzi.enabled
     alias: strimzi
   - name: altinity-clickhouse-operator
-    version: "0.25.3"
+    version: "0.27.3"
     repository: https://docs.altinity.com/clickhouse-operator
     condition: clickhouse.enabled
   - name: loki
