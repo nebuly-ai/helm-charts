@@ -1511,8 +1511,11 @@ clickhouse:
   # -- The number of ClickHouse replicas.
   replicas: 1
 
-  # -- ClickHouse log level.
-  logLevel: debug
+  # -- ClickHouse server log level.
+  logLevel: information
+
+  # -- Fraction of RAM ClickHouse is allowed to use.
+  maxServerMemoryUsageToRamRatio: "0.8"
 
   # -- Additional volumes on the ClickHouse pods.
   volumes: [ ]

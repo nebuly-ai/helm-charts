@@ -394,7 +394,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.keeper.tolerations | list | `[]` |  |
 | clickhouse.keeper.volumeMounts | list | `[]` | Additional volumeMounts on ClickHouse Keeper pods. |
 | clickhouse.keeper.volumes | list | `[]` | Additional volumes on the ClickHouse Keeper pods. |
-| clickhouse.logLevel | string | `"debug"` | ClickHouse log level. |
+| clickhouse.logLevel | string | `"information"` | ClickHouse server log level. |
+| clickhouse.maxServerMemoryUsageToRamRatio | string | `"0.8"` | Fraction of RAM ClickHouse is allowed to use. |
 | clickhouse.replicas | int | `1` | The number of ClickHouse replicas. |
 | clickhouse.resources.limits.memory | string | `"13Gi"` |  |
 | clickhouse.resources.requests.memory | string | `"13Gi"` |  |
