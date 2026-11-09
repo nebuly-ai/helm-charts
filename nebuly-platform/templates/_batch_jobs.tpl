@@ -36,6 +36,18 @@
   value: {{ .Values.aiModels.modelPiiRemoval.name | quote }}
 - name: ANONYMIZATION_MODEL_VERSION
   value: {{ .Values.aiModels.modelPiiRemoval.version | quote }}
+- name: ANONYMIZATION_REPETITION_PENALTY
+  value: "1.0"
+
+# Segmentation models
+- name: SEGMENTATION_MODEL_NAME
+  value: {{ .Values.aiModels.modelSegmentation.name | quote }}
+- name: SEGMENTATION_MODEL_VERSION
+  value: {{ .Values.aiModels.modelSegmentation.version | quote }}
+- name: ENRICH_SEGMENTATION_MODEL_NAME
+  value: {{ .Values.aiModels.modelEnrichSegmentation.name | quote }}
+- name: ENRICH_SEGMENTATION_MODEL_VERSION
+  value: {{ .Values.aiModels.modelEnrichSegmentation.version | quote }}
 
 # Jobs Settings
 - name: ENABLE_DB_CACHE

@@ -510,15 +510,15 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: "42"
-  
+    version: "46"
+
   modelEmbedding:
     name: "embedding"
     version: "2"
 
   modelTopicClassifier:
     name: "multi-label-classifier"
-    version: "4"
+    version: "9"
 
   modelTierAssignment:
     name: "tier-assignor"
@@ -526,7 +526,15 @@ aiModels:
 
   modelPiiRemoval:
     name: "pii-removal"
-    version: "10"
+    version: "13"
+
+  modelSegmentation:
+    name: "segmentation"
+    version: "1"
+
+  modelEnrichSegmentation:
+    name: "enrich-segmentation"
+    version: "1"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
