@@ -221,5 +221,5 @@
 - name: PLATFORM_VERSION
   value: {{ printf "v%s" .Chart.Version | quote }}
 - name: APP_URL
-  value: {{ if .Values.frontend.v2.enabled }}{{ include "frontend.v2.url" . | quote }}{{ else }}{{ .Values.frontend.rootUrl | quote }}{{ end }}
+  value: {{ .Values.frontend.rootUrl | quote }}
 {{- end -}}

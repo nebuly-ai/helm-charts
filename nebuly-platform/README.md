@@ -454,7 +454,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.83.6"` |  |
+| frontend.image.tag | string | `"v2.8.11"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -483,11 +483,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.title | string | `"Nebuly"` | The title of the application. |
 | frontend.tolerations | list | `[]` |  |
 | frontend.useFaviconAsLogo | bool | `false` |  |
-| frontend.v2.enabled | bool | `true` | This will create a separate deployment, which will run alongside the default one. |
+| frontend.v2.enabled | bool | `true` | If true, also deploy the legacy v1 frontend. This creates a separate deployment on the v2 host, alongside the default v2 frontend. |
 | frontend.v2.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.v2.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.v2.image.tag | string | `"v2.8.11"` |  |
-| frontend.v2.rootUrl | string | `""` | Public URL of the v2 frontend. If empty, defaults to https://v2.<first frontend ingress host>. |
+| frontend.v2.image.tag | string | `"v1.83.6"` |  |
+| frontend.v2.rootUrl | string | `""` | Public URL of the legacy v1 frontend. If empty, defaults to https://v2.<first frontend ingress host>. |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
 | fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"nofileLimit":null,"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"settings":{"processingDelaySeconds":0},"shmSize":"1Gi","tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | Settings related to the runtime full-processing mode, which replaces the primary and secondary processing CronJobs with an always running Deployment. |

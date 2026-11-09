@@ -195,18 +195,18 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.83.6"
+    tag: "v2.8.11"
 
   v2:
-    # -- If true, enable the v2 of the frontend. 
-    # -- This will create a separate deployment, which will run alongside the default one.
+    # -- If true, also deploy the legacy v1 frontend.
+    # This creates a separate deployment on the v2 host, alongside the default v2 frontend.
     enabled: true
-    # -- Public URL of the v2 frontend. If empty, defaults to https://v2.<first frontend ingress host>.
+    # -- Public URL of the legacy v1 frontend. If empty, defaults to https://v2.<first frontend ingress host>.
     rootUrl: ""
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
-      tag: "v2.8.11"
+      tag: "v1.83.6"
   podAnnotations: { }
   podLabels: { }
 
