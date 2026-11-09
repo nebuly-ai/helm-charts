@@ -70,6 +70,7 @@
 {{/* Slack Bot */}}
 {{- if .Values.slackBot.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.slackBot.credentials" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.slackBot.publicUrl" .) -}}
 {{- $messages = append $messages (include "chart.validateValues.slackBot.authorizationServer" .) -}}
 {{- end -}}
 {{/* ClickHouse */}}
@@ -439,6 +440,13 @@ values: clickhouse.backups.remoteStorage
 {{- if and (empty .Values.slackBot.existingSecret.name) (or (empty .Values.slackBot.clientId) (empty .Values.slackBot.clientSecret) (empty .Values.slackBot.appToken) (empty .Values.slackBot.encryptionKey)) -}}
 values: slackBot.existingSecret.name
   Slack credentials are required when `slackBot.enabled` is true. Set `slackBot.existingSecret.name` or provide `clientId`, `clientSecret`, `appToken`, and `encryptionKey`.
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.slackBot.publicUrl" -}}
+{{- if empty .Values.slackBot.publicUrl -}}
+values: slackBot.publicUrl
+  `publicUrl` is required when `slackBot.enabled` is true. Slack and the backend use it to reach the bot.
 {{- end -}}
 {{- end -}}
 
