@@ -2166,3 +2166,64 @@ remoteAccess:
     limits:
       cpu: 100m
       memory: 512Mi
+
+# @default -- -
+slackBot:
+  # -- If true, deploy the Slack bot.
+  enabled: false
+  fullnameOverride: ""
+  # -- Public URL of the Slack bot. If empty, defaults to <frontend.rootUrl>/slackbot.
+  publicUrl: ""
+  # -- Ingress for the Slack bot. The bot is served at `/slackbot`.
+  # @default -- -
+  ingress:
+    enabled: false
+    className: ""
+    annotations: { }
+    hosts:
+      - host: chart-example.local
+    tls: [ ]
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-slack-bot
+    pullPolicy: IfNotPresent
+    tag: "v1.0.1"
+  service:
+    type: ClusterIP
+    port: 80
+  # -- Slack app client ID. Used only when `slackBot.existingSecret.name` is empty.
+  clientId: ""
+  # -- Slack app client secret. Used only when `slackBot.existingSecret.name` is empty.
+  clientSecret: ""
+  # -- Slack app-level token. Used only when `slackBot.existingSecret.name` is empty.
+  appToken: ""
+  # -- Key used to encrypt Slack bot data. Used only when `slackBot.existingSecret.name` is empty.
+  encryptionKey: ""
+  # -- Use an existing secret for the Slack credentials.
+  # @default -- -
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    # -- Key containing the Slack client ID.
+    clientIdKey: "slack-client-id"
+    # -- Key containing the Slack client secret.
+    clientSecretKey: "slack-client-secret"
+    # -- Key containing the Slack app token.
+    appTokenKey: "slack-app-token"
+    # -- Key containing the Slack bot encryption key.
+    encryptionKeyKey: "slack-bot-encryption-key"
+  podAnnotations: { }
+  podLabels: { }
+  podSecurityContext:
+    runAsNonRoot: true
+  tolerations: [ ]
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  resources:
+    requests:
+      memory: 350Mi
+    limits:
+      memory: 800Mi

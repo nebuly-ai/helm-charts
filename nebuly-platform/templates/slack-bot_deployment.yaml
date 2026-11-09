@@ -1,0 +1,108 @@
+{{- if .Values.slackBot.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "slackBot.fullname" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "slackBot.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "slackBot.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.slackBot.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "slackBot.labels" . | nindent 8 }}
+        {{- with .Values.slackBot.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.slackBot.podSecurityContext | nindent 8 }}
+      containers:
+        - name: slack-bot
+          securityContext:
+            {{- toYaml .Values.slackBot.securityContext | nindent 12 }}
+          image: "{{ .Values.slackBot.image.repository }}:{{ .Values.slackBot.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.slackBot.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8090
+              protocol: TCP
+          env:
+            - name: ENV
+              value: "prod"
+            - name: SERVER_HOST
+              value: "0.0.0.0"
+            - name: SERVER_PORT
+              value: "8090"
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: ROOT_PATH
+              value: "/slackbot"
+            - name: BOT_URL
+              value: {{ include "slackBot.publicUrl" . | quote }}
+            - name: APP_URL
+              value: {{ .Values.frontend.rootUrl | quote }}
+            - name: MCP_SERVER_URL
+              value: {{ .Values.mcpServer.apiEndpoint | quote }}
+            - name: AUTHORIZATION_SERVER_URL
+              value: {{ include "slackBot.authorizationServerUrl" . | quote }}
+            - name: TENANT_REGISTRY_URL
+              value: {{ include "authService.url" . | quote }}
+            - name: BACKEND_URL
+              value: {{ include "backend.url" . | quote }}
+            - name: MIXPANEL_ENABLED
+              value: "false"
+            - name: SLACK_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "slackBot.secretName" . }}
+                  key: {{ .Values.slackBot.existingSecret.clientIdKey | default "slack-client-id" }}
+            - name: SLACK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "slackBot.secretName" . }}
+                  key: {{ .Values.slackBot.existingSecret.clientSecretKey | default "slack-client-secret" }}
+            - name: SLACK_APP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "slackBot.secretName" . }}
+                  key: {{ .Values.slackBot.existingSecret.appTokenKey | default "slack-app-token" }}
+            - name: SLACK_BOT_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "slackBot.secretName" . }}
+                  key: {{ .Values.slackBot.existingSecret.encryptionKeyKey | default "slack-bot-encryption-key" }}
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          resources:
+            {{- toYaml .Values.slackBot.resources | nindent 12 }}
+      {{- with .Values.slackBot.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

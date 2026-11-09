@@ -222,4 +222,8 @@
   value: {{ printf "v%s" .Chart.Version | quote }}
 - name: APP_URL
   value: {{ .Values.frontend.rootUrl | quote }}
+{{- if .Values.slackBot.enabled }}
+- name: SLACK_BOT_URL
+  value: {{ include "slackBot.publicUrl" . | quote }}
+{{- end }}
 {{- end -}}

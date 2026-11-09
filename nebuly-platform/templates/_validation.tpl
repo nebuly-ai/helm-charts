@@ -67,6 +67,11 @@
 {{- if .Values.ingestion.generateDbEvents.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.ingestion.generateDbEvents" .) -}}
 {{- end -}}
+{{/* Slack Bot */}}
+{{- if .Values.slackBot.enabled -}}
+{{- $messages = append $messages (include "chart.validateValues.slackBot.credentials" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.slackBot.publicUrl" .) -}}
+{{- end -}}
 {{/* ClickHouse */}}
 {{- if .Values.clickhouse.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.clickhouse.replicas" .) -}}
@@ -427,6 +432,20 @@ values: clickhouse.backups.remoteStorage
 {{- if not (contains .Values.clickhouse.backups.remoteStorage "aws_s3 azure_storage gcp_bucket") -}}
 values: clickhouse.backups.remoteStorage
   `remoteStorage` should be one of the following values: aws_s3, azure_storage, gcp_bucket
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.slackBot.credentials" -}}
+{{- if and (empty .Values.slackBot.existingSecret.name) (or (empty .Values.slackBot.clientId) (empty .Values.slackBot.clientSecret) (empty .Values.slackBot.appToken) (empty .Values.slackBot.encryptionKey)) -}}
+values: slackBot.existingSecret.name
+  Slack credentials are required when `slackBot.enabled` is true. Set `slackBot.existingSecret.name` or provide `clientId`, `clientSecret`, `appToken`, and `encryptionKey`.
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.slackBot.publicUrl" -}}
+{{- if and (empty .Values.slackBot.publicUrl) (empty .Values.frontend.rootUrl) -}}
+values: slackBot.publicUrl
+  `publicUrl` is required when `frontend.rootUrl` is empty
 {{- end -}}
 {{- end -}}
 

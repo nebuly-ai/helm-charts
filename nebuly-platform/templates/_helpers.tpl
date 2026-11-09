@@ -529,3 +529,46 @@ http://{{ include "mcpServer.fullname" . }}.{{ include "nebuly-platform.namespac
 {{- end }}
 {{- end }}
 
+{{/*
+*********************************************************************
+* Slack Bot
+*********************************************************************
+*/}}
+
+{{- define "slackBot.labels" -}}
+{{- include "slackBot.selectorLabels" . }}
+{{- end }}
+
+{{- define "slackBot.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: nebuly-slack-bot
+{{- end }}
+
+{{- define "slackBot.fullname" -}}
+{{- if .Values.slackBot.fullnameOverride }}
+{{- .Values.slackBot.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name "slack-bot" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{- define "slackBot.publicUrl" -}}
+{{- if .Values.slackBot.publicUrl -}}
+{{- .Values.slackBot.publicUrl -}}
+{{- else if .Values.frontend.rootUrl -}}
+{{- printf "%s/slackbot" (.Values.frontend.rootUrl | trimSuffix "/") -}}
+{{- end -}}
+{{- end }}
+
+{{- define "slackBot.authorizationServerUrl" -}}
+{{- include "slackBot.publicUrl" . | trimSuffix "/slackbot" -}}
+{{- end }}
+
+{{- define "slackBot.secretName" -}}
+{{- if .Values.slackBot.existingSecret.name -}}
+{{- tpl .Values.slackBot.existingSecret.name . -}}
+{{- else -}}
+{{- include "slackBot.fullname" . -}}
+{{- end -}}
+{{- end }}
+

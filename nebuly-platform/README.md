@@ -706,6 +706,34 @@ The command removes all the Kubernetes components associated with the chart and 
 | secretsStore.azure.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Key Vault is located. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.kind | string | `"database"` | Supported values: "database", "azure_keyvault" |
 | serviceAccount | object | `{"annotations":{},"create":false,"name":"default"}` | The name of the service account used by the platform services. |
+| slackBot.appToken | string | `""` | Slack app-level token. Used only when `slackBot.existingSecret.name` is empty. |
+| slackBot.clientId | string | `""` | Slack app client ID. Used only when `slackBot.existingSecret.name` is empty. |
+| slackBot.clientSecret | string | `""` | Slack app client secret. Used only when `slackBot.existingSecret.name` is empty. |
+| slackBot.enabled | bool | `false` | If true, deploy the Slack bot. |
+| slackBot.encryptionKey | string | `""` | Key used to encrypt Slack bot data. Used only when `slackBot.existingSecret.name` is empty. |
+| slackBot.existingSecret | object | - | Use an existing secret for the Slack credentials. |
+| slackBot.existingSecret.appTokenKey | string | `"slack-app-token"` | Key containing the Slack app token. |
+| slackBot.existingSecret.clientIdKey | string | `"slack-client-id"` | Key containing the Slack client ID. |
+| slackBot.existingSecret.clientSecretKey | string | `"slack-client-secret"` | Key containing the Slack client secret. |
+| slackBot.existingSecret.encryptionKeyKey | string | `"slack-bot-encryption-key"` | Key containing the Slack bot encryption key. |
+| slackBot.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| slackBot.fullnameOverride | string | `""` |  |
+| slackBot.image.pullPolicy | string | `"IfNotPresent"` |  |
+| slackBot.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-slack-bot"` |  |
+| slackBot.image.tag | string | `"v1.0.1"` |  |
+| slackBot.ingress | object | - | Ingress for the Slack bot. The bot is served at `/slackbot`. |
+| slackBot.podAnnotations | object | `{}` |  |
+| slackBot.podLabels | object | `{}` |  |
+| slackBot.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| slackBot.publicUrl | string | `""` | Public URL of the Slack bot. If empty, defaults to <frontend.rootUrl>/slackbot. |
+| slackBot.resources.limits.memory | string | `"800Mi"` |  |
+| slackBot.resources.requests.memory | string | `"350Mi"` |  |
+| slackBot.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| slackBot.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| slackBot.securityContext.runAsNonRoot | bool | `true` |  |
+| slackBot.service.port | int | `80` |  |
+| slackBot.service.type | string | `"ClusterIP"` |  |
+| slackBot.tolerations | list | `[]` |  |
 | strimzi.enabled | bool | `false` |  |
 | strimzi.generatePodDisruptionBudget | bool | `false` |  |
 | strimzi.resources.requests.cpu | string | `"50m"` |  |
