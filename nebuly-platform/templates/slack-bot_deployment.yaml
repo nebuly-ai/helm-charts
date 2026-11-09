@@ -54,7 +54,7 @@ spec:
             - name: ROOT_PATH
               value: "/slackbot"
             - name: BOT_URL
-              value: {{ include "slackBot.publicUrl" . | quote }}
+              value: {{ .Values.slackBot.publicUrl | quote }}
             - name: APP_URL
               value: {{ .Values.frontend.rootUrl | quote }}
             - name: MCP_SERVER_URL

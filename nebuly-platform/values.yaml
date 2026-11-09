@@ -2172,7 +2172,7 @@ slackBot:
   # -- If true, deploy the Slack bot.
   enabled: false
   fullnameOverride: ""
-  # -- Public URL of the Slack bot. If empty, defaults to <frontend.rootUrl>/slackbot.
+  # -- Public URL of the Slack bot. This is the URL Slack and the backend use to reach the bot.
   publicUrl: ""
   # -- Ingress for the Slack bot. The bot is served at `/slackbot`.
   # @default -- -

@@ -725,7 +725,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | slackBot.podAnnotations | object | `{}` |  |
 | slackBot.podLabels | object | `{}` |  |
 | slackBot.podSecurityContext.runAsNonRoot | bool | `true` |  |
-| slackBot.publicUrl | string | `""` | Public URL of the Slack bot. If empty, defaults to <frontend.rootUrl>/slackbot. |
+| slackBot.publicUrl | string | `""` | Public URL of the Slack bot. This is the URL Slack and the backend use to reach the bot. |
 | slackBot.resources.limits.memory | string | `"800Mi"` |  |
 | slackBot.resources.requests.memory | string | `"350Mi"` |  |
 | slackBot.securityContext.allowPrivilegeEscalation | bool | `false` |  |

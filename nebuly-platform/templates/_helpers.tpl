@@ -566,14 +566,6 @@ app.kubernetes.io/component: nebuly-slack-bot
 {{- end }}
 {{- end }}
 
-{{- define "slackBot.publicUrl" -}}
-{{- if .Values.slackBot.publicUrl -}}
-{{- .Values.slackBot.publicUrl -}}
-{{- else if .Values.frontend.rootUrl -}}
-{{- printf "%s/slackbot" (.Values.frontend.rootUrl | trimSuffix "/") -}}
-{{- end -}}
-{{- end }}
-
 {{- define "slackBot.secretName" -}}
 {{- if .Values.slackBot.existingSecret.name -}}
 {{- tpl .Values.slackBot.existingSecret.name . -}}

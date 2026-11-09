@@ -224,6 +224,6 @@
   value: {{ .Values.frontend.rootUrl | quote }}
 {{- if .Values.slackBot.enabled }}
 - name: SLACK_BOT_URL
-  value: {{ include "slackBot.publicUrl" . | quote }}
+  value: {{ .Values.slackBot.publicUrl | quote }}
 {{- end }}
 {{- end -}}
