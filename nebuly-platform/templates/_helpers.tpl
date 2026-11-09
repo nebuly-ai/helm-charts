@@ -332,6 +332,20 @@ https://v2.{{ (index .Values.frontend.ingress.hosts 0).host }}
 {{- end -}}
 {{- end }}
 
+{{- define "frontend.corsOrigins" -}}
+{{- $origins := list -}}
+{{- if .Values.frontend.rootUrl -}}
+{{- $origins = append $origins .Values.frontend.rootUrl -}}
+{{- end -}}
+{{- if .Values.frontend.v2.enabled -}}
+{{- $legacy := include "frontend.v2.url" . -}}
+{{- if not (has $legacy $origins) -}}
+{{- $origins = append $origins $legacy -}}
+{{- end -}}
+{{- end -}}
+{{- $origins | toJson -}}
+{{- end }}
+
 {{- define "frontend-v2.labels" -}}
 {{- include "frontend-v2.selectorLabels" . }}
 {{- end }}
@@ -558,10 +572,6 @@ app.kubernetes.io/component: nebuly-slack-bot
 {{- else if .Values.frontend.rootUrl -}}
 {{- printf "%s/slackbot" (.Values.frontend.rootUrl | trimSuffix "/") -}}
 {{- end -}}
-{{- end }}
-
-{{- define "slackBot.authorizationServerUrl" -}}
-{{- include "slackBot.publicUrl" . | trimSuffix "/slackbot" -}}
 {{- end }}
 
 {{- define "slackBot.secretName" -}}

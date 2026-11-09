@@ -60,7 +60,7 @@ spec:
             - name: MCP_SERVER_URL
               value: {{ .Values.mcpServer.apiEndpoint | quote }}
             - name: AUTHORIZATION_SERVER_URL
-              value: {{ include "slackBot.authorizationServerUrl" . | quote }}
+              value: {{ .Values.frontend.rootUrl | quote }}
             - name: TENANT_REGISTRY_URL
               value: {{ include "authService.url" . | quote }}
             - name: BACKEND_URL

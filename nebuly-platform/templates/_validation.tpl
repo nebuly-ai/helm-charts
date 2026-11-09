@@ -70,7 +70,7 @@
 {{/* Slack Bot */}}
 {{- if .Values.slackBot.enabled -}}
 {{- $messages = append $messages (include "chart.validateValues.slackBot.credentials" .) -}}
-{{- $messages = append $messages (include "chart.validateValues.slackBot.publicUrl" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.slackBot.authorizationServer" .) -}}
 {{- end -}}
 {{/* ClickHouse */}}
 {{- if .Values.clickhouse.enabled -}}
@@ -442,10 +442,10 @@ values: slackBot.existingSecret.name
 {{- end -}}
 {{- end -}}
 
-{{- define "chart.validateValues.slackBot.publicUrl" -}}
-{{- if and (empty .Values.slackBot.publicUrl) (empty .Values.frontend.rootUrl) -}}
-values: slackBot.publicUrl
-  `publicUrl` is required when `frontend.rootUrl` is empty
+{{- define "chart.validateValues.slackBot.authorizationServer" -}}
+{{- if empty .Values.frontend.rootUrl -}}
+values: frontend.rootUrl
+  `frontend.rootUrl` is required when `slackBot.enabled` is true. OAuth discovery is served on the frontend host.
 {{- end -}}
 {{- end -}}
 
