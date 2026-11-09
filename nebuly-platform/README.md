@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.109.10](https://img.shields.io/badge/Version-1.109.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.110.0](https://img.shields.io/badge/Version-1.110.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -233,7 +233,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.26.4"` |  |
+| auth.image.tag | string | `"v1.28.3"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.ldap | object | `{"activeDirectoryRoot":"","adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
@@ -296,7 +296,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.123.6"` |  |
+| backend.image.tag | string | `"v1.125.2"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -410,7 +410,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
 | eventIngestion.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-event-ingestion"` |  |
-| eventIngestion.image.tag | string | `"v1.19.1"` |  |
+| eventIngestion.image.tag | string | `"v1.19.3"` |  |
 | eventIngestion.ingress.annotations | object | `{}` |  |
 | eventIngestion.ingress.className | string | `""` |  |
 | eventIngestion.ingress.enabled | bool | `false` |  |
@@ -454,7 +454,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v2.8.11"` |  |
+| frontend.image.tag | string | `"v2.10.1"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -486,7 +486,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.v2.enabled | bool | `true` | If true, also deploy the legacy v1 frontend. This creates a separate deployment on the v2 host, alongside the default v2 frontend. |
 | frontend.v2.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.v2.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.v2.image.tag | string | `"v1.83.6"` |  |
+| frontend.v2.image.tag | string | `"v1.84.3"` |  |
 | frontend.v2.rootUrl | string | `""` | Public URL of the legacy v1 frontend. If empty, defaults to https://v2.<first frontend ingress host>. |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
@@ -513,7 +513,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.97.14"` |  |
+| ingestionWorker.image.tag | string | `"v1.106.2"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |

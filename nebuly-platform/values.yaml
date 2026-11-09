@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.123.6"
+    tag: "v1.125.2"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -195,7 +195,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v2.8.11"
+    tag: "v2.10.1"
 
   v2:
     # -- If true, also deploy the legacy v1 frontend.
@@ -206,7 +206,7 @@ frontend:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
-      tag: "v1.83.6"
+      tag: "v1.84.3"
   podAnnotations: { }
   podLabels: { }
 
@@ -290,7 +290,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: "v1.19.1"
+    tag: "v1.19.3"
 
   podAnnotations: { }
   podLabels: { }
@@ -444,7 +444,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.97.14
+    tag: v1.106.2
 
   podAnnotations: { }
   podLabels: { }
@@ -757,7 +757,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.97.14
+    tag: v1.106.2
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -820,7 +820,7 @@ primaryProcessing:
 # -- Settings related to the Monitoring CronJob.
 # @default -- -
 monitoring:
-  enabled: true
+  enabled: false
   # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
   schedule: "0 22 * * *" # Every day at 10:00 PM
   # -- The timezone of the CronJob.
@@ -1246,7 +1246,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.26.4"
+    tag: "v1.28.3"
 
   podAnnotations: { }
   podLabels: { }
