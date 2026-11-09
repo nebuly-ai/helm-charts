@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.123.6"
+    tag: "v1.125.2"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -195,18 +195,18 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v1.83.6"
+    tag: "v2.10.1"
 
   v2:
-    # -- If true, enable the v2 of the frontend. 
-    # -- This will create a separate deployment, which will run alongside the default one.
+    # -- If true, also deploy the legacy v1 frontend.
+    # This creates a separate deployment on the v2 host, alongside the default v2 frontend.
     enabled: true
-    # -- Public URL of the v2 frontend. If empty, defaults to https://v2.<first frontend ingress host>.
+    # -- Public URL of the legacy v1 frontend. If empty, defaults to https://v2.<first frontend ingress host>.
     rootUrl: ""
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
-      tag: "v2.8.11"
+      tag: "v1.84.3"
   podAnnotations: { }
   podLabels: { }
 
@@ -290,7 +290,7 @@ eventIngestion:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-event-ingestion
     pullPolicy: IfNotPresent
-    tag: "v1.19.1"
+    tag: "v1.19.3"
 
   podAnnotations: { }
   podLabels: { }
@@ -444,7 +444,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.97.14
+    tag: v1.106.2
 
   podAnnotations: { }
   podLabels: { }
@@ -510,15 +510,15 @@ aiModels:
 
   modelInferenceInteractions:
     name: "interaction-analyzer-7b-v2"
-    version: "42"
-  
+    version: "46"
+
   modelEmbedding:
     name: "embedding"
     version: "2"
 
   modelTopicClassifier:
     name: "multi-label-classifier"
-    version: "4"
+    version: "9"
 
   modelTierAssignment:
     name: "tier-assignor"
@@ -526,7 +526,15 @@ aiModels:
 
   modelPiiRemoval:
     name: "pii-removal"
-    version: "10"
+    version: "13"
+
+  modelSegmentation:
+    name: "segmentation"
+    version: "1"
+
+  modelEnrichSegmentation:
+    name: "enrich-segmentation"
+    version: "1"
 
   # -- Config of the AWS S3 model registry.
   # @default -- -
@@ -749,7 +757,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.97.14
+    tag: v1.106.2
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:
@@ -812,7 +820,7 @@ primaryProcessing:
 # -- Settings related to the Monitoring CronJob.
 # @default -- -
 monitoring:
-  enabled: true
+  enabled: false
   # -- The schedule of the CronJob. The format is the same as the Kubernetes CronJob schedule.
   schedule: "0 22 * * *" # Every day at 10:00 PM
   # -- The timezone of the CronJob.
@@ -1238,7 +1246,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.26.4"
+    tag: "v1.28.3"
 
   podAnnotations: { }
   podLabels: { }
@@ -1511,8 +1519,11 @@ clickhouse:
   # -- The number of ClickHouse replicas.
   replicas: 1
 
-  # -- ClickHouse log level.
-  logLevel: debug
+  # -- ClickHouse server log level.
+  logLevel: information
+
+  # -- Fraction of RAM ClickHouse is allowed to use.
+  maxServerMemoryUsageToRamRatio: "0.8"
 
   # -- Additional volumes on the ClickHouse pods.
   volumes: [ ]
@@ -1555,7 +1566,7 @@ clickhouse:
     image:
       repository: altinity/clickhouse-backup
       pullPolicy: IfNotPresent
-      tag: "2.6.5"
+      tag: "2.8.3"
     # -- The kind of storage used to store backups.
     # Possible values are: "aws_s3", "gcp_bucket", "azure_storage".
     remoteStorage: ""
@@ -2155,3 +2166,64 @@ remoteAccess:
     limits:
       cpu: 100m
       memory: 512Mi
+
+# @default -- -
+slackBot:
+  # -- If true, deploy the Slack bot.
+  enabled: false
+  fullnameOverride: ""
+  # -- Public URL of the Slack bot. Required when the bot is enabled. Slack and the backend use it to reach the bot.
+  publicUrl: ""
+  # -- Ingress for the Slack bot. The bot is served at `/slackbot`.
+  # @default -- -
+  ingress:
+    enabled: false
+    className: ""
+    annotations: { }
+    hosts:
+      - host: chart-example.local
+    tls: [ ]
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-slack-bot
+    pullPolicy: IfNotPresent
+    tag: "v1.0.1"
+  service:
+    type: ClusterIP
+    port: 80
+  # -- Slack app client ID. Used only when `slackBot.existingSecret.name` is empty.
+  clientId: ""
+  # -- Slack app client secret. Used only when `slackBot.existingSecret.name` is empty.
+  clientSecret: ""
+  # -- Slack app-level token. Used only when `slackBot.existingSecret.name` is empty.
+  appToken: ""
+  # -- Key used to encrypt Slack bot data. Used only when `slackBot.existingSecret.name` is empty.
+  encryptionKey: ""
+  # -- Use an existing secret for the Slack credentials.
+  # @default -- -
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    # -- Key containing the Slack client ID.
+    clientIdKey: "slack-client-id"
+    # -- Key containing the Slack client secret.
+    clientSecretKey: "slack-client-secret"
+    # -- Key containing the Slack app token.
+    appTokenKey: "slack-app-token"
+    # -- Key containing the Slack bot encryption key.
+    encryptionKeyKey: "slack-bot-encryption-key"
+  podAnnotations: { }
+  podLabels: { }
+  podSecurityContext:
+    runAsNonRoot: true
+  tolerations: [ ]
+  securityContext:
+    runAsNonRoot: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - "ALL"
+  resources:
+    requests:
+      memory: 350Mi
+    limits:
+      memory: 800Mi

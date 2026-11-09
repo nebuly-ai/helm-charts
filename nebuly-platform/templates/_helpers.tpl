@@ -332,6 +332,20 @@ https://v2.{{ (index .Values.frontend.ingress.hosts 0).host }}
 {{- end -}}
 {{- end }}
 
+{{- define "frontend.corsOrigins" -}}
+{{- $origins := list -}}
+{{- if .Values.frontend.rootUrl -}}
+{{- $origins = append $origins .Values.frontend.rootUrl -}}
+{{- end -}}
+{{- if .Values.frontend.v2.enabled -}}
+{{- $legacy := include "frontend.v2.url" . -}}
+{{- if not (has $legacy $origins) -}}
+{{- $origins = append $origins $legacy -}}
+{{- end -}}
+{{- end -}}
+{{- $origins | toJson -}}
+{{- end }}
+
 {{- define "frontend-v2.labels" -}}
 {{- include "frontend-v2.selectorLabels" . }}
 {{- end }}
@@ -527,5 +541,36 @@ http://{{ include "mcpServer.fullname" . }}.{{ include "nebuly-platform.namespac
 {{- else }}
 {{- printf "%s-%s" .Release.Name "mcp-server" | trunc 63 | trimSuffix "-" }}
 {{- end }}
+{{- end }}
+
+{{/*
+*********************************************************************
+* Slack Bot
+*********************************************************************
+*/}}
+
+{{- define "slackBot.labels" -}}
+{{- include "slackBot.selectorLabels" . }}
+{{- end }}
+
+{{- define "slackBot.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: nebuly-slack-bot
+{{- end }}
+
+{{- define "slackBot.fullname" -}}
+{{- if .Values.slackBot.fullnameOverride }}
+{{- .Values.slackBot.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name "slack-bot" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{- define "slackBot.secretName" -}}
+{{- if .Values.slackBot.existingSecret.name -}}
+{{- tpl .Values.slackBot.existingSecret.name . -}}
+{{- else -}}
+{{- include "slackBot.fullname" . -}}
+{{- end -}}
 {{- end }}
 

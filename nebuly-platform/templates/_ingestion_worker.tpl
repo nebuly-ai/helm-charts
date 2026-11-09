@@ -129,3 +129,32 @@
 {{ toYaml . }}
 {{- end }}
 {{- end -}}
+
+{{- define "ingestionWorker.modelProviderEnv" -}}
+# Models deployments
+- name: API_MODEL_PROVIDER
+  value: {{ include "nebuly.apiModelProvider" . | quote }}
+- name: TIER1_MODEL_DEPLOYMENT
+  value: {{ include "nebuly.tier1ModelDeployment" . | quote }}
+- name: TIER2_MODEL_DEPLOYMENT
+  value: {{ include "nebuly.tier2ModelDeployment" . | quote }}
+- name: TIER3_MODEL_DEPLOYMENT
+  value: {{ include "nebuly.tier3ModelDeployment" . | quote }}
+# OpenAI
+- name: OPENAI_API_VERSION
+  value: "{{ .Values.openAi.apiVersion }}"
+- name: OPENAI_BASE_URL
+  value: "{{ .Values.openAi.endpoint }}"
+- name: OPENAI_API_KEY
+  valueFrom:
+    secretKeyRef:
+      name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
+      key: {{ .Values.openAi.existingSecret.apiKey | default "openai-api-key" }}
+# Google Cloud
+- name: GOOGLE_CLOUD_PROJECT
+  value: {{ .Values.google.project | quote }}
+- name: GOOGLE_CLOUD_LOCATION
+  value: {{ .Values.google.location | quote }}
+- name: GOOGLE_GENAI_USE_ENTERPRISE
+  value: {{ .Values.google.useEnterprise | quote }}
+{{- end -}}

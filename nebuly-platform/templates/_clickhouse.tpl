@@ -2,6 +2,20 @@
 {{- printf "%s-%s" .Release.Name "clickhouse" | trunc 63 | trimSuffix "-" }}
 {{- end -}}
 
+{{/* clickhouse-backup accepts debug, info, warning, and error. */}}
+{{- define "clickhouse.backupLogLevel" -}}
+{{- $level := .Values.clickhouse.logLevel | lower -}}
+{{- if or (eq $level "debug") (eq $level "trace") (eq $level "test") -}}
+debug
+{{- else if or (eq $level "warning") (eq $level "warn") -}}
+warning
+{{- else if or (eq $level "error") (eq $level "critical") (eq $level "fatal") (eq $level "none") -}}
+error
+{{- else -}}
+info
+{{- end -}}
+{{- end -}}
+
 {{- define "clickhouse.backups.azure.env" -}}
 - name: REMOTE_STORAGE
   value: "azblob"

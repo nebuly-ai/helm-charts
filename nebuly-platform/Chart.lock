@@ -4,7 +4,7 @@ dependencies:
   version: 0.45.1
 - name: altinity-clickhouse-operator
   repository: https://docs.altinity.com/clickhouse-operator
-  version: 0.25.3
+  version: 0.27.3
 - name: loki
   repository: https://grafana.github.io/helm-charts
   version: 6.53.0
@@ -20,5 +20,5 @@ dependencies:
 - name: opentelemetry-collector
   repository: https://open-telemetry.github.io/opentelemetry-helm-charts
   version: 0.154.0
-digest: sha256:6247711617a7cfd48fef248ebfa65780bd00cc290aa053201ec291eb84322212
-generated: "2026-10-20T10:51:14.826119+02:00"
+digest: sha256:d8e8749519bf1ba78a7222c425b5a88bd064657daadfcd48682a90317eefd57a
+generated: "2026-11-07T11:41:54.694007+01:00"

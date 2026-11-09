@@ -36,6 +36,18 @@
   value: {{ .Values.aiModels.modelPiiRemoval.name | quote }}
 - name: ANONYMIZATION_MODEL_VERSION
   value: {{ .Values.aiModels.modelPiiRemoval.version | quote }}
+- name: ANONYMIZATION_REPETITION_PENALTY
+  value: "1.0"
+
+# Segmentation models
+- name: SEGMENTATION_MODEL_NAME
+  value: {{ .Values.aiModels.modelSegmentation.name | quote }}
+- name: SEGMENTATION_MODEL_VERSION
+  value: {{ .Values.aiModels.modelSegmentation.version | quote }}
+- name: ENRICH_SEGMENTATION_MODEL_NAME
+  value: {{ .Values.aiModels.modelEnrichSegmentation.name | quote }}
+- name: ENRICH_SEGMENTATION_MODEL_VERSION
+  value: {{ .Values.aiModels.modelEnrichSegmentation.version | quote }}
 
 # Jobs Settings
 - name: ENABLE_DB_CACHE
@@ -53,35 +65,7 @@
 - name: VLLM_MICRO_BATCH_SIZE
   value: {{ .Values.ingestionWorker.settings.vLLMBatchSize | quote }}
 
-# Models deployments
-- name: API_MODEL_PROVIDER
-  value: {{ include "nebuly.apiModelProvider" . | quote }}
-- name: TIER1_MODEL_DEPLOYMENT
-  value: {{ include "nebuly.tier1ModelDeployment" . | quote }}
-- name: TIER2_MODEL_DEPLOYMENT
-  value: {{ include "nebuly.tier2ModelDeployment" . | quote }}
-- name: TIER3_MODEL_DEPLOYMENT
-  value: {{ include "nebuly.tier3ModelDeployment" . | quote }}
-
-# OpenAI
-- name: OPENAI_API_VERSION
-  value: "{{ .Values.openAi.apiVersion }}"
-- name: OPENAI_BASE_URL
-  value: "{{ .Values.openAi.endpoint }}"
-- name: OPENAI_API_KEY
-  valueFrom:
-    secretKeyRef:
-      name: {{ (tpl .Values.openAi.existingSecret.name . ) | default (include "ingestionWorker.fullname" .) }}
-      key: {{ .Values.openAi.existingSecret.apiKey | default "openai-api-key" }}
-
-# Google Cloud
-- name: GOOGLE_CLOUD_PROJECT
-  value: {{ .Values.google.project | quote }}
-- name: GOOGLE_CLOUD_LOCATION
-  value: {{ .Values.google.location | quote }}
-- name: GOOGLE_GENAI_USE_ENTERPRISE
-  value: {{ .Values.google.useEnterprise | quote }}
-
+{{ include "ingestionWorker.modelProviderEnv" . }}
 # Use the conversations table
 - name: GEMINI_API_KEY
   value: "empty"

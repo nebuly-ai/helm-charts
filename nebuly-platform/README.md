@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.109.10](https://img.shields.io/badge/Version-1.109.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.110.0](https://img.shields.io/badge/Version-1.110.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -172,7 +172,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbedding":{"name":"embedding","version":"2"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":"42"},"modelPiiRemoval":{"name":"pii-removal","version":"10"},"modelTierAssignment":{"name":"tier-assignor","version":"1"},"modelTopicClassifier":{"name":"multi-label-classifier","version":"4"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
+| aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbedding":{"name":"embedding","version":"2"},"modelEnrichSegmentation":{"name":"enrich-segmentation","version":"1"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":"46"},"modelPiiRemoval":{"name":"pii-removal","version":"13"},"modelSegmentation":{"name":"segmentation","version":"1"},"modelTierAssignment":{"name":"tier-assignor","version":"1"},"modelTopicClassifier":{"name":"multi-label-classifier","version":"9"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
 | aiModels.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
 | aiModels.aws.endpointUrl | string | `""` | Optional AWS S3 endpoint URL. The URL should not include the bucket name. Example: "https://my-domain.com:9444" |
@@ -233,7 +233,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.26.4"` |  |
+| auth.image.tag | string | `"v1.28.3"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.ldap | object | `{"activeDirectoryRoot":"","adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
@@ -296,7 +296,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.123.6"` |  |
+| backend.image.tag | string | `"v1.125.2"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -352,7 +352,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.affinity | object | `{}` |  |
 | clickhouse.auth.backupsUser | object | `{"password":"nebuly","username":"backups"}` | Credentials of the user used to create backups. |
 | clickhouse.auth.nebulyUser | object | `{"password":"nebuly","username":"nebulyadmin"}` | Credentials of the user used by Nebuly to access the ClickHouse database. |
-| clickhouse.backups | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""},"region":""},"azure":{"existingSecret":{"name":"","storageAccountKeyKey":""},"storageAccountKey":"","storageAccountName":"","storageContainerName":""},"enabled":false,"fullBackupWeekday":7,"gcp":{"bucketName":"","projectName":""},"image":{"pullPolicy":"IfNotPresent","repository":"altinity/clickhouse-backup","tag":"2.6.5"},"numToKeepLocal":4,"numToKeepRemote":120,"remoteStorage":"","restore":{"backupName":"","enabled":false},"schedule":"0 */4 * * *"}` | Backups configuration. |
+| clickhouse.backups | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""},"region":""},"azure":{"existingSecret":{"name":"","storageAccountKeyKey":""},"storageAccountKey":"","storageAccountName":"","storageContainerName":""},"enabled":false,"fullBackupWeekday":7,"gcp":{"bucketName":"","projectName":""},"image":{"pullPolicy":"IfNotPresent","repository":"altinity/clickhouse-backup","tag":"2.8.3"},"numToKeepLocal":4,"numToKeepRemote":120,"remoteStorage":"","restore":{"backupName":"","enabled":false},"schedule":"0 */4 * * *"}` | Backups configuration. |
 | clickhouse.backups.aws | object | - | Config of the AWS Bucket used for storing backups remotely. |
 | clickhouse.backups.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
 | clickhouse.backups.aws.endpointUrl | string | `""` | the bucket name. Example: "https://my-domain.com:9444" |
@@ -372,7 +372,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.backups.gcp | object | - | Config of the GCP Storage used for storing backups remotely. |
 | clickhouse.backups.gcp.bucketName | string | `""` | The name of the GCP bucket. |
 | clickhouse.backups.gcp.projectName | string | `""` | The name of the GCP project containing the bucket. |
-| clickhouse.backups.image | object | `{"pullPolicy":"IfNotPresent","repository":"altinity/clickhouse-backup","tag":"2.6.5"}` | The settings of the Docker image used to run the backup job. |
+| clickhouse.backups.image | object | `{"pullPolicy":"IfNotPresent","repository":"altinity/clickhouse-backup","tag":"2.8.3"}` | The settings of the Docker image used to run the backup job. |
 | clickhouse.backups.numToKeepLocal | int | `4` | Number of backups to keep locally. Default: keep last day (e.g. last 4 backups). |
 | clickhouse.backups.numToKeepRemote | int | `120` | Number of backups to keep on the remote cloud storage. Default: keep last 30 days (e.g. last 120 backups). |
 | clickhouse.backups.remoteStorage | string | `""` | The kind of storage used to store backups. Possible values are: "aws_s3", "gcp_bucket", "azure_storage". |
@@ -394,7 +394,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.keeper.tolerations | list | `[]` |  |
 | clickhouse.keeper.volumeMounts | list | `[]` | Additional volumeMounts on ClickHouse Keeper pods. |
 | clickhouse.keeper.volumes | list | `[]` | Additional volumes on the ClickHouse Keeper pods. |
-| clickhouse.logLevel | string | `"debug"` | ClickHouse log level. |
+| clickhouse.logLevel | string | `"information"` | ClickHouse server log level. |
+| clickhouse.maxServerMemoryUsageToRamRatio | string | `"0.8"` | Fraction of RAM ClickHouse is allowed to use. |
 | clickhouse.replicas | int | `1` | The number of ClickHouse replicas. |
 | clickhouse.resources.limits.memory | string | `"13Gi"` |  |
 | clickhouse.resources.requests.memory | string | `"13Gi"` |  |
@@ -409,7 +410,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | eventIngestion.fullnameOverride | string | `""` |  |
 | eventIngestion.image.pullPolicy | string | `"IfNotPresent"` |  |
 | eventIngestion.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-event-ingestion"` |  |
-| eventIngestion.image.tag | string | `"v1.19.1"` |  |
+| eventIngestion.image.tag | string | `"v1.19.3"` |  |
 | eventIngestion.ingress.annotations | object | `{}` |  |
 | eventIngestion.ingress.className | string | `""` |  |
 | eventIngestion.ingress.enabled | bool | `false` |  |
@@ -453,7 +454,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v1.83.6"` |  |
+| frontend.image.tag | string | `"v2.10.1"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -482,11 +483,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.title | string | `"Nebuly"` | The title of the application. |
 | frontend.tolerations | list | `[]` |  |
 | frontend.useFaviconAsLogo | bool | `false` |  |
-| frontend.v2.enabled | bool | `true` | This will create a separate deployment, which will run alongside the default one. |
+| frontend.v2.enabled | bool | `true` | If true, also deploy the legacy v1 frontend. This creates a separate deployment on the v2 host, alongside the default v2 frontend. |
 | frontend.v2.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.v2.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.v2.image.tag | string | `"v2.8.11"` |  |
-| frontend.v2.rootUrl | string | `""` | Public URL of the v2 frontend. If empty, defaults to https://v2.<first frontend ingress host>. |
+| frontend.v2.image.tag | string | `"v1.84.3"` |  |
+| frontend.v2.rootUrl | string | `""` | Public URL of the legacy v1 frontend. If empty, defaults to https://v2.<first frontend ingress host>. |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
 | fullProcessing | object | `{"affinity":{},"deploymentStrategy":{"type":"Recreate"},"enabled":false,"env":{},"fullnameOverride":"","hostIPC":false,"modelsCache":{"enabled":false,"size":"128Gi","storageClassName":""},"nodeSelector":{},"nofileLimit":null,"podAnnotations":{},"podLabels":{},"podSecurityContext":{"fsGroup":101,"runAsNonRoot":true},"resources":{"limits":{"nvidia.com/gpu":1},"requests":{"cpu":1}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"settings":{"processingDelaySeconds":0},"shmSize":"1Gi","tolerations":[{"effect":"NoSchedule","key":"nvidia.com/gpu","operator":"Exists"}],"volumeMounts":[],"volumes":[]}` | Settings related to the runtime full-processing mode, which replaces the primary and secondary processing CronJobs with an always running Deployment. |
@@ -512,7 +513,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.97.14"` |  |
+| ingestionWorker.image.tag | string | `"v1.106.2"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -705,6 +706,34 @@ The command removes all the Kubernetes components associated with the chart and 
 | secretsStore.azure.tenantId | string | `""` | The ID of the Azure Tenant where the Azure Key Vault is located. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.kind | string | `"database"` | Supported values: "database", "azure_keyvault" |
 | serviceAccount | object | `{"annotations":{},"create":false,"name":"default"}` | The name of the service account used by the platform services. |
+| slackBot.appToken | string | `""` | Slack app-level token. Used only when `slackBot.existingSecret.name` is empty. |
+| slackBot.clientId | string | `""` | Slack app client ID. Used only when `slackBot.existingSecret.name` is empty. |
+| slackBot.clientSecret | string | `""` | Slack app client secret. Used only when `slackBot.existingSecret.name` is empty. |
+| slackBot.enabled | bool | `false` | If true, deploy the Slack bot. |
+| slackBot.encryptionKey | string | `""` | Key used to encrypt Slack bot data. Used only when `slackBot.existingSecret.name` is empty. |
+| slackBot.existingSecret | object | - | Use an existing secret for the Slack credentials. |
+| slackBot.existingSecret.appTokenKey | string | `"slack-app-token"` | Key containing the Slack app token. |
+| slackBot.existingSecret.clientIdKey | string | `"slack-client-id"` | Key containing the Slack client ID. |
+| slackBot.existingSecret.clientSecretKey | string | `"slack-client-secret"` | Key containing the Slack client secret. |
+| slackBot.existingSecret.encryptionKeyKey | string | `"slack-bot-encryption-key"` | Key containing the Slack bot encryption key. |
+| slackBot.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| slackBot.fullnameOverride | string | `""` |  |
+| slackBot.image.pullPolicy | string | `"IfNotPresent"` |  |
+| slackBot.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-slack-bot"` |  |
+| slackBot.image.tag | string | `"v1.0.1"` |  |
+| slackBot.ingress | object | - | Ingress for the Slack bot. The bot is served at `/slackbot`. |
+| slackBot.podAnnotations | object | `{}` |  |
+| slackBot.podLabels | object | `{}` |  |
+| slackBot.podSecurityContext.runAsNonRoot | bool | `true` |  |
+| slackBot.publicUrl | string | `""` | Public URL of the Slack bot. Required when the bot is enabled. Slack and the backend use it to reach the bot. |
+| slackBot.resources.limits.memory | string | `"800Mi"` |  |
+| slackBot.resources.requests.memory | string | `"350Mi"` |  |
+| slackBot.securityContext.allowPrivilegeEscalation | bool | `false` |  |
+| slackBot.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| slackBot.securityContext.runAsNonRoot | bool | `true` |  |
+| slackBot.service.port | int | `80` |  |
+| slackBot.service.type | string | `"ClusterIP"` |  |
+| slackBot.tolerations | list | `[]` |  |
 | strimzi.enabled | bool | `false` |  |
 | strimzi.generatePodDisruptionBudget | bool | `false` |  |
 | strimzi.resources.requests.cpu | string | `"50m"` |  |
