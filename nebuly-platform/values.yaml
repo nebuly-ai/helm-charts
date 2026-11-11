@@ -63,7 +63,7 @@ backend:
     # CronJobs, and get, list, and delete Pods. The backend and scheduler use
     # this account only when this is enabled. Does not grant update, patch,
     # pods/exec, pods/log, cluster-scoped access, or permission to delete CronJobs.
-    enabled: false
+    enabled: true
 
   securityContext:
     runAsNonRoot: true

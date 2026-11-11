@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.110.1](https://img.shields.io/badge/Version-1.110.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.110.2](https://img.shields.io/badge/Version-1.110.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -309,7 +309,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.podAnnotations | object | `{}` |  |
 | backend.podLabels | object | `{}` |  |
 | backend.podSecurityContext.runAsNonRoot | bool | `true` |  |
-| backend.processingJobsRbac.enabled | bool | `false` | If true, create a backend ServiceAccount plus a namespace Role and RoleBinding so that account can list, create, and delete Jobs, read CronJobs, and get, list, and delete Pods. The backend and scheduler use this account only when this is enabled. Does not grant update, patch, pods/exec, pods/log, cluster-scoped access, or permission to delete CronJobs. |
+| backend.processingJobsRbac.enabled | bool | `true` | If true, create a backend ServiceAccount plus a namespace Role and RoleBinding so that account can list, create, and delete Jobs, read CronJobs, and get, list, and delete Pods. The backend and scheduler use this account only when this is enabled. Does not grant update, patch, pods/exec, pods/log, cluster-scoped access, or permission to delete CronJobs. |
 | backend.replicaCount | int | `1` |  |
 | backend.resources.limits.memory | string | `"1024Mi"` |  |
 | backend.resources.requests.cpu | string | `"50m"` |  |
