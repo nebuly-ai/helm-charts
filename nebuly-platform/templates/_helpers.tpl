@@ -139,6 +139,18 @@ http://{{ include "backend.fullname" . }}.{{ include "nebuly-platform.namespace"
 {{- end }}
 
 {{/*
+ServiceAccount used by the backend and its scheduler.
+When processing-jobs RBAC is enabled, this is a dedicated account created by the chart.
+*/}}
+{{- define "backend.serviceAccountName" -}}
+{{- if .Values.backend.processingJobsRbac.enabled -}}
+{{- include "backend.fullname" . -}}
+{{- else -}}
+{{- .Values.serviceAccount.name -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 
 *********************************************************************
 * Backend Scheduler

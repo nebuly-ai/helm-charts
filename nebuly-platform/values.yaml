@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.125.2"
+    tag: "v1.127.0"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -56,6 +56,14 @@ backend:
 
   podSecurityContext:
     runAsNonRoot: true
+
+  processingJobsRbac:
+    # -- If true, create a backend ServiceAccount plus a namespace Role and
+    # RoleBinding so that account can list, create, and delete Jobs, read
+    # CronJobs, and get, list, and delete Pods. The backend and scheduler use
+    # this account only when this is enabled. Does not grant update, patch,
+    # pods/exec, pods/log, cluster-scoped access, or permission to delete CronJobs.
+    enabled: false
 
   securityContext:
     runAsNonRoot: true
@@ -195,7 +203,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v2.10.1"
+    tag: "v2.12.0"
 
   v2:
     # -- If true, also deploy the legacy v1 frontend.
@@ -206,7 +214,7 @@ frontend:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
-      tag: "v1.84.3"
+      tag: "v1.84.4"
   podAnnotations: { }
   podLabels: { }
 
@@ -444,7 +452,7 @@ ingestionWorker:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-ingestion-worker
     pullPolicy: IfNotPresent
-    tag: v1.106.2
+    tag: v1.107.1
 
   podAnnotations: { }
   podLabels: { }
@@ -757,7 +765,7 @@ primaryProcessing:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-inference
     pullPolicy: IfNotPresent
-    tag: v1.106.2
+    tag: v1.107.1
 
   # -- Settings of the PVC used to cache AI models.
   modelsCache:

@@ -1,0 +1,52 @@
+{{- if .Values.backend.processingJobsRbac.enabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "backend.serviceAccountName" . }}
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "backend.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: nebuly-backend-processing-jobs
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "backend.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+rules:
+  # List, detail, create (kubectl create job --from=cronjob), restart, delete.
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["get", "list", "create", "delete"]
+  # Read the CronJob passed to --from.
+  - apiGroups: ["batch"]
+    resources: ["cronjobs"]
+    verbs: ["get", "list"]
+  # Detail and delete every pod for a job, including retries.
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: nebuly-backend-processing-jobs
+  namespace: {{ include "nebuly-platform.namespace" . }}
+  labels:
+    {{- include "backend.labels" . | nindent 4 }}
+  annotations:
+    {{- include "nebuly-platform.annotations" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "backend.serviceAccountName" . }}
+    namespace: {{ include "nebuly-platform.namespace" . }}
+roleRef:
+  kind: Role
+  name: nebuly-backend-processing-jobs
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
