@@ -58,11 +58,13 @@ backend:
     runAsNonRoot: true
 
   processingJobsRbac:
-    # -- If true, create a backend ServiceAccount plus a namespace Role and
-    # RoleBinding so that account can list, create, and delete Jobs, read
-    # CronJobs, and get, list, and delete Pods. The backend and scheduler use
-    # this account only when this is enabled. Does not grant update, patch,
-    # pods/exec, pods/log, cluster-scoped access, or permission to delete CronJobs.
+    # -- If true, create a namespace Role and RoleBinding so the backend
+    # ServiceAccount can list, create, and delete Jobs, read CronJobs, and get,
+    # list, and delete Pods. When serviceAccount is already defined, that
+    # account is used. Otherwise the chart creates a dedicated account. The
+    # backend and scheduler use this account only when this is enabled. Does
+    # not grant update, patch, pods/exec, pods/log, cluster-scoped access, or
+    # permission to delete CronJobs.
     enabled: true
 
   securityContext:

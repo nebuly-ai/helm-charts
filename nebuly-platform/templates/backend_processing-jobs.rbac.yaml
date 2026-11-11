@@ -1,4 +1,5 @@
 {{- if .Values.backend.processingJobsRbac.enabled }}
+{{- if not (include "backend.serviceAccountDefined" .) }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -9,6 +10,7 @@ metadata:
   annotations:
     {{- include "nebuly-platform.annotations" . | nindent 4 }}
 ---
+{{- end }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:

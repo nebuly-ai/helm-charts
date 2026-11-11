@@ -139,11 +139,21 @@ http://{{ include "backend.fullname" . }}.{{ include "nebuly-platform.namespace"
 {{- end }}
 
 {{/*
+True when the platform service account is already defined, either because the
+chart creates it or because a name other than the namespace default is set.
+*/}}
+{{- define "backend.serviceAccountDefined" -}}
+{{- if or .Values.serviceAccount.create (and .Values.serviceAccount.name (ne .Values.serviceAccount.name "default")) }}true{{ end -}}
+{{- end -}}
+
+{{/*
 ServiceAccount used by the backend and its scheduler.
-When processing-jobs RBAC is enabled, this is a dedicated account created by the chart.
+When processing-jobs RBAC is enabled and no platform service account is
+defined, the chart creates a dedicated account. Otherwise the configured
+service account is used.
 */}}
 {{- define "backend.serviceAccountName" -}}
-{{- if .Values.backend.processingJobsRbac.enabled -}}
+{{- if and .Values.backend.processingJobsRbac.enabled (not (include "backend.serviceAccountDefined" .)) -}}
 {{- include "backend.fullname" . -}}
 {{- else -}}
 {{- .Values.serviceAccount.name -}}
