@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.110.3](https://img.shields.io/badge/Version-1.110.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.110.4](https://img.shields.io/badge/Version-1.110.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -487,7 +487,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.v2.enabled | bool | `true` | If true, also deploy the legacy v1 frontend. This creates a separate deployment on the v2 host, alongside the default v2 frontend. |
 | frontend.v2.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.v2.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.v2.image.tag | string | `"v1.84.4"` |  |
+| frontend.v2.image.tag | string | `"v1.84.5"` |  |
 | frontend.v2.rootUrl | string | `""` | Public URL of the legacy v1 frontend. If empty, defaults to https://v2.<first frontend ingress host>. |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
