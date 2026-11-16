@@ -67,21 +67,30 @@ spec:
               value: {{ include "backend.url" . | quote }}
             - name: MIXPANEL_ENABLED
               value: "false"
+            {{- if or .Values.slackBot.existingSecret.name .Values.slackBot.clientId }}
             - name: SLACK_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ include "slackBot.secretName" . }}
                   key: {{ .Values.slackBot.existingSecret.clientIdKey | default "slack-client-id" }}
+                  optional: {{ empty .Values.slackBot.clientId }}
+            {{- end }}
+            {{- if or .Values.slackBot.existingSecret.name .Values.slackBot.clientSecret }}
             - name: SLACK_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ include "slackBot.secretName" . }}
                   key: {{ .Values.slackBot.existingSecret.clientSecretKey | default "slack-client-secret" }}
+                  optional: {{ empty .Values.slackBot.clientSecret }}
+            {{- end }}
+            {{- if or .Values.slackBot.existingSecret.name .Values.slackBot.appToken }}
             - name: SLACK_APP_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: {{ include "slackBot.secretName" . }}
                   key: {{ .Values.slackBot.existingSecret.appTokenKey | default "slack-app-token" }}
+                  optional: {{ empty .Values.slackBot.appToken }}
+            {{- end }}
             - name: SLACK_BOT_ENCRYPTION_KEY
               valueFrom:
                 secretKeyRef:

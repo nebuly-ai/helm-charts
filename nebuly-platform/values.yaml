@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.128.1"
+    tag: "v1.128.2"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -612,7 +612,7 @@ aiModels:
       requests:
         memory: 4Gi
       limits:
-        memory: 8Gi
+        memory: 18Gi
     securityContext:
       runAsNonRoot: true
       allowPrivilegeEscalation: false
@@ -2198,15 +2198,15 @@ slackBot:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-slack-bot
     pullPolicy: IfNotPresent
-    tag: "v1.0.2"
+    tag: "v1.0.3"
   service:
     type: ClusterIP
     port: 80
-  # -- Slack app client ID. Used only when `slackBot.existingSecret.name` is empty.
+  # -- Slack app client ID. Optional. When empty, it can be configured in the UI. Used only when `slackBot.existingSecret.name` is empty.
   clientId: ""
-  # -- Slack app client secret. Used only when `slackBot.existingSecret.name` is empty.
+  # -- Slack app client secret. Optional. When empty, it can be configured in the UI. Used only when `slackBot.existingSecret.name` is empty.
   clientSecret: ""
-  # -- Slack app-level token. Used only when `slackBot.existingSecret.name` is empty.
+  # -- Slack app-level token. Optional. When empty, it can be configured in the UI. Used only when `slackBot.existingSecret.name` is empty.
   appToken: ""
   # -- Key used to encrypt Slack bot data. Used only when `slackBot.existingSecret.name` is empty.
   encryptionKey: ""

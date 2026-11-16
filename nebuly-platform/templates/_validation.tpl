@@ -437,9 +437,9 @@ values: clickhouse.backups.remoteStorage
 {{- end -}}
 
 {{- define "chart.validateValues.slackBot.credentials" -}}
-{{- if and (empty .Values.slackBot.existingSecret.name) (or (empty .Values.slackBot.clientId) (empty .Values.slackBot.clientSecret) (empty .Values.slackBot.appToken) (empty .Values.slackBot.encryptionKey)) -}}
-values: slackBot.existingSecret.name
-  Slack credentials are required when `slackBot.enabled` is true. Set `slackBot.existingSecret.name` or provide `clientId`, `clientSecret`, `appToken`, and `encryptionKey`.
+{{- if and (empty .Values.slackBot.existingSecret.name) (empty .Values.slackBot.encryptionKey) -}}
+values: slackBot.encryptionKey
+  `encryptionKey` is required when `slackBot.enabled` is true and `slackBot.existingSecret.name` is empty. `clientId`, `clientSecret`, and `appToken` are optional and can be configured in the UI.
 {{- end -}}
 {{- end -}}
 
