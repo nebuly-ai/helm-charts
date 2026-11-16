@@ -52,10 +52,8 @@ spec:
                 - "--"
                 {{- end }}
                 - python
-                - minkmaze
-                - jobs
-                - recompute-model-suggestion
-                - nebuly
+                - -m
+                - scripts.reprocess_model_suggestion
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
               {{- if .Values.primaryProcessing.env }}

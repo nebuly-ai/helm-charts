@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.110.3](https://img.shields.io/badge/Version-1.110.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.110.4](https://img.shields.io/badge/Version-1.110.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -172,7 +172,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbedding":{"name":"embedding","version":"2"},"modelEnrichSegmentation":{"name":"enrich-segmentation","version":"1"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":"46"},"modelPiiRemoval":{"name":"pii-removal","version":"13"},"modelSegmentation":{"name":"segmentation","version":"1"},"modelTierAssignment":{"name":"tier-assignor","version":"1"},"modelTopicClassifier":{"name":"multi-label-classifier","version":"9"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
+| aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbedding":{"name":"embedding","version":"2"},"modelEnrichSegmentation":{"name":"enrich-segmentation","version":"1"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":"46"},"modelPiiRemoval":{"name":"pii-removal","version":"13"},"modelSegmentation":{"name":"segmentation","version":"1"},"modelTierAssignment":{"name":"tier-assignor","version":"1"},"modelTopicClassifier":{"name":"multi-label-classifier","version":"10"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"8Gi"},"requests":{"memory":"4Gi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
 | aiModels.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |
 | aiModels.aws.endpointUrl | string | `""` | Optional AWS S3 endpoint URL. The URL should not include the bucket name. Example: "https://my-domain.com:9444" |
@@ -296,7 +296,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.127.0"` |  |
+| backend.image.tag | string | `"v1.128.1"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -455,7 +455,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v2.12.0"` |  |
+| frontend.image.tag | string | `"v2.14.0"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -487,7 +487,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.v2.enabled | bool | `true` | If true, also deploy the legacy v1 frontend. This creates a separate deployment on the v2 host, alongside the default v2 frontend. |
 | frontend.v2.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.v2.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.v2.image.tag | string | `"v1.84.4"` |  |
+| frontend.v2.image.tag | string | `"v1.84.5"` |  |
 | frontend.v2.rootUrl | string | `""` | Public URL of the legacy v1 frontend. If empty, defaults to https://v2.<first frontend ingress host>. |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
@@ -514,7 +514,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.107.1"` |  |
+| ingestionWorker.image.tag | string | `"v1.109.1"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
@@ -698,7 +698,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | remoteAccess.sentry.environment | string | `""` | The name of the Sentry environment. |
 | remoteAccess.service | object | `{"port":80,"type":"ClusterIP"}` | Service of the remote access agent deployment. |
 | remoteAccess.tolerations | list | `[]` |  |
-| reprocessing | object | `{"all":{"enabled":false},"cleanTopics":{"enabled":false},"dataRetention":{"activeDeadlineSeconds":604800,"enabled":false,"projectId":"","resources":{"limits":{"memory":"1Gi"},"requests":{"cpu":"50m"}}},"interactions":{"enabled":false},"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"userIntelligence":{"enabled":false}}` | Settings for data reprocessing jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
+| reprocessing | object | `{"all":{"enabled":false},"cleanTopics":{"enabled":false},"dataRetention":{"activeDeadlineSeconds":604800,"enabled":false,"projectId":"","resources":{"limits":{"memory":"1Gi"},"requests":{"cpu":"50m"}}},"interactions":{"enabled":false},"modelIssues":{"enabled":false},"modelSuggestions":{"enabled":false},"spawnEnrichInteractionNullFullAction":{"enabled":false},"userIntelligence":{"enabled":false}}` | Settings for data reprocessing jobs required during major platform upgrades. Keep everything disabled by default unless you're upgrading the platform to a major release. |
 | secretsStore.azure.clientId | string | `""` | The Application ID of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.clientSecret | string | `""` | The Application Secret of the Azure AD application used to access the Azure Key Vault. To be provided only when not using an existing secret (see azure.existingSecret value below). |
 | secretsStore.azure.existingSecret | object | - | Use an existing secret for the Azure Key Vault authentication. |
@@ -721,7 +721,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | slackBot.fullnameOverride | string | `""` |  |
 | slackBot.image.pullPolicy | string | `"IfNotPresent"` |  |
 | slackBot.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-slack-bot"` |  |
-| slackBot.image.tag | string | `"v1.0.1"` |  |
+| slackBot.image.tag | string | `"v1.0.2"` |  |
 | slackBot.ingress | object | - | Ingress for the Slack bot. The bot is served at `/slackbot`. |
 | slackBot.podAnnotations | object | `{}` |  |
 | slackBot.podLabels | object | `{}` |  |
