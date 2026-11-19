@@ -2248,22 +2248,20 @@ agent:
     pullPolicy: IfNotPresent
     tag: ""
   # -- Public URL of the agent, written into the frontend's env.json as
-  # NEXT_PUBLIC_AGENT_API_URL. The chat widget stays hidden while this is empty.
+  # NEXT_PUBLIC_AGENT_API_URL. Include the /agent prefix. The chat widget stays hidden while this is empty.
   publicUrl: ""
-  # -- Postgres DSN for the agent's chat history. The same database nebuly-backend uses.
-  # Used only when `agent.existingSecret.name` is empty.
-  databaseUrl: ""
-  # -- Schema the agent owns. It holds the chat log only, and is not a tenant schema.
-  dbSchema: "nebuly_in_app_agent"
-  # -- Use an existing secret for the agent's database URL.
-  # @default -- -
-  existingSecret:
-    # -- Name of the secret. Can be templated.
-    name: ""
-    # -- Key containing the Postgres DSN.
-    databaseUrlKey: "agent-database-url"
+  # Self-hosted sets no API_MODEL_PROVIDER, TIER*_MODEL_DEPLOYMENT or OPENAI_API_KEY. The
+  # model and key are saved from the integrations page, as the Slack bot's are, and live
+  # in the database.
+  # The chat log lives in the database `analyticDatabase` already describes, so the agent
+  # reuses those values and that secret rather than carrying its own copy.
+  # -- The agent's own schema in that database. Never the backend's analytics schema and
+  # never a tenant schema. Self-hosted deployments that name their schemas themselves
+  # override this, as they do `analyticDatabase.schema`.
+  schemaName: "in_app_agent"
   # -- Alembic runs as a pre-install and pre-upgrade hook, so replicas never race to
-  # migrate on boot. The agent is deployed with `MIGRATE_ON_STARTUP=false`.
+  # migrate on boot. The agent is deployed with `RUN_MIGRATIONS=false`. The chain also
+  # takes the same 0x7E03 Postgres advisory lock the backend's migrations use.
   # @default -- -
   migrations:
     enabled: true

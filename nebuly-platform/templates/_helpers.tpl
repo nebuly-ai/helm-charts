@@ -614,24 +614,29 @@ app.kubernetes.io/component: nebuly-agent
 {{- end }}
 {{- end }}
 
-{{- define "agent.secretName" -}}
-{{- if .Values.agent.existingSecret.name -}}
-{{- tpl .Values.agent.existingSecret.name . -}}
-{{- else -}}
-{{- include "agent.fullname" . -}}
-{{- end -}}
-{{- end }}
+
 
 {{/*
-The two variables app/history/migrate.py reads. Migrating needs no identity provider
-and no model, so the migration job carries nothing else.
+The ANALYTICS_* variables app/history/migrate.py reads. These are the same values the
+backend gets from `backend.commonEnv`, including its secret, so the agent and the
+backend can never disagree about which database the chat log lives in. Migrating needs
+no identity provider and no model, so the migration job carries nothing else.
 */}}
 {{- define "agent.databaseEnv" -}}
-- name: "DATABASE_URL"
+- name: "ANALYTICS_USER"
   valueFrom:
     secretKeyRef:
-      name: {{ include "agent.secretName" . }}
-      key: {{ .Values.agent.existingSecret.databaseUrlKey | default "agent-database-url" }}
-- name: "AGENT_DB_SCHEMA"
-  value: {{ .Values.agent.dbSchema | quote }}
+      name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "backend.fullname" .) }}
+      key: {{ .Values.analyticDatabase.existingSecret.userKey | default "analytic-database-user" }}
+- name: "ANALYTICS_PASSWORD"
+  valueFrom:
+    secretKeyRef:
+      name: {{ (tpl .Values.analyticDatabase.existingSecret.name . ) | default (include "backend.fullname" .) }}
+      key: {{ .Values.analyticDatabase.existingSecret.passwordKey | default "analytic-database-password" }}
+- name: "ANALYTICS_DB"
+  value: {{ .Values.analyticDatabase.name | quote }}
+- name: "ANALYTICS_SERVER"
+  value: {{ .Values.analyticDatabase.server | quote }}
+- name: "AGENT_SCHEMA_NAME"
+  value: {{ .Values.agent.schemaName | quote }}
 {{- end }}
