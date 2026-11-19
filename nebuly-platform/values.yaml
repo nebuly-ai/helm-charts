@@ -2247,6 +2247,9 @@ agent:
     repository: ghcr.io/nebuly-ai/nebuly-agent
     pullPolicy: IfNotPresent
     tag: ""
+  # -- Public URL of the agent, written into the frontend's env.json as
+  # NEXT_PUBLIC_AGENT_API_URL. The chat widget stays hidden while this is empty.
+  publicUrl: ""
   # -- Postgres DSN for the agent's chat history. The same database nebuly-backend uses.
   # Used only when `agent.existingSecret.name` is empty.
   databaseUrl: ""
