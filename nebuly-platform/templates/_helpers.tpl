@@ -596,3 +596,42 @@ app.kubernetes.io/component: nebuly-slack-bot
 {{- end -}}
 {{- end }}
 
+
+{{- define "agent.labels" -}}
+{{- include "agent.selectorLabels" . }}
+{{- end }}
+
+{{- define "agent.selectorLabels" -}}
+{{- include "nebuly-platform.selectorLabels" . }}
+app.kubernetes.io/component: nebuly-agent
+{{- end }}
+
+{{- define "agent.fullname" -}}
+{{- if .Values.agent.fullnameOverride }}
+{{- .Values.agent.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name "agent" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{- define "agent.secretName" -}}
+{{- if .Values.agent.existingSecret.name -}}
+{{- tpl .Values.agent.existingSecret.name . -}}
+{{- else -}}
+{{- include "agent.fullname" . -}}
+{{- end -}}
+{{- end }}
+
+{{/*
+The two variables app/history/migrate.py reads. Migrating needs no identity provider
+and no model, so the migration job carries nothing else.
+*/}}
+{{- define "agent.databaseEnv" -}}
+- name: "DATABASE_URL"
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "agent.secretName" . }}
+      key: {{ .Values.agent.existingSecret.databaseUrlKey | default "agent-database-url" }}
+- name: "AGENT_DB_SCHEMA"
+  value: {{ .Values.agent.dbSchema | quote }}
+{{- end }}

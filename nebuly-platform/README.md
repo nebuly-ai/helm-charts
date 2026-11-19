@@ -172,6 +172,22 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| agent.affinity | object | `{}` |  |
+| agent.databaseUrl | string | `""` | Postgres DSN for the agent's chat history. The same database nebuly-backend uses. Used only when `agent.existingSecret.name` is empty. |
+| agent.dbSchema | string | `"nebuly_in_app_agent"` | Schema the agent owns. It holds the chat log only, and is not a tenant schema. |
+| agent.enabled | bool | `false` | If true, deploy the in-app Nebuly agent. The chat UI stays hidden without it. |
+| agent.existingSecret | object | - | Use an existing secret for the agent's database URL. |
+| agent.existingSecret.databaseUrlKey | string | `"agent-database-url"` | Key containing the Postgres DSN. |
+| agent.existingSecret.name | string | `""` | Name of the secret. Can be templated. |
+| agent.fullnameOverride | string | `""` |  |
+| agent.image.pullPolicy | string | `"IfNotPresent"` |  |
+| agent.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-agent"` |  |
+| agent.image.tag | string | `""` |  |
+| agent.migrations | object | - | Alembic runs as a pre-install and pre-upgrade hook, so replicas never race to migrate on boot. The agent is deployed with `MIGRATE_ON_STARTUP=false`. |
+| agent.nodeSelector | object | `{}` |  |
+| agent.podSecurityContext | object | `{}` |  |
+| agent.securityContext | object | `{}` |  |
+| agent.tolerations | list | `[]` |  |
 | aiModels | object | `{"aws":{"bucketName":"","endpointUrl":"","existingSecret":{"accessKeyIdKey":"","name":"","secretAccessKeyKey":""}},"azure":{"managedIdentityClientId":"","storageAccountName":"","storageContainerName":"","tenantId":""},"azureml":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""},"resourceGroup":"","subscriptionId":"","tenantId":"","workspace":""},"gcp":{"bucketName":"","projectName":""},"modelEmbedding":{"name":"embedding","version":"2"},"modelEnrichSegmentation":{"name":"enrich-segmentation","version":"1"},"modelInferenceInteractions":{"name":"interaction-analyzer-7b-v2","version":"46"},"modelPiiRemoval":{"name":"pii-removal","version":"13"},"modelSegmentation":{"name":"segmentation","version":"1"},"modelTierAssignment":{"name":"tier-assignor","version":"1"},"modelTopicClassifier":{"name":"multi-label-classifier","version":"10"},"registry":"","sync":{"affinity":{},"enabled":false,"env":{},"image":{"pullPolicy":"IfNotPresent","repository":"ghcr.io/nebuly-ai/nebuly-models-sync","tag":"v0.4.1"},"nodeSelector":{},"podAnnotations":{},"podLabels":{},"podSecurityContext":{"runAsNonRoot":true},"resources":{"limits":{"memory":"18Gi"},"requests":{"memory":"4Gi"}},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"runAsNonRoot":true},"source":{"clientId":"","clientSecret":"","existingSecret":{"clientIdKey":"","clientSecretKey":"","name":""}},"tolerations":[],"volumeMounts":[],"volumes":[]}}` | Settings of the AI models used for inference. |
 | aiModels.aws | object | - | Config of the AWS S3 model registry. |
 | aiModels.aws.bucketName | string | `""` | The name of the AWS S3 bucket. |

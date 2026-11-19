@@ -2239,3 +2239,40 @@ slackBot:
       memory: 350Mi
     limits:
       memory: 800Mi
+agent:
+  # -- If true, deploy the in-app Nebuly agent. The chat UI stays hidden without it.
+  enabled: false
+  fullnameOverride: ""
+  image:
+    repository: ghcr.io/nebuly-ai/nebuly-agent
+    pullPolicy: IfNotPresent
+    tag: ""
+  # -- Postgres DSN for the agent's chat history. The same database nebuly-backend uses.
+  # Used only when `agent.existingSecret.name` is empty.
+  databaseUrl: ""
+  # -- Schema the agent owns. It holds the chat log only, and is not a tenant schema.
+  dbSchema: "nebuly_in_app_agent"
+  # -- Use an existing secret for the agent's database URL.
+  # @default -- -
+  existingSecret:
+    # -- Name of the secret. Can be templated.
+    name: ""
+    # -- Key containing the Postgres DSN.
+    databaseUrlKey: "agent-database-url"
+  # -- Alembic runs as a pre-install and pre-upgrade hook, so replicas never race to
+  # migrate on boot. The agent is deployed with `MIGRATE_ON_STARTUP=false`.
+  # @default -- -
+  migrations:
+    enabled: true
+    backoffLimit: 3
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
+  podSecurityContext: { }
+  securityContext: { }
+  nodeSelector: { }
+  affinity: { }
+  tolerations: [ ]
