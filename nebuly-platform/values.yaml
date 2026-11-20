@@ -1780,6 +1780,7 @@ loki:
         cpu: 500m
         memory: 512Mi
     persistence:
+      size: 10Gi
       storageClass:
         
   deploymentMode: SingleBinary
