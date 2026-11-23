@@ -2,12 +2,8 @@
 # Misc
 - name: ENV
   value: "prod"
-- name: DEVELOPMENT_MODE
-  value: "false"
 - name: TOUCH_EVERY_SECONDS
   value: "10"
-- name: USE_BACKEND_FOR_CONFIG
-  value: "true"
 {{- if .Values.ingestionWorker.healthCheckPath }}
 - name: HEALTH_CHECK_PATH
   value: "{{ .Values.ingestionWorker.healthCheckPath }}"
@@ -17,9 +13,6 @@
   value: "{{ .Values.ingestionWorker.numWorkersInteractions }}"
 - name: NUMBER_OF_WORKERS_FEEDBACK_ACTIONS
   value: "{{ .Values.ingestionWorker.numWorkersFeedbackActions }}"
-# Misc (TODO: remove)
-- name: TENANT
-  value: {{ include "telemetry.tenant" . | quote }}
 # OTEL
 - name: OTEL_SERVICE_NAME
   value: "nebuly-ingestion-worker"
@@ -94,34 +87,18 @@
 - name: TAGS_TASK
   value: {{ .Values.ingestionWorker.settings.tasks.tags | quote }}
 # PII Removal
-- name: PII_ENABLE_LANGUAGE_DETECTION
-  value: {{ .Values.ingestionWorker.settings.enablePiiLanguageDetection | quote }}
-- name: ENABLE_ADVANCE_PII
-  value: {{ .Values.ingestionWorker.settings.enablePiiLlm | quote }}
-- name: PII_TENANTS
-  value: {{ .Values.ingestionWorker.settings.piiEnabledTenants | toJson | quote }}
-- name: PII_DENY_LIST
-  value: {{ .Values.ingestionWorker.settings.piiDenyList | toJson | quote }}
-- name: CATEGORY_GENERATOR_KIND
-  value: {{ .Values.ingestionWorker.settings.categoryEngine | quote }}
-- name: MINIMUM_ACTION_DATE
-  value: {{ .Values.ingestionWorker.settings.startDateActions | quote }}
-- name: MINIMUM_SUB_TOPIC_DATE
-  value: {{ .Values.ingestionWorker.settings.startDateSubTopics | quote }}
-- name: MINIMUM_TOPIC_DATE
-  value: {{ .Values.ingestionWorker.settings.startDateTopics | quote }}
 # Data retention
-- name: DATA_RETENTION_MAX_NUMBER_OF_DAYS
+- name: DATA_RETENTION_DAYS
   value: {{ .Values.ingestionWorker.settings.dataRetentionDays | quote }}
 - name: DATA_OBSCURATION_DAYS
   value: {{ .Values.ingestionWorker.settings.dataObscurationDays | quote }}
 # Category Generator
-- name: MAX_NUMBER_OF_GENERATION_LOOP
+- name: AGGREGATES_MAX_NUMBER_OF_GENERATION_LOOP
   value: {{ .Values.ingestionWorker.settings.maxNumberOfGenerationLoop | quote }}
 - name: CATEGORY_GENERATOR_MAX_ITERATIONS
   value: {{ .Values.ingestionWorker.settings.categoryGeneratorMaxIterations | quote }}
 # Global processing settings
-- name: SKIP_PROCESSING_FOR_PROJECTS
+- name: AI_PROCESSING_SKIP_PROJECTS
   value: {{ .Values.ingestionWorker.settings.skipProcessingForProjects | toJson | quote }}
 # AI Models pulling
 {{ include "aiModels.env" . }}
