@@ -59,4 +59,65 @@ data:
       "NEXT_LEGACY_URL": {{ include "frontend.v2.url" . | quote }}
       {{- end }}
     }
+  env.js: |
+    // Runtime configuration of the Nebuly frontend. Schema: src/config/app-config.schema.ts
+    window.X_APP_CONFIG = {
+      apiUrl: {{ .Values.frontend.backendApiUrl | quote }},
+      authApiUrl: {{ .Values.frontend.authApiUrl | quote }},
+      oauthApiUrl: {{ printf "%s/oauth" .Values.frontend.authApiUrl | quote }},
+      slackBotUrl: {{ .Values.slackBot.publicUrl | quote }},
+      {{- if .Values.frontend.v2.enabled }}
+      newUrl: {{ .Values.frontend.rootUrl | quote }},
+      legacyUrl: {{ include "frontend.v2.url" . | quote }},
+      {{- end }}
+      deploymentMode: "self-hosted",
+      helmChartVersion: {{ .Chart.Version | quote }},
+      auth: {
+        mode: "custom",
+        loginModes: {{ include "frontend.loginModes" . }},
+        ldapEnabled: {{ .Values.auth.ldap.enabled }},
+      },
+      app: {
+        title: {{ .Values.frontend.title | quote }},
+        faviconUrl: {{ .Values.frontend.faviconPath | quote }},
+        showFaviconSidebar: {{ .Values.frontend.useFaviconAsLogo }},
+      },
+      sentry: {
+        {{- if .Values.frontend.sentry.enabled }}
+        dsn: {{ .Values.frontend.sentry.dsn | quote }},
+        environment: {{ .Values.frontend.sentry.environment | quote }},
+        {{- end }}
+        tracesSampleRate: {{ .Values.frontend.sentry.tracesSampleRate }},
+        replaySessionSampleRate: {{ .Values.frontend.sentry.replaySessionSampleRate }},
+      },
+      interactionsDetailsAccessControl: {
+        enabled: {{ .Values.interactionsAccessControl.enabled }},
+        mode: {{ .Values.interactionsAccessControl.openDetailsMode | quote }},
+        roles: {{ .Values.interactionsAccessControl.openDetailsRoles | toJson }},
+      },
+      defaultAggregation: {{ .Values.frontend.defaultAggregation | quote }},
+      {{- if not (empty .Values.telemetry.gtmId) }}
+      gtmId: {{ .Values.telemetry.gtmId | quote }},
+      {{- end }}
+      {{- if not (empty .Values.frontend.customIntentConfig) }}
+      customIntentConfig: {{ .Values.frontend.customIntentConfig | toJson }},
+      {{- end }}
+      flags: {
+        translations: {{ include "featureTranslationsEnabled" . }},
+        conversations: true,
+        llmIssuesV2: true,
+        addMember: {{ .Values.auth.addMembersEnabled }},
+        aiSummary: {{ .Values.frontend.enableAiSummary }},
+        oldRiskyBehavior: {{ .Values.frontend.enableOldRiskyBehavior }},
+        llmIssueHiding: {{ .Values.frontend.enableLLMIssueHiding }},
+        subCategories: {{ .Values.frontend.enableSubCategories }},
+        abTesting: {{ .Values.frontend.enableAbTesting }},
+        customVariables: {{ .Values.frontend.enableCustomVariables }},
+        userAnonymization: {{ .Values.backend.settings.enableUserAnonymization }},
+        remoteAccess: {{ .Values.remoteAccess.enabled }},
+        adminExportLogs: {{ .Values.loki.enabled }},
+        slackBotIntegration: {{ .Values.slackBot.enabled }},
+        performanceMode: {{ .Values.frontend.enableHighPerformanceMode }},
+      },
+    };
 

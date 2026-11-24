@@ -385,6 +385,20 @@ app.kubernetes.io/component: nebuly-frontend-v2
 {{- end }}
 {{- end }}
 
+{{/*
+loginModes is a comma-separated string. env.js needs a JSON array of trimmed values.
+*/}}
+{{- define "frontend.loginModes" -}}
+{{- $modes := list -}}
+{{- range splitList "," .Values.auth.loginModes -}}
+{{- $mode := trim . -}}
+{{- if $mode -}}
+{{- $modes = append $modes $mode -}}
+{{- end -}}
+{{- end -}}
+{{- $modes | toJson -}}
+{{- end -}}
+
 
 {{/*
 *********************************************************************
