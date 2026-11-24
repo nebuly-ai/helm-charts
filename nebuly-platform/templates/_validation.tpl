@@ -4,6 +4,7 @@
 {{/* Frontend */}}
 {{/*{{- $messages = append $messages (include "chart.validateValues.frontend.rootUrl" .) -}}*/}}
 {{- $messages = append $messages (include "chart.validateValues.frontend.backendApiUrl" .) -}}
+{{- $messages = append $messages (include "chart.validateValues.frontend.authApiUrl" .) -}}
 {{/* Backend */}}
 {{- $messages = append $messages (include "chart.validateValues.backend.multiTenancy" .) -}}
 {{/* Auth Service */}}
@@ -351,6 +352,18 @@ values: frontend.backendApiUrl
 {{- if not (regexMatch "^(https?|wss?)://[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?(/.*)?$" .Values.frontend.backendApiUrl) -}}
 values: frontend.backendApiUrl
   `backendApiUrl` should be a valid URL.
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "chart.validateValues.frontend.authApiUrl" -}}
+{{- if empty .Values.frontend.authApiUrl -}}
+values: frontend.authApiUrl
+  `authApiUrl` is required and should be a non-empty string.
+{{- else -}}
+{{- if not (regexMatch "^(https?|wss?)://[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+(:[0-9]+)?(/.*)?$" .Values.frontend.authApiUrl) -}}
+values: frontend.authApiUrl
+  `authApiUrl` should be a valid URL.
 {{- end -}}
 {{- end -}}
 {{- end -}}

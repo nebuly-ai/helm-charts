@@ -22,7 +22,7 @@ backend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-backend
     pullPolicy: IfNotPresent
-    tag: "v1.128.2"
+    tag: "v1.130.2"
 
   settings:
     multiTenancyMode: "dynamic_schema"
@@ -205,7 +205,7 @@ frontend:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-frontend
     pullPolicy: IfNotPresent
-    tag: "v2.14.0"
+    tag: "v2.15.0"
 
   v2:
     # -- If true, also deploy the legacy v1 frontend.
@@ -216,7 +216,7 @@ frontend:
     image:
       repository: ghcr.io/nebuly-ai/nebuly-frontend
       pullPolicy: IfNotPresent
-      tag: "v1.84.5"
+      tag: "v1.84.6"
   podAnnotations: { }
   podLabels: { }
 
@@ -1256,7 +1256,7 @@ auth:
   image:
     repository: ghcr.io/nebuly-ai/nebuly-tenant-registry
     pullPolicy: IfNotPresent
-    tag: "v1.28.3"
+    tag: "v1.28.5"
 
   podAnnotations: { }
   podLabels: { }
@@ -1520,7 +1520,7 @@ clickhouse:
   image:
     repository: clickhouse/clickhouse-server
     pullPolicy: IfNotPresent
-    tag: "24.12.5-alpine"
+    tag: "26.8.36-alpine"
 
   # -- The size of the batches used to ingest data into ClickHouse.
   ingestionBatchSize: 25000
@@ -1658,7 +1658,7 @@ clickhouse:
     image:
       repository: clickhouse/clickhouse-keeper
       pullPolicy: IfNotPresent
-      tag: "25.1.5.31"
+      tag: "26.8.36"
 
     resources:
       limits:
@@ -1780,6 +1780,7 @@ loki:
         cpu: 500m
         memory: 512Mi
     persistence:
+      size: 10Gi
       storageClass:
         
   deploymentMode: SingleBinary
@@ -2021,7 +2022,7 @@ collector:
 
 redis:
   # -- If True, deploy a Redis instance together with the platform services.
-  enabled: false
+  enabled: true
 
   # -- The Redis image to use for the deployment.
   image:

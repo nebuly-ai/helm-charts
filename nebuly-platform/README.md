@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.110.5](https://img.shields.io/badge/Version-1.110.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.111.1](https://img.shields.io/badge/Version-1.111.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -233,7 +233,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | auth.google.roleMapping | string | `""` | The mapping between Nebuly roles and Google groups. Example: "viewer:<viewer-group-email>,admin: <admin-group-email>,member: <member-group-email>" |
 | auth.image.pullPolicy | string | `"IfNotPresent"` |  |
 | auth.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-tenant-registry"` |  |
-| auth.image.tag | string | `"v1.28.3"` |  |
+| auth.image.tag | string | `"v1.28.5"` |  |
 | auth.ingress | object | - | Ingress configuration for the login endpoints. |
 | auth.jwtSigningKey | string | `""` | Private RSA Key used for signing JWT tokens. Required only if not using an existing secret (see auth.existingSecret value below). |
 | auth.ldap | object | `{"activeDirectoryRoot":"","adminPassword":"","adminUsername":"","attributeMapping":"","enabled":false,"existingSecret":{"adminPasswordKey":"","adminUsernameKey":"","name":""},"groupObjectClass":"","host":"","port":"389","roleMapping":"","searchBase":"","userSearchFilter":""}` | LDAP authentication configuration. |
@@ -296,7 +296,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | backend.fullnameOverride | string | `""` |  |
 | backend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | backend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-backend"` |  |
-| backend.image.tag | string | `"v1.128.2"` |  |
+| backend.image.tag | string | `"v1.130.2"` |  |
 | backend.ingress.annotations | object | `{}` |  |
 | backend.ingress.className | string | `""` |  |
 | backend.ingress.enabled | bool | `false` |  |
@@ -384,11 +384,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.enabled | bool | `false` |  |
 | clickhouse.image.pullPolicy | string | `"IfNotPresent"` |  |
 | clickhouse.image.repository | string | `"clickhouse/clickhouse-server"` |  |
-| clickhouse.image.tag | string | `"24.12.5-alpine"` |  |
+| clickhouse.image.tag | string | `"26.8.36-alpine"` |  |
 | clickhouse.ingestionBatchSize | int | `25000` | The size of the batches used to ingest data into ClickHouse. |
 | clickhouse.keeper.affinity | object | `{}` |  |
 | clickhouse.keeper.enabled | bool | `false` |  |
-| clickhouse.keeper.image | object | `{"pullPolicy":"IfNotPresent","repository":"clickhouse/clickhouse-keeper","tag":"25.1.5.31"}` | The ClickHouse Keeper version to use (Docker image tag). |
+| clickhouse.keeper.image | object | `{"pullPolicy":"IfNotPresent","repository":"clickhouse/clickhouse-keeper","tag":"26.8.36"}` | The ClickHouse Keeper version to use (Docker image tag). |
 | clickhouse.keeper.replicas | int | `1` |  |
 | clickhouse.keeper.resources.limits.memory | string | `"4Gi"` |  |
 | clickhouse.keeper.storage | object | `{"size":"32Gi","storageClassName":"default"}` | Storage configuration of the ClickHouse Keeper instances. |
@@ -455,7 +455,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.fullnameOverride | string | `""` |  |
 | frontend.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.image.tag | string | `"v2.14.0"` |  |
+| frontend.image.tag | string | `"v2.15.0"` |  |
 | frontend.ingress.annotations | object | `{}` |  |
 | frontend.ingress.className | string | `""` |  |
 | frontend.ingress.enabled | bool | `false` |  |
@@ -487,7 +487,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | frontend.v2.enabled | bool | `true` | If true, also deploy the legacy v1 frontend. This creates a separate deployment on the v2 host, alongside the default v2 frontend. |
 | frontend.v2.image.pullPolicy | string | `"IfNotPresent"` |  |
 | frontend.v2.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-frontend"` |  |
-| frontend.v2.image.tag | string | `"v1.84.5"` |  |
+| frontend.v2.image.tag | string | `"v1.84.6"` |  |
 | frontend.v2.rootUrl | string | `""` | Public URL of the legacy v1 frontend. If empty, defaults to https://v2.<first frontend ingress host>. |
 | frontend.volumeMounts | list | `[]` |  |
 | frontend.volumes | list | `[]` |  |
@@ -614,7 +614,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | kafka.topicEventsRetry3.partitions | int | `1` | The number of partitions of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.topicEventsRetry3.replicas | string | `nil` | The number of replicas of the Kafka topic. Used only for self-hosted Kafka clusters. |
 | kafka.user | string | `"nebuly-platform"` | The name of the user used by the services for connecting to the created kafka cluster. |
-| loki | object | `{"backend":{"replicas":0},"bloomCompactor":{"replicas":0},"bloomGateway":{"replicas":0},"chunksCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"compactor":{"replicas":0},"deploymentMode":"SingleBinary","distributor":{"replicas":0},"enabled":true,"gateway":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"indexGateway":{"replicas":0},"ingester":{"replicas":0},"loki":{"auth_enabled":false,"commonConfig":{"replication_factor":1},"compactor":{"compaction_interval":"10m","delete_request_store":"filesystem","retention_delete_delay":"2h","retention_delete_worker_count":150,"retention_enabled":true,"working_directory":"/var/loki/compactor"},"image":{"pullPolicy":"IfNotPresent","registry":"docker.io","repository":"grafana/loki","tag":"3.6.5"},"limits_config":{"allow_structured_metadata":true,"retention_period":"360h","volume_enabled":true},"pattern_ingester":{"enabled":true},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"ruler":{"enable_api":true},"schemaConfig":{"configs":[{"from":"2024-04-01","index":{"period":"24h","prefix":"loki_index_"},"object_store":"s3","schema":"v13","store":"tsdb"}]}},"lokiCanary":{"enabled":false},"minio":{"enabled":true,"persistence":{"storageClass":null},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"nameOverride":"loki","querier":{"replicas":0},"queryFrontend":{"replicas":0},"queryScheduler":{"replicas":0},"read":{"replicas":0},"resultsCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"singleBinary":{"persistence":{"storageClass":null},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"replicas":1,"resources":{"limits":{"cpu":"500m","memory":"2048Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"test":{"enabled":false},"write":{"replicas":0}}` | Settings for Loki, the optional log aggregation system used by the platform. |
+| loki | object | `{"backend":{"replicas":0},"bloomCompactor":{"replicas":0},"bloomGateway":{"replicas":0},"chunksCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"compactor":{"replicas":0},"deploymentMode":"SingleBinary","distributor":{"replicas":0},"enabled":true,"gateway":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"indexGateway":{"replicas":0},"ingester":{"replicas":0},"loki":{"auth_enabled":false,"commonConfig":{"replication_factor":1},"compactor":{"compaction_interval":"10m","delete_request_store":"filesystem","retention_delete_delay":"2h","retention_delete_worker_count":150,"retention_enabled":true,"working_directory":"/var/loki/compactor"},"image":{"pullPolicy":"IfNotPresent","registry":"docker.io","repository":"grafana/loki","tag":"3.6.5"},"limits_config":{"allow_structured_metadata":true,"retention_period":"360h","volume_enabled":true},"pattern_ingester":{"enabled":true},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"ruler":{"enable_api":true},"schemaConfig":{"configs":[{"from":"2024-04-01","index":{"period":"24h","prefix":"loki_index_"},"object_store":"s3","schema":"v13","store":"tsdb"}]}},"lokiCanary":{"enabled":false},"minio":{"enabled":true,"persistence":{"size":"10Gi","storageClass":null},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"nameOverride":"loki","querier":{"replicas":0},"queryFrontend":{"replicas":0},"queryScheduler":{"replicas":0},"read":{"replicas":0},"resultsCache":{"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"singleBinary":{"persistence":{"storageClass":null},"podLabels":{"app.kubernetes.io/part-of":"nebuly-platform"},"replicas":1,"resources":{"limits":{"cpu":"500m","memory":"2048Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}},"test":{"enabled":false},"write":{"replicas":0}}` | Settings for Loki, the optional log aggregation system used by the platform. |
 | loki.loki.image.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | loki.loki.image.registry | string | `"docker.io"` | Docker image registry. |
 | loki.loki.image.repository | string | `"grafana/loki"` | Docker image repository |
@@ -676,7 +676,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | primaryProcessing.shmSize | string | `"1Gi"` | Size of the memory-backed `/dev/shm` volume mounted in the primary processing pods. Required by the processing pipeline (e.g. LLM inference) that relies on shared memory. Note: a memory-backed emptyDir counts against the container memory limit. Set to empty/null to disable the volume. |
 | primaryProcessing.timezone | string | `""` | The timezone of the CronJob. If not provided, the default timezone of the Kubernetes cluster will be used. |
 | redis.auth | object | `{"password":"nebuly"}` | Password for the Redis instance. |
-| redis.enabled | bool | `false` | If True, deploy a Redis instance together with the platform services. |
+| redis.enabled | bool | `true` | If True, deploy a Redis instance together with the platform services. |
 | redis.image | object | `{"pullPolicy":"IfNotPresent","repository":"redis","tag":"8.6.0-trixie"}` | The Redis image to use for the deployment. |
 | redis.resources | object | `{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"50m","memory":"256Mi"}}` | Resources of the Redis deployment. |
 | redis.service | object | `{"port":6379}` | Service port of the Redis deployment. |
