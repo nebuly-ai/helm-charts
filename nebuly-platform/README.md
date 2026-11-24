@@ -1,6 +1,6 @@
 # Nebuly Platform
 
-![Version: 1.111.0](https://img.shields.io/badge/Version-1.111.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
+![Version: 1.111.1](https://img.shields.io/badge/Version-1.111.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
 Helm chart for installing Nebuly's Platform on Kubernetes.
 
@@ -384,11 +384,11 @@ The command removes all the Kubernetes components associated with the chart and 
 | clickhouse.enabled | bool | `false` |  |
 | clickhouse.image.pullPolicy | string | `"IfNotPresent"` |  |
 | clickhouse.image.repository | string | `"clickhouse/clickhouse-server"` |  |
-| clickhouse.image.tag | string | `"24.12.5-alpine"` |  |
+| clickhouse.image.tag | string | `"26.8.36-alpine"` |  |
 | clickhouse.ingestionBatchSize | int | `25000` | The size of the batches used to ingest data into ClickHouse. |
 | clickhouse.keeper.affinity | object | `{}` |  |
 | clickhouse.keeper.enabled | bool | `false` |  |
-| clickhouse.keeper.image | object | `{"pullPolicy":"IfNotPresent","repository":"clickhouse/clickhouse-keeper","tag":"25.1.5.31"}` | The ClickHouse Keeper version to use (Docker image tag). |
+| clickhouse.keeper.image | object | `{"pullPolicy":"IfNotPresent","repository":"clickhouse/clickhouse-keeper","tag":"26.8.36"}` | The ClickHouse Keeper version to use (Docker image tag). |
 | clickhouse.keeper.replicas | int | `1` |  |
 | clickhouse.keeper.resources.limits.memory | string | `"4Gi"` |  |
 | clickhouse.keeper.storage | object | `{"size":"32Gi","storageClassName":"default"}` | Storage configuration of the ClickHouse Keeper instances. |
@@ -514,7 +514,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ingestionWorker.healthCheckPath | string | `""` | Example: /mnt/health-check/healthy.timestamp |
 | ingestionWorker.image.pullPolicy | string | `"IfNotPresent"` |  |
 | ingestionWorker.image.repository | string | `"ghcr.io/nebuly-ai/nebuly-ingestion-worker"` |  |
-| ingestionWorker.image.tag | string | `"v1.111.1"` |  |
+| ingestionWorker.image.tag | string | `"v1.109.1"` |  |
 | ingestionWorker.nodeSelector | object | `{}` |  |
 | ingestionWorker.numWorkersFeedbackActions | int | `10` | The number of workers (e.g. coroutines) used to process feedback actions. |
 | ingestionWorker.numWorkersInteractions | int | `10` | The number of workers (e.g. coroutines) used to process interactions. |
