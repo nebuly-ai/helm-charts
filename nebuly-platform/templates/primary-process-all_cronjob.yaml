@@ -41,6 +41,39 @@ spec:
           {{- end }}
           securityContext:
             {{- toYaml .Values.primaryProcessing.podSecurityContext | nindent 12 }}
+          initContainers:
+            - name: pre-start-models
+              securityContext:
+                {{- toYaml .Values.primaryProcessing.securityContext | nindent 16 }}
+              image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
+              command:
+                - python
+                - entrypoints/entrypoint_pre_start_models.py
+              imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
+              env:
+              {{- if .Values.primaryProcessing.env }}
+                {{- toYaml .Values.primaryProcessing.env | nindent 16 }}
+              {{- end }}
+              {{ include "ingestionWorker.commonEnv" . | nindent 16 }}
+              {{ include "batchJobs.commonEnv" . | nindent 16 }}
+              resources:
+                requests:
+                  cpu: 1
+              volumeMounts:
+                - name: vllm-report-usage
+                  mountPath: /nonexistent
+              {{- if not .Values.kafka.external }}
+                - name: kafka-cluster-ca-cert
+                  mountPath: "/etc/kafka"
+                  readOnly: true
+              {{- end }}
+                - name: models-cache
+                  mountPath: /var/cache/nebuly
+                  readOnly: false
+              {{- include "primaryProcessing.shmVolumeMount" . | nindent 16 }}
+              {{- with .Values.primaryProcessing.volumeMounts }}
+                {{- toYaml . | nindent 18 }}
+              {{- end }}
           containers:
             - name: {{ .Chart.Name }}
               securityContext:
@@ -54,7 +87,7 @@ spec:
                 - "--"
                 {{- end }}
                 - python
-                - jobs/process_all.py
+                - entrypoints/entrypoint_process_all.py
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
               {{- if .Values.primaryProcessing.env }}

@@ -34,6 +34,42 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.ingestionWorker.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: migrations
+          securityContext:
+            {{- toYaml .Values.ingestionWorker.securityContext | nindent 12 }}
+          command:
+            - python
+            - entrypoints/entrypoint_pre_start.py
+          image: "{{ .Values.ingestionWorker.image.repository }}:{{ .Values.ingestionWorker.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.ingestionWorker.image.pullPolicy }}
+          env:
+            {{- include "ingestionWorker.commonEnv" . | nindent 12 }}
+            {{- include "ingestionWorker.modelProviderEnv" . | nindent 12 }}
+          resources:
+            {{- toYaml .Values.ingestionWorker.resources | nindent 12 }}
+          volumeMounts:
+            - name: vllm-report-usage
+              mountPath: /nonexistent
+            - name: models-cache
+              mountPath: /var/cache/nebuly
+              readOnly: false
+          {{- if eq .Values.kafka.saslMechanism "GSSAPI"}}
+            - name: krb5-config
+              mountPath: /etc/krb5.conf
+              subPath: krb5.conf
+            - name: krb5-keytab
+              mountPath: /etc/krb5.keytab
+              subPath: krb5.keytab
+          {{- end }}
+          {{- if or (not .Values.kafka.external) (.Values.kafka.existingSecret.sslCaCertKey) }}
+            - name: kafka-cluster-ca-cert
+              mountPath: "/etc/kafka"
+              readOnly: true
+          {{- end }}
+          {{- with .Values.ingestionWorker.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       containers:
         # Container 1
         - name: "{{ .Chart.Name }}-1"

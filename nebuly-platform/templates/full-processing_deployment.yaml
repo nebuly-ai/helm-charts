@@ -35,6 +35,42 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.fullProcessing.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: pre-start-models
+          securityContext:
+            {{- toYaml .Values.fullProcessing.securityContext | nindent 12 }}
+          command:
+            - python
+            - entrypoints/entrypoint_pre_start_models.py
+          image: "{{ .Values.primaryProcessing.image.repository }}:{{ .Values.primaryProcessing.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
+          env:
+            {{- if .Values.fullProcessing.env }}
+            {{ toYaml .Values.fullProcessing.env | nindent 12 }}
+            {{- end }}
+            {{- include "ingestionWorker.commonEnv" . | nindent 12 }}
+            {{ include "batchJobs.commonEnv" . | nindent 12 }}
+          resources:
+            requests:
+              cpu: 1
+          volumeMounts:
+            - name: vllm-report-usage
+              mountPath: /nonexistent
+            - name: models-cache
+              mountPath: /var/cache/nebuly
+              readOnly: false
+          {{- if .Values.fullProcessing.shmSize }}
+            - name: dshm
+              mountPath: /dev/shm
+          {{- end }}
+          {{- if not .Values.kafka.external }}
+            - name: kafka-cluster-ca-cert
+              mountPath: "/etc/kafka"
+              readOnly: true
+          {{- end }}
+          {{- with .Values.fullProcessing.volumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       containers:
         - name: {{ .Chart.Name | quote }}
           securityContext:
