@@ -87,7 +87,7 @@ spec:
                 - "--"
                 {{- end }}
                 - python
-                - jobs/process_all.py
+                - entrypoints/entrypoint_process_all.py
               imagePullPolicy: {{ .Values.primaryProcessing.image.pullPolicy }}
               env:
               {{- if .Values.primaryProcessing.env }}
