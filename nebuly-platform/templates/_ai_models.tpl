@@ -1,5 +1,5 @@
 {{- define "aiModels.env" -}}
-- name: MODEL_PROVIDER
+- name: LOCAL_MODEL_PROVIDER
   value: {{ .Values.aiModels.registry | quote }}
 - name: MODELS_CACHE_DIR
   value: "/var/cache/nebuly"

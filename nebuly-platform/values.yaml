@@ -396,22 +396,10 @@ ingestionWorker:
   healthCheckPath: ""
 
   settings:
-    # -- Use the database as a cache for aggregate jobs; disable it for projects with over 1 million interactions.
-    enableDbCache: true
     # -- Batch size of entities loaded in each step of aggregate jobs.
     entitiesBatchSize: 20000
     # -- Batch size of interactions loaded in each step of enrich interactions.
     enrichInteractionBatchSize: 10000
-    # -- Enable language detection for PII detection.
-    enablePiiLanguageDetection: false
-    # -- Enable use of LLM (pii-removal) to remove the PII during interaction processing. 
-    enablePiiLlm: false
-
-    # -- List of tenants for which PII detection is enabled. Note that when given this will override the enablePiiLlm setting for the given tenants.
-    piiEnabledTenants: [ ]
-
-    # -- List of PII keywords to be ignored. You can insert names and addresses that you don't want the PII detection to remove.
-    piiDenyList: [ ]
 
     # -- The maximum number of days the processing pipeline will keep the data. If set to -1, the data will not be deleted.
     # This parameter only impacts the data seen while processing the data, not the data shown in the platform.
@@ -425,19 +413,6 @@ ingestionWorker:
     # -- The mini-batch size used for the LLM inference.
     vLLMBatchSize: 512
 
-    # -- The engine used to generate categories for interactions. Can be "cluster_based", "smart_sample" and "legacy"
-    categoryEngine: "cluster_based"
-    # -- Start date used to consider existing actions. This feature should only be used to force the
-    # processing pipeline to ignore actions created before a given date. 
-    startDateActions: "2020-01-01 00:00:00+00:00"
-    # -- Start date used to consider existing sub-topics. This feature should only be used to force the
-    # processing pipeline to ignore sub-topics created before a given date.
-    startDateSubTopics: "2020-01-01 00:00:00+00:00"
-    # -- Start date used to consider existing topics. This feature should only be used to force the
-    # processing pipeline to ignore topics created before a given date.
-    startDateTopics: "2020-01-01 00:00:00+00:00"
-    # -- The name of the alembic table used to store the status of the ingestion worker
-    # migrations. If not provided, the default `alembic_version` table will be used.
     alembicTable: ""
     # -- Enable or disable internal worker tasks. This is primarily intended for
     # debugging or performance tuning.

@@ -1,35 +1,27 @@
 {{- define "batchJobs.commonEnv" -}}
 # Enrich interaction Model
-- name: MODEL_NAME
+- name: ENRICH_INTERACTION_MODEL_NAME
   value: {{ .Values.aiModels.modelInferenceInteractions.name | quote }}
-- name: MODEL_VERSION
+- name: ENRICH_INTERACTION_MODEL_VERSION
   value: {{ .Values.aiModels.modelInferenceInteractions.version | quote }}
 
 # Embedding model
-- name: EMBEDDING_LOCAL_MODEL_NAME
+- name: EMBEDDING_MODEL_NAME
   value: {{ .Values.aiModels.modelEmbedding.name | quote }}
-- name: EMBEDDING_LOCAL_MODEL_VERSION
+- name: EMBEDDING_MODEL_VERSION
   value: {{ .Values.aiModels.modelEmbedding.version | quote }}
 
-# Topic Model
-- name: TOPIC_LOCAL_MODEL_NAME
+# Classifier Model
+- name: CLASSIFIER_MODEL_NAME
   value: {{ .Values.aiModels.modelTopicClassifier.name | quote }}
-- name: TOPIC_LOCAL_MODEL_VERSION
+- name: CLASSIFIER_MODEL_VERSION
   value: {{ .Values.aiModels.modelTopicClassifier.version | quote }}
-- name: ENABLE_MULTILABEL_CLASSIFICATION
-  value: "true"
 
 # Tier assignment model
 - name: TIER_ASSIGNMENT_MODEL_NAME
   value: {{ .Values.aiModels.modelTierAssignment.name | quote }}
 - name: TIER_ASSIGNMENT_MODEL_VERSION
   value: {{ .Values.aiModels.modelTierAssignment.version | quote }}
-
-# Action Model
-- name: ACTION_LOCAL_MODEL_NAME
-  value: {{ .Values.aiModels.modelTopicClassifier.name | quote }}
-- name: ACTION_LOCAL_MODEL_VERSION
-  value: {{ .Values.aiModels.modelTopicClassifier.version | quote }}
 
 # PII Model
 - name: ANONYMIZATION_MODEL_NAME
@@ -50,28 +42,18 @@
   value: {{ .Values.aiModels.modelEnrichSegmentation.version | quote }}
 
 # Jobs Settings
-- name: ENABLE_DB_CACHE
-  value: {{ .Values.ingestionWorker.settings.enableDbCache | quote }}
-- name: ENTITIES_BATCH_SIZE
+- name: AGGREGATES_ENTITIES_BATCH_SIZE
   value: {{ .Values.ingestionWorker.settings.entitiesBatchSize | quote }}
 - name: ENRICH_INTERACTION_BATCH_SIZE
   value: {{ .Values.ingestionWorker.settings.enrichInteractionBatchSize | quote }}
-- name: LOOP_JOBS_SLEEP_SECONDS
+- name: AI_PROCESSING_GPU_LOOP_SLEEP_SECONDS
   value: {{ .Values.fullProcessing.settings.processingDelaySeconds | quote }}
 
 # Inference settings
-- name: VLLM_MICRO_BATCH_TIMEOUT_SECONDS
+- name: LOCAL_MODEL_MICRO_BATCH_TIMEOUT_SECONDS
   value: {{ .Values.ingestionWorker.settings.vLLMBatchTimeout | quote }}
-- name: VLLM_MICRO_BATCH_SIZE
+- name: LOCAL_MODEL_MICRO_BATCH_SIZE
   value: {{ .Values.ingestionWorker.settings.vLLMBatchSize | quote }}
-
-{{ include "ingestionWorker.modelProviderEnv" . }}
-# Use the conversations table
-- name: GEMINI_API_KEY
-  value: "empty"
-- name: ENABLE_ENRICH_CONVERSATION
-  value: "false"
-{{- end -}}
 
 {{- define "primaryProcessing.shmVolumeMount" -}}
 {{- if .Values.primaryProcessing.shmSize }}
